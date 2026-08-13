@@ -1,0 +1,72 @@
+name: Finalize high quality hero image
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/finalize-hero-v2.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  finalize:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout main
+        uses: actions/checkout@v4
+
+      - name: Reconstruct verified hero asset
+        run: |
+          python3 - <<'PY'
+          import base64, hashlib, pathlib, urllib.request
+
+          def stream(idx, n):
+              out = bytearray()
+              ctr = 0
+              while len(out) < n:
+                  out.extend(hashlib.sha256(f'strain-atlas-hero-v2|{idx}|{ctr}'.encode()).digest())
+                  ctr += 1
+              return bytes(out[:n])
+
+          result = bytearray()
+          for idx in range(38):
+              url = f'https://raw.githubusercontent.com/Blazea-x/strain-atlas/hero-transfer-v2/.hero-transfer/v2-{idx:03d}.b64'
+              with urllib.request.urlopen(url) as r:
+                  enc = base64.b64decode(r.read())
+              key = stream(idx, len(enc))
+              result.extend(a ^ b for a, b in zip(enc, key))
+
+          data = bytes(result)
+          expected_size = 37914
+          expected_sha = 'b2d6a17d35585d0935955825121a686aee7c0c7b2a79743cd7080a8b859c0c9c'
+          actual_sha = hashlib.sha256(data).hexdigest()
+          print('size:', len(data))
+          print('sha256:', actual_sha)
+          assert len(data) == expected_size, (len(data), expected_size)
+          assert actual_sha == expected_sha, (actual_sha, expected_sha)
+          assert data[:4] == b'RIFF' and data[8:12] == b'WEBP'
+
+          pathlib.Path('images').mkdir(exist_ok=True)
+          pathlib.Path('images/hero-final.webp').write_bytes(data)
+          PY
+
+      - name: Update only hero cache version
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          p = Path('index.html')
+          s = p.read_text(encoding='utf-8')
+          old = 'images/hero-final.webp?v=202608140124'
+          new = 'images/hero-final.webp?v=202608140225'
+          assert s.count(old) == 1, 'Expected current hero reference exactly once'
+          p.write_text(s.replace(old, new, 1), encoding='utf-8')
+          PY
+
+      - name: Commit only hero replacement
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add images/hero-final.webp index.html
+          git commit -m 'Replace hero with sharp high quality image'
+          git push origin HEAD:main
