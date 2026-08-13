@@ -1,0 +1,61 @@
+name: Replace hero asset
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/replace-hero-asset.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  replace:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Restore verified hero image from repository blob
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          python3 - <<'PY'
+          import base64, json, os, urllib.request
+          url = 'https://api.github.com/repos/Blazea-x/strain-atlas/git/blobs/4692398996990b0c5b3991213be44e14fb4f2dbd'
+          req = urllib.request.Request(url, headers={
+              'Authorization': 'Bearer ' + os.environ['GH_TOKEN'],
+              'Accept': 'application/vnd.github+json',
+              'User-Agent': 'strain-atlas-hero-repair'
+          })
+          with urllib.request.urlopen(req) as r:
+              payload = json.load(r)
+          inner_b64 = base64.b64decode(payload['content']).decode('ascii').strip()
+          image_bytes = base64.b64decode(inner_b64)
+          assert image_bytes[:4] == b'RIFF' and image_bytes[8:12] == b'WEBP', 'Recovered blob is not WebP'
+          os.makedirs('images', exist_ok=True)
+          with open('images/hero-final.webp', 'wb') as f:
+              f.write(image_bytes)
+          print('hero-final.webp bytes:', len(image_bytes))
+          PY
+
+      - name: Point hero to restored image only
+        run: |
+          python3 - <<'PY'
+          p = 'index.html'
+          s = open(p, encoding='utf-8').read()
+          old = 'images/hero-final.jpg?v=202608132045'
+          new = 'images/hero-final.webp?v=202608140124'
+          if old not in s:
+              raise SystemExit('Expected hero reference not found; refusing to modify anything else')
+          s = s.replace(old, new, 1)
+          open(p, 'w', encoding='utf-8').write(s)
+          PY
+
+      - name: Commit hero replacement
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add images/hero-final.webp index.html
+          git commit -m 'Replace hero image with sharp WebP'
+          git push origin HEAD:main
