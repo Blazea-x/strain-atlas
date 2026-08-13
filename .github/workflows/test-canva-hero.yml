@@ -1,0 +1,26 @@
+name: Test Canva hero fetch
+on:
+  push:
+    branches: [main]
+    paths: ['.github/workflows/test-canva-hero.yml']
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Test high resolution Canva asset URL
+        run: |
+          set -eux
+          URL='https://media.canva.com/v2/image-resize/format:JPG/height:1086/quality:100/uri:ifs%3A%2F%2FM%2F1ab4ce0f-4d75-415d-83ca-38f0d6446b7a/watermark:F/width:1448?csig=AAAAAAAAAAAAAAAAAAAAAK_Lc46SgA2WdPdjfYfKkG6yMu1PiLH8fL0o9772iKtv&exp=1786657427&osig=AAAAAAAAAAAAAAAAAAAAAMO9hzdmU70bODFg0_eGZfrF3Yo5Ma5emUD6_TspJoSd&signer=media-rpc&x-canva-quality=thumbnail'
+          code=$(curl -L -sS -o /tmp/hero.jpg -w '%{http_code}' "$URL")
+          echo HTTP=$code
+          ls -l /tmp/hero.jpg || true
+          file /tmp/hero.jpg || true
+          python3 - <<'PY'
+          from PIL import Image
+          p='/tmp/hero.jpg'
+          try:
+              im=Image.open(p)
+              print('IMAGE', im.size, im.format)
+          except Exception as e:
+              print('IMAGE_ERROR', repr(e))
+          PY
