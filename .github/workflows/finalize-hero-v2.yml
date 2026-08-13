@@ -16,38 +16,45 @@ jobs:
       - name: Checkout main
         uses: actions/checkout@v4
 
+      - name: Verify transfer chunks
+        run: |
+          python3 - <<'PY'
+          import base64, hashlib, urllib.request
+          expected = ['b6002b67c06561a392234799c8b06ff0316f20da17a140aed74d57019d54ab44','11354fcaa5bb08d059d6215edc87ba69a799ff694e6ec2da288befc37dec2d92','d72410df1825283fbd7e8f7016932427316d44f7428c1071affaf61c015634d8','1c35327ab8b14c546592a25984547c844cc7df1d0c3d16dc7410ec56724f47fb','0a94420df1d3b61201bb047bd4d1d5ff422f9e4bbd4992d69bfd38cbc67bc978','c8ba120a9dc1626d81f85a92be466f1e10278eb6460e55c2782e68e7e3fdb5d1','bdc250cd93ddcf875ee688386adc9474b7ab91ae54feaad93f25b6409a680e55','5e33e174a2ec2528d1f6dae8b5d73a7db206f5d0af6bfb809039c4ccbad4fae2','ae33abdc71d393f44b97ce088be99309523421101a225bf04086894cdcbf5273','eda57a39497a71f4cb99b2e3237b7db15804e712ae9e8d497a51b9d3f557af1e','6ae3f523b48bace1e0f6ae6be6b04e0ea741f621f0758571aad27dbd81e1808b','7a379bf6207010866c4a8f5f7a31566bbfe87b027a982b240c68eeb368c5fed2','eb19b3f5d95ad18d2ecf98cda6ddd3678e801dae35e66333f4c03b73bf9438d1','fa31448eb8328f155d26c68d0f6c8530b40496ba7baa8593fe39f1b089047e98','26c9f869635e2636ff9dd272a8e53bb458b1e9b46c5bf921cdb59d8de0c44c05','acaa2a7b7bc1a0860b11ea3aa54957aee8dcddac9244f2d3972a8d84b489f2fe','90afc6e952a805033153371645f356b0fb9b66fcd0bb1092ec8a8381a434ef93','a2c05f57fe59da45f8eb9dc012c21eddc7ded1f382071ecef3fbbeb3fd9ff52c','0993c5b4be979f800395180726f7473bd3cc940d68b47b3b7a4855019036e07b','de11f2bf4d45136a57dd22c02d0c660bf52b00b8243aa53f7c021496e77bfb77','794128c72beee3df85e7758e8d9c4c29e3786aea6c471dabfdb91bb0fec7d6fa','53fa9305e3f2c0d64be0ef307212e1936effd5ad7740f66c9da076e05e26e9d5','9fb2e2706e0400035c35628acb5d32008ed4fb01b96e7bb3bd3b5e8ea1071e0e','24c80c21449f63e8d9839c427169b2282e0fb34d244906ec135b993deb5fa1bf','aecd66e84913c1e5abfb5ea7ab06046250818597bd561486119ca81b2a9c6328','d44b2a01b7a35e9c556e222a7a89780f156c4fe5eb8179963d4aba545ec60818','c5fa1de116be18957a81e05294f8ecbfe9f077694100f4674637b04416acefda','f3221a036bef40144868c2dc68b06257616f3fb615f7e8abe3645b3f3d5f2617','b17d78f14fc7d91d2e008f548dbe9e5fefb98ee211aa42b9cd04f4e74e6336fa','bdedb48d8e656ab289fb0357689058d30f3766aa7f4ad075b31af37f466d3826','0894a1464aa673f941f816cbfdaafb72d0056cbe58facb47c62dba0a440bc8f0','28f69f8aa65fb1ea35213c8d7a8d9793e53902202511f3c81ff712483c97580a','b8952abfa76a3420ecc5a9097339c0ef9137a9717d7a2d0facd38d09eccfb102','73277d15fd2a3f5f26ac9cb52d368ce3c44c152e2c833e8fc720bd1d160dcab7','d25e7541dbfd7ef47aafa232f2d01e19d964d1067b2ef7737ec737bead7703bd','f9568b6707f7cb1045fa4d87bc5d7d43aacf70c734fca08f818881475933e929','4e42577ebe4833d952c491d54b110748bc330f437724b3da71e64906da530595','24297aa761dad91dd4d0708674797a168d0b09ccd32c48211aeeb4c136bce8a2']
+          bad=[]
+          for idx in range(38):
+              url=f'https://raw.githubusercontent.com/Blazea-x/strain-atlas/hero-transfer-v2/.hero-transfer/v2-{idx:03d}.b64'
+              with urllib.request.urlopen(url) as r:
+                  enc=base64.b64decode(r.read())
+              h=hashlib.sha256(enc).hexdigest()
+              ok=h==expected[idx]
+              print(idx, len(enc), h, 'OK' if ok else 'BAD expected='+expected[idx])
+              if not ok: bad.append(idx)
+          assert not bad, 'bad chunks: '+repr(bad)
+          PY
+
       - name: Reconstruct verified hero asset
         run: |
           python3 - <<'PY'
           import base64, hashlib, pathlib, urllib.request
-
           def stream(idx, n):
-              out = bytearray()
-              ctr = 0
-              while len(out) < n:
-                  out.extend(hashlib.sha256(f'strain-atlas-hero-v2|{idx}|{ctr}'.encode()).digest())
-                  ctr += 1
+              out=bytearray(); ctr=0
+              while len(out)<n:
+                  out.extend(hashlib.sha256(f'strain-atlas-hero-v2|{idx}|{ctr}'.encode()).digest()); ctr+=1
               return bytes(out[:n])
-
-          result = bytearray()
+          result=bytearray()
           for idx in range(38):
-              url = f'https://raw.githubusercontent.com/Blazea-x/strain-atlas/hero-transfer-v2/.hero-transfer/v2-{idx:03d}.b64'
-              with urllib.request.urlopen(url) as r:
-                  enc = base64.b64decode(r.read())
-              key = stream(idx, len(enc))
-              result.extend(a ^ b for a, b in zip(enc, key))
-
-          data = bytes(result)
-          expected_size = 37914
-          expected_sha = 'b2d6a17d35585d0935955825121a686aee7c0c7b2a79743cd7080a8b859c0c9c'
-          actual_sha = hashlib.sha256(data).hexdigest()
-          print('size:', len(data))
-          print('sha256:', actual_sha)
-          assert len(data) == expected_size, (len(data), expected_size)
-          assert actual_sha == expected_sha, (actual_sha, expected_sha)
-          assert data[:4] == b'RIFF' and data[8:12] == b'WEBP'
-
-          pathlib.Path('images').mkdir(exist_ok=True)
+              url=f'https://raw.githubusercontent.com/Blazea-x/strain-atlas/hero-transfer-v2/.hero-transfer/v2-{idx:03d}.b64'
+              with urllib.request.urlopen(url) as r: enc=base64.b64decode(r.read())
+              key=stream(idx,len(enc)); result.extend(a^b for a,b in zip(enc,key))
+          data=bytes(result)
+          expected_size=37914
+          expected_sha='b2d6a17d35585d0935955825121a686aee7c0c7b2a79743cd7080a8b859c0c9c'
+          actual_sha=hashlib.sha256(data).hexdigest()
+          print('size:',len(data)); print('sha256:',actual_sha)
+          assert len(data)==expected_size
+          assert actual_sha==expected_sha
+          assert data[:4]==b'RIFF' and data[8:12]==b'WEBP'
           pathlib.Path('images/hero-final.webp').write_bytes(data)
           PY
 
@@ -55,12 +62,10 @@ jobs:
         run: |
           python3 - <<'PY'
           from pathlib import Path
-          p = Path('index.html')
-          s = p.read_text(encoding='utf-8')
-          old = 'images/hero-final.webp?v=202608140124'
-          new = 'images/hero-final.webp?v=202608140225'
-          assert s.count(old) == 1, 'Expected current hero reference exactly once'
-          p.write_text(s.replace(old, new, 1), encoding='utf-8')
+          p=Path('index.html'); s=p.read_text(encoding='utf-8')
+          old='images/hero-final.webp?v=202608140124'; new='images/hero-final.webp?v=202608140225'
+          assert s.count(old)==1
+          p.write_text(s.replace(old,new,1),encoding='utf-8')
           PY
 
       - name: Commit only hero replacement
