@@ -1,0 +1,29 @@
+(()=>{
+  "use strict";
+  const esc=value=>String(value??"").replace(/[&<>"']/g,char=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[char]));
+  const compact=items=>items.filter(value=>value!==undefined&&value!==null&&String(value).trim()!=="");
+  const supportLabels={aliases:"別名",lineage:"系譜",aromas:"香り",breeder:"ブリーダー",terpenes:"テルペン",origin:"起源",history:"来歴"};
+  const searchText=strain=>compact([strain.id,strain.name,strain.jp,strain.type?.key,strain.type?.label,...(strain.aliases||[]),strain.lineage?.display,...(strain.lineage?.parents||[]),strain.lineage?.note,...(strain.aromas||[]),strain.breeder?.name,strain.breeder?.era,...(strain.terpenes||[]),strain.originHistory,strain.history]).join(" ").toLowerCase();
+  const row=(label,value)=>value===undefined||value===null||String(value).trim()===""?"":`<div class="fact-row"><div class="label">${esc(label)}</div><div class="value">${esc(value)}</div></div>`;
+  const sourceCard=source=>{
+    if(!source)return"";
+    const supports=(source.supports||[]).map(key=>supportLabels[key]||key);
+    return `<article class="source-card"><div class="source-main"><a class="source-link" href="${esc(source.url)}" target="_blank" rel="noopener noreferrer">${esc(source.name)} <span aria-hidden="true">↗</span></a><div class="source-meta">${esc(source.typeLabel||source.type||"SOURCE")}${source.checked?` ・ 確認 ${esc(source.checked)}`:""}</div></div>${supports.length?`<div class="source-supports">${supports.map(label=>`<span>${esc(label)}</span>`).join("")}</div>`:""}</article>`;
+  };
+  const visualFigure=(visual,primary=false)=>{
+    if(!visual)return"";
+    const label=visual.label||"VISUAL",ai=visual.aiGenerated===true;
+    return `<figure class="${primary?"primary-visual":"visual-figure"}"><div class="visual-frame"><img src="${esc(visual.src)}" alt="${esc(visual.alt||"")}" loading="${primary?"eager":"lazy"}"><div class="visual-badges"><span class="visual-role">${esc(label)}</span>${ai?`<span class="ai-badge">AI GENERATED</span>`:""}</div></div>${primary?"":`<figcaption>${esc(label)}${ai?" ・ AI生成の参考表現":""}</figcaption>`}</figure>`;
+  };
+  const reviewCard=review=>`<article class="review"><div class="review-head"><div class="review-title">${esc(review.title||"REVIEW")}</div>${review.date?`<time>${esc(review.date)}</time>`:""}</div>${review.product||review.subject?`<div class="review-product">${esc(review.product||review.subject)}</div>`:""}<div class="review-body">${esc(review.body||"")}</div></article>`;
+  const renderCard=strain=>{
+    const primaryVisual=(strain.visuals||[])[0],extraVisuals=(strain.visuals||[]).slice(1),sources=(strain.sourceIds||[]).map(id=>window.SOURCES?.[id]).filter(Boolean),aliases=(strain.aliases||[]).join(" / "),breeder=compact([strain.breeder?.name,strain.breeder?.era]).join(" / "),terpeneText=(strain.terpenes||[]).join("・"),aromaText=(strain.aromas||[]).join("・"),reviews=strain.reviews||[];
+    return `<details class="card" data-search="${esc(searchText(strain))}" id="${esc(strain.id)}"><summary><div class="visual">${visualFigure(primaryVisual,true)}</div><div class="body"><h3>${esc(strain.name)}</h3><div class="jp">${esc(strain.jp)}</div><span class="type" data-type="${esc(strain.type?.key||"")}">${esc(strain.type?.label||"")}</span>${row("LINEAGE",strain.lineage?.display)}${row("AROMA",aromaText)}<div class="tap"><span>タップして詳細を見る</span><span class="chev">⌄</span></div></div></summary><div class="details"><div class="scope-note">${esc(strain.identity?.note||"")}</div>${extraVisuals.length?`<section class="details-section"><div class="section-title">VISUALS</div><div class="gallery">${extraVisuals.map(visual=>visualFigure(visual,false)).join("")}</div><p class="visual-policy">掲載画像はAI生成の参考ビジュアルです。特定ロットやフェノタイプの実物標本写真ではありません。</p></section>`:""}<section class="details-section facts-section"><div class="section-title">FACTS</div>${row("ALIAS",aliases)}${row("BREEDER / ERA",breeder)}${row("LINEAGE NOTE",strain.lineage?.note)}${row("ORIGIN / HISTORY",strain.originHistory)}${row("REPORTED TERPENES",terpeneText)}${row("HISTORY / NOTE",strain.history)}${row("CONFIDENCE",compact([strain.confidence?.display,strain.confidence?.note]).join(" — "))}</section>${sources.length?`<section class="details-section sources-section"><div class="section-title">SOURCES</div><div class="sources">${sources.map(sourceCard).join("")}</div></section>`:""}${reviews.length?`<section class="details-section reviews-section"><div class="section-title">REVIEW / EXPERIENCE</div><p class="review-policy">ここから下は品種一般の事実情報ではなく、特定製品・ロットについての個人体験です。</p>${reviews.map(reviewCard).join("")}</section>`:""}</div></details>`;
+  };
+  const cards=document.getElementById("cards");if(!cards||!Array.isArray(window.STRAINS))return;
+  cards.innerHTML=window.STRAINS.map(renderCard).join("");
+  const count=document.getElementById("count"),listedCount=document.getElementById("listed-count");if(count)count.textContent=`${window.STRAINS.length} CULTIVARS`;if(listedCount)listedCount.textContent=`${window.STRAINS.length}件`;
+  const filterCards=()=>{const query=(document.getElementById("q")?.value||"").trim().toLowerCase();document.querySelectorAll(".card").forEach(card=>{card.style.display=!query||card.dataset.search.includes(query)?"block":"none";});};
+  document.querySelectorAll(".card").forEach(card=>card.addEventListener("toggle",()=>{if(card.open)document.querySelectorAll(".card[open]").forEach(other=>{if(other!==card)other.open=false;});}));
+  document.getElementById("q")?.addEventListener("input",filterCards);document.getElementById("search-btn")?.addEventListener("click",filterCards);
+})();
