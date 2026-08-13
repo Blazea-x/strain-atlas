@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>STRAIN ATLAS — Cannabis Cultivar Encyclopedia</title>
+<meta name="description" content="AI生成を前提にした大麻品種図鑑の試作版。10品種を検索・分類・比較できます。">
+<style>
+:root{--bg:#0b0e0c;--panel:#121713;--line:#253027;--text:#eef3ee;--muted:#91a096;--accent:#b7f36b;--accent2:#6bdba8;}
+*{box-sizing:border-box} body{margin:0;background:radial-gradient(circle at 80% 0%,#17301f 0,#0b0e0c 34%);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Hiragino Sans","Yu Gothic",sans-serif;}
+.wrap{max-width:980px;margin:auto;padding:24px 16px 80px}
+.hero{padding:36px 2px 24px} .kicker{font-size:11px;letter-spacing:.18em;color:var(--accent);font-weight:800}
+h1{font-size:clamp(34px,10vw,72px);line-height:.9;margin:10px 0 16px;letter-spacing:-.05em} .lead{max-width:680px;color:#b8c2bb;line-height:1.75;font-size:14px}
+.stats{display:flex;gap:8px;flex-wrap:wrap;margin-top:20px} .stat{border:1px solid var(--line);background:#0f1410aa;border-radius:999px;padding:8px 12px;font-size:12px;color:#c9d3cc}
+.controls{position:sticky;top:0;z-index:5;padding:10px 0 14px;background:linear-gradient(#0b0e0cf2,#0b0e0cdd 80%,transparent);backdrop-filter:blur(10px)}
+.search{width:100%;border:1px solid #314034;background:#101611;color:white;border-radius:16px;padding:15px 16px;font-size:16px;outline:none}
+.filters{display:flex;overflow:auto;gap:7px;padding-top:9px;scrollbar-width:none} button.filter{white-space:nowrap;border:1px solid var(--line);background:#121713;color:#aebbb1;padding:8px 12px;border-radius:999px;font-size:12px}
+button.filter.active{background:var(--accent);color:#0b0e0c;border-color:var(--accent);font-weight:800}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:12px}
+.card{position:relative;min-height:225px;border:1px solid var(--line);border-radius:20px;background:linear-gradient(145deg,#151b16,#0e120f);padding:16px;overflow:hidden;cursor:pointer;transition:.2s transform,.2s border-color}
+.card:active{transform:scale(.985)} .card:hover{border-color:#506256}
+.no{font-size:11px;color:#728078;letter-spacing:.12em} .card h2{font-size:20px;line-height:1.02;margin:14px 0 5px;letter-spacing:-.03em}
+.jp{font-size:11px;color:var(--muted)} .badge{display:inline-block;margin-top:13px;color:#0b0e0c;background:var(--accent2);font-size:10px;font-weight:800;padding:5px 7px;border-radius:6px}
+.aromas{display:flex;flex-wrap:wrap;gap:5px;margin-top:14px} .aroma{border:1px solid #2d3a30;border-radius:999px;font-size:10px;color:#9daaa1;padding:5px 7px}
+.orb{position:absolute;width:110px;height:110px;border-radius:50%;right:-42px;bottom:-40px;background:radial-gradient(circle at 35% 35%,#b7f36b,#21452a 55%,transparent 67%);filter:blur(.3px);opacity:.48}
+.empty{grid-column:1/-1;color:var(--muted);padding:32px 4px;text-align:center}
+.modal{position:fixed;inset:0;z-index:20;background:#060806e8;display:none;align-items:flex-end;backdrop-filter:blur(12px)} .modal.show{display:flex}
+.sheet{width:100%;max-width:760px;max-height:88vh;overflow:auto;margin:0 auto;background:#111612;border:1px solid #2c382f;border-bottom:0;border-radius:26px 26px 0 0;padding:20px 18px 34px}
+.close{float:right;background:#202821;color:white;border:1px solid #364138;border-radius:50%;width:36px;height:36px;font-size:20px} .eyebrow{font-size:11px;color:var(--accent);font-weight:800;letter-spacing:.12em}
+.sheet h3{font-size:34px;line-height:.95;letter-spacing:-.04em;margin:16px 0 5px} .sheet .jp2{color:var(--muted);font-size:13px}
+.section{border-top:1px solid var(--line);margin-top:22px;padding-top:18px} .section h4{font-size:11px;letter-spacing:.14em;color:#8f9b92;margin:0 0 10px}
+.section p{font-size:14px;line-height:1.8;margin:0;color:#d3dbd5} .parents{display:flex;gap:7px;flex-wrap:wrap} .parent{background:#192019;border:1px solid #344137;border-radius:10px;padding:9px 10px;font-size:12px}
+.source{display:inline-block;color:var(--accent);margin-top:10px;font-size:12px;text-decoration:none} .certainty{font-size:12px;color:#aab7ad}
+.notice{margin-top:34px;border:1px solid #29332b;border-radius:16px;padding:15px;color:#88968c;font-size:11px;line-height:1.7}
+footer{margin-top:35px;color:#657269;font-size:10px;line-height:1.7}
+@media(min-width:700px){.grid{grid-template-columns:repeat(3,1fr)} .card{min-height:250px;padding:19px} .card h2{font-size:24px} .modal{align-items:center} .sheet{border-radius:26px;border-bottom:1px solid #2c382f;max-height:80vh}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<section class="hero">
+<div class="kicker">AUTO GENERATED DEMO • 10 CULTIVARS</div>
+<h1>STRAIN<br>ATLAS</h1>
+<p class="lead">品種名を記事として並べるのではなく、データとして蓄積する図鑑の試作版。検索、系統、香り、情報の確度を同じ構造で表示します。</p>
+<div class="stats"><span class="stat">10 品種</span><span class="stat">検索対応</span><span class="stat">スマホ対応</span><span class="stat">1ファイルで動作</span></div>
+</section>
+<section class="controls">
+<input id="search" class="search" placeholder="品種名・親品種・香りから検索…" autocomplete="off">
+<div class="filters">
+<button class="filter active" data-filter="all">すべて</button>
+<button class="filter" data-filter="Sativa">サティバ</button>
+<button class="filter" data-filter="Sativa-dominant">サティバ優勢</button>
+<button class="filter" data-filter="Hybrid">ハイブリッド</button>
+<button class="filter" data-filter="Indica-dominant">インディカ優勢</button>
+<button class="filter" data-filter="Indica">インディカ</button>
+</div>
+</section>
+<main id="grid" class="grid"></main>
+<div class="notice">このデモは品種史・系譜・香りを整理する情報図鑑です。含有率、医療効果、摂取量、栽培方法、購入方法は扱っていません。同名品種でも breeder・phenotype・流通経路によって情報が食い違うため、確度と出典を表示しています。</div>
+<footer>STRAIN ATLAS prototype • Data-first architecture. 新しい品種は同じデータ形式に1件追加するだけでカードと個別表示へ自動反映されます。</footer>
+</div>
+
+<div id="modal" class="modal" role="dialog" aria-modal="true">
+<div class="sheet">
+<button class="close" id="close">×</button>
+<div id="detail"></div>
+</div>
+</div>
+
+<script>
+const STRAINS = [{"id": "super-lemon-haze", "name": "Super Lemon Haze", "jp": "スーパーレモンヘイズ", "type": "Sativa-dominant", "type_jp": "サティバ優勢", "lineage": ["Lemon Skunk", "Super Silver Haze"], "aroma": ["レモン", "シトラス", "アーシー", "ヘイズ"], "summary": "Green House Seed Co. が公開する系譜では、Lemon Skunk と Super Silver Haze の交配。名前どおり柑橘系の香りで知られるクラシックな Haze 系品種。", "certainty": "高", "source": "Green House Seed Co.", "url": "https://shop.greenhouseseeds.nl/feminised-cannabis-seeds/1-seed-pack/super-lemon-haze/"}, {"id": "blue-dream", "name": "Blue Dream", "jp": "ブルードリーム", "type": "Sativa-dominant", "type_jp": "サティバ優勢", "lineage": ["Blueberry", "Haze"], "aroma": ["ベリー", "甘い", "ハーブ"], "summary": "Blueberry と Haze の交配として広く紹介される品種。甘いベリー系の香りが代表的な特徴として挙げられる。", "certainty": "中〜高", "source": "Leafly", "url": "https://www.leafly.com/strains/blue-dream"}, {"id": "gelato", "name": "Gelato", "jp": "ジェラート", "type": "Hybrid", "type_jp": "ハイブリッド", "lineage": ["Sunset Sherbet", "Thin Mint GSC"], "aroma": ["甘い", "シトラス", "フルーティー", "アーシー"], "summary": "Sunset Sherbet と Thin Mint GSC の交配として知られる Cookies 系の代表格。複数の phenotype が存在し、Gelato #33 や #41 などの呼称もある。", "certainty": "高", "source": "Leafly", "url": "https://www.leafly.com/strains/gelato"}, {"id": "wedding-cake", "name": "Wedding Cake", "jp": "ウェディングケーキ", "type": "Indica-dominant", "type_jp": "インディカ優勢", "lineage": ["Triangle Kush", "Animal Mints"], "aroma": ["バニラ", "ペッパー", "バター"], "summary": "Triangle Kush と Animal Mints の交配として紹介される品種。名称や系譜に別説があるため、図鑑では出典を併記して扱う。", "certainty": "中", "source": "Leafly", "url": "https://www.leafly.com/strains/wedding-cake"}, {"id": "gsc", "name": "GSC", "jp": "GSC / Girl Scout Cookies", "type": "Indica-dominant", "type_jp": "インディカ優勢", "lineage": ["OG Kush 系統", "F1 Durban"], "aroma": ["甘い", "アーシー", "スパイス"], "summary": "California の Cookies 系譜を代表する品種。Leafly は OG Kush のサブタイプと F1 Durban の交配として紹介している。", "certainty": "中〜高", "source": "Leafly", "url": "https://www.leafly.com/strains/gsc"}, {"id": "northern-lights", "name": "Northern Lights", "jp": "ノーザンライツ", "type": "Indica", "type_jp": "インディカ", "lineage": ["Afghani", "Thai"], "aroma": ["甘い", "スパイシー", "アーシー"], "summary": "Afghani と Thai の系譜として広く紹介される古典的な品種。長い歴史を持つため、流通する個体や説明には差がある。", "certainty": "中", "source": "Leafly", "url": "https://www.leafly.com/strains/northern-lights"}, {"id": "durban-poison", "name": "Durban Poison", "jp": "ダーバンポイズン", "type": "Sativa", "type_jp": "サティバ", "lineage": ["South African landrace"], "aroma": ["甘い", "スパイス", "パイン", "アニス"], "summary": "南アフリカ・Durban にルーツを持つサティバ系として知られる古典品種。交配品種というより地域系統として紹介されることが多い。", "certainty": "中〜高", "source": "Leafly / High Times", "url": "https://www.leafly.com/strains/durban-poison"}, {"id": "sour-diesel", "name": "Sour Diesel", "jp": "サワーディーゼル", "type": "Sativa-dominant", "type_jp": "サティバ優勢", "lineage": ["Chemdawg", "Super Skunk"], "aroma": ["ディーゼル", "刺激的", "スカンク"], "summary": "Chemdawg と Super Skunk の交配として紹介されることが多い、90年代から知られる Diesel 系の代表的品種。", "certainty": "中", "source": "Leafly", "url": "https://www.leafly.com/strains/sour-diesel"}, {"id": "og-kush", "name": "OG Kush", "jp": "OGクッシュ", "type": "Hybrid", "type_jp": "ハイブリッド", "lineage": ["系譜に複数説あり"], "aroma": ["レモン", "パイン", "フューエル"], "summary": "West Coast 系品種の系譜に大きな影響を与えたクラシック。正確な遺伝的起源には複数説があり、断定しない表示にしている。", "certainty": "低〜中", "source": "Leafly", "url": "https://www.leafly.com/strains/og-kush"}, {"id": "granddaddy-purple", "name": "Granddaddy Purple", "jp": "グランダディパープル", "type": "Indica", "type_jp": "インディカ", "lineage": ["複数の系譜説あり"], "aroma": ["グレープ", "ベリー", "アーシー"], "summary": "2000年代に California で広く知られるようになった品種。Mendo Purps 系統など複数の系譜説があるため、単一の交配として固定しない。", "certainty": "低〜中", "source": "Leafly", "url": "https://www.leafly.com/strains/granddaddy-purple"}];
+let filter = 'all';
+const grid = document.getElementById('grid');
+const search = document.getElementById('search');
+const modal = document.getElementById('modal');
+const detail = document.getElementById('detail');
+
+function escapeHtml(s){return String(s).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));}
+function render(){
+  const q = search.value.trim().toLowerCase();
+  const items = STRAINS.filter(s => {
+    const hay = [s.name,s.jp,s.type_jp,...s.lineage,...s.aroma].join(' ').toLowerCase();
+    return (filter==='all' || s.type===filter) && (!q || hay.includes(q));
+  });
+  grid.innerHTML = items.length ? items.map((s,i)=>`
+    <article class="card" data-id="${s.id}">
+      <div class="no">ATLAS / ${String(STRAINS.indexOf(s)+1).padStart(2,'0')}</div>
+      <h2>${escapeHtml(s.name)}</h2><div class="jp">${escapeHtml(s.jp)}</div>
+      <span class="badge">${escapeHtml(s.type_jp)}</span>
+      <div class="aromas">${s.aroma.slice(0,3).map(a=>`<span class="aroma">${escapeHtml(a)}</span>`).join('')}</div>
+      <div class="orb"></div>
+    </article>`).join('') : '<div class="empty">該当する品種がありません。</div>';
+  document.querySelectorAll('.card').forEach(el=>el.addEventListener('click',()=>openDetail(el.dataset.id)));
+}
+function openDetail(id){
+ const s=STRAINS.find(x=>x.id===id); if(!s)return;
+ detail.innerHTML=`
+  <div class="eyebrow">${escapeHtml(s.type_jp)} • DATA CARD</div>
+  <h3>${escapeHtml(s.name)}</h3><div class="jp2">${escapeHtml(s.jp)}</div>
+  <div class="section"><h4>OVERVIEW</h4><p>${escapeHtml(s.summary)}</p></div>
+  <div class="section"><h4>LINEAGE / ORIGIN</h4><div class="parents">${s.lineage.map(p=>`<span class="parent">${escapeHtml(p)}</span>`).join('')}</div></div>
+  <div class="section"><h4>AROMA KEYWORDS</h4><div class="aromas">${s.aroma.map(a=>`<span class="aroma">${escapeHtml(a)}</span>`).join('')}</div></div>
+  <div class="section"><h4>DATA CONFIDENCE</h4><div class="certainty">確度: ${escapeHtml(s.certainty)} ／ 主な参照: ${escapeHtml(s.source)}</div><a class="source" href="${s.url}" target="_blank" rel="noopener">参照元を開く ↗</a></div>`;
+ modal.classList.add('show'); document.body.style.overflow='hidden';
+}
+function closeModal(){modal.classList.remove('show');document.body.style.overflow='';}
+document.getElementById('close').addEventListener('click',closeModal);
+modal.addEventListener('click',e=>{if(e.target===modal)closeModal();});
+search.addEventListener('input',render);
+document.querySelectorAll('.filter').forEach(b=>b.addEventListener('click',()=>{
+ document.querySelectorAll('.filter').forEach(x=>x.classList.remove('active'));b.classList.add('active');filter=b.dataset.filter;render();
+}));
+render();
+</script>
+</body></html>
