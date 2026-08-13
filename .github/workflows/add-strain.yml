@@ -1,0 +1,363 @@
+name: Add one strain with AI
+
+on:
+  workflow_dispatch:
+    inputs:
+      strain_name:
+        description: "追加したい品種名（空欄ならAIが未登録品種を1つ選択）"
+        required: false
+        default: ""
+
+permissions:
+  contents: write
+
+jobs:
+  add-strain:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Generate and add one strain
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          REQUESTED_STRAIN: ${{ inputs.strain_name }}
+
+        run: |
+          python3 <<'PY'
+          import json
+          import os
+          import re
+          import urllib.request
+          import urllib.error
+          from pathlib import Path
+
+          html_path = Path("index.html")
+
+          if not html_path.exists():
+              raise SystemExit("index.html が見つかりません。")
+
+          html = html_path.read_text(encoding="utf-8")
+
+          pattern = r"const STRAINS = (\[.*?\]);\s*let filter"
+          match = re.search(pattern, html, flags=re.S)
+
+          if not match:
+              raise SystemExit(
+                  "index.html 内の STRAINS データを見つけられません。"
+              )
+
+          strains = json.loads(match.group(1))
+
+          existing_names = [
+              s.get("name", "") for s in strains
+          ]
+
+          existing_ids = [
+              s.get("id", "") for s in strains
+          ]
+
+          requested = os.environ.get(
+              "REQUESTED_STRAIN", ""
+          ).strip()
+
+          api_key = os.environ.get(
+              "GEMINI_API_KEY", ""
+          ).strip()
+
+          if not api_key:
+              raise SystemExit(
+                  "GitHub Secret の GEMINI_API_KEY が未設定です。"
+              )
+
+          if requested:
+              target_instruction = (
+                  f"調査対象の品種は「{requested}」です。"
+              )
+          else:
+              target_instruction = (
+                  "次の登録済み品種と重複しない、"
+                  "よく知られた大麻品種を1つ選んでください。"
+                  " 登録済み: "
+                  + ", ".join(existing_names)
+              )
+
+          prompt = f"""
+          あなたは大麻品種の情報図鑑用データを作成しています。
+          Google検索を使って情報を確認し、
+          根拠が弱い内容は断定しないでください。
+
+          {target_instruction}
+
+          以下のJSONオブジェクトだけを返してください。
+          Markdownや説明文は禁止です。
+
+          {{
+            "id": "英小文字とハイフンだけのslug",
+            "name": "一般的な英語品種名",
+            "jp": "自然な日本語表記",
+            "type": "Sativa または Sativa-dominant または Hybrid または Indica-dominant または Indica",
+            "type_jp": "サティバ または サティバ優勢 または ハイブリッド または インディカ優勢 または インディカ",
+            "lineage": ["親品種または系譜。確定できない場合は系譜に複数説あり"],
+            "aroma": ["香りキーワードを日本語で2〜4個"],
+            "summary": "由来・系譜・香りを中心にした100〜180文字程度の日本語",
+            "certainty": "高 または 中〜高 または 中 または 低〜中",
+            "source": "最も重要な参照元の名称",
+            "url": "その参照元のURL"
+          }}
+
+          ルール:
+          - THC/CBD含有率は書かない
+          - 医療効果を断定しない
+          - 摂取量は書かない
+          - 栽培方法は書かない
+          - 購入方法は書かない
+          - 系譜に複数説がある場合は一つに決め打ちしない
+          - sourceとurlには実在する参照元を入れる
+          """
+
+          body = {
+              "contents": [
+                  {
+                      "parts": [
+                          {
+                              "text": prompt
+                          }
+                      ]
+                  }
+              ],
+              "tools": [
+                  {
+                      "google_search": {}
+                  }
+              ],
+              "generationConfig": {
+                  "temperature": 0.2
+              }
+          }
+
+          request = urllib.request.Request(
+              "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent",
+              data=json.dumps(
+                  body,
+                  ensure_ascii=False
+              ).encode("utf-8"),
+              headers={
+                  "Content-Type": "application/json",
+                  "x-goog-api-key": api_key
+              },
+              method="POST"
+          )
+
+          try:
+              with urllib.request.urlopen(
+                  request,
+                  timeout=90
+              ) as response:
+                  result = json.loads(
+                      response.read().decode("utf-8")
+                  )
+
+          except urllib.error.HTTPError as error:
+              detail = error.read().decode(
+                  "utf-8",
+                  errors="replace"
+              )
+
+              raise SystemExit(
+                  f"Gemini API error {error.code}: {detail}"
+              )
+
+          try:
+              text = (
+                  result["candidates"][0]
+                  ["content"]["parts"][0]["text"]
+                  .strip()
+              )
+
+          except Exception:
+              raise SystemExit(
+                  "Gemini APIから本文を取得できませんでした。"
+              )
+
+          text = re.sub(
+              r"^```(?:json)?\s*",
+              "",
+              text
+          )
+
+          text = re.sub(
+              r"\s*```$",
+              "",
+              text
+          )
+
+          try:
+              new_strain = json.loads(text)
+
+          except json.JSONDecodeError:
+              raise SystemExit(
+                  "AIの返答がJSONではありませんでした:\n"
+                  + text
+              )
+
+          required = [
+              "id",
+              "name",
+              "jp",
+              "type",
+              "type_jp",
+              "lineage",
+              "aroma",
+              "summary",
+              "certainty",
+              "source",
+              "url"
+          ]
+
+          missing = [
+              key
+              for key in required
+              if key not in new_strain
+          ]
+
+          if missing:
+              raise SystemExit(
+                  "不足フィールド: "
+                  + ", ".join(missing)
+              )
+
+          valid_types = {
+              "Sativa",
+              "Sativa-dominant",
+              "Hybrid",
+              "Indica-dominant",
+              "Indica"
+          }
+
+          if new_strain["type"] not in valid_types:
+              raise SystemExit(
+                  "不正なtype: "
+                  + str(new_strain["type"])
+              )
+
+          if not re.fullmatch(
+              r"[a-z0-9]+(?:-[a-z0-9]+)*",
+              str(new_strain["id"])
+          ):
+              raise SystemExit(
+                  "idの形式が不正です: "
+                  + str(new_strain["id"])
+              )
+
+          if (
+              new_strain["id"] in existing_ids
+              or new_strain["name"].lower()
+              in {
+                  name.lower()
+                  for name in existing_names
+              }
+          ):
+              raise SystemExit(
+                  "既に登録されている品種です: "
+                  + new_strain["name"]
+              )
+
+          if (
+              not isinstance(
+                  new_strain["lineage"],
+                  list
+              )
+              or not new_strain["lineage"]
+          ):
+              raise SystemExit(
+                  "lineageが不正です。"
+              )
+
+          if (
+              not isinstance(
+                  new_strain["aroma"],
+                  list
+              )
+              or not (
+                  2
+                  <= len(new_strain["aroma"])
+                  <= 4
+              )
+          ):
+              raise SystemExit(
+                  "aromaは2〜4件必要です。"
+              )
+
+          if not str(
+              new_strain["url"]
+          ).startswith(
+              ("https://", "http://")
+          ):
+              raise SystemExit(
+                  "source URLが不正です。"
+              )
+
+          strains.append(new_strain)
+
+          replacement = (
+              "const STRAINS = "
+              + json.dumps(
+                  strains,
+                  ensure_ascii=False,
+                  separators=(",", ":")
+              )
+              + ";\nlet filter"
+          )
+
+          updated = re.sub(
+              pattern,
+              replacement,
+              html,
+              count=1,
+              flags=re.S
+          )
+
+          updated = re.sub(
+              r'<span class="stat">\d+ 品種</span>',
+              f'<span class="stat">{len(strains)} 品種</span>',
+              updated,
+              count=1
+          )
+
+          html_path.write_text(
+              updated,
+              encoding="utf-8"
+          )
+
+          print(
+              "追加:",
+              new_strain["name"]
+          )
+
+          print(
+              "参照元:",
+              new_strain["source"]
+          )
+
+          print(
+              "URL:",
+              new_strain["url"]
+          )
+
+          PY
+
+      - name: Commit and push
+        run: |
+          if git diff --quiet; then
+            echo "変更なし"
+            exit 0
+          fi
+
+          git config user.name "strain-atlas-bot"
+          git config user.email "actions@users.noreply.github.com"
+
+          git add index.html
+          git commit -m "Auto-add one strain"
+          git push
