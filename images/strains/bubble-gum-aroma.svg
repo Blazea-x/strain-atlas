@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 420" role="img" aria-label="Bubble Gum aroma visual">
+  <defs>
+    <radialGradient id="bg" cx="50%" cy="42%" r="75%"><stop offset="0" stop-color="#2d2a32"/><stop offset="1" stop-color="#111216"/></radialGradient>
+    <linearGradient id="gum" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#f2b5cf"/><stop offset=".55" stop-color="#d978a3"/><stop offset="1" stop-color="#a84d79"/></linearGradient>
+    <linearGradient id="berry" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#c65d7b"/><stop offset="1" stop-color="#713247"/></linearGradient>
+    <filter id="blur"><feGaussianBlur stdDeviation="12"/></filter>
+  </defs>
+  <rect width="420" height="420" fill="url(#bg)"/>
+  <g opacity=".22" filter="url(#blur)"><circle cx="92" cy="98" r="58" fill="#d987aa"/><circle cx="331" cy="87" r="54" fill="#6a8a50"/><circle cx="316" cy="323" r="70" fill="#bc6d92"/></g>
+  <g transform="translate(210 208)">
+    <circle r="93" fill="url(#gum)"/>
+    <circle cx="-22" cy="-24" r="32" fill="#f7c9dc" opacity=".75"/>
+    <circle cx="34" cy="19" r="17" fill="#b85882" opacity=".55"/>
+    <path d="M-78 44c28 18 55 23 82 14 23-8 43-4 66 11-10 29-39 49-74 49-42 0-70-27-74-74z" fill="#bd5d87" opacity=".72"/>
+  </g>
+  <g fill="url(#berry)">
+    <circle cx="82" cy="302" r="26"/><circle cx="108" cy="316" r="21"/><circle cx="93" cy="337" r="20"/>
+  </g>
+  <g fill="#6d8b4e"><path d="M91 286c-17-17-35-24-53-19 11 19 27 31 49 35z"/><path d="M111 286c14-20 30-30 49-29-8 21-22 35-43 43z"/></g>
+  <g transform="translate(315 302)" fill="#e7d8e4" opacity=".9">
+    <circle r="15"/><circle cx="18" cy="-4" r="13"/><circle cx="9" cy="16" r="13"/><circle cx="-12" cy="14" r="12"/><circle cx="-17" cy="-5" r="11"/>
+    <circle r="6" fill="#d2a15d"/>
+  </g>
+  <g fill="none" stroke="#d99bb8" stroke-width="5" stroke-linecap="round" opacity=".55">
+    <path d="M88 119c25-32 55-45 88-38"/><path d="M306 106c-23 14-39 36-44 67"/><path d="M121 249c-29-10-52-3-70 20"/>
+  </g>
+</svg>
