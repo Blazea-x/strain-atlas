@@ -38,5 +38,29 @@ window.SOURCES={
     typeLabel:"専門記事",
     checked:"2026-08-14",
     supports:["origin","history","lineage"]
+  },
+  "serious-seeds-bubble-gum":{
+    name:"Serious Seeds — Bubble Gum",
+    url:"https://www.seriousseeds.com/cannabis-seeds/bubble-gum?page=1",
+    type:"primary",
+    typeLabel:"一次情報",
+    checked:"2026-08-14",
+    supports:["origin","history","lineage","breeder"]
+  },
+  "thseeds-bubblegum":{
+    name:"T.H.Seeds — Bubblegum",
+    url:"https://www.thseeds.com/en/bubblegum-feminized.html",
+    type:"primary",
+    typeLabel:"一次情報",
+    checked:"2026-08-14",
+    supports:["history","breeder","aromas"]
+  },
+  "leafly-bubble-gum":{
+    name:"Leafly — Bubble Gum",
+    url:"https://www.leafly.com/strains/bubble-gum",
+    type:"specialist",
+    typeLabel:"専門資料",
+    checked:"2026-08-14",
+    supports:["aliases","lineage","aromas","terpenes","history"]
   }
 };
