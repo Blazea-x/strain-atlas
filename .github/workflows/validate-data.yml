@@ -1,0 +1,35 @@
+name: Validate strain data
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "data.js"
+      - "sources.js"
+      - "images/strains/**"
+      - "scripts/validate-data.mjs"
+      - ".github/workflows/validate-data.yml"
+  pull_request:
+    paths:
+      - "data.js"
+      - "sources.js"
+      - "images/strains/**"
+      - "scripts/validate-data.mjs"
+      - ".github/workflows/validate-data.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Validate strain data
+        run: node scripts/validate-data.mjs
