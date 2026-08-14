@@ -127,5 +127,48 @@ window.STRAINS=[
     ],
     sourceIds:["leafly-og-kush","leafly-og-history"],
     reviews:[]
+  },
+  {
+    id:"bubble-gum",
+    name:"Bubble Gum",
+    jp:"バブルガム",
+    type:{key:"hybrid",label:"ハイブリッド"},
+    aliases:["Bubblegum","Bubba Gum"],
+    identity:{
+      scope:"cultivar",
+      note:"品種一般の情報。Indiana由来の原系統から複数の選抜系統が生まれており、同名でも系統差があるため単一の固定系統としては扱いません。"
+    },
+    lineage:{
+      display:"確定していない。Indiana由来の原系統",
+      parents:[],
+      note:"遺伝的な親系統は確定していない。1990年代にオランダへ渡った後、複数ブリーダーが別々に選抜・安定化したため、同じBubble Gum名でも系統差がある。"
+    },
+    aromas:["バブルガム","スイート","ベリー","フローラル"],
+    breeder:{name:"Indiana origin / later Serious Seeds・T.H. Seeds selections",era:"1980年代〜1990年代"},
+    terpenes:["Caryophyllene","Limonene","Myrcene"],
+    originHistory:"1980年代に米Indianaで開発された原材料がNew Englandを経て1990年代にオランダへ渡り、複数のブリーダーによって別々に選抜されたとされる。",
+    history:"Bubble Gumは同名で複数の選抜系統が流通している。Serious SeedsとT.H. Seedsの双方が独自の選抜・安定化系統を展開しており、系譜は単純な1本線では整理できない。",
+    confidence:{
+      display:"歴史 B / 系譜 C",
+      note:"Indiana起源と1990年代のオランダでの選抜は複数資料で概ね一致するが、親系統と各販売系統の同一性は確定していない"
+    },
+    visuals:[
+      {
+        src:"images/strains/bubble-gum-appearance.svg?v=20260814",
+        kind:"reference",
+        label:"VISUAL REFERENCE",
+        aiGenerated:true,
+        alt:"Bubble GumのAI生成参考ビジュアル"
+      },
+      {
+        src:"images/strains/bubble-gum-aroma.svg?v=20260814",
+        kind:"aroma",
+        label:"AROMA VISUAL",
+        aiGenerated:true,
+        alt:"Bubble Gumの甘いバブルガム・ベリー・フローラル系の香りを表現したAI生成イメージ"
+      }
+    ],
+    sourceIds:["serious-seeds-bubble-gum","thseeds-bubblegum","leafly-bubble-gum"],
+    reviews:[]
   }
 ];
