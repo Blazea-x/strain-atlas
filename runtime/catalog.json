@@ -1,0 +1,653 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-08-15T09:35:16.088Z",
+  "sourceOfTruth": {
+    "cultivars": "strains/<id>/strain.json",
+    "sources": "sources/*.json",
+    "entities": "entities/*.json"
+  },
+  "counts": {
+    "cultivars": 4,
+    "sources": 8,
+    "entities": 4
+  },
+  "explore": {
+    "sativa": [
+      "super-lemon-haze"
+    ],
+    "indica": [
+      "wedding-cake"
+    ],
+    "hybrid": [
+      "bubble-gum",
+      "og-kush"
+    ],
+    "unclassified": []
+  },
+  "cultivars": [
+    {
+      "schemaVersion": 1,
+      "id": "bubble-gum",
+      "status": "review",
+      "name": "Bubble Gum",
+      "jp": null,
+      "aliases": [
+        "Bubblegum",
+        "Bubba Gum"
+      ],
+      "classification": {
+        "type": "hybrid"
+      },
+      "breeding": {
+        "generation": "unknown",
+        "method": null
+      },
+      "lineage": {
+        "status": "disputed",
+        "confidence": "C",
+        "basis": "specialistDatabase",
+        "sourceRefs": [
+          "serious-seeds-bubble-gum",
+          "thseeds-bubblegum",
+          "leafly-bubble-gum"
+        ],
+        "display": "確定していない。Indiana由来の原系統",
+        "parents": [],
+        "note": "遺伝的な親系統は確定していない。1990年代にオランダへ渡った後、複数ブリーダーが別々に選抜・安定化したため、同じBubble Gum名でも系統差がある。"
+      },
+      "relations": [
+        {
+          "entityId": "serious-seeds",
+          "roles": [
+            "breeder",
+            "seedCompany"
+          ],
+          "status": "confirmed",
+          "confidence": "B",
+          "basis": "breederOfficial",
+          "sourceRefs": [
+            "serious-seeds-bubble-gum"
+          ]
+        },
+        {
+          "entityId": "th-seeds",
+          "roles": [
+            "breeder",
+            "seedCompany"
+          ],
+          "status": "confirmed",
+          "confidence": "B",
+          "basis": "breederOfficial",
+          "sourceRefs": [
+            "thseeds-bubblegum"
+          ]
+        }
+      ],
+      "aromas": {
+        "status": "confirmed",
+        "confidence": "B",
+        "basis": "breederOfficial",
+        "sourceRefs": [
+          "thseeds-bubblegum",
+          "leafly-bubble-gum"
+        ],
+        "items": [
+          "バブルガム",
+          "スイート",
+          "ベリー",
+          "フローラル"
+        ],
+        "note": "Migrated from legacy data."
+      },
+      "terpenes": {
+        "status": "confirmed",
+        "confidence": "C",
+        "basis": "specialistDatabase",
+        "sourceRefs": [
+          "leafly-bubble-gum"
+        ],
+        "items": [
+          "Caryophyllene",
+          "Limonene",
+          "Myrcene"
+        ],
+        "note": "Migrated from legacy data; confidence kept conservative pending independent corroboration."
+      },
+      "origin": {
+        "status": "confirmed",
+        "confidence": "B",
+        "basis": "breederOfficial",
+        "sourceRefs": [
+          "serious-seeds-bubble-gum"
+        ],
+        "text": "1980年代に米Indianaで開発された原材料がNew Englandを経て1990年代にオランダへ渡り、複数のブリーダーによって別々に選抜されたとされる。",
+        "note": "Migrated from legacy data without expanding the claim."
+      },
+      "history": {
+        "status": "confirmed",
+        "confidence": "B",
+        "basis": "breederOfficial",
+        "sourceRefs": [
+          "serious-seeds-bubble-gum",
+          "thseeds-bubblegum",
+          "leafly-bubble-gum"
+        ],
+        "text": "Bubble Gumは同名で複数の選抜系統が流通している。Serious SeedsとT.H. Seedsの双方が独自の選抜・安定化系統を展開しており、系譜は単純な1本線では整理できない。",
+        "note": "Migrated from legacy data without expanding the claim."
+      },
+      "visuals": [
+        {
+          "role": "primary",
+          "src": "images/strains/bubble-gum-appearance.svg",
+          "aiGenerated": true,
+          "sourceType": "aiGenerated",
+          "rights": "Legacy AI-generated site asset; formal rights record pending review.",
+          "alt": "Bubble GumのAI生成参考ビジュアル",
+          "scope": "cultivar"
+        },
+        {
+          "role": "aroma",
+          "src": "images/strains/bubble-gum-aroma.svg",
+          "aiGenerated": true,
+          "sourceType": "aiGenerated",
+          "rights": "Legacy AI-generated site asset; formal rights record pending review.",
+          "alt": "Bubble Gumの甘いバブルガム・ベリー・フローラル系の香りを表現したAI生成イメージ",
+          "scope": "cultivar"
+        }
+      ],
+      "checkedAt": "2026-08-14",
+      "updatedAt": "2026-08-15"
+    },
+    {
+      "schemaVersion": 1,
+      "id": "og-kush",
+      "status": "review",
+      "name": "OG Kush",
+      "jp": null,
+      "aliases": [
+        "Premium OG Kush"
+      ],
+      "classification": {
+        "type": "hybrid"
+      },
+      "breeding": {
+        "generation": "unknown",
+        "method": null
+      },
+      "lineage": {
+        "status": "disputed",
+        "confidence": "C",
+        "basis": "specialistDatabase",
+        "sourceRefs": [
+          "leafly-og-kush",
+          "leafly-og-history"
+        ],
+        "display": "確定していない。複数説あり",
+        "parents": [],
+        "note": "Chemdawg・Lemon Thai・Hindu Kushなどを含む複数説がある"
+      },
+      "relations": [],
+      "aromas": {
+        "status": "confirmed",
+        "confidence": "C",
+        "basis": "specialistDatabase",
+        "sourceRefs": [
+          "leafly-og-kush"
+        ],
+        "items": [
+          "レモン",
+          "パイン",
+          "フューエル",
+          "アーシー"
+        ],
+        "note": "Migrated from legacy data; confidence kept conservative pending independent corroboration."
+      },
+      "terpenes": {
+        "status": "confirmed",
+        "confidence": "C",
+        "basis": "specialistDatabase",
+        "sourceRefs": [
+          "leafly-og-kush"
+        ],
+        "items": [
+          "Myrcene",
+          "Limonene",
+          "Caryophyllene"
+        ],
+        "note": "Migrated from legacy data; confidence kept conservative pending independent corroboration."
+      },
+      "origin": {
+        "status": "confirmed",
+        "confidence": "B",
+        "basis": "specialistDatabase",
+        "sourceRefs": [
+          "leafly-og-history"
+        ],
+        "text": "1990年代半ばにFlorida系統がLos Angelesへ渡り、Josh Dらによって保存・普及したとされる",
+        "note": "Migrated from legacy data without expanding the claim."
+      },
+      "history": {
+        "status": "confirmed",
+        "confidence": "B",
+        "basis": "specialistDatabase",
+        "sourceRefs": [
+          "leafly-og-history"
+        ],
+        "text": "West Coast系OGファミリーの基盤となった重要品種。Tahoe OG・SFV OG・Ghost OGなど多数の派生系統がある。",
+        "note": "Migrated from legacy data without expanding the claim."
+      },
+      "visuals": [
+        {
+          "role": "primary",
+          "src": "images/strains/og-kush-appearance.svg",
+          "aiGenerated": true,
+          "sourceType": "aiGenerated",
+          "rights": "Legacy AI-generated site asset; formal rights record pending review.",
+          "alt": "OG KushのAI生成参考ビジュアル",
+          "scope": "cultivar"
+        },
+        {
+          "role": "aroma",
+          "src": "images/strains/og-kush-aroma.svg",
+          "aiGenerated": true,
+          "sourceType": "aiGenerated",
+          "rights": "Legacy AI-generated site asset; formal rights record pending review.",
+          "alt": "OG Kushの香りを表現したAI生成イメージ",
+          "scope": "cultivar"
+        }
+      ],
+      "checkedAt": "2026-08-14",
+      "updatedAt": "2026-08-15"
+    },
+    {
+      "schemaVersion": 1,
+      "id": "super-lemon-haze",
+      "status": "review",
+      "name": "Super Lemon Haze",
+      "jp": null,
+      "aliases": [
+        "SLH"
+      ],
+      "classification": {
+        "type": "sativa-dominant-hybrid"
+      },
+      "breeding": {
+        "generation": "unknown",
+        "method": null
+      },
+      "lineage": {
+        "status": "confirmed",
+        "confidence": "A",
+        "basis": "breederOfficial",
+        "sourceRefs": [
+          "ghsc-super-lemon-haze"
+        ],
+        "display": "Lemon Skunk × Super Silver Haze",
+        "parents": [
+          "Lemon Skunk",
+          "Super Silver Haze"
+        ],
+        "note": ""
+      },
+      "relations": [
+        {
+          "entityId": "green-house-seed-co",
+          "roles": [
+            "breeder",
+            "seedCompany"
+          ],
+          "status": "confirmed",
+          "confidence": "A",
+          "basis": "breederOfficial",
+          "sourceRefs": [
+            "ghsc-super-lemon-haze"
+          ]
+        }
+      ],
+      "aromas": {
+        "status": "unknown",
+        "items": [
+          "レモンゼスト",
+          "シトラス",
+          "ヘイズ",
+          "ウッド",
+          "パイン"
+        ],
+        "note": "Legacy values retained during migration; claim-level source evidence is not yet mapped."
+      },
+      "terpenes": {
+        "status": "unknown",
+        "items": [
+          "β-Caryophyllene",
+          "D-Limonene",
+          "Terpinolene"
+        ],
+        "note": "Legacy values retained during migration; claim-level source evidence is not yet mapped."
+      },
+      "history": {
+        "status": "confirmed",
+        "confidence": "A",
+        "basis": "breederOfficial",
+        "sourceRefs": [
+          "ghsc-super-lemon-haze"
+        ],
+        "text": "2008年・2009年の主要カップで1位を獲得した代表的品種。",
+        "note": "Migrated from legacy data without expanding the claim."
+      },
+      "visuals": [
+        {
+          "role": "primary",
+          "src": "images/strains/super-lemon-haze-appearance.svg",
+          "aiGenerated": true,
+          "sourceType": "aiGenerated",
+          "rights": "Legacy AI-generated site asset; formal rights record pending review.",
+          "alt": "Super Lemon HazeのAI生成参考ビジュアル",
+          "scope": "cultivar"
+        },
+        {
+          "role": "aroma",
+          "src": "images/strains/super-lemon-haze-aroma.svg",
+          "aiGenerated": true,
+          "sourceType": "aiGenerated",
+          "rights": "Legacy AI-generated site asset; formal rights record pending review.",
+          "alt": "Super Lemon Hazeの香りを表現したAI生成イメージ",
+          "scope": "cultivar"
+        }
+      ],
+      "checkedAt": "2026-08-14",
+      "updatedAt": "2026-08-15"
+    },
+    {
+      "schemaVersion": 1,
+      "id": "wedding-cake",
+      "status": "review",
+      "name": "Wedding Cake",
+      "jp": null,
+      "aliases": [
+        "Triangle Mints #23",
+        "Pink Cookies"
+      ],
+      "classification": {
+        "type": "indica-dominant-hybrid"
+      },
+      "breeding": {
+        "generation": "unknown",
+        "method": null
+      },
+      "lineage": {
+        "status": "confirmed",
+        "confidence": "B",
+        "basis": "specialistDatabase",
+        "sourceRefs": [
+          "leafly-wedding-cake"
+        ],
+        "display": "Triangle Kush × Animal Mints",
+        "parents": [
+          "Triangle Kush",
+          "Animal Mints"
+        ],
+        "note": "以前はGSC × Cherry Pie説も広く流通。現在の採用系譜はlegacy dataの内容をそのまま移行し、再照合前のreview状態とする。"
+      },
+      "relations": [
+        {
+          "entityId": "seed-junky-genetics",
+          "roles": [
+            "breeder",
+            "seedCompany"
+          ],
+          "status": "confirmed",
+          "confidence": "B",
+          "basis": "specialistDatabase",
+          "sourceRefs": [
+            "leafly-wedding-cake-history"
+          ]
+        }
+      ],
+      "aromas": {
+        "status": "confirmed",
+        "confidence": "B",
+        "basis": "specialistDatabase",
+        "sourceRefs": [
+          "leafly-wedding-cake"
+        ],
+        "items": [
+          "バニラ",
+          "ペッパー",
+          "バター",
+          "アーシー"
+        ],
+        "note": "Migrated from legacy data."
+      },
+      "terpenes": {
+        "status": "confirmed",
+        "confidence": "B",
+        "basis": "specialistDatabase",
+        "sourceRefs": [
+          "leafly-wedding-cake"
+        ],
+        "items": [
+          "Caryophyllene",
+          "Limonene",
+          "Myrcene"
+        ],
+        "note": "Migrated from legacy data."
+      },
+      "history": {
+        "status": "confirmed",
+        "confidence": "B",
+        "basis": "specialistDatabase",
+        "sourceRefs": [
+          "leafly-wedding-cake-history"
+        ],
+        "text": "別名や旧系譜説が広く流通してきたため、名称と系譜には資料間の混乱が残る。",
+        "note": "Migrated from legacy data without expanding the claim."
+      },
+      "visuals": [
+        {
+          "role": "primary",
+          "src": "images/strains/wedding-cake-appearance.svg",
+          "aiGenerated": true,
+          "sourceType": "aiGenerated",
+          "rights": "Legacy AI-generated site asset; formal rights record pending review.",
+          "alt": "Wedding CakeのAI生成参考ビジュアル",
+          "scope": "cultivar"
+        },
+        {
+          "role": "aroma",
+          "src": "images/strains/wedding-cake-aroma.svg",
+          "aiGenerated": true,
+          "sourceType": "aiGenerated",
+          "rights": "Legacy AI-generated site asset; formal rights record pending review.",
+          "alt": "Wedding Cakeの香りを表現したAI生成イメージ",
+          "scope": "cultivar"
+        }
+      ],
+      "checkedAt": "2026-08-14",
+      "updatedAt": "2026-08-15"
+    }
+  ],
+  "sources": {
+    "ghsc-super-lemon-haze": {
+      "schemaVersion": 1,
+      "id": "ghsc-super-lemon-haze",
+      "publisher": "Green House Seed Co.",
+      "title": "Super Lemon Haze",
+      "url": "https://shop.greenhouseseeds.nl/feminised-cannabis-seeds/1-seed-pack/super-lemon-haze/?variation_id=26",
+      "sourceType": "breederOfficial",
+      "supports": [
+        "lineage",
+        "breeder",
+        "history"
+      ],
+      "publishedAt": null,
+      "checkedAt": "2026-08-14",
+      "note": "Migrated from legacy sources.js without adding new claims."
+    },
+    "leafly-bubble-gum": {
+      "schemaVersion": 1,
+      "id": "leafly-bubble-gum",
+      "publisher": "Leafly",
+      "title": "Bubble Gum",
+      "url": "https://www.leafly.com/strains/bubble-gum",
+      "sourceType": "specialistDatabase",
+      "supports": [
+        "aliases",
+        "lineage",
+        "aromas",
+        "terpenes",
+        "history"
+      ],
+      "publishedAt": null,
+      "checkedAt": "2026-08-14",
+      "note": "Migrated from legacy sources.js without adding new claims."
+    },
+    "leafly-og-history": {
+      "schemaVersion": 1,
+      "id": "leafly-og-history",
+      "publisher": "Leafly",
+      "title": "OG Kush family genealogy",
+      "url": "https://www.leafly.com/news/strains-products/og-kush-marijuana-family-strains-appreciation",
+      "sourceType": "specialistArticle",
+      "supports": [
+        "origin",
+        "history",
+        "lineage"
+      ],
+      "publishedAt": null,
+      "checkedAt": "2026-08-14",
+      "note": "Migrated from legacy sources.js without adding new claims."
+    },
+    "leafly-og-kush": {
+      "schemaVersion": 1,
+      "id": "leafly-og-kush",
+      "publisher": "Leafly",
+      "title": "OG Kush",
+      "url": "https://www.leafly.com/strains/og-kush",
+      "sourceType": "specialistDatabase",
+      "supports": [
+        "aliases",
+        "lineage",
+        "aromas",
+        "terpenes"
+      ],
+      "publishedAt": null,
+      "checkedAt": "2026-08-14",
+      "note": "Migrated from legacy sources.js without adding new claims."
+    },
+    "leafly-wedding-cake-history": {
+      "schemaVersion": 1,
+      "id": "leafly-wedding-cake-history",
+      "publisher": "Leafly",
+      "title": "Top Wedding Cake strains",
+      "url": "https://www.leafly.com/news/strains-products/top-wedding-cake-strains-all-time",
+      "sourceType": "specialistArticle",
+      "supports": [
+        "breeder",
+        "history"
+      ],
+      "publishedAt": null,
+      "checkedAt": "2026-08-14",
+      "note": "Migrated from legacy sources.js without adding new claims."
+    },
+    "leafly-wedding-cake": {
+      "schemaVersion": 1,
+      "id": "leafly-wedding-cake",
+      "publisher": "Leafly",
+      "title": "Wedding Cake",
+      "url": "https://www.leafly.com/strains/wedding-cake",
+      "sourceType": "specialistDatabase",
+      "supports": [
+        "aliases",
+        "lineage",
+        "aromas",
+        "terpenes"
+      ],
+      "publishedAt": null,
+      "checkedAt": "2026-08-14",
+      "note": "Migrated from legacy sources.js without adding new claims."
+    },
+    "serious-seeds-bubble-gum": {
+      "schemaVersion": 1,
+      "id": "serious-seeds-bubble-gum",
+      "publisher": "Serious Seeds",
+      "title": "Bubble Gum",
+      "url": "https://www.seriousseeds.com/cannabis-seeds/bubble-gum?page=1",
+      "sourceType": "breederOfficial",
+      "supports": [
+        "origin",
+        "history",
+        "lineage",
+        "breeder"
+      ],
+      "publishedAt": null,
+      "checkedAt": "2026-08-14",
+      "note": "Migrated from legacy sources.js without adding new claims."
+    },
+    "thseeds-bubblegum": {
+      "schemaVersion": 1,
+      "id": "thseeds-bubblegum",
+      "publisher": "T.H.Seeds",
+      "title": "Bubblegum",
+      "url": "https://www.thseeds.com/en/bubblegum-feminized.html",
+      "sourceType": "breederOfficial",
+      "supports": [
+        "history",
+        "breeder",
+        "aromas"
+      ],
+      "publishedAt": null,
+      "checkedAt": "2026-08-14",
+      "note": "Migrated from legacy sources.js without adding new claims."
+    }
+  },
+  "entities": {
+    "green-house-seed-co": {
+      "schemaVersion": 1,
+      "id": "green-house-seed-co",
+      "name": "Green House Seed Co.",
+      "roles": [
+        "breeder",
+        "seedCompany"
+      ],
+      "checkedAt": "2026-08-14",
+      "updatedAt": "2026-08-15",
+      "note": "Created from the existing Super Lemon Haze source attribution during MASTER migration."
+    },
+    "seed-junky-genetics": {
+      "schemaVersion": 1,
+      "id": "seed-junky-genetics",
+      "name": "Seed Junky Genetics",
+      "roles": [
+        "breeder",
+        "seedCompany"
+      ],
+      "checkedAt": "2026-08-14",
+      "updatedAt": "2026-08-15",
+      "note": "Created from the existing Wedding Cake breeder attribution during MASTER migration."
+    },
+    "serious-seeds": {
+      "schemaVersion": 1,
+      "id": "serious-seeds",
+      "name": "Serious Seeds",
+      "roles": [
+        "breeder",
+        "seedCompany"
+      ],
+      "checkedAt": "2026-08-14",
+      "updatedAt": "2026-08-15",
+      "note": "Created from the existing Bubble Gum source attribution during MASTER migration."
+    },
+    "th-seeds": {
+      "schemaVersion": 1,
+      "id": "th-seeds",
+      "name": "T.H.Seeds",
+      "roles": [
+        "breeder",
+        "seedCompany"
+      ],
+      "checkedAt": "2026-08-14",
+      "updatedAt": "2026-08-15",
+      "note": "Created from the existing Bubble Gum source attribution during MASTER migration."
+    }
+  }
+}
