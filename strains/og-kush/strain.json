@@ -1,0 +1,58 @@
+{
+  "schemaVersion":1,
+  "id":"og-kush",
+  "status":"review",
+  "name":"OG Kush",
+  "jp":null,
+  "aliases":["Premium OG Kush"],
+  "classification":{"type":"hybrid"},
+  "breeding":{"generation":"unknown","method":null},
+  "lineage":{
+    "status":"disputed",
+    "confidence":"C",
+    "basis":"specialistDatabase",
+    "sourceRefs":["leafly-og-kush","leafly-og-history"],
+    "display":"確定していない。複数説あり",
+    "parents":[],
+    "note":"Chemdawg・Lemon Thai・Hindu Kushなどを含む複数説がある"
+  },
+  "relations":[],
+  "aromas":{
+    "status":"confirmed",
+    "confidence":"C",
+    "basis":"specialistDatabase",
+    "sourceRefs":["leafly-og-kush"],
+    "items":["レモン","パイン","フューエル","アーシー"],
+    "note":"Migrated from legacy data; confidence kept conservative pending independent corroboration."
+  },
+  "terpenes":{
+    "status":"confirmed",
+    "confidence":"C",
+    "basis":"specialistDatabase",
+    "sourceRefs":["leafly-og-kush"],
+    "items":["Myrcene","Limonene","Caryophyllene"],
+    "note":"Migrated from legacy data; confidence kept conservative pending independent corroboration."
+  },
+  "origin":{
+    "status":"confirmed",
+    "confidence":"B",
+    "basis":"specialistDatabase",
+    "sourceRefs":["leafly-og-history"],
+    "text":"1990年代半ばにFlorida系統がLos Angelesへ渡り、Josh Dらによって保存・普及したとされる",
+    "note":"Migrated from legacy data without expanding the claim."
+  },
+  "history":{
+    "status":"confirmed",
+    "confidence":"B",
+    "basis":"specialistDatabase",
+    "sourceRefs":["leafly-og-history"],
+    "text":"West Coast系OGファミリーの基盤となった重要品種。Tahoe OG・SFV OG・Ghost OGなど多数の派生系統がある。",
+    "note":"Migrated from legacy data without expanding the claim."
+  },
+  "visuals":[
+    {"role":"primary","src":"images/strains/og-kush-appearance.svg","aiGenerated":true,"sourceType":"aiGenerated","rights":"Legacy AI-generated site asset; formal rights record pending review.","alt":"OG KushのAI生成参考ビジュアル","scope":"cultivar"},
+    {"role":"aroma","src":"images/strains/og-kush-aroma.svg","aiGenerated":true,"sourceType":"aiGenerated","rights":"Legacy AI-generated site asset; formal rights record pending review.","alt":"OG Kushの香りを表現したAI生成イメージ","scope":"cultivar"}
+  ],
+  "checkedAt":"2026-08-14",
+  "updatedAt":"2026-08-15"
+}
