@@ -1,0 +1,12 @@
+{
+  "schemaVersion": 1,
+  "id": "seed-junky-official",
+  "publisher": "Seed Junky",
+  "title": "Seed Junky | Where the Hunt Begins",
+  "url": "https://www.seedjunky.com/",
+  "sourceType": "breederOfficial",
+  "supports": ["breeder", "cultivarExistence"],
+  "publishedAt": null,
+  "checkedAt": "2026-08-16",
+  "note": "Official Seed Junky site identifies Wedding Cake among its pheno-hunted cultivars. Supports breeder attribution and cultivar existence, but not the exact parentage or Triangle Mints #23 designation."
+}
