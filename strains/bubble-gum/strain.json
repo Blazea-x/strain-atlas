@@ -1,0 +1,61 @@
+{
+  "schemaVersion":1,
+  "id":"bubble-gum",
+  "status":"review",
+  "name":"Bubble Gum",
+  "jp":null,
+  "aliases":["Bubblegum","Bubba Gum"],
+  "classification":{"type":"hybrid"},
+  "breeding":{"generation":"unknown","method":null},
+  "lineage":{
+    "status":"disputed",
+    "confidence":"C",
+    "basis":"specialistDatabase",
+    "sourceRefs":["serious-seeds-bubble-gum","thseeds-bubblegum","leafly-bubble-gum"],
+    "display":"確定していない。Indiana由来の原系統",
+    "parents":[],
+    "note":"遺伝的な親系統は確定していない。1990年代にオランダへ渡った後、複数ブリーダーが別々に選抜・安定化したため、同じBubble Gum名でも系統差がある。"
+  },
+  "relations":[
+    {"entityId":"serious-seeds","roles":["breeder","seedCompany"],"status":"confirmed","confidence":"B","basis":"breederOfficial","sourceRefs":["serious-seeds-bubble-gum"]},
+    {"entityId":"th-seeds","roles":["breeder","seedCompany"],"status":"confirmed","confidence":"B","basis":"breederOfficial","sourceRefs":["thseeds-bubblegum"]}
+  ],
+  "aromas":{
+    "status":"confirmed",
+    "confidence":"B",
+    "basis":"breederOfficial",
+    "sourceRefs":["thseeds-bubblegum","leafly-bubble-gum"],
+    "items":["バブルガム","スイート","ベリー","フローラル"],
+    "note":"Migrated from legacy data."
+  },
+  "terpenes":{
+    "status":"confirmed",
+    "confidence":"C",
+    "basis":"specialistDatabase",
+    "sourceRefs":["leafly-bubble-gum"],
+    "items":["Caryophyllene","Limonene","Myrcene"],
+    "note":"Migrated from legacy data; confidence kept conservative pending independent corroboration."
+  },
+  "origin":{
+    "status":"confirmed",
+    "confidence":"B",
+    "basis":"breederOfficial",
+    "sourceRefs":["serious-seeds-bubble-gum"],
+    "text":"1980年代に米Indianaで開発された原材料がNew Englandを経て1990年代にオランダへ渡り、複数のブリーダーによって別々に選抜されたとされる。",
+    "note":"Migrated from legacy data without expanding the claim."
+  },
+  "history":{
+    "status":"confirmed",
+    "confidence":"B",
+    "basis":"breederOfficial",
+    "sourceRefs":["serious-seeds-bubble-gum","thseeds-bubblegum","leafly-bubble-gum"],
+    "text":"Bubble Gumは同名で複数の選抜系統が流通している。Serious SeedsとT.H. Seedsの双方が独自の選抜・安定化系統を展開しており、系譜は単純な1本線では整理できない。",
+    "note":"Migrated from legacy data without expanding the claim."
+  },
+  "visuals":[
+    {"role":"primary","src":"images/strains/bubble-gum-appearance.svg","aiGenerated":true,"sourceType":"aiGenerated","rights":"Legacy AI-generated site asset; formal rights record pending review.","alt":"Bubble GumのAI生成参考ビジュアル","scope":"cultivar"},
+    {"role":"aroma","src":"images/strains/bubble-gum-aroma.svg","aiGenerated":true,"sourceType":"aiGenerated","rights":"Legacy AI-generated site asset; formal rights record pending review.","alt":"Bubble Gumの甘いバブルガム・ベリー・フローラル系の香りを表現したAI生成イメージ","scope":"cultivar"}
+  ],
+  "checkedAt":"2026-08-14",
+  "updatedAt":"2026-08-15"
+}
