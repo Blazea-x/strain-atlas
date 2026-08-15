@@ -1,0 +1,57 @@
+{
+  "schemaVersion":1,
+  "id":"wedding-cake",
+  "status":"review",
+  "name":"Wedding Cake",
+  "jp":null,
+  "aliases":["Triangle Mints #23","Pink Cookies"],
+  "classification":{"type":"indica-dominant-hybrid"},
+  "breeding":{"generation":"unknown","method":null},
+  "lineage":{
+    "status":"confirmed",
+    "confidence":"B",
+    "basis":"specialistDatabase",
+    "sourceRefs":["leafly-wedding-cake"],
+    "display":"Triangle Kush × Animal Mints",
+    "parents":["Triangle Kush","Animal Mints"],
+    "note":"以前はGSC × Cherry Pie説も広く流通。現在の採用系譜はlegacy dataの内容をそのまま移行し、再照合前のreview状態とする。"
+  },
+  "relations":[{
+    "entityId":"seed-junky-genetics",
+    "roles":["breeder","seedCompany"],
+    "status":"confirmed",
+    "confidence":"B",
+    "basis":"specialistDatabase",
+    "sourceRefs":["leafly-wedding-cake-history"]
+  }],
+  "aromas":{
+    "status":"confirmed",
+    "confidence":"B",
+    "basis":"specialistDatabase",
+    "sourceRefs":["leafly-wedding-cake"],
+    "items":["バニラ","ペッパー","バター","アーシー"],
+    "note":"Migrated from legacy data."
+  },
+  "terpenes":{
+    "status":"confirmed",
+    "confidence":"B",
+    "basis":"specialistDatabase",
+    "sourceRefs":["leafly-wedding-cake"],
+    "items":["Caryophyllene","Limonene","Myrcene"],
+    "note":"Migrated from legacy data."
+  },
+  "history":{
+    "status":"confirmed",
+    "confidence":"B",
+    "basis":"specialistDatabase",
+    "sourceRefs":["leafly-wedding-cake-history"],
+    "text":"別名や旧系譜説が広く流通してきたため、名称と系譜には資料間の混乱が残る。",
+    "note":"Migrated from legacy data without expanding the claim."
+  },
+  "visuals":[
+    {"role":"primary","src":"images/strains/wedding-cake-appearance.svg","aiGenerated":true,"sourceType":"aiGenerated","rights":"Legacy AI-generated site asset; formal rights record pending review.","alt":"Wedding CakeのAI生成参考ビジュアル","scope":"cultivar"},
+    {"role":"aroma","src":"images/strains/wedding-cake-aroma.svg","aiGenerated":true,"sourceType":"aiGenerated","rights":"Legacy AI-generated site asset; formal rights record pending review.","alt":"Wedding Cakeの香りを表現したAI生成イメージ","scope":"cultivar"}
+  ],
+  "checkedAt":"2026-08-14",
+  "updatedAt":"2026-08-15"
+}
