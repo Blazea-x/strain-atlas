@@ -1,0 +1,12 @@
+{
+  "schemaVersion":1,
+  "id":"serious-seeds-bubble-gum",
+  "publisher":"Serious Seeds",
+  "title":"Bubble Gum",
+  "url":"https://www.seriousseeds.com/cannabis-seeds/bubble-gum?page=1",
+  "sourceType":"breederOfficial",
+  "supports":["origin","history","lineage","breeder"],
+  "publishedAt":null,
+  "checkedAt":"2026-08-14",
+  "note":"Migrated from legacy sources.js without adding new claims."
+}
