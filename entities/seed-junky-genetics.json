@@ -1,9 +1,12 @@
 {
-  "schemaVersion":1,
-  "id":"seed-junky-genetics",
-  "name":"Seed Junky Genetics",
-  "roles":["breeder","seedCompany"],
-  "checkedAt":"2026-08-14",
-  "updatedAt":"2026-08-15",
-  "note":"Created from the existing Wedding Cake breeder attribution during MASTER migration."
+  "schemaVersion": 1,
+  "id": "seed-junky-genetics",
+  "name": "Seed Junky Genetics",
+  "roles": [
+    "breeder",
+    "seedCompany"
+  ],
+  "checkedAt": "2026-08-16",
+  "updatedAt": "2026-08-16",
+  "note": "Seed Junky official site was rechecked during the Wedding Cake audit and currently identifies Wedding Cake among its pheno-hunted cultivars. Cultivar-level breeder evidence is stored on the Wedding Cake relation; this entity record does not itself assert Wedding Cake parentage."
 }
