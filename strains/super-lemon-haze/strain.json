@@ -1,0 +1,51 @@
+{
+  "schemaVersion":1,
+  "id":"super-lemon-haze",
+  "status":"review",
+  "name":"Super Lemon Haze",
+  "jp":null,
+  "aliases":["SLH"],
+  "classification":{"type":"sativa-dominant-hybrid"},
+  "breeding":{"generation":"unknown","method":null},
+  "lineage":{
+    "status":"confirmed",
+    "confidence":"A",
+    "basis":"breederOfficial",
+    "sourceRefs":["ghsc-super-lemon-haze"],
+    "display":"Lemon Skunk × Super Silver Haze",
+    "parents":["Lemon Skunk","Super Silver Haze"],
+    "note":""
+  },
+  "relations":[{
+    "entityId":"green-house-seed-co",
+    "roles":["breeder","seedCompany"],
+    "status":"confirmed",
+    "confidence":"A",
+    "basis":"breederOfficial",
+    "sourceRefs":["ghsc-super-lemon-haze"]
+  }],
+  "aromas":{
+    "status":"unknown",
+    "items":["レモンゼスト","シトラス","ヘイズ","ウッド","パイン"],
+    "note":"Legacy values retained during migration; claim-level source evidence is not yet mapped."
+  },
+  "terpenes":{
+    "status":"unknown",
+    "items":["β-Caryophyllene","D-Limonene","Terpinolene"],
+    "note":"Legacy values retained during migration; claim-level source evidence is not yet mapped."
+  },
+  "history":{
+    "status":"confirmed",
+    "confidence":"A",
+    "basis":"breederOfficial",
+    "sourceRefs":["ghsc-super-lemon-haze"],
+    "text":"2008年・2009年の主要カップで1位を獲得した代表的品種。",
+    "note":"Migrated from legacy data without expanding the claim."
+  },
+  "visuals":[
+    {"role":"primary","src":"images/strains/super-lemon-haze-appearance.svg","aiGenerated":true,"sourceType":"aiGenerated","rights":"Legacy AI-generated site asset; formal rights record pending review.","alt":"Super Lemon HazeのAI生成参考ビジュアル","scope":"cultivar"},
+    {"role":"aroma","src":"images/strains/super-lemon-haze-aroma.svg","aiGenerated":true,"sourceType":"aiGenerated","rights":"Legacy AI-generated site asset; formal rights record pending review.","alt":"Super Lemon Hazeの香りを表現したAI生成イメージ","scope":"cultivar"}
+  ],
+  "checkedAt":"2026-08-14",
+  "updatedAt":"2026-08-15"
+}
