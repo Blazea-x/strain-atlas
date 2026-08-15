@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-15T12:27:53.292Z",
+  "generatedAt": "2026-08-15T12:29:10.856Z",
   "sourceOfTruth": {
     "cultivars": "strains/<id>/strain.json",
     "sources": "sources/*.json",
@@ -138,7 +138,7 @@
       "visuals": [
         {
           "role": "primary",
-          "src": "strains/bubble-gum/images/generated/primary.webp",
+          "src": "strains/bubble-gum/images/generated/primary-v2.webp",
           "aiGenerated": true,
           "sourceType": "aiGenerated",
           "rights": "AI-generated project asset for Cannabis Strain Wisdom.",
