@@ -1,0 +1,12 @@
+{
+  "schemaVersion":1,
+  "id":"thseeds-bubblegum",
+  "publisher":"T.H.Seeds",
+  "title":"Bubblegum",
+  "url":"https://www.thseeds.com/en/bubblegum-feminized.html",
+  "sourceType":"breederOfficial",
+  "supports":["history","breeder","aromas"],
+  "publishedAt":null,
+  "checkedAt":"2026-08-14",
+  "note":"Migrated from legacy sources.js without adding new claims."
+}
