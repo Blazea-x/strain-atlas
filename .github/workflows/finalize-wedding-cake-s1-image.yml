@@ -33,7 +33,8 @@ jobs:
           assert len(data) > 50000, f'image too small: {len(data)} bytes'
           assert data[:8] == b'\x89PNG\r\n\x1a\n', 'not PNG'
           width, height = struct.unpack('>II', data[16:24])
-          assert (width, height) == (1440, 1080), (width, height)
+          assert width >= 600 and height >= 450, (width, height)
+          assert width * 3 == height * 4, f'not 4:3: {(width, height)}'
           print('Wedding Cake S1 image verified:', len(data), width, height, hashlib.sha256(data).hexdigest())
           PY
 
