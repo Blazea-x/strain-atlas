@@ -38,6 +38,7 @@
   const esc = value => String(value ?? "").replace(/[&<>"']/g, ch => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[ch]));
   const asset = src => /^https?:\/\//i.test(src || "") ? src : ASSET_BASE + String(src || "").replace(/^\/+/, "");
   const compact = values => values.filter(value => value !== undefined && value !== null && String(value).trim() !== "");
+  const primaryVisual = cultivar => (cultivar.visuals || []).find(v => v.role === "primary") || (cultivar.visuals || [])[0];
 
   const claimText = claim => claim?.text || claim?.display || "";
   const evidenceText = claim => {
@@ -45,6 +46,7 @@
     if (claim.status === "unknown") return "UNKNOWN";
     return compact([String(claim.status || "").toUpperCase(), claim.confidence]).join(" / ");
   };
+  const evidenceShort = claim => claim?.confidence || (claim?.status === "unknown" ? "?" : "-");
 
   const relationNames = cultivar => (cultivar.relations || []).map(relation => {
     const entity = catalog?.entities?.[relation.entityId];
@@ -76,12 +78,7 @@
     ]).join(" ").toLowerCase();
   };
 
-  const inExplore = cultivar => {
-    if (activeExplore === "all") return true;
-    return (catalog?.explore?.[activeExplore] || []).includes(cultivar.id);
-  };
-
-  const primaryVisual = cultivar => (cultivar.visuals || []).find(v => v.role === "primary") || (cultivar.visuals || [])[0];
+  const inExplore = cultivar => activeExplore === "all" || (catalog?.explore?.[activeExplore] || []).includes(cultivar.id);
 
   function renderGrid() {
     if (!catalog) return;
@@ -90,19 +87,30 @@
 
     grid.innerHTML = visible.map(cultivar => {
       const visual = primaryVisual(cultivar);
+      const aromas = (cultivar.aromas?.items || []).slice(0, 2);
+      const type = typeLabels[cultivar.classification?.type] || cultivar.classification?.type || "未分類";
       return `<button class="cultivar-card" type="button" data-strain-id="${esc(cultivar.id)}" aria-label="${esc(cultivar.name)}の詳細を見る">
-        <div class="tile-visual">${visual ? `<img src="${esc(asset(visual.src))}" alt="${esc(visual.alt || "")}" loading="lazy">` : ""}</div>
+        <div class="tile-visual">
+          ${visual ? `<img src="${esc(asset(visual.src))}" alt="${esc(visual.alt || "")}" loading="lazy">` : ""}
+          <span class="tile-type">${esc(type)}</span>
+        </div>
         <div class="tile-copy">
           <div class="tile-name">${esc(cultivar.name)}</div>
-          <div class="tile-jp">${cultivar.jp ? esc(cultivar.jp) : "JP / 未確認"}</div>
-          <span class="tile-type">${esc(typeLabels[cultivar.classification?.type] || cultivar.classification?.type || "未分類")}</span>
-          <div class="tile-evidence"><span>LINEAGE ${esc(evidenceText(cultivar.lineage))}</span><span>${esc(String(cultivar.status || "").toUpperCase())}</span></div>
+          <div class="tile-aromas">${aromas.map(item => `<span>${esc(item)}</span>`).join("")}</div>
+          <div class="tile-meta"><span>LINEAGE ${esc(evidenceShort(cultivar.lineage))}</span><span>${esc(String(cultivar.status || "").toUpperCase())}</span></div>
         </div>
       </button>`;
     }).join("");
 
-    resultLabel.textContent = `${visible.length} CULTIVAR${visible.length === 1 ? "" : "S"}`;
+    resultLabel.textContent = `${visible.length} / ${catalog.cultivars.length}`;
     empty.hidden = visible.length !== 0;
+  }
+
+  function setExplore(key, scrollToList = false) {
+    activeExplore = key || "all";
+    document.querySelectorAll("[data-explore]").forEach(item => item.classList.toggle("is-active", item.dataset.explore === activeExplore));
+    renderGrid();
+    if (scrollToList) document.getElementById("cultivars")?.scrollIntoView({ behavior: "smooth", block: "start" });
   }
 
   const chips = items => items?.length ? `<div class="chips">${items.map(item => `<span class="chip">${esc(item)}</span>`).join("")}</div>` : `<div class="status-value">未確認</div>`;
@@ -110,9 +118,7 @@
 
   function sourceRefsFor(cultivar) {
     const refs = [];
-    for (const claim of [cultivar.lineage, cultivar.aromas, cultivar.terpenes, cultivar.origin, cultivar.history]) {
-      refs.push(...(claim?.sourceRefs || []));
-    }
+    for (const claim of [cultivar.lineage, cultivar.aromas, cultivar.terpenes, cultivar.origin, cultivar.history]) refs.push(...(claim?.sourceRefs || []));
     for (const relation of cultivar.relations || []) refs.push(...(relation.sourceRefs || []));
     return [...new Set(refs)];
   }
@@ -124,8 +130,7 @@
       ? entities.map(item => `<div>${esc(item.name)} <small>${esc(item.roles.map(role => roleLabels[role] || role).join(" / "))}</small></div>`).join("")
       : "未確認";
     const generation = cultivar.breeding?.generation || "unknown";
-    const sourceRefs = sourceRefsFor(cultivar);
-    const sources = sourceRefs.map(id => catalog.sources?.[id]).filter(Boolean);
+    const sources = sourceRefsFor(cultivar).map(id => catalog.sources?.[id]).filter(Boolean);
 
     detailShell.innerHTML = `
       <div class="detail-topbar"><strong>${esc(cultivar.name)}</strong><button class="close-detail" type="button" aria-label="詳細を閉じる">×</button></div>
@@ -191,12 +196,23 @@
 
   search.addEventListener("input", renderGrid);
 
-  document.querySelector(".explore")?.addEventListener("click", event => {
+  document.getElementById("explore")?.addEventListener("click", event => {
     const button = event.target.closest("[data-explore]");
+    if (button) setExplore(button.dataset.explore || "all", false);
+  });
+
+  document.querySelector(".home-entries")?.addEventListener("click", event => {
+    const button = event.target.closest("[data-home-target]");
     if (!button) return;
-    activeExplore = button.dataset.explore || "all";
-    document.querySelectorAll("[data-explore]").forEach(item => item.classList.toggle("is-active", item === button));
-    renderGrid();
+    const target = button.dataset.homeTarget;
+    if (target === "cultivars") document.getElementById("cultivars")?.scrollIntoView({ behavior: "smooth", block: "start" });
+    if (target === "media") document.getElementById("media")?.scrollIntoView({ behavior: "smooth", block: "start" });
+    if (target === "explore") document.querySelector(".explore-overview")?.scrollIntoView({ behavior: "smooth", block: "start" });
+  });
+
+  document.querySelector(".explore-overview")?.addEventListener("click", event => {
+    const button = event.target.closest("[data-explore-jump]");
+    if (button) setExplore(button.dataset.exploreJump, true);
   });
 
   window.addEventListener("popstate", () => {
@@ -204,6 +220,11 @@
     if (id) openDetail(id, false);
     else if (dialog.open) closeDetail(false);
   });
+
+  function setCount(id, value) {
+    const node = document.getElementById(id);
+    if (node) node.textContent = String(value ?? 0);
+  }
 
   async function boot() {
     try {
@@ -213,7 +234,13 @@
       if (!Array.isArray(catalog.cultivars)) throw new Error("cultivars array is missing");
 
       dataState.textContent = "MASTER DATA";
-      catalogMeta.textContent = `${catalog.counts?.sources ?? 0} SOURCES / ${catalog.counts?.entities ?? 0} ENTITIES`;
+      catalogMeta.textContent = `${catalog.counts?.cultivars ?? 0} CULTIVARS · ${catalog.counts?.sources ?? 0} SOURCES · ${catalog.counts?.entities ?? 0} ENTITIES`;
+      setCount("entry-cultivar-count", catalog.counts?.cultivars);
+      for (const key of ["sativa", "indica", "hybrid"]) {
+        const count = catalog.explore?.[key]?.length || 0;
+        setCount(`count-${key}`, count);
+        setCount(`overview-${key}`, count);
+      }
       renderGrid();
 
       const initialId = new URL(location.href).searchParams.get("strain");
