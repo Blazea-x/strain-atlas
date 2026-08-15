@@ -4,10 +4,14 @@ Last checked: 2026-08-15
 Target specification: `MASTER_CANNABIS_STRAIN_WISDOM.md` (FINAL / FROZEN)
 Migration branch: `master-migration`
 
-## Current production baseline
+## Public state
 
-- Hosting: GitHub Pages
-- Production source: `main` branch root
+- GitHub Pages remains technically enabled because the current connector cannot change the Pages setting directly.
+- `main/index.html` is temporarily a noindex `REBUILDING` screen.
+- The previous public cultivar UI is no longer the active production entry point.
+
+## Legacy baseline retained
+
 - Legacy cultivar count: 4
 - Legacy cultivar data: `data.js`
 - Legacy sources: `sources.js`
@@ -15,19 +19,33 @@ Migration branch: `master-migration`
 - Existing validator: `scripts/validate-data.mjs`
 - Existing legal gate: `legal-gate.js` / `legal-gate.css`
 
-## Migration status
+Legacy files remain during migration and are not the new source of truth.
 
-### In progress
+## MASTER migration completed in Phase 1
 
-- MASTER-compliant data directory structure
-- Cultivar JSON schema and controlled values
-- Shared source records
-- Shared entity records
+- `schemas/cultivar.schema.json`
+- `schemas/source.schema.json`
+- `schemas/entity.schema.json`
+- 4 cultivar records under `strains/<id>/strain.json`
+- 8 shared source records under `sources/`
+- 4 shared entity records under `entities/`
+- MASTER controlled TYPE / generation / status / confidence / basis / role values
 - Claim-level evidence metadata
-- MASTER-compliant validator
+- Primary visual requirement and visual scope metadata
+- `scripts/validate-master-data.mjs`
+- `.github/workflows/validate-master-data.yml`
+- Initial MASTER validator run: PASS
 
-### Not implemented yet
+## Migration decisions
 
+- All four migrated cultivars remain `review`; none were promoted to `published` by automation.
+- Legacy Japanese display names were not automatically accepted as verified MASTER `jp` values, so migrated `jp` is currently `null`.
+- Claims that lacked claim-level source mapping in the legacy data were retained but marked `unknown` rather than being silently asserted.
+- Existing strain images still use legacy paths until the visual asset migration phase.
+
+## Not implemented yet
+
+- Runtime loader that reads the new JSON source of truth
 - Final HomeVisual with CULTIVARS / MEDIA / EXPLORE entrances
 - MEDIA data and grid
 - EXPLORE mapping UI
@@ -41,18 +59,12 @@ Migration branch: `master-migration`
 - Feature flags
 - Service Layer
 
-## Legacy compatibility
+## Known cleanup
 
-Legacy files are intentionally retained during migration. The new MASTER structure must validate and render successfully before legacy reads are removed.
-
-## Important known gaps
-
-- `add-strain.yml` targets an older inline `STRAINS` implementation and must not be treated as the current publication pipeline.
-- Current `main` branch is not protected.
-- Existing cultivar-level confidence must be migrated to claim-level evidence.
-- Existing Japanese display names are not automatically treated as verified MASTER `jp` values.
-- Existing strain images remain in legacy paths until image migration is performed.
+- `add-strain.yml` targets an obsolete inline STRAINS implementation and must be replaced before automated cultivar addition returns.
+- `main` branch is not protected.
+- Old CSS layers remain and should not be expanded further while the new component/design-token structure is introduced.
 
 ## Next checkpoint
 
-The next checkpoint is complete when all four existing cultivars can be represented in the new MASTER data structure, all source/entity references resolve, and the new validator passes without relying on `data.js` or `sources.js` as the source of truth.
+Phase 2 is complete when the site runtime reads the new `strains/`, `sources/`, and `entities/` records instead of `data.js` / `sources.js`, while the four migrated cultivars still render correctly in a migration preview.
