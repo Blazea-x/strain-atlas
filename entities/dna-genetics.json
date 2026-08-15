@@ -1,8 +1,9 @@
 {
-  "schemaVersion":1,
-  "id":"dna-genetics",
-  "name":"DNA Genetics",
-  "roles":["breeder","seedCompany"],
-  "status":"confirmed",
-  "checkedAt":"2026-08-15"
+  "schemaVersion": 1,
+  "id": "dna-genetics",
+  "name": "DNA Genetics",
+  "roles": ["breeder", "seedCompany"],
+  "status": "confirmed",
+  "checkedAt": "2026-08-15",
+  "updatedAt": "2026-08-15"
 }
