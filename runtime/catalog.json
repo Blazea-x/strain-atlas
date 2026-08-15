@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-15T13:45:59.317Z",
+  "generatedAt": "2026-08-15T13:46:15.126Z",
   "sourceOfTruth": {
     "cultivars": "strains/<id>/strain.json",
     "sources": "sources/*.json",
@@ -359,7 +359,7 @@
       "visuals": [
         {
           "role": "primary",
-          "src": "strains/strawberry-banana-s1/images/primary-framed.svg",
+          "src": "strains/strawberry-banana-s1/images/generated/primary.webp",
           "aiGenerated": true,
           "sourceType": "aiGenerated",
           "rights": "AI-generated project asset for Cannabis Strain Wisdom.",
