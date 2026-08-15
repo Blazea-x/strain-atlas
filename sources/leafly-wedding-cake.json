@@ -1,0 +1,12 @@
+{
+  "schemaVersion":1,
+  "id":"leafly-wedding-cake",
+  "publisher":"Leafly",
+  "title":"Wedding Cake",
+  "url":"https://www.leafly.com/strains/wedding-cake",
+  "sourceType":"specialistDatabase",
+  "supports":["aliases","lineage","aromas","terpenes"],
+  "publishedAt":null,
+  "checkedAt":"2026-08-14",
+  "note":"Migrated from legacy sources.js without adding new claims."
+}
