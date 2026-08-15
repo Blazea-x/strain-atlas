@@ -4,42 +4,88 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="robots" content="noindex,nofollow,noarchive">
-  <meta name="theme-color" content="#07110d">
+  <meta name="theme-color" content="#06100c">
   <title>Cannabis Strain Wisdom | Migration Preview</title>
-  <link rel="stylesheet" href="styles.css?v=2">
+  <link rel="stylesheet" href="styles.css?v=3">
 </head>
 <body>
   <header class="preview-head">
-    <div>
-      <div class="eyebrow">MASTER MIGRATION PREVIEW</div>
-      <h1>Cannabis Strain Wisdom</h1>
-    </div>
+    <div class="preview-label">MASTER PREVIEW</div>
     <div class="data-state" id="data-state">LOADING</div>
   </header>
 
   <main class="shell">
-    <section class="control-panel" aria-label="品種を探す">
+    <section class="home-visual" aria-label="Cannabis Strain Wisdom ホーム">
+      <div class="brand-slot">
+        <img src="../images/hero-final.webp" alt="Cannabis Strains Wisdom" class="brand-current">
+      </div>
+      <p class="home-tagline">CULTIVARS · CULTURE · KNOWLEDGE</p>
+
+      <nav class="home-entries" aria-label="コンテンツを選ぶ">
+        <button class="entry-card entry-cultivars" type="button" data-home-target="cultivars">
+          <span class="entry-kicker">LIBRARY</span>
+          <strong>CULTIVARS</strong>
+          <small><span id="entry-cultivar-count">4</span> 品種</small>
+          <span class="entry-arrow">→</span>
+        </button>
+        <button class="entry-card entry-media" type="button" data-home-target="media">
+          <span class="entry-kicker">ARCHIVE</span>
+          <strong>MEDIA</strong>
+          <small>準備中</small>
+          <span class="entry-arrow">→</span>
+        </button>
+        <button class="entry-card entry-explore" type="button" data-home-target="explore">
+          <span class="entry-kicker">DISCOVER</span>
+          <strong>EXPLORE</strong>
+          <small>系統から探す</small>
+          <span class="entry-arrow">→</span>
+        </button>
+      </nav>
+    </section>
+
+    <section class="control-panel" id="cultivars" aria-label="品種を探す">
+      <div class="section-head">
+        <div><span class="section-kicker">LIBRARY</span><h1>CULTIVARS</h1></div>
+        <span class="result-label" id="result-label">読み込み中</span>
+      </div>
       <div class="search-wrap">
         <label class="sr-only" for="search">品種を検索</label>
         <input id="search" type="search" autocomplete="off" placeholder="品種名・香り・系譜から検索">
       </div>
-      <div class="explore" aria-label="TYPEから探索">
+      <div class="explore" id="explore" aria-label="TYPEから探索">
         <button type="button" class="explore-chip is-active" data-explore="all">ALL</button>
-        <button type="button" class="explore-chip" data-explore="sativa">SATIVA系</button>
-        <button type="button" class="explore-chip" data-explore="indica">INDICA系</button>
-        <button type="button" class="explore-chip" data-explore="hybrid">HYBRID</button>
+        <button type="button" class="explore-chip" data-explore="sativa">SATIVA系 <b id="count-sativa">0</b></button>
+        <button type="button" class="explore-chip" data-explore="indica">INDICA系 <b id="count-indica">0</b></button>
+        <button type="button" class="explore-chip" data-explore="hybrid">HYBRID <b id="count-hybrid">0</b></button>
       </div>
-      <div class="result-line"><span id="result-label">読み込み中</span><span id="catalog-meta"></span></div>
     </section>
 
     <section class="cultivar-grid" id="cultivar-grid" aria-live="polite"></section>
     <div class="empty" id="empty" hidden>該当する品種はありません。</div>
+
+    <section class="explore-overview" aria-labelledby="explore-title">
+      <div class="section-head compact-head"><div><span class="section-kicker">DISCOVER</span><h2 id="explore-title">EXPLORE</h2></div></div>
+      <div class="explore-cards">
+        <button type="button" data-explore-jump="sativa"><strong>SATIVA系</strong><span><b id="overview-sativa">0</b> CULTIVARS</span></button>
+        <button type="button" data-explore-jump="indica"><strong>INDICA系</strong><span><b id="overview-indica">0</b> CULTIVARS</span></button>
+        <button type="button" data-explore-jump="hybrid"><strong>HYBRID</strong><span><b id="overview-hybrid">0</b> CULTIVARS</span></button>
+      </div>
+    </section>
+
+    <section class="media-placeholder" id="media" aria-labelledby="media-title">
+      <span class="section-kicker">ARCHIVE</span>
+      <h2 id="media-title">MEDIA</h2>
+      <p>動画・資料は品種データと分離して登録するため、現在は入口だけを先に用意しています。</p>
+      <span class="coming-soon">COMING LATER</span>
+    </section>
+
+    <div class="catalog-meta" id="catalog-meta"></div>
   </main>
 
   <dialog class="detail-dialog" id="detail-dialog">
     <div class="detail-shell" id="detail-shell"></div>
   </dialog>
 
-  <script src="app.js?v=1" defer></script>
+  <script src="app.js?v=3" defer></script>
 </body>
 </html>
