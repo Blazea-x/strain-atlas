@@ -1,0 +1,9 @@
+{
+  "schemaVersion":1,
+  "id":"th-seeds",
+  "name":"T.H.Seeds",
+  "roles":["breeder","seedCompany"],
+  "checkedAt":"2026-08-14",
+  "updatedAt":"2026-08-15",
+  "note":"Created from the existing Bubble Gum source attribution during MASTER migration."
+}
