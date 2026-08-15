@@ -98,7 +98,7 @@ window.STRAINS=[
     lineage:{
       display:"確定していない。複数説あり",
       parents:[],
-      note:"Chemdawg・Lemon Thai・Hindu Kushなどを含む複数説がある"
+      note:"親系統を一意に確定できる資料はない。Josh D公式でも起源は議論が続き記録が不明瞭とされ、Chemdawg系・Hindu Kush系など複数説が存在する。公式内にもTriangle Kush geneticsとの記述があり、特定の親構成は確定情報として採用しない。"
     },
     aromas:["レモン","パイン","フューエル","アーシー"],
     breeder:{name:"",era:""},
@@ -106,8 +106,8 @@ window.STRAINS=[
     originHistory:"1990年代半ばにFlorida系統がLos Angelesへ渡り、Josh Dらによって保存・普及したとされる",
     history:"West Coast系OGファミリーの基盤となった重要品種。Tahoe OG・SFV OG・Ghost OGなど多数の派生系統がある。",
     confidence:{
-      display:"歴史 B / 系譜 C",
-      note:"来歴は複数資料で概ね一致するが、親系統は推定を含む"
+      display:"歴史 B / 系譜 A",
+      note:"系譜Aは特定の親品種が確定したという意味ではなく、Josh D公式一次情報を含む資料で『系譜は未確定・複数説あり』という状態自体を確認したもの"
     },
     visuals:[
       {
@@ -125,7 +125,7 @@ window.STRAINS=[
         alt:"OG Kushの香りを表現したAI生成イメージ"
       }
     ],
-    sourceIds:["leafly-og-kush","leafly-og-history"],
+    sourceIds:["joshd-og-kush-origins","cbt-curse-of-kush","leafly-og-kush","leafly-og-history"],
     reviews:[]
   },
   {
