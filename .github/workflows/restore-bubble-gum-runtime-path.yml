@@ -1,0 +1,33 @@
+name: Restore Bubble Gum runtime path
+on:
+  push:
+    branches: [master-migration]
+    paths:
+      - '.github/workflows/restore-bubble-gum-runtime-path.yml'
+permissions:
+  contents: write
+jobs:
+  restore:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: master-migration
+      - name: Restore unrelated Bubble Gum runtime reference
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          p=Path('data.js')
+          s=p.read_text()
+          old='strains/bubble-gum/images/generated/primary-v2.webp?v=20260815'
+          new='images/strains/bubble-gum-appearance.svg?v=20260814'
+          assert old in s
+          p.write_text(s.replace(old,new,1))
+          PY
+      - name: Commit restoration
+        run: |
+          git config user.name 'strain-atlas-bot'
+          git config user.email 'actions@users.noreply.github.com'
+          git add data.js
+          git commit -m 'Keep Bubble Gum runtime unchanged'
+          git push origin HEAD:master-migration
