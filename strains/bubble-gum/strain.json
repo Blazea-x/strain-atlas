@@ -53,7 +53,7 @@
     "note":"Migrated from legacy data without expanding the claim."
   },
   "visuals":[
-    {"role":"primary","src":"strains/bubble-gum/images/generated/primary.webp","aiGenerated":true,"sourceType":"aiGenerated","rights":"AI-generated project asset for Cannabis Strain Wisdom.","alt":"Bubble Gumの乾燥前の花を資料に基づいて表現したAI生成参考ビジュアル","scope":"cultivar"},
+    {"role":"primary","src":"strains/bubble-gum/images/generated/primary-v2.webp","aiGenerated":true,"sourceType":"aiGenerated","rights":"AI-generated project asset for Cannabis Strain Wisdom.","alt":"Bubble Gumの乾燥前の花を資料に基づいて表現したAI生成参考ビジュアル","scope":"cultivar"},
     {"role":"aroma","src":"images/strains/bubble-gum-aroma.svg","aiGenerated":true,"sourceType":"aiGenerated","rights":"Legacy AI-generated site asset; formal rights record pending review.","alt":"Bubble Gumの甘いバブルガム・ベリー・フローラル系の香りを表現したAI生成イメージ","scope":"cultivar"}
   ],
   "checkedAt":"2026-08-14",
