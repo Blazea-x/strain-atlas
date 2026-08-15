@@ -1,0 +1,71 @@
+{
+  "schemaVersion": 1,
+  "id": "chocolope-256",
+  "status": "review",
+  "name": "Chocolope 256",
+  "jp": null,
+  "aliases": [],
+  "classification": {
+    "type": "sativa-dominant-hybrid"
+  },
+  "breeding": {
+    "generation": "unknown",
+    "method": null
+  },
+  "lineage": {
+    "status": "confirmed",
+    "confidence": "A",
+    "basis": "breederOfficial",
+    "sourceRefs": ["dna-chocolope-256"],
+    "display": "Lemon Skunk 256 × Chocolope",
+    "parents": ["Lemon Skunk 256", "Chocolope"],
+    "note": "DNA Genetics公式ではLemon Skunk 256 (Emerald Cup Winning Cut) × Chocolopeと記載。F1/F2/BX等の育種世代は公式ページで確認できないためgenerationはunknown。"
+  },
+  "relations": [
+    {
+      "entityId": "dna-genetics",
+      "roles": ["breeder", "seedCompany"],
+      "status": "confirmed",
+      "confidence": "A",
+      "basis": "breederOfficial",
+      "sourceRefs": ["dna-chocolope-256"]
+    }
+  ],
+  "aromas": {
+    "status": "confirmed",
+    "confidence": "A",
+    "basis": "breederOfficial",
+    "sourceRefs": ["dna-chocolope-256"],
+    "items": ["アーシー / ムスク", "コーヒー", "チョコレート", "スイートバニラ", "チェスナット"],
+    "note": "DNA Genetics公式の商品説明にある香り表現を要約。"
+  },
+  "terpenes": {
+    "status": "confirmed",
+    "confidence": "C",
+    "basis": "breederOfficial",
+    "sourceRefs": ["dna-chocolope-256"],
+    "items": ["Myrcene", "Beta-caryophyllene", "Limonene"],
+    "note": "DNA Genetics公式に名称記載あり。ただしlot固有のラボCOAではないため、cultivar全体の成分断定を避けてconfidenceをCに抑える。"
+  },
+  "origin": {
+    "status": "confirmed",
+    "confidence": "A",
+    "basis": "breederOfficial",
+    "sourceRefs": ["dna-chocolope-256"],
+    "text": "DNA GeneticsがLemon Skunk 256 (Emerald Cup Winning Cut)とChocolopeを交配して展開するライン。",
+    "note": "作出年や具体的な作出地点は公式ページから確認できないため追加しない。"
+  },
+  "visuals": [
+    {
+      "role": "primary",
+      "src": "strains/chocolope-256/images/generated/primary.webp",
+      "aiGenerated": true,
+      "sourceType": "aiGenerated",
+      "rights": "AI-generated project asset for Cannabis Strain Wisdom.",
+      "alt": "Chocolope 256の実写資料の花姿を参照して作成した乾燥前の花のAI生成参考ビジュアル",
+      "scope": "cultivar"
+    }
+  ],
+  "checkedAt": "2026-08-16",
+  "updatedAt": "2026-08-16"
+}
