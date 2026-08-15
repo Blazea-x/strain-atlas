@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 1200" role="img" aria-labelledby="title desc">
+  <title id="title">Strawberry Banana primary visual</title>
+  <desc id="desc">Existing Strawberry Banana S1 AI reference visual framed with more breathing room to match the other cultivar cards.</desc>
+  <rect width="1200" height="1200" fill="#0b120d"/>
+  <image href="generated/primary.webp" x="105" y="105" width="990" height="990" preserveAspectRatio="xMidYMid meet"/>
+</svg>
