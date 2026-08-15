@@ -1,0 +1,12 @@
+{
+  "schemaVersion":1,
+  "id":"leafly-strawberry-banana",
+  "publisher":"Leafly",
+  "title":"Strawberry Banana",
+  "url":"https://www.leafly.com/strains/strawberry-banana",
+  "sourceType":"specialistDatabase",
+  "supports":["aliases","lineage","aromas","terpenes","history"],
+  "publishedAt":null,
+  "checkedAt":"2026-08-15",
+  "note":"Independent specialist reference for Original Strawberry Banana; not treated as S1-specific laboratory evidence."
+}
