@@ -1,0 +1,12 @@
+{
+  "schemaVersion":1,
+  "id":"leafly-og-history",
+  "publisher":"Leafly",
+  "title":"OG Kush family genealogy",
+  "url":"https://www.leafly.com/news/strains-products/og-kush-marijuana-family-strains-appreciation",
+  "sourceType":"specialistArticle",
+  "supports":["origin","history","lineage"],
+  "publishedAt":null,
+  "checkedAt":"2026-08-14",
+  "note":"Migrated from legacy sources.js without adding new claims."
+}
