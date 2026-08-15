@@ -1,0 +1,12 @@
+{
+  "schemaVersion":1,
+  "id":"leafly-bubble-gum",
+  "publisher":"Leafly",
+  "title":"Bubble Gum",
+  "url":"https://www.leafly.com/strains/bubble-gum",
+  "sourceType":"specialistDatabase",
+  "supports":["aliases","lineage","aromas","terpenes","history"],
+  "publishedAt":null,
+  "checkedAt":"2026-08-14",
+  "note":"Migrated from legacy sources.js without adding new claims."
+}
