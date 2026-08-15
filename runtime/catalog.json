@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-15T09:35:16.088Z",
+  "generatedAt": "2026-08-15T12:11:28.137Z",
   "sourceOfTruth": {
     "cultivars": "strains/<id>/strain.json",
     "sources": "sources/*.json",
@@ -138,11 +138,11 @@
       "visuals": [
         {
           "role": "primary",
-          "src": "images/strains/bubble-gum-appearance.svg",
+          "src": "strains/bubble-gum/images/generated/primary.webp",
           "aiGenerated": true,
           "sourceType": "aiGenerated",
-          "rights": "Legacy AI-generated site asset; formal rights record pending review.",
-          "alt": "Bubble GumのAI生成参考ビジュアル",
+          "rights": "AI-generated project asset for Cannabis Strain Wisdom.",
+          "alt": "Bubble Gumの乾燥前の花を資料に基づいて表現したAI生成参考ビジュアル",
           "scope": "cultivar"
         },
         {
