@@ -39,6 +39,22 @@ window.SOURCES={
     checked:"2026-08-14",
     supports:["origin","history","lineage"]
   },
+  "joshd-og-kush-origins":{
+    name:"Josh D OG Kush — The mystery behind OG Kush's origins",
+    url:"https://www.joshd-ogkush.com/blog/the-mystery-behind-og-kushs-origins",
+    type:"primary",
+    typeLabel:"一次情報",
+    checked:"2026-08-15",
+    supports:["origin","history","lineage"]
+  },
+  "cbt-curse-of-kush":{
+    name:"Cannabis Business Times — The Curse of Kush",
+    url:"https://www.cannabisbusinesstimes.com/columns/growing-pains/article/15696470/the-curse-of-kush",
+    type:"specialist",
+    typeLabel:"専門記事",
+    checked:"2026-08-15",
+    supports:["origin","history","lineage"]
+  },
   "serious-seeds-bubble-gum":{
     name:"Serious Seeds — Bubble Gum",
     url:"https://www.seriousseeds.com/cannabis-seeds/bubble-gum?page=1",
