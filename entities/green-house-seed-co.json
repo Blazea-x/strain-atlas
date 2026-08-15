@@ -1,0 +1,9 @@
+{
+  "schemaVersion":1,
+  "id":"green-house-seed-co",
+  "name":"Green House Seed Co.",
+  "roles":["breeder","seedCompany"],
+  "checkedAt":"2026-08-14",
+  "updatedAt":"2026-08-15",
+  "note":"Created from the existing Super Lemon Haze source attribution during MASTER migration."
+}
