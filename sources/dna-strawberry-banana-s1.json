@@ -1,0 +1,12 @@
+{
+  "schemaVersion":1,
+  "id":"dna-strawberry-banana-s1",
+  "publisher":"DNA Genetics",
+  "title":"Strawberry Banana S1",
+  "url":"https://dnagenetics.com/product/strawberry-banana-s1/",
+  "sourceType":"breederOfficial",
+  "supports":["lineage","breeder","aromas","terpenes","history"],
+  "publishedAt":null,
+  "checkedAt":"2026-08-15",
+  "note":"Primary source for the S1 designation, self-pollination description, breeder description, aroma and reported terpene claims."
+}
