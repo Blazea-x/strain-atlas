@@ -1,0 +1,9 @@
+{
+  "schemaVersion":1,
+  "id":"seed-junky-genetics",
+  "name":"Seed Junky Genetics",
+  "roles":["breeder","seedCompany"],
+  "checkedAt":"2026-08-14",
+  "updatedAt":"2026-08-15",
+  "note":"Created from the existing Wedding Cake breeder attribution during MASTER migration."
+}
