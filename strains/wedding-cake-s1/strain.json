@@ -1,0 +1,65 @@
+{
+  "schemaVersion": 1,
+  "id": "wedding-cake-s1",
+  "status": "review",
+  "name": "Wedding Cake S1",
+  "jp": null,
+  "aliases": [],
+  "classification": {
+    "type": "unknown"
+  },
+  "breeding": {
+    "generation": "S1",
+    "method": "selfed"
+  },
+  "lineage": {
+    "status": "confirmed",
+    "confidence": "A",
+    "basis": "breederOfficial",
+    "sourceRefs": ["humboldt-csi-wedding-cake-s1"],
+    "display": "Wedding Cake × Wedding Cake",
+    "parents": ["Wedding Cake"],
+    "note": "Humboldt CSI公式の商品ページはWedding Cake S1をWedding Cake × Wedding Cakeとして掲載しているため、S1 designationに基づきselfed lineとして扱う。ただし、使用されたWedding Cake cutの由来・selection・Seed Junky / Triangle Mints #23との同一性は公式ページでは特定されていないため、既存登録Wedding Cakeとのexact-cut直接リンクは確定しない。"
+  },
+  "relations": [
+    {
+      "entityId": "humboldt-csi",
+      "roles": ["breeder", "seedCompany"],
+      "status": "confirmed",
+      "confidence": "A",
+      "basis": "breederOfficial",
+      "sourceRefs": ["humboldt-csi-wedding-cake-s1"]
+    }
+  ],
+  "aromas": {
+    "status": "unknown",
+    "items": [],
+    "note": "Humboldt CSI公式Wedding Cake S1商品ページにcultivar-levelの香り記載を確認できないため未登録。一般的なWedding Cakeや商品レビューの香り記述はこのS1全体へ一般化しない。"
+  },
+  "terpenes": {
+    "status": "unknown",
+    "items": [],
+    "note": "Humboldt CSI公式Wedding Cake S1商品ページにcultivar-levelのテルペン資料またはS1固有のlot COAを確認できないため未登録。"
+  },
+  "origin": {
+    "status": "confirmed",
+    "confidence": "A",
+    "basis": "breederOfficial",
+    "sourceRefs": ["humboldt-csi-wedding-cake-s1"],
+    "text": "Humboldt CSIがWedding Cake × Wedding Cakeとして展開するfeminized S1 line。",
+    "note": "Humboldt CSIの公式背景情報はHumboldt County / Emerald Triangleとの関係を説明しているが、このWedding Cake S1自体の作出地点・作出時期は商品ページでは特定されていない。"
+  },
+  "visuals": [
+    {
+      "role": "primary",
+      "src": "strains/wedding-cake-s1/images/generated/primary.png",
+      "aiGenerated": true,
+      "sourceType": "aiGenerated",
+      "rights": "AI-generated project asset for Cannabis Strain Wisdom. Representative reference image guided by publicly visible Wedding Cake flower photographs; not a verified photograph of Humboldt CSI's exact Wedding Cake S1 phenotype.",
+      "alt": "Wedding Cake系の公開花写真に共通する密な花・厚いトライコーム・緑から淡い紫・オレンジのピスティルを参考に作成したWedding Cake S1のAI生成参考ビジュアル",
+      "scope": "cultivar"
+    }
+  ],
+  "checkedAt": "2026-08-16",
+  "updatedAt": "2026-08-16"
+}

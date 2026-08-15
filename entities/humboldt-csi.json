@@ -1,0 +1,9 @@
+{
+  "schemaVersion": 1,
+  "id": "humboldt-csi",
+  "name": "Humboldt CSI",
+  "roles": ["breeder", "seedCompany"],
+  "status": "confirmed",
+  "checkedAt": "2026-08-16",
+  "updatedAt": "2026-08-16"
+}
