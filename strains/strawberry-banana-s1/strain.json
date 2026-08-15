@@ -2,7 +2,7 @@
   "schemaVersion":1,
   "id":"strawberry-banana-s1",
   "status":"review",
-  "name":"Strawberry Banana S1",
+  "name":"Strawberry Banana",
   "jp":null,
   "aliases":["Strawberry Banana S1"],
   "classification":{"type":"indica-dominant-hybrid"},
@@ -52,7 +52,7 @@
     "note":"OriginalとS1のscopeを分離して記録。"
   },
   "visuals":[
-    {"role":"primary","src":"strains/strawberry-banana-s1/images/generated/primary.webp","aiGenerated":true,"sourceType":"aiGenerated","rights":"AI-generated project asset for Cannabis Strain Wisdom.","alt":"Strawberry Bananaの実写資料の花姿を参照して作成したStrawberry Banana S1の乾燥前の花のAI生成参考ビジュアル","scope":"cultivar"}
+    {"role":"primary","src":"strains/strawberry-banana-s1/images/primary-framed.svg","aiGenerated":true,"sourceType":"aiGenerated","rights":"AI-generated project asset for Cannabis Strain Wisdom.","alt":"Strawberry Bananaの実写資料の花姿を参照して作成したStrawberry Banana S1の乾燥前の花のAI生成参考ビジュアル","scope":"cultivar"}
   ],
   "checkedAt":"2026-08-15",
   "updatedAt":"2026-08-15"
