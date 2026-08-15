@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="robots" content="noindex,nofollow,noarchive">
+  <meta name="theme-color" content="#06100c">
+  <title>Cannabis Strain Wisdom | Detail UX Preview</title>
+  <link rel="stylesheet" href="../preview/styles.css?v=6">
+  <link rel="stylesheet" href="../preview/home-layout.css?v=2">
+  <link rel="stylesheet" href="../preview/home-viewport.css?v=2">
+  <style>
+    .status-item[data-deep-target]{position:relative;padding-right:34px;cursor:pointer;transition:border-color .16s ease,background .16s ease,transform .12s ease}
+    .status-item[data-deep-target]:active{transform:scale(.992)}
+    .status-item[data-deep-target]::after{content:"›";position:absolute;right:12px;top:50%;transform:translateY(-50%);color:var(--accent-gold);font-size:19px;line-height:1;transition:transform .16s ease}
+    .status-item[data-deep-target].is-open{border-color:rgba(217,182,93,.34);background:linear-gradient(145deg,rgba(40,57,35,.8),rgba(12,28,19,.76))}
+    .status-item[data-deep-target].is-open::after{transform:translateY(-50%) rotate(90deg)}
+    button.status-item{appearance:none;width:100%;color:inherit;text-align:left;font:inherit}
+    .deep-section[data-deep-panel]{display:none;margin-top:0;padding:12px 11px 13px;border:1px solid rgba(217,182,93,.12);border-radius:12px;background:rgba(7,19,12,.7)}
+    .deep-section[data-deep-panel].is-open{display:block;animation:deepReveal .16s ease-out}
+    .deep-section[data-deep-panel] h3{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+    .deep-section[data-deep-panel] h3::after{content:"DETAIL";color:#73857a;font-size:6px;letter-spacing:.12em}
+    .deep-preview-text{display:-webkit-box;overflow:hidden;-webkit-line-clamp:2;-webkit-box-orient:vertical;color:#d7ded9}
+    @keyframes deepReveal{from{opacity:.35;transform:translateY(-4px)}to{opacity:1;transform:translateY(0)}}
+  </style>
+</head>
+<body>
+  <header class="preview-head"><div class="preview-label">DETAIL UX PREVIEW</div><div class="data-state" id="data-state">LOADING</div></header>
+  <main class="shell">
+    <section class="home-visual" aria-label="Cannabis Strain Wisdom ホーム">
+      <details class="legal-alert"><summary><span class="legal-alert-icon" aria-hidden="true">⚠</span><span class="legal-alert-copy"><strong>重要な注意事項</strong><small>日本国内で利用する方は必ずお読みください</small></span><span class="legal-alert-action">必ず読む</span></summary><div class="legal-alert-body"><p class="legal-alert-lead">法規・製品基準は変更されることがあります。以下は2026年8月15日時点で公的情報を確認した要点です。</p><ul><li>2024年12月12日から、大麻等の不正な施用についても麻薬及び向精神薬取締法の禁止規定・罰則が適用されています。</li><li>製品等に残留するΔ9-THCには区分別の残留限度値があり、油脂・粉末は10ppm、水溶液は0.10ppm、その他は1ppmです。限度値を超える製品等は「麻薬」に該当します。</li><li>大麻を原料とする製品は、残留限度値を超えるΔ9-THCを含む場合、原則として輸入できません。CBD関連製品では、麻薬に該当しないことの確認手続きが必要になる場合があります。</li><li>厚生労働省は、市場流通するCBD製品から残留限度値を超えるΔ9-THCが検出された事例について継続して注意喚起しています。</li></ul><p class="legal-alert-note">本サイトは品種・歴史・系譜・香り・資料等を整理する情報アーカイブです。違法な所持・施用・輸入・購入を推奨するものではありません。</p><div class="legal-alert-sources"><span>公式情報</span><a href="https://www.mhlw.go.jp/stf/newpage_43079.html" target="_blank" rel="noopener noreferrer">厚生労働省｜改正法・残留限度値</a><a href="https://www.mhlw.go.jp/stf/seisakunitsuite/bunya/kenkou_iryou/iyakuhin/yakubuturanyou/" target="_blank" rel="noopener noreferrer">厚生労働省｜CBD製品等の注意喚起</a><a href="https://www.customs.go.jp/tetsuzuki/c-answer/kinseihin/2005_jr.htm" target="_blank" rel="noopener noreferrer">税関｜大麻を原料とする製品の輸入規制</a></div></div></details>
+      <div class="brand-slot"><img src="../images/hero-final.webp" alt="Cannabis Strains Wisdom" class="brand-current"></div><p class="home-tagline">CULTIVARS · CULTURE · KNOWLEDGE</p>
+      <div class="search-wrap home-search"><label class="sr-only" for="search">品種を検索</label><input id="search" type="search" autocomplete="off" placeholder="品種名・香り・系譜から検索"></div>
+      <nav class="home-entries" aria-label="コンテンツを選ぶ"><button class="entry-card entry-explore" type="button" data-home-target="explore" aria-pressed="false"><span class="entry-kicker">DISCOVER</span><strong>EXPLORE</strong><small>カテゴリーから探す</small><span class="entry-arrow">→</span></button><button class="entry-card entry-media" type="button" data-home-target="media" aria-pressed="false"><span class="entry-kicker">ARCHIVE</span><strong>MEDIA</strong><small>動画・資料</small><span class="entry-arrow">→</span></button></nav>
+    </section>
+    <div class="home-content" id="home-content" aria-live="polite">
+      <section class="content-panel" data-content-panel="cultivars" hidden><section class="control-panel" id="cultivars" aria-label="品種を探す"><div class="section-head"><div><span class="section-kicker">RESULTS</span><h1>SEARCH RESULTS</h1></div><span class="result-label" id="result-label">読み込み中</span></div><div class="explore" id="explore" aria-label="TYPEから探索"><button type="button" class="explore-chip is-active" data-explore="all">ALL</button><button type="button" class="explore-chip" data-explore="sativa">SATIVA系 <b id="count-sativa">0</b></button><button type="button" class="explore-chip" data-explore="indica">INDICA系 <b id="count-indica">0</b></button><button type="button" class="explore-chip" data-explore="hybrid">HYBRID <b id="count-hybrid">0</b></button></div></section><section class="cultivar-grid" id="cultivar-grid" aria-live="polite"></section><div class="empty" id="empty" hidden>該当する品種はありません。</div></section>
+      <section class="content-panel" data-content-panel="explore" hidden><section class="explore-overview" aria-labelledby="explore-title"><div class="section-head compact-head"><div><span class="section-kicker">DISCOVER</span><h2 id="explore-title">EXPLORE</h2></div></div><div class="explore-cards"><button type="button" data-explore-jump="sativa"><strong>SATIVA系</strong><span><b id="overview-sativa">0</b> CULTIVARS</span></button><button type="button" data-explore-jump="indica"><strong>INDICA系</strong><span><b id="overview-indica">0</b> CULTIVARS</span></button><button type="button" data-explore-jump="hybrid"><strong>HYBRID</strong><span><b id="overview-hybrid">0</b> CULTIVARS</span></button></div></section></section>
+      <section class="content-panel" data-content-panel="media" hidden><section class="media-placeholder" id="media" aria-labelledby="media-title"><span class="section-kicker">ARCHIVE</span><h2 id="media-title">MEDIA</h2><p>動画・資料は品種データと分離して登録するため、現在は入口だけを先に用意しています。</p><span class="coming-soon">COMING LATER</span></section></section>
+    </div><div class="catalog-meta" id="catalog-meta"></div>
+  </main>
+  <dialog class="detail-dialog" id="detail-dialog"><div class="detail-shell" id="detail-shell"></div></dialog>
+  <script src="../preview/toggle-home.js?v=1" defer></script>
+  <script src="../preview/app.js?v=4" defer></script>
+  <script>
+    (() => {
+      "use strict";
+      const shell = document.getElementById("detail-shell");
+      if (!shell) return;
+
+      const normalize = value => String(value || "").trim().toUpperCase();
+      const labelText = item => normalize(item.querySelector(".status-label")?.textContent);
+      const panelTitle = panel => normalize(panel.querySelector("h3")?.textContent);
+
+      function previewText(panel, title) {
+        if (title === "SOURCES") {
+          const count = panel.querySelectorAll(".source-link").length;
+          return count ? `${count} SOURCES` : "出典情報を確認";
+        }
+        const text = panel.querySelector("p")?.textContent?.trim() || "詳細情報を確認";
+        return text.length > 82 ? `${text.slice(0, 82)}…` : text;
+      }
+
+      function setTriggerState(trigger, open) {
+        trigger.classList.toggle("is-open", open);
+        trigger.setAttribute("aria-expanded", open ? "true" : "false");
+      }
+
+      function wireTrigger(trigger, panel) {
+        if (!trigger || !panel) return;
+        trigger.dataset.deepTarget = panel.dataset.deepPanel;
+        trigger.setAttribute("aria-controls", panel.id);
+        trigger.setAttribute("aria-expanded", "false");
+        if (trigger.tagName !== "BUTTON") {
+          trigger.setAttribute("role", "button");
+          trigger.tabIndex = 0;
+        }
+
+        const toggle = () => {
+          const willOpen = trigger.getAttribute("aria-expanded") !== "true";
+          shell.querySelectorAll("[data-deep-target]").forEach(item => setTriggerState(item, false));
+          shell.querySelectorAll("[data-deep-panel]").forEach(item => {
+            item.classList.remove("is-open");
+            item.hidden = true;
+          });
+          if (willOpen) {
+            setTriggerState(trigger, true);
+            panel.hidden = false;
+            panel.classList.add("is-open");
+          }
+        };
+
+        trigger.addEventListener("click", toggle);
+        if (trigger.tagName !== "BUTTON") {
+          trigger.addEventListener("keydown", event => {
+            if (event.key === "Enter" || event.key === " ") {
+              event.preventDefault();
+              toggle();
+            }
+          });
+        }
+      }
+
+      function createActionCard(label, panel) {
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = "status-item wide";
+        const labelNode = document.createElement("div");
+        labelNode.className = "status-label";
+        labelNode.textContent = label;
+        const valueNode = document.createElement("div");
+        valueNode.className = "status-value deep-preview-text";
+        valueNode.textContent = previewText(panel, label);
+        const metaNode = document.createElement("div");
+        metaNode.className = "status-meta";
+        metaNode.textContent = "タップして詳細を見る";
+        button.append(labelNode, valueNode, metaNode);
+        return button;
+      }
+
+      function enhanceDetail() {
+        const grid = shell.querySelector(".status-grid");
+        if (!grid || grid.dataset.deepEnhanced === "true") return;
+        const panels = [...shell.querySelectorAll(".deep-section")];
+        if (!panels.length) return;
+        grid.dataset.deepEnhanced = "true";
+
+        const map = new Map();
+        panels.forEach((panel, index) => {
+          const title = panelTitle(panel);
+          const key = `deep-${index}-${title.toLowerCase().replace(/[^a-z0-9]+/g, "-") || "detail"}`;
+          panel.dataset.deepPanel = key;
+          panel.id = key;
+          panel.hidden = true;
+          map.set(title, panel);
+        });
+
+        const lineage = [...grid.querySelectorAll(".status-item")].find(item => labelText(item) === "LINEAGE");
+        wireTrigger(lineage, map.get("LINEAGE DETAILS"));
+
+        for (const title of ["ORIGIN", "HISTORY", "SOURCES"]) {
+          const panel = map.get(title);
+          if (!panel) continue;
+          const card = createActionCard(title, panel);
+          grid.appendChild(card);
+          wireTrigger(card, panel);
+        }
+      }
+
+      new MutationObserver(enhanceDetail).observe(shell, { childList: true, subtree: true });
+      enhanceDetail();
+    })();
+  </script>
+</body></html>
