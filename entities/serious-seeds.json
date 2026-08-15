@@ -1,0 +1,9 @@
+{
+  "schemaVersion":1,
+  "id":"serious-seeds",
+  "name":"Serious Seeds",
+  "roles":["breeder","seedCompany"],
+  "checkedAt":"2026-08-14",
+  "updatedAt":"2026-08-15",
+  "note":"Created from the existing Bubble Gum source attribution during MASTER migration."
+}
