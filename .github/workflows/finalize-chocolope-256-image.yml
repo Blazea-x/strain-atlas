@@ -20,7 +20,7 @@ jobs:
 
       - name: Download and verify Chocolope 256 generated image
         env:
-          IMAGE_URL: 'https://design.canva.ai/uSWfI83FPBTTIU0'
+          IMAGE_URL: 'https://s3.amazonaws.com/document-export.canva.com/mz_8U/DAHSZlmz_8U/1/thumbnail/0001.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAQYCGKMUHYGFFNMW3%2F20260815%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20260815T115201Z&X-Amz-Expires=43265&X-Amz-Signature=6490472cfca13d5dfb57d76c14c6c9cc6e823edd7ecc852aa8006ec603b9df1f&X-Amz-SignedHeaders=host&response-expires=Sat%2C%2015%20Aug%202026%2023%3A53%3A06%20GMT'
         run: |
           set -euo pipefail
           mkdir -p strains/chocolope-256/images/generated
@@ -31,45 +31,20 @@ jobs:
           src = Path('/tmp/chocolope-image')
           data = src.read_bytes()
           assert len(data) > 30000, f'image too small: {len(data)} bytes'
-          if data[:8] == b'\x89PNG\r\n\x1a\n':
-              ext = 'png'
-              width, height = struct.unpack('>II', data[16:24])
-          elif data[:2] == b'\xff\xd8':
-              ext = 'jpg'
-              i = 2
-              width = height = None
-              while i < len(data)-9:
-                  if data[i] != 0xFF:
-                      i += 1; continue
-                  marker = data[i+1]; i += 2
-                  if marker in (0xD8,0xD9): continue
-                  seglen = int.from_bytes(data[i:i+2], 'big')
-                  if marker in range(0xC0,0xC4):
-                      height = int.from_bytes(data[i+3:i+5], 'big')
-                      width = int.from_bytes(data[i+5:i+7], 'big')
-                      break
-                  i += seglen
-              assert width and height, 'could not parse JPEG dimensions'
-          elif data[:4] == b'RIFF' and data[8:12] == b'WEBP':
-              ext = 'webp'
-              width = height = 0
-          else:
-              raise AssertionError('unsupported image format')
-          assert width == 0 or width >= 400, (width, height)
-          assert height == 0 or height >= 400, (width, height)
-          dst = Path(f'strains/chocolope-256/images/generated/primary.{ext}')
+          assert data[:8] == b'\x89PNG\r\n\x1a\n', 'expected PNG'
+          width, height = struct.unpack('>II', data[16:24])
+          assert width >= 400 and height >= 400, (width, height)
+          dst = Path('strains/chocolope-256/images/generated/primary.png')
           dst.write_bytes(data)
-          Path('/tmp/chocolope-ext').write_text(ext)
-          print('Chocolope 256 image verified:', len(data), width, height, ext, hashlib.sha256(data).hexdigest())
+          print('Chocolope 256 image verified:', len(data), width, height, hashlib.sha256(data).hexdigest())
           PY
-          cat /tmp/chocolope-ext
-          file strains/chocolope-256/images/generated/primary.*
+          file strains/chocolope-256/images/generated/primary.png
 
       - name: Commit verified image
         run: |
           set -euo pipefail
           git config user.name 'strain-atlas-bot'
           git config user.email 'actions@users.noreply.github.com'
-          git add strains/chocolope-256/images/generated/primary.*
+          git add strains/chocolope-256/images/generated/primary.png
           git commit -m 'Add Chocolope 256 primary image'
           git push origin HEAD:master-migration
