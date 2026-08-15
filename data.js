@@ -139,9 +139,9 @@ window.STRAINS=[
       note:"品種一般の情報。Indiana由来の原系統から複数の選抜系統が生まれており、同名でも系統差があるため単一の固定系統としては扱いません。"
     },
     lineage:{
-      display:"確定していない。Indiana由来の原系統",
+      display:"正確な親系統は未確定。複数の選抜系統あり",
       parents:[],
-      note:"遺伝的な親系統は確定していない。1990年代にオランダへ渡った後、複数ブリーダーが別々に選抜・安定化したため、同じBubble Gum名でも系統差がある。"
+      note:"Serious Seeds公式では1980年代Indiana由来の原材料が1993年に複数ブリーダーへ渡り、それぞれ別の選抜系統へ分岐したと説明される。一方T.H.Seeds公式は自社が1993年に開発したと記載しており、起源の表現に一次情報間の不一致がある。特定の親品種は確定情報として採用しない。"
     },
     aromas:["バブルガム","スイート","ベリー","フローラル"],
     breeder:{name:"Indiana origin / later Serious Seeds・T.H. Seeds selections",era:"1980年代〜1990年代"},
@@ -149,8 +149,8 @@ window.STRAINS=[
     originHistory:"1980年代に米Indianaで開発された原材料がNew Englandを経て1990年代にオランダへ渡り、複数のブリーダーによって別々に選抜されたとされる。",
     history:"Bubble Gumは同名で複数の選抜系統が流通している。Serious SeedsとT.H. Seedsの双方が独自の選抜・安定化系統を展開しており、系譜は単純な1本線では整理できない。",
     confidence:{
-      display:"歴史 B / 系譜 C",
-      note:"Indiana起源と1990年代のオランダでの選抜は複数資料で概ね一致するが、親系統と各販売系統の同一性は確定していない"
+      display:"歴史 B / 系譜 A",
+      note:"系譜Aは特定の親品種が確定したという意味ではなく、Serious Seeds・T.H.Seedsの一次情報と独立資料から『正確な親系統は未確定で複数系統がある』という状態自体を確認したもの"
     },
     visuals:[
       {
