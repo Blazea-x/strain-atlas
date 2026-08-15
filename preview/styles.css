@@ -94,3 +94,13 @@ button{cursor:pointer}
 @media(min-width:700px){
   .shell{padding:14px 18px 70px}.brand-slot{min-height:240px}.brand-current{max-height:300px}.home-entries{gap:10px}.entry-card{min-height:112px;padding:14px}.entry-card strong{font-size:15px}.control-panel{padding:13px}.cultivar-grid{grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}.tile-copy{padding:8px 9px}.tile-name{font-size:14px}.explore-cards{gap:9px}.explore-cards button{min-height:92px;padding:12px}.explore-cards strong{font-size:12px}.status-grid{padding-left:16px;padding-right:16px}.deep-section{margin-left:16px;margin-right:16px}
 }
+
+/* Home category buttons swap one shared content area instead of scrolling through every section. */
+.home-content{margin-top:2px;scroll-margin-top:44px}
+.content-panel[hidden]{display:none!important}
+.content-panel{animation:contentReveal .16s ease-out}
+.entry-card.is-active{border-color:rgba(217,182,93,.36);box-shadow:inset 0 0 0 1px rgba(217,182,93,.06),0 8px 22px rgba(0,0,0,.16)}
+.entry-card.is-active .entry-arrow{color:#f0d77f}
+.content-panel .control-panel{margin-top:0}
+.content-panel .explore-overview,.content-panel .media-placeholder{margin-top:0}
+@keyframes contentReveal{from{opacity:.35;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
