@@ -29,9 +29,13 @@
   const dataState = document.getElementById("data-state");
   const dialog = document.getElementById("detail-dialog");
   const detailShell = document.getElementById("detail-shell");
+  const homeContent = document.getElementById("home-content");
+  const contentPanels = [...document.querySelectorAll("[data-content-panel]")];
+  const homeEntries = [...document.querySelectorAll("[data-home-target]")];
 
   let catalog = null;
   let activeExplore = "all";
+  let activeHomePanel = null;
   let savedScrollY = 0;
   let suppressCloseHistory = false;
 
@@ -80,6 +84,20 @@
 
   const inExplore = cultivar => activeExplore === "all" || (catalog?.explore?.[activeExplore] || []).includes(cultivar.id);
 
+  function showHomePanel(target, scroll = false) {
+    if (!target) return;
+    activeHomePanel = target;
+    contentPanels.forEach(panel => {
+      panel.hidden = panel.dataset.contentPanel !== target;
+    });
+    homeEntries.forEach(button => {
+      const active = button.dataset.homeTarget === target;
+      button.classList.toggle("is-active", active);
+      button.setAttribute("aria-pressed", active ? "true" : "false");
+    });
+    if (scroll) requestAnimationFrame(() => homeContent?.scrollIntoView({ behavior: "smooth", block: "start" }));
+  }
+
   function renderGrid() {
     if (!catalog) return;
     const query = (search?.value || "").trim().toLowerCase();
@@ -106,11 +124,10 @@
     empty.hidden = visible.length !== 0;
   }
 
-  function setExplore(key, scrollToList = false) {
+  function setExplore(key) {
     activeExplore = key || "all";
     document.querySelectorAll("[data-explore]").forEach(item => item.classList.toggle("is-active", item.dataset.explore === activeExplore));
     renderGrid();
-    if (scrollToList) document.getElementById("cultivars")?.scrollIntoView({ behavior: "smooth", block: "start" });
   }
 
   const chips = items => items?.length ? `<div class="chips">${items.map(item => `<span class="chip">${esc(item)}</span>`).join("")}</div>` : `<div class="status-value">未確認</div>`;
@@ -194,25 +211,27 @@
     if (card) openDetail(card.dataset.strainId, true);
   });
 
-  search.addEventListener("input", renderGrid);
+  search.addEventListener("input", () => {
+    if ((search.value || "").trim() && activeHomePanel !== "cultivars") showHomePanel("cultivars", false);
+    renderGrid();
+  });
 
   document.getElementById("explore")?.addEventListener("click", event => {
     const button = event.target.closest("[data-explore]");
-    if (button) setExplore(button.dataset.explore || "all", false);
+    if (button) setExplore(button.dataset.explore || "all");
   });
 
   document.querySelector(".home-entries")?.addEventListener("click", event => {
     const button = event.target.closest("[data-home-target]");
     if (!button) return;
-    const target = button.dataset.homeTarget;
-    if (target === "cultivars") document.getElementById("cultivars")?.scrollIntoView({ behavior: "smooth", block: "start" });
-    if (target === "media") document.getElementById("media")?.scrollIntoView({ behavior: "smooth", block: "start" });
-    if (target === "explore") document.querySelector(".explore-overview")?.scrollIntoView({ behavior: "smooth", block: "start" });
+    showHomePanel(button.dataset.homeTarget, true);
   });
 
   document.querySelector(".explore-overview")?.addEventListener("click", event => {
     const button = event.target.closest("[data-explore-jump]");
-    if (button) setExplore(button.dataset.exploreJump, true);
+    if (!button) return;
+    setExplore(button.dataset.exploreJump);
+    showHomePanel("cultivars", true);
   });
 
   window.addEventListener("popstate", () => {
@@ -244,7 +263,10 @@
       renderGrid();
 
       const initialId = new URL(location.href).searchParams.get("strain");
-      if (initialId) openDetail(initialId, false);
+      if (initialId) {
+        showHomePanel("cultivars", false);
+        openDetail(initialId, false);
+      }
     } catch (error) {
       console.error(error);
       dataState.textContent = "DATA ERROR";
