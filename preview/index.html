@@ -6,7 +6,7 @@
   <meta name="robots" content="noindex,nofollow,noarchive">
   <meta name="theme-color" content="#06100c">
   <title>Cannabis Strain Wisdom | Migration Preview</title>
-  <link rel="stylesheet" href="styles.css?v=4">
+  <link rel="stylesheet" href="styles.css?v=5">
 </head>
 <body>
   <header class="preview-head">
@@ -27,19 +27,19 @@
       </div>
 
       <nav class="home-entries" aria-label="コンテンツを選ぶ">
-        <button class="entry-card entry-cultivars" type="button" data-home-target="cultivars">
+        <button class="entry-card entry-cultivars" type="button" data-home-target="cultivars" aria-pressed="false">
           <span class="entry-kicker">LIBRARY</span>
           <strong>CULTIVARS</strong>
           <small><span id="entry-cultivar-count">4</span> 品種</small>
           <span class="entry-arrow">→</span>
         </button>
-        <button class="entry-card entry-media" type="button" data-home-target="media">
+        <button class="entry-card entry-media" type="button" data-home-target="media" aria-pressed="false">
           <span class="entry-kicker">ARCHIVE</span>
           <strong>MEDIA</strong>
           <small>準備中</small>
           <span class="entry-arrow">→</span>
         </button>
-        <button class="entry-card entry-explore" type="button" data-home-target="explore">
+        <button class="entry-card entry-explore" type="button" data-home-target="explore" aria-pressed="false">
           <span class="entry-kicker">DISCOVER</span>
           <strong>EXPLORE</strong>
           <small>系統から探す</small>
@@ -48,37 +48,45 @@
       </nav>
     </section>
 
-    <section class="control-panel" id="cultivars" aria-label="品種を探す">
-      <div class="section-head">
-        <div><span class="section-kicker">LIBRARY</span><h1>CULTIVARS</h1></div>
-        <span class="result-label" id="result-label">読み込み中</span>
-      </div>
-      <div class="explore" id="explore" aria-label="TYPEから探索">
-        <button type="button" class="explore-chip is-active" data-explore="all">ALL</button>
-        <button type="button" class="explore-chip" data-explore="sativa">SATIVA系 <b id="count-sativa">0</b></button>
-        <button type="button" class="explore-chip" data-explore="indica">INDICA系 <b id="count-indica">0</b></button>
-        <button type="button" class="explore-chip" data-explore="hybrid">HYBRID <b id="count-hybrid">0</b></button>
-      </div>
-    </section>
+    <div class="home-content" id="home-content" aria-live="polite">
+      <section class="content-panel" data-content-panel="cultivars" hidden>
+        <section class="control-panel" id="cultivars" aria-label="品種を探す">
+          <div class="section-head">
+            <div><span class="section-kicker">LIBRARY</span><h1>CULTIVARS</h1></div>
+            <span class="result-label" id="result-label">読み込み中</span>
+          </div>
+          <div class="explore" id="explore" aria-label="TYPEから探索">
+            <button type="button" class="explore-chip is-active" data-explore="all">ALL</button>
+            <button type="button" class="explore-chip" data-explore="sativa">SATIVA系 <b id="count-sativa">0</b></button>
+            <button type="button" class="explore-chip" data-explore="indica">INDICA系 <b id="count-indica">0</b></button>
+            <button type="button" class="explore-chip" data-explore="hybrid">HYBRID <b id="count-hybrid">0</b></button>
+          </div>
+        </section>
 
-    <section class="cultivar-grid" id="cultivar-grid" aria-live="polite"></section>
-    <div class="empty" id="empty" hidden>該当する品種はありません。</div>
+        <section class="cultivar-grid" id="cultivar-grid" aria-live="polite"></section>
+        <div class="empty" id="empty" hidden>該当する品種はありません。</div>
+      </section>
 
-    <section class="explore-overview" aria-labelledby="explore-title">
-      <div class="section-head compact-head"><div><span class="section-kicker">DISCOVER</span><h2 id="explore-title">EXPLORE</h2></div></div>
-      <div class="explore-cards">
-        <button type="button" data-explore-jump="sativa"><strong>SATIVA系</strong><span><b id="overview-sativa">0</b> CULTIVARS</span></button>
-        <button type="button" data-explore-jump="indica"><strong>INDICA系</strong><span><b id="overview-indica">0</b> CULTIVARS</span></button>
-        <button type="button" data-explore-jump="hybrid"><strong>HYBRID</strong><span><b id="overview-hybrid">0</b> CULTIVARS</span></button>
-      </div>
-    </section>
+      <section class="content-panel" data-content-panel="explore" hidden>
+        <section class="explore-overview" aria-labelledby="explore-title">
+          <div class="section-head compact-head"><div><span class="section-kicker">DISCOVER</span><h2 id="explore-title">EXPLORE</h2></div></div>
+          <div class="explore-cards">
+            <button type="button" data-explore-jump="sativa"><strong>SATIVA系</strong><span><b id="overview-sativa">0</b> CULTIVARS</span></button>
+            <button type="button" data-explore-jump="indica"><strong>INDICA系</strong><span><b id="overview-indica">0</b> CULTIVARS</span></button>
+            <button type="button" data-explore-jump="hybrid"><strong>HYBRID</strong><span><b id="overview-hybrid">0</b> CULTIVARS</span></button>
+          </div>
+        </section>
+      </section>
 
-    <section class="media-placeholder" id="media" aria-labelledby="media-title">
-      <span class="section-kicker">ARCHIVE</span>
-      <h2 id="media-title">MEDIA</h2>
-      <p>動画・資料は品種データと分離して登録するため、現在は入口だけを先に用意しています。</p>
-      <span class="coming-soon">COMING LATER</span>
-    </section>
+      <section class="content-panel" data-content-panel="media" hidden>
+        <section class="media-placeholder" id="media" aria-labelledby="media-title">
+          <span class="section-kicker">ARCHIVE</span>
+          <h2 id="media-title">MEDIA</h2>
+          <p>動画・資料は品種データと分離して登録するため、現在は入口だけを先に用意しています。</p>
+          <span class="coming-soon">COMING LATER</span>
+        </section>
+      </section>
+    </div>
 
     <div class="catalog-meta" id="catalog-meta"></div>
   </main>
@@ -87,6 +95,6 @@
     <div class="detail-shell" id="detail-shell"></div>
   </dialog>
 
-  <script src="app.js?v=3" defer></script>
+  <script src="app.js?v=4" defer></script>
 </body>
 </html>
