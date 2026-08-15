@@ -1,0 +1,47 @@
+name: Finalize Wedding Cake S1 primary image
+
+on:
+  push:
+    branches: [master-migration]
+    paths:
+      - '.github/workflows/finalize-wedding-cake-s1-image.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  import-image:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout migration branch
+        uses: actions/checkout@v4
+        with:
+          ref: master-migration
+
+      - name: Download and verify Wedding Cake S1 image
+        env:
+          IMAGE_URL: 'https://design-manipulation-download.canva.com/623552dd-d7a9-428a-a645-f94c52727be8/0000-5395825167877172862.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAQYCGKMUH53ATLMYK%2F20260815%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20260815T152023Z&X-Amz-Expires=31287&X-Amz-Signature=f536a2f44b855156a988415ff2c096333b0d3a779545f961d5d1fcacf3c8295c&X-Amz-SignedHeaders=host%3Bx-amz-expected-bucket-owner&response-expires=Sun%2C%2016%20Aug%202026%2000%3A01%3A50%20GMT'
+        run: |
+          set -euo pipefail
+          mkdir -p strains/wedding-cake-s1/images/generated
+          curl -L --fail --retry 3 "$IMAGE_URL" -o strains/wedding-cake-s1/images/generated/primary.png
+          python3 - <<'PY'
+          from pathlib import Path
+          import struct, hashlib
+          p = Path('strains/wedding-cake-s1/images/generated/primary.png')
+          data = p.read_bytes()
+          assert len(data) > 50000, f'image too small: {len(data)} bytes'
+          assert data[:8] == b'\x89PNG\r\n\x1a\n', 'not PNG'
+          width, height = struct.unpack('>II', data[16:24])
+          assert (width, height) == (1440, 1080), (width, height)
+          print('Wedding Cake S1 image verified:', len(data), width, height, hashlib.sha256(data).hexdigest())
+          PY
+
+      - name: Commit verified image
+        run: |
+          set -euo pipefail
+          git config user.name 'strain-atlas-bot'
+          git config user.email 'actions@users.noreply.github.com'
+          git add strains/wedding-cake-s1/images/generated/primary.png
+          git commit -m 'Add Wedding Cake S1 primary image'
+          git push origin HEAD:master-migration
