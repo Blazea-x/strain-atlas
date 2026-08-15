@@ -1,0 +1,12 @@
+{
+  "schemaVersion":1,
+  "id":"leafly-wedding-cake-history",
+  "publisher":"Leafly",
+  "title":"Top Wedding Cake strains",
+  "url":"https://www.leafly.com/news/strains-products/top-wedding-cake-strains-all-time",
+  "sourceType":"specialistArticle",
+  "supports":["breeder","history"],
+  "publishedAt":null,
+  "checkedAt":"2026-08-14",
+  "note":"Migrated from legacy sources.js without adding new claims."
+}
