@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-15T13:46:15.126Z",
+  "generatedAt": "2026-08-15T15:44:51.812Z",
   "sourceOfTruth": {
     "cultivars": "strains/<id>/strain.json",
     "sources": "sources/*.json",
@@ -8,7 +8,7 @@
   },
   "counts": {
     "cultivars": 5,
-    "sources": 10,
+    "sources": 13,
     "entities": 5
   },
   "explore": {
@@ -612,6 +612,22 @@
       "checkedAt": "2026-08-14",
       "note": "Migrated from legacy sources.js without adding new claims."
     },
+    "high-times-socal-2018-wedding-cake": {
+      "schemaVersion": 1,
+      "id": "high-times-socal-2018-wedding-cake",
+      "publisher": "High Times",
+      "title": "Winners of the 2018 SoCal Cannabis Cup",
+      "url": "https://hightimes.com/news/winners-of-the-2018-socal-cannabis-cup/",
+      "sourceType": "historicalSource",
+      "supports": [
+        "history",
+        "award",
+        "classification"
+      ],
+      "publishedAt": "2018-04-24",
+      "checkedAt": "2026-08-16",
+      "note": "High Times event result lists Wedding Cake by New Amsterdam Naturals with Cannastar as 1st Place, Best Hybrid Flower. This supports the cultivar's competition history and hybrid classification, not breeder attribution."
+    },
     "leafly-bubble-gum": {
       "schemaVersion": 1,
       "id": "leafly-bubble-gum",
@@ -681,6 +697,24 @@
       "checkedAt": "2026-08-15",
       "note": "Independent specialist reference for Original Strawberry Banana; not treated as S1-specific laboratory evidence."
     },
+    "leafly-wedding-cake-2019": {
+      "schemaVersion": 1,
+      "id": "leafly-wedding-cake-2019",
+      "publisher": "Leafly",
+      "title": "And Leafly's 2019 strain of the year is...",
+      "url": "https://www.leafly.com/news/strains-products/leafly-2019-strain-of-the-year",
+      "sourceType": "specialistArticle",
+      "supports": [
+        "lineage",
+        "breeder",
+        "history",
+        "aliases",
+        "aromas"
+      ],
+      "publishedAt": "2019-12-13",
+      "checkedAt": "2026-08-16",
+      "note": "Leafly reports that breeder J Beezy of Seed Junky Genetics listed Wedding Cake as a phenotype of Triangle Mints, while noting the older GSC x Cherry Pie belief. Secondary specialist source; breeder's original Instagram post was not directly archived here."
+    },
     "leafly-wedding-cake-history": {
       "schemaVersion": 1,
       "id": "leafly-wedding-cake-history",
@@ -712,6 +746,21 @@
       "publishedAt": null,
       "checkedAt": "2026-08-14",
       "note": "Migrated from legacy sources.js without adding new claims."
+    },
+    "seed-junky-official": {
+      "schemaVersion": 1,
+      "id": "seed-junky-official",
+      "publisher": "Seed Junky",
+      "title": "Seed Junky | Where the Hunt Begins",
+      "url": "https://www.seedjunky.com/",
+      "sourceType": "breederOfficial",
+      "supports": [
+        "breeder",
+        "cultivarExistence"
+      ],
+      "publishedAt": null,
+      "checkedAt": "2026-08-16",
+      "note": "Official Seed Junky site identifies Wedding Cake among its pheno-hunted cultivars. Supports breeder attribution and cultivar existence, but not the exact parentage or Triangle Mints #23 designation."
     },
     "serious-seeds-bubble-gum": {
       "schemaVersion": 1,
