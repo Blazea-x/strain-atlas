@@ -1,57 +1,118 @@
 {
-  "schemaVersion":1,
-  "id":"wedding-cake",
-  "status":"review",
-  "name":"Wedding Cake",
-  "jp":null,
-  "aliases":["Triangle Mints #23","Pink Cookies"],
-  "classification":{"type":"indica-dominant-hybrid"},
-  "breeding":{"generation":"unknown","method":null},
-  "lineage":{
-    "status":"confirmed",
-    "confidence":"B",
-    "basis":"specialistDatabase",
-    "sourceRefs":["leafly-wedding-cake"],
-    "display":"Triangle Kush × Animal Mints",
-    "parents":["Triangle Kush","Animal Mints"],
-    "note":"以前はGSC × Cherry Pie説も広く流通。現在の採用系譜はlegacy dataの内容をそのまま移行し、再照合前のreview状態とする。"
-  },
-  "relations":[{
-    "entityId":"seed-junky-genetics",
-    "roles":["breeder","seedCompany"],
-    "status":"confirmed",
-    "confidence":"B",
-    "basis":"specialistDatabase",
-    "sourceRefs":["leafly-wedding-cake-history"]
-  }],
-  "aromas":{
-    "status":"confirmed",
-    "confidence":"B",
-    "basis":"specialistDatabase",
-    "sourceRefs":["leafly-wedding-cake"],
-    "items":["バニラ","ペッパー","バター","アーシー"],
-    "note":"Migrated from legacy data."
-  },
-  "terpenes":{
-    "status":"confirmed",
-    "confidence":"B",
-    "basis":"specialistDatabase",
-    "sourceRefs":["leafly-wedding-cake"],
-    "items":["Caryophyllene","Limonene","Myrcene"],
-    "note":"Migrated from legacy data."
-  },
-  "history":{
-    "status":"confirmed",
-    "confidence":"B",
-    "basis":"specialistDatabase",
-    "sourceRefs":["leafly-wedding-cake-history"],
-    "text":"別名や旧系譜説が広く流通してきたため、名称と系譜には資料間の混乱が残る。",
-    "note":"Migrated from legacy data without expanding the claim."
-  },
-  "visuals":[
-    {"role":"primary","src":"images/strains/wedding-cake-appearance.svg","aiGenerated":true,"sourceType":"aiGenerated","rights":"Legacy AI-generated site asset; formal rights record pending review.","alt":"Wedding CakeのAI生成参考ビジュアル","scope":"cultivar"},
-    {"role":"aroma","src":"images/strains/wedding-cake-aroma.svg","aiGenerated":true,"sourceType":"aiGenerated","rights":"Legacy AI-generated site asset; formal rights record pending review.","alt":"Wedding Cakeの香りを表現したAI生成イメージ","scope":"cultivar"}
+  "schemaVersion": 1,
+  "id": "wedding-cake",
+  "status": "review",
+  "name": "Wedding Cake",
+  "jp": null,
+  "aliases": [
+    "Triangle Mints #23"
   ],
-  "checkedAt":"2026-08-14",
-  "updatedAt":"2026-08-15"
+  "classification": {
+    "type": "hybrid"
+  },
+  "breeding": {
+    "generation": "unknown",
+    "method": null
+  },
+  "lineage": {
+    "status": "disputed",
+    "confidence": "B",
+    "basis": "specialistDatabase",
+    "sourceRefs": [
+      "leafly-wedding-cake",
+      "leafly-wedding-cake-2019",
+      "david-downs-wedding-cake-2026"
+    ],
+    "display": "Triangle Kush × Animal Mints（Triangle Mints phenotype）",
+    "parents": [
+      "Triangle Kush",
+      "Animal Mints"
+    ],
+    "note": "Seed Junky GeneticsのJ BeezyがWedding CakeをTriangle MintsのphenotypeとしていたことをLeaflyが記録しており、近年の専門資料もTriangle Kush × Animal Mintsで一致する。一方、過去にはGSC × Cherry Pie説も広く流通したためstatusはdisputedとする。Triangle Mints #23表記は専門資料で広く一致するが、現在アクセスできるSeed Junky公式ページでは#23と親系統を直接確認できないためconfidenceはBを維持する。"
+  },
+  "relations": [
+    {
+      "entityId": "seed-junky-genetics",
+      "roles": [
+        "breeder"
+      ],
+      "status": "confirmed",
+      "confidence": "A",
+      "basis": "breederOfficial",
+      "sourceRefs": [
+        "seed-junky-official"
+      ]
+    }
+  ],
+  "aromas": {
+    "status": "confirmed",
+    "confidence": "B",
+    "basis": "specialistDatabase",
+    "sourceRefs": [
+      "leafly-wedding-cake",
+      "leafly-wedding-cake-2019",
+      "david-downs-wedding-cake-2026"
+    ],
+    "items": [
+      "バニラ",
+      "スイート",
+      "アーシー",
+      "ペッパー",
+      "フューエル"
+    ],
+    "note": "Leaflyはvanilla doughiness、sweet earthiness、pepperyな要素を記録し、2026年の専門記事ではfuel、vanilla、creamの層を記録している。流通個体・phenotype間で香りの差があるため、固定的な単一香としては扱わない。"
+  },
+  "terpenes": {
+    "status": "unknown",
+    "sourceRefs": [
+      "leafly-wedding-cake"
+    ],
+    "items": [],
+    "note": "Leafly等ではCaryophyllene、Limonene、Myrceneが代表的とされるが、cultivar全体の固定テルペンとして一般化できる一次ラボ資料を確認できていない。product/lot差をcultivarの固定情報へ拡張しないためunknownとする。"
+  },
+  "origin": {
+    "status": "confirmed",
+    "confidence": "B",
+    "basis": "specialistDatabase",
+    "sourceRefs": [
+      "leafly-wedding-cake-2019",
+      "david-downs-wedding-cake-2026"
+    ],
+    "text": "Seed Junky GeneticsのJ BeezyがTriangle Mintsから選抜したphenotypeとして記録されている。",
+    "note": "Seed Junky公式サイトはWedding Cakeを自社のpheno-hunted cultivarとして扱うが、現在の公式ページでは選抜時期・場所・#23表記まで直接確認できないためoriginのconfidenceはBとする。"
+  },
+  "history": {
+    "status": "confirmed",
+    "confidence": "B",
+    "basis": "historicalSource",
+    "sourceRefs": [
+      "leafly-wedding-cake-2019",
+      "high-times-socal-2018-wedding-cake",
+      "david-downs-wedding-cake-2026"
+    ],
+    "text": "Wedding CakeはSeed Junky GeneticsのJ BeezyがTriangle Mintsから選抜したphenotypeとして広まり、2018年SoCal High Times Cannabis CupではNew Amsterdam Naturals with CannastarのWedding CakeがBest Hybrid Flower 1位となった。2019年にはLeafly Strain of the Yearに選出された。過去にはGSC × Cherry Pie説も広く流通したが、Leaflyはbreederの説明を優先しTriangle Mints phenotypeとして整理している。",
+    "note": "2018年の受賞はcultivarの競技実績として記録し、Seed Junky Genetics自身の受賞とは表現しない。Pink CookiesはLeafly等で別名として使われるが、旧GSC × Cherry Pie系統との混同を避けるため現時点のaliasesから除外した。"
+  },
+  "visuals": [
+    {
+      "role": "primary",
+      "src": "images/strains/wedding-cake-appearance.svg",
+      "aiGenerated": true,
+      "sourceType": "aiGenerated",
+      "rights": "Legacy AI-generated site asset; formal rights record pending review.",
+      "alt": "Wedding CakeのAI生成参考ビジュアル",
+      "scope": "cultivar"
+    },
+    {
+      "role": "aroma",
+      "src": "images/strains/wedding-cake-aroma.svg",
+      "aiGenerated": true,
+      "sourceType": "aiGenerated",
+      "rights": "Legacy AI-generated site asset; formal rights record pending review.",
+      "alt": "Wedding Cakeの香りを表現したAI生成イメージ",
+      "scope": "cultivar"
+    }
+  ],
+  "checkedAt": "2026-08-16",
+  "updatedAt": "2026-08-16"
 }
