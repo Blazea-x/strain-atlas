@@ -1,0 +1,37 @@
+name: Validate MASTER data
+
+on:
+  push:
+    branches: [master-migration, main]
+    paths:
+      - "strains/**"
+      - "sources/**"
+      - "entities/**"
+      - "schemas/**"
+      - "scripts/validate-master-data.mjs"
+      - ".github/workflows/validate-master-data.yml"
+  pull_request:
+    paths:
+      - "strains/**"
+      - "sources/**"
+      - "entities/**"
+      - "schemas/**"
+      - "scripts/validate-master-data.mjs"
+      - ".github/workflows/validate-master-data.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Validate MASTER data
+        run: node scripts/validate-master-data.mjs
