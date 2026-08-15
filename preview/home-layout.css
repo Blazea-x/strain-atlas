@@ -1,1 +1,55 @@
 .home-entries{grid-template-columns:repeat(2,minmax(0,1fr))}
+
+.legal-alert{
+  margin:0 0 8px;
+  overflow:hidden;
+  border:1px solid rgba(222,177,78,.3);
+  border-radius:14px;
+  background:linear-gradient(145deg,rgba(70,46,15,.34),rgba(18,20,12,.72));
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.025);
+}
+.legal-alert summary{
+  display:grid;
+  grid-template-columns:auto minmax(0,1fr) auto;
+  align-items:center;
+  gap:8px;
+  min-height:50px;
+  padding:8px 10px;
+  list-style:none;
+  cursor:pointer;
+}
+.legal-alert summary::-webkit-details-marker{display:none}
+.legal-alert-icon{font-size:14px;line-height:1}
+.legal-alert-copy{min-width:0}
+.legal-alert-copy strong{display:block;color:#f1dfaa;font-size:10px;line-height:1.2;letter-spacing:.03em}
+.legal-alert-copy small{display:block;margin-top:3px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#b8aa82;font-size:7px;line-height:1.25}
+.legal-alert-action{
+  padding:4px 7px;
+  border:1px solid rgba(222,177,78,.28);
+  border-radius:999px;
+  background:rgba(222,177,78,.08);
+  color:#e7ca7e;
+  font-size:7px;
+  font-weight:900;
+  white-space:nowrap;
+}
+.legal-alert[open] .legal-alert-action::after{content:" 閉じる"}
+.legal-alert[open] .legal-alert-action{font-size:0}
+.legal-alert[open] .legal-alert-action::after{font-size:7px}
+.legal-alert-body{padding:0 10px 10px;border-top:1px solid rgba(222,177,78,.12)}
+.legal-alert-lead{margin:9px 0 7px;color:#d8cfb5;font-size:9px;line-height:1.6}
+.legal-alert-body ul{margin:0;padding-left:17px;color:#c7c8bc;font-size:9px;line-height:1.7}
+.legal-alert-body li+li{margin-top:5px}
+.legal-alert-note{margin:9px 0 0;padding:8px;border-radius:9px;background:rgba(255,255,255,.03);color:#aeb9b1;font-size:8px;line-height:1.65}
+.legal-alert-sources{display:flex;flex-wrap:wrap;gap:5px;margin-top:9px}
+.legal-alert-sources span{width:100%;color:#8f896f;font-size:7px;font-weight:900;letter-spacing:.08em}
+.legal-alert-sources a{padding:4px 6px;border:1px solid rgba(222,177,78,.14);border-radius:8px;background:rgba(222,177,78,.04);color:#d9bd70;text-decoration:none;font-size:7px;line-height:1.35}
+.legal-alert-sources a:active{background:rgba(222,177,78,.1)}
+
+@media(min-width:700px){
+  .legal-alert summary{min-height:58px;padding:10px 12px}
+  .legal-alert-copy strong{font-size:12px}
+  .legal-alert-copy small,.legal-alert-action,.legal-alert[open] .legal-alert-action::after{font-size:8px}
+  .legal-alert-body{padding:0 12px 12px}
+  .legal-alert-lead,.legal-alert-body ul{font-size:10px}
+}
