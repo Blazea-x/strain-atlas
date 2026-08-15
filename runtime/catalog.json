@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-15T13:36:48.670Z",
+  "generatedAt": "2026-08-15T13:41:54.745Z",
   "sourceOfTruth": {
     "cultivars": "strains/<id>/strain.json",
     "sources": "sources/*.json",
@@ -264,7 +264,7 @@
       "schemaVersion": 1,
       "id": "strawberry-banana-s1",
       "status": "review",
-      "name": "Strawberry Banana S1",
+      "name": "Strawberry Banana",
       "jp": null,
       "aliases": [
         "Strawberry Banana S1"
@@ -359,7 +359,7 @@
       "visuals": [
         {
           "role": "primary",
-          "src": "strains/strawberry-banana-s1/images/generated/primary.webp",
+          "src": "strains/strawberry-banana-s1/images/primary-framed.svg",
           "aiGenerated": true,
           "sourceType": "aiGenerated",
           "rights": "AI-generated project asset for Cannabis Strain Wisdom.",
