@@ -1,35 +1,22 @@
-/* Mobile home: turn leftover space into intentional breathing room instead of dead space. */
+/* Mobile home: keep the document compact. Do not stretch the home to the viewport. */
 @media (max-width:699px){
   body{
-    min-height:100svh;
     background:
-      radial-gradient(70% 34% at 50% 100%,rgba(39,92,61,.16),transparent 72%),
+      radial-gradient(70% 28% at 50% 100%,rgba(39,92,61,.09),transparent 72%),
       radial-gradient(circle at 12% 0%,rgba(50,112,70,.16),transparent 28%),
       radial-gradient(circle at 94% 4%,rgba(217,182,93,.07),transparent 24%),
       var(--bg-main);
   }
 
   .shell{
-    min-height:calc(100svh - 38px);
-    display:flex;
-    flex-direction:column;
-    padding-bottom:max(12px,env(safe-area-inset-bottom));
-  }
-
-  .home-visual,
-  .home-content{
-    flex:0 0 auto;
+    min-height:0;
+    display:block;
+    padding-bottom:max(18px,env(safe-area-inset-bottom));
   }
 
   .catalog-meta{
-    margin-top:auto;
-    padding:26px 0 8px;
-    opacity:.78;
-  }
-
-  /* Once a panel is open, return to normal document flow so results do not gain artificial whitespace. */
-  .shell:has(.content-panel:not([hidden])) .catalog-meta{
     margin-top:18px;
     padding:0 0 8px;
+    opacity:.72;
   }
 }
