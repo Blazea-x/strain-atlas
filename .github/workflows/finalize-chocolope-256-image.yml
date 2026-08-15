@@ -1,0 +1,75 @@
+name: Finalize Chocolope 256 primary image
+
+on:
+  push:
+    branches: [master-migration]
+    paths:
+      - '.github/workflows/finalize-chocolope-256-image.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  import-image:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout migration branch
+        uses: actions/checkout@v4
+        with:
+          ref: master-migration
+
+      - name: Download and verify Chocolope 256 generated image
+        env:
+          IMAGE_URL: 'https://design.canva.ai/uSWfI83FPBTTIU0'
+        run: |
+          set -euo pipefail
+          mkdir -p strains/chocolope-256/images/generated
+          curl -L --fail --retry 3 "$IMAGE_URL" -o /tmp/chocolope-image
+          python3 - <<'PY'
+          from pathlib import Path
+          import struct, hashlib
+          src = Path('/tmp/chocolope-image')
+          data = src.read_bytes()
+          assert len(data) > 30000, f'image too small: {len(data)} bytes'
+          if data[:8] == b'\x89PNG\r\n\x1a\n':
+              ext = 'png'
+              width, height = struct.unpack('>II', data[16:24])
+          elif data[:2] == b'\xff\xd8':
+              ext = 'jpg'
+              i = 2
+              width = height = None
+              while i < len(data)-9:
+                  if data[i] != 0xFF:
+                      i += 1; continue
+                  marker = data[i+1]; i += 2
+                  if marker in (0xD8,0xD9): continue
+                  seglen = int.from_bytes(data[i:i+2], 'big')
+                  if marker in range(0xC0,0xC4):
+                      height = int.from_bytes(data[i+3:i+5], 'big')
+                      width = int.from_bytes(data[i+5:i+7], 'big')
+                      break
+                  i += seglen
+              assert width and height, 'could not parse JPEG dimensions'
+          elif data[:4] == b'RIFF' and data[8:12] == b'WEBP':
+              ext = 'webp'
+              width = height = 0
+          else:
+              raise AssertionError('unsupported image format')
+          assert width == 0 or width >= 400, (width, height)
+          assert height == 0 or height >= 400, (width, height)
+          dst = Path(f'strains/chocolope-256/images/generated/primary.{ext}')
+          dst.write_bytes(data)
+          Path('/tmp/chocolope-ext').write_text(ext)
+          print('Chocolope 256 image verified:', len(data), width, height, ext, hashlib.sha256(data).hexdigest())
+          PY
+          cat /tmp/chocolope-ext
+          file strains/chocolope-256/images/generated/primary.*
+
+      - name: Commit verified image
+        run: |
+          set -euo pipefail
+          git config user.name 'strain-atlas-bot'
+          git config user.email 'actions@users.noreply.github.com'
+          git add strains/chocolope-256/images/generated/primary.*
+          git commit -m 'Add Chocolope 256 primary image'
+          git push origin HEAD:master-migration
