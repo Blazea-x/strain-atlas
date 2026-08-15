@@ -10,7 +10,7 @@
   <link rel="stylesheet" href="../preview/home-layout.css?v=2">
   <link rel="stylesheet" href="../preview/home-viewport.css?v=2">
   <style>
-    /* Preview-only: editorial strain detail layout. Base HOME remains untouched. */
+    /* Preview-only: refined translucent editorial grid. HOME and production assets remain untouched. */
     .detail-hero-copy{padding-bottom:11px}
     .detail-hero h2{letter-spacing:-.015em}
 
@@ -21,55 +21,85 @@
       align-items:stretch;
     }
     .status-item{
+      --glass-tint:255,255,255;
+      --glass-line:255,255,255;
       position:relative;
       overflow:hidden;
       min-height:0;
       padding:11px;
-      border-color:rgba(255,255,255,.075);
-      background:linear-gradient(145deg,rgba(17,36,25,.72),rgba(7,18,12,.86));
-      box-shadow:inset 0 1px 0 rgba(255,255,255,.025);
+      border:1px solid rgba(var(--glass-line),.10);
+      background:
+        linear-gradient(145deg,rgba(var(--glass-tint),.075),rgba(var(--glass-tint),.018) 42%,rgba(3,12,8,.52) 100%),
+        rgba(5,16,11,.47);
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.055),
+        0 8px 24px rgba(0,0,0,.08);
+      -webkit-backdrop-filter:blur(18px) saturate(112%);
+      backdrop-filter:blur(18px) saturate(112%);
     }
     .status-item::before{
       content:"";
       position:absolute;
       inset:0;
       pointer-events:none;
-      background:radial-gradient(circle at 95% 0%,rgba(217,182,93,.055),transparent 38%);
+      background:
+        radial-gradient(circle at 92% 4%,rgba(var(--glass-tint),.105),transparent 32%),
+        linear-gradient(120deg,rgba(255,255,255,.032),transparent 30%);
+      opacity:.8;
     }
-    .status-label,.status-value,.status-meta,.chips{position:relative;z-index:1}
-    .status-label{font-size:6.5px;letter-spacing:.14em;color:#bfa65e}
-    .status-value{font-size:12px;line-height:1.45}
-    .status-meta{font-size:6.5px;line-height:1.45}
+    .status-item::after{
+      content:"";
+      position:absolute;
+      left:12px;
+      right:12px;
+      top:0;
+      height:1px;
+      background:linear-gradient(90deg,transparent,rgba(var(--glass-line),.24),transparent);
+      opacity:.58;
+    }
+    .status-label,.status-value,.status-meta,.chips,.status-note{position:relative;z-index:1}
+    .status-label{font-size:6.5px;letter-spacing:.15em;color:#b9ac7b}
+    .status-value{font-size:12px;line-height:1.45;color:#edf1ee}
+    .status-meta{font-size:6.5px;line-height:1.45;color:#819087}
 
     .status-mini{min-height:64px;padding:10px}
     .status-mini .status-value{margin-top:7px;font-size:13px;font-weight:850;letter-spacing:.015em}
     .status-mini .status-meta{display:none}
+    .status-type{--glass-tint:112,157,146;--glass-line:116,162,151}
+    .status-generation{--glass-tint:170,151,112;--glass-line:176,157,118}
 
-    .status-entity{grid-column:1/-1;min-height:82px;padding:12px 13px}
+    .status-entity{--glass-tint:126,132,157;--glass-line:132,139,165;grid-column:1/-1;min-height:82px;padding:12px 13px}
     .status-entity .status-value{margin-top:7px;font-size:14px;font-weight:800}
-    .status-entity .status-value small{display:inline-block;margin-left:4px;color:#7f9187;font-size:7px;font-weight:700;letter-spacing:.05em}
+    .status-entity .status-value small{display:inline-block;margin-left:4px;color:#8c9892;font-size:7px;font-weight:700;letter-spacing:.05em}
 
-    .status-origin{grid-column:1/-1;min-height:0;padding:12px 13px;background:linear-gradient(145deg,rgba(18,38,27,.76),rgba(7,18,12,.9))}
-    .status-origin .status-value{margin-top:7px;color:#d9e0db;font-size:11px;line-height:1.65}
+    .status-origin{--glass-tint:92,139,124;--glass-line:98,148,132;grid-column:1/-1;min-height:0;padding:12px 13px}
+    .status-origin .status-value{margin-top:7px;color:#dde5e0;font-size:11px;line-height:1.65}
 
-    .status-lineage{grid-column:1/-1;min-height:116px;padding:14px 14px 13px;border-color:rgba(217,182,93,.19);background:linear-gradient(145deg,rgba(34,43,25,.82),rgba(9,24,15,.92))}
-    .status-lineage::before{background:radial-gradient(circle at 93% 8%,rgba(217,182,93,.13),transparent 36%)}
-    .status-lineage .status-label{font-size:7px;color:#e0c46c}
-    .status-lineage .status-value{max-width:92%;margin-top:9px;color:#f4eed8;font-size:15px;font-weight:850;line-height:1.42;letter-spacing:-.01em}
-    .status-lineage .status-meta{margin-top:8px;color:#9aac9f}
-    .status-note{position:relative;z-index:1;margin-top:9px;padding-top:8px;border-top:1px solid rgba(255,255,255,.06);color:#b9c5bd;font-size:9.5px;line-height:1.65}
+    .status-lineage{--glass-tint:192,157,91;--glass-line:202,169,99;grid-column:1/-1;min-height:116px;padding:14px 14px 13px;border-color:rgba(var(--glass-line),.18)}
+    .status-lineage::before{background:radial-gradient(circle at 92% 5%,rgba(var(--glass-tint),.14),transparent 34%),linear-gradient(120deg,rgba(255,255,255,.038),transparent 28%)}
+    .status-lineage .status-label{font-size:7px;color:#d8bf78}
+    .status-lineage .status-value{max-width:94%;margin-top:9px;color:#f3eedf;font-size:15px;font-weight:850;line-height:1.42;letter-spacing:-.01em}
+    .status-lineage .status-meta{margin-top:8px;color:#9ba9a0}
+    .status-note{margin-top:9px;padding-top:8px;border-top:1px solid rgba(var(--glass-line),.10);color:#bcc8c0;font-size:9.5px;line-height:1.65}
 
     .status-sensory{grid-column:1/-1;padding:13px;min-height:88px}
     .status-sensory .status-value{margin-top:7px}
     .status-sensory .chips{gap:6px;margin-top:8px}
-    .status-sensory .chip{padding:5px 8px;border-radius:999px;font-size:8px}
-    .status-aroma{background:linear-gradient(145deg,rgba(23,45,29,.8),rgba(7,19,12,.9))}
-    .status-aroma .chip{border-color:rgba(128,194,138,.2);background:rgba(105,169,120,.12);color:#d0e7d4}
-    .status-terpene{background:linear-gradient(145deg,rgba(18,35,28,.78),rgba(7,18,13,.9))}
-    .status-terpene .chip{border-color:rgba(217,182,93,.14);background:rgba(217,182,93,.07);color:#d6c993}
+    .status-sensory .chip{padding:5px 8px;border-radius:999px;font-size:8px;-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
+    .status-aroma{--glass-tint:111,153,117;--glass-line:117,163,124}
+    .status-aroma .chip{border-color:rgba(127,177,135,.18);background:rgba(117,164,125,.075);color:#d6e5d8}
+    .status-terpene{--glass-tint:91,143,151;--glass-line:98,151,159}
+    .status-terpene .chip{border-color:rgba(105,159,167,.17);background:rgba(92,148,157,.07);color:#cee0df}
 
-    .status-history{grid-column:1/-1;min-height:0;padding:13px;background:linear-gradient(145deg,rgba(16,31,23,.76),rgba(6,17,11,.9))}
-    .status-history .status-value{margin-top:7px;color:#d8dfda;font-size:10.5px;line-height:1.7}
+    .status-history{--glass-tint:133,113,134;--glass-line:139,120,141;grid-column:1/-1;min-height:0;padding:13px}
+    .status-history .status-value{margin-top:7px;color:#dce2de;font-size:10.5px;line-height:1.7}
+
+    .status-item.confidence-a .status-meta{color:#bdcba9}
+    .status-item.confidence-b .status-meta{color:#a8b3ad}
+    .status-item.confidence-c .status-meta{color:#aa9f91}
+    .status-item.state-disputed{box-shadow:inset 2px 0 0 rgba(205,166,92,.32),inset 0 1px 0 rgba(255,255,255,.055),0 8px 24px rgba(0,0,0,.08)}
+    .status-item.state-unknown{--glass-tint:116,127,121;--glass-line:126,137,131;filter:saturate(.72)}
+    .status-item.state-unknown .status-value{color:#aeb9b3}
 
     .detail-freshness{margin:3px 10px 9px;padding:7px 2px 0;border-top:1px solid rgba(255,255,255,.05);color:#65766c;font-size:6.5px;letter-spacing:.06em;text-align:right}
 
@@ -83,7 +113,7 @@
       padding:0;
       border:0;
       background:transparent;
-      color:#e1c76d;
+      color:#d6bd76;
       font-size:8px;
       font-weight:850;
       letter-spacing:.03em;
@@ -94,32 +124,21 @@
     .source-entry{
       margin:2px 10px 13px;
       padding:0;
-      border:1px solid rgba(217,182,93,.14);
+      border:1px solid rgba(170,151,104,.14);
       border-radius:13px;
-      background:linear-gradient(145deg,rgba(18,32,23,.78),rgba(6,17,11,.92));
+      background:linear-gradient(145deg,rgba(147,130,92,.055),rgba(255,255,255,.018) 42%,rgba(4,14,9,.58)),rgba(5,16,11,.46);
+      -webkit-backdrop-filter:blur(18px) saturate(108%);
+      backdrop-filter:blur(18px) saturate(108%);
       overflow:hidden;
     }
-    .source-entry-button{
-      appearance:none;
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:12px;
-      width:100%;
-      min-height:58px;
-      padding:10px 12px;
-      border:0;
-      background:transparent;
-      color:inherit;
-      text-align:left;
-    }
-    .source-entry-kicker{display:block;color:#a88f4e;font-size:6px;font-weight:900;letter-spacing:.14em}
+    .source-entry-button{appearance:none;display:flex;align-items:center;justify-content:space-between;gap:12px;width:100%;min-height:58px;padding:10px 12px;border:0;background:transparent;color:inherit;text-align:left}
+    .source-entry-kicker{display:block;color:#a58f58;font-size:6px;font-weight:900;letter-spacing:.14em}
     .source-entry-title{display:block;margin-top:3px;font-size:11px;font-weight:850}
-    .source-entry-count{display:flex;align-items:center;gap:8px;color:#d9c16f;font-size:8px;font-weight:850;white-space:nowrap}
+    .source-entry-count{display:flex;align-items:center;gap:8px;color:#cdb773;font-size:8px;font-weight:850;white-space:nowrap}
     .source-entry-count::after{content:"›";font-size:17px;transition:transform .16s ease}
     .source-entry-button[aria-expanded="true"] .source-entry-count::after{transform:rotate(90deg)}
 
-    .deep-section[data-deep-panel]{display:none;margin:0;padding:12px;border-top:1px solid rgba(217,182,93,.12);background:rgba(4,14,8,.58)}
+    .deep-section[data-deep-panel]{display:none;margin:0;padding:12px;border-top:1px solid rgba(206,181,117,.11);background:rgba(4,14,8,.58)}
     .deep-section[data-deep-panel].is-open{display:block;animation:deepReveal .16s ease-out}
     .deep-section[data-deep-panel] h3{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
     .deep-section[data-deep-panel] h3::after{content:"DETAIL";color:#65776c;font-size:6px;letter-spacing:.12em}
@@ -136,7 +155,7 @@
   </style>
 </head>
 <body>
-  <header class="preview-head"><div class="preview-label">DETAIL UX PREVIEW · EDITORIAL GRID</div><div class="data-state" id="data-state">LOADING</div></header>
+  <header class="preview-head"><div class="preview-label">DETAIL UX PREVIEW · REFINED GLASS TONES</div><div class="data-state" id="data-state">LOADING</div></header>
   <main class="shell">
     <section class="home-visual" aria-label="Cannabis Strain Wisdom ホーム">
       <details class="legal-alert"><summary><span class="legal-alert-icon" aria-hidden="true">⚠</span><span class="legal-alert-copy"><strong>重要な注意事項</strong><small>日本国内で利用する方は必ずお読みください</small></span><span class="legal-alert-action">必ず読む</span></summary><div class="legal-alert-body"><p class="legal-alert-lead">法規・製品基準は変更されることがあります。以下は2026年8月15日時点で公的情報を確認した要点です。</p><ul><li>2024年12月12日から、大麻等の不正な施用についても麻薬及び向精神薬取締法の禁止規定・罰則が適用されています。</li><li>製品等に残留するΔ9-THCには区分別の残留限度値があり、油脂・粉末は10ppm、水溶液は0.10ppm、その他は1ppmです。限度値を超える製品等は「麻薬」に該当します。</li><li>大麻を原料とする製品は、残留限度値を超えるΔ9-THCを含む場合、原則として輸入できません。CBD関連製品では、麻薬に該当しないことの確認手続きが必要になる場合があります。</li><li>厚生労働省は、市場流通するCBD製品から残留限度値を超えるΔ9-THCが検出された事例について継続して注意喚起しています。</li></ul><p class="legal-alert-note">本サイトは品種・歴史・系譜・香り・資料等を整理する情報アーカイブです。違法な所持・施用・輸入・購入を推奨するものではありません。</p><div class="legal-alert-sources"><span>公式情報</span><a href="https://www.mhlw.go.jp/stf/newpage_43079.html" target="_blank" rel="noopener noreferrer">厚生労働省｜改正法・残留限度値</a><a href="https://www.mhlw.go.jp/stf/seisakunitsuite/bunya/kenkou_iryou/iyakuhin/yakubuturanyou/" target="_blank" rel="noopener noreferrer">厚生労働省｜CBD製品等の注意喚起</a><a href="https://www.customs.go.jp/tetsuzuki/c-answer/kinseihin/2005_jr.htm" target="_blank" rel="noopener noreferrer">税関｜大麻を原料とする製品の輸入規制</a></div></div></details>
@@ -216,6 +235,16 @@
         return section;
       }
 
+      function decorateEvidence(item) {
+        if (!item) return;
+        const meta = normalize(item.querySelector(".status-meta")?.textContent);
+        if (meta.includes("DISPUTED")) item.classList.add("state-disputed");
+        if (meta.includes("UNKNOWN")) item.classList.add("state-unknown");
+        if (/(^|\s·\s)A(\s·\s|$)/.test(meta)) item.classList.add("confidence-a");
+        if (/(^|\s·\s)B(\s·\s|$)/.test(meta)) item.classList.add("confidence-b");
+        if (/(^|\s·\s)C(\s·\s|$)/.test(meta)) item.classList.add("confidence-c");
+      }
+
       function enhanceDetail() {
         const grid = shell.querySelector(".status-grid");
         if (!grid || grid.dataset.editorialEnhanced === "true") return;
@@ -243,14 +272,14 @@
         const aroma = byLabel.get("AROMA");
         const terpene = byLabel.get("TERPENE");
 
-        type?.classList.add("status-mini");
-        generation?.classList.add("status-mini");
+        type?.classList.add("status-mini","status-type");
+        generation?.classList.add("status-mini","status-generation");
         entity?.classList.add("status-entity");
         lineage?.classList.add("status-lineage");
         aroma?.classList.add("status-sensory","status-aroma");
         terpene?.classList.add("status-sensory","status-terpene");
+        [entity,lineage,aroma,terpene].forEach(decorateEvidence);
 
-        /* UPDATED is metadata, not a main visual card. */
         if (updated) {
           const freshness = document.createElement("div");
           freshness.className = "detail-freshness";
@@ -261,7 +290,6 @@
           updated.remove();
         }
 
-        /* ORIGIN is normally short, so show it immediately instead of hiding it. */
         const originPanel = panelMap.get("ORIGIN");
         if (originPanel) {
           const origin = makeVisibleCard("ORIGIN", textOf(originPanel), "status-origin");
@@ -271,7 +299,6 @@
           panelMap.delete("ORIGIN");
         }
 
-        /* LINEAGE: show short notes immediately. Only long background gets a drill-down. */
         const lineagePanel = panelMap.get("LINEAGE DETAILS");
         if (lineage && lineagePanel) {
           const note = textOf(lineagePanel);
@@ -293,7 +320,6 @@
           }
         }
 
-        /* HISTORY: keep useful short history visible. Drill down only when it is genuinely long. */
         const historyPanel = panelMap.get("HISTORY");
         if (historyPanel) {
           const historyText = textOf(historyPanel);
@@ -313,7 +339,6 @@
           }
         }
 
-        /* SOURCES remain a dedicated compact doorway, because the list is secondary evidence. */
         const sourcesPanel = panelMap.get("SOURCES");
         if (sourcesPanel) {
           const sourceCount = sourcesPanel.querySelectorAll(".source-link").length;
@@ -335,4 +360,5 @@
       enhanceDetail();
     })();
   </script>
-</body></html>
+</body>
+</html>
