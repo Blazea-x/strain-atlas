@@ -245,7 +245,7 @@ window.STRAINS=[
     "visuals": [
       {
         "role": "primary",
-        "src": "strains/strawberry-banana-s1/images/generated/primary-20260817.webp",
+        "src": "strains/strawberry-banana-s1/images/generated/primary-20260817-r2.webp",
         "aiGenerated": true,
         "sourceType": "aiGenerated",
         "rights": "AI-generated project asset for Cannabis Strain Wisdom.",
