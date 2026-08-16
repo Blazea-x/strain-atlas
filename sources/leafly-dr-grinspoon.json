@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "id": "leafly-dr-grinspoon",
+  "publisher": "Leafly",
+  "title": "Dr. Grinspoon strain",
+  "url": "https://www.leafly.com/strains/dr-grinspoon",
+  "sourceType": "specialistDatabase",
+  "supports": [
+    "terpenes",
+    "classification",
+    "aliases"
+  ],
+  "publishedAt": null,
+  "checkedAt": "2026-08-17",
+  "note": "専門データベース補助資料。Dr. GrinspoonのterpeneとしてTerpinolene / Myrcene / Pineneを確認。公式一次情報ではないためterpene claimはconfidence Bとする。"
+}
