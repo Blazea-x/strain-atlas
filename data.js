@@ -71,6 +71,66 @@ window.STRAINS=[
     "reviews": []
   },
   {
+    "id": "cataract-kush",
+    "name": "Cataract Kush",
+    "jp": "",
+    "type": {
+      "key": "indica-dominant-hybrid",
+      "label": "インディカ優勢"
+    },
+    "aliases": [],
+    "identity": {
+      "scope": "cultivar",
+      "note": "品種一般の情報。特定ロット・製品・フェノタイプを示すものではありません。"
+    },
+    "lineage": {
+      "display": "L.A. Confidential × OG Kush",
+      "parents": [
+        "L.A. Confidential",
+        "OG Kush"
+      ],
+      "note": "DNA Genetics公式とSeedFinderはいずれもL.A. ConfidentialとOG Kushの組み合わせを示す。資料によって表記順が異なるため、ここでは親の組み合わせを示し母父方向までは断定しない。"
+    },
+    "aromas": [
+      "パングェント",
+      "スカンク",
+      "アーシー"
+    ],
+    "breeder": {
+      "name": "DNA Genetics",
+      "era": ""
+    },
+    "terpenes": [
+      "Limonene",
+      "Pinene",
+      "Caryophyllene"
+    ],
+    "originHistory": "DNA GeneticsがL.A. ConfidentialとOG Kushを組み合わせて展開したライン。",
+    "history": "DNA Geneticsの現行ラインとしてL.A. ConfidentialとOG Kushを組み合わせた品種。公式は開発に長い期間を要したと記すが、作出年・初出年は確認できない。",
+    "confidence": {
+      "display": "LINEAGE A / AROMA C / TERPENE C / ORIGIN A / HISTORY B",
+      "note": "正本データの項目別confidenceを表示"
+    },
+    "visuals": [
+      {
+        "role": "primary",
+        "src": "strains/cataract-kush/images/generated/primary.webp",
+        "aiGenerated": true,
+        "sourceType": "aiGenerated",
+        "rights": "AI-generated project asset for Cannabis Strain Wisdom.",
+        "alt": "Cataract Kushの乾燥前の花・葉・枝の関係を実写資料寄りに表現したAI生成参考ビジュアル",
+        "scope": "cultivar",
+        "label": "VISUAL REFERENCE"
+      }
+    ],
+    "sourceIds": [
+      "dna-eu-cataract-kush",
+      "seedfinder-cataract-kush",
+      "leafly-cataract-kush"
+    ],
+    "reviews": []
+  },
+  {
     "id": "chocolope-256",
     "name": "Chocolope 256",
     "jp": "",
