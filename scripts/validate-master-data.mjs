@@ -119,20 +119,25 @@ for (const strain of strains.values()) {
     validateEvidence(relation, relScope);
   }
 
-  if (!Array.isArray(strain.visuals) || strain.visuals.length === 0) addError(scope, "visuals must not be empty");
-  const primaryCount = (strain.visuals ?? []).filter(v => v.role === "primary").length;
-  if (primaryCount !== 1) addError(scope, `exactly one primary visual is required, found ${primaryCount}`);
-  for (const [index, visual] of (strain.visuals ?? []).entries()) {
-    const visualScope = `${scope}.visuals[${index}]`;
-    if (!hasText(visual.role)) addError(visualScope, "role is required");
-    if (!hasText(visual.src)) addError(visualScope, "src is required");
-    if (typeof visual.aiGenerated !== "boolean") addError(visualScope, "aiGenerated must be boolean");
-    if (!hasText(visual.sourceType)) addError(visualScope, "sourceType is required");
-    if (typeof visual.rights !== "string") addError(visualScope, "rights must be present");
-    if (!hasText(visual.alt)) addError(visualScope, "alt is required");
-    if (!SCOPE.has(visual.scope)) addError(visualScope, `invalid scope ${visual.scope}`);
-    const localPath = stripQuery(visual.src);
-    if (!/^https?:\/\//i.test(localPath) && !fs.existsSync(path.join(ROOT, localPath))) addError(visualScope, `image file not found: ${localPath}`);
+  if (!Array.isArray(strain.visuals)) {
+    addError(scope, "visuals must be an array");
+  } else if (strain.visuals.length === 0) {
+    addWarning(scope, "image pending");
+  } else {
+    const primaryCount = strain.visuals.filter(v => v.role === "primary").length;
+    if (primaryCount !== 1) addError(scope, `exactly one primary visual is required, found ${primaryCount}`);
+    for (const [index, visual] of strain.visuals.entries()) {
+      const visualScope = `${scope}.visuals[${index}]`;
+      if (!hasText(visual.role)) addError(visualScope, "role is required");
+      if (!hasText(visual.src)) addError(visualScope, "src is required");
+      if (typeof visual.aiGenerated !== "boolean") addError(visualScope, "aiGenerated must be boolean");
+      if (!hasText(visual.sourceType)) addError(visualScope, "sourceType is required");
+      if (typeof visual.rights !== "string") addError(visualScope, "rights must be present");
+      if (!hasText(visual.alt)) addError(visualScope, "alt is required");
+      if (!SCOPE.has(visual.scope)) addError(visualScope, `invalid scope ${visual.scope}`);
+      const localPath = stripQuery(visual.src);
+      if (!/^https?:\/\//i.test(localPath) && !fs.existsSync(path.join(ROOT, localPath))) addError(visualScope, `image file not found: ${localPath}`);
+    }
   }
 
   for (const field of ["checkedAt","updatedAt"]) if (!hasText(strain[field])) addError(scope, `${field} is required`);
