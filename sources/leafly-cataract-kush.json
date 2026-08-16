@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "leafly-cataract-kush",
+  "publisher": "Leafly",
+  "title": "Cataract Kush strain",
+  "url": "https://www.leafly.com/strains/cataract-kush",
+  "sourceType": "specialistDatabase",
+  "supports": [
+    "aromas",
+    "terpenes"
+  ],
+  "publishedAt": null,
+  "checkedAt": "2026-08-17",
+  "note": "Leafly cultivar page used for reported flavor descriptors and Certified Strain Science terpene ordering. These are treated conservatively and not as a cultivar-wide lot-specific COA."
+}
