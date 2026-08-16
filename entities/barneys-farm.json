@@ -1,0 +1,12 @@
+{
+  "schemaVersion": 1,
+  "id": "barneys-farm",
+  "name": "Barney's Farm",
+  "roles": [
+    "breeder",
+    "seedCompany"
+  ],
+  "status": "confirmed",
+  "checkedAt": "2026-08-17",
+  "updatedAt": "2026-08-17"
+}
