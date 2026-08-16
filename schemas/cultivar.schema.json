@@ -20,7 +20,7 @@
     "terpenes": {"$ref":"#/$defs/listClaim"},
     "history": {"$ref":"#/$defs/textClaim"},
     "origin": {"$ref":"#/$defs/textClaim"},
-    "visuals": {"type":"array","minItems":1,"items":{"$ref":"#/$defs/visual"}},
+    "visuals": {"type":"array","items":{"$ref":"#/$defs/visual"}},
     "checkedAt": {"type":"string","format":"date"},
     "updatedAt": {"type":"string","format":"date"}
   },
