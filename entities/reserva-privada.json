@@ -1,0 +1,9 @@
+{
+  "schemaVersion": 1,
+  "id": "reserva-privada",
+  "name": "Reserva Privada",
+  "roles": ["breeder", "seedCompany", "brand"],
+  "checkedAt": "2026-08-16",
+  "updatedAt": "2026-08-16",
+  "note": "DNA Genetics-associated breeding and seed line. The OG #18 is listed under Reserva Privada on DNA Genetics' current European catalog and historical Reserva Privada material."
+}
