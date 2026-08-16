@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-16T23:25:56.994Z",
+  "generatedAt": "2026-08-16T23:26:00.727Z",
   "sourceOfTruth": {
     "cultivars": "strains/<id>/strain.json",
     "sources": "sources/*.json",
@@ -9,7 +9,7 @@
   "counts": {
     "cultivars": 10,
     "sources": 32,
-    "entities": 9
+    "entities": 10
   },
   "explore": {
     "sativa": [
@@ -1668,6 +1668,18 @@
       "schemaVersion": 1,
       "id": "ace-seeds",
       "name": "ACE Seeds",
+      "roles": [
+        "breeder",
+        "seedCompany"
+      ],
+      "status": "confirmed",
+      "checkedAt": "2026-08-17",
+      "updatedAt": "2026-08-17"
+    },
+    "barneys-farm": {
+      "schemaVersion": 1,
+      "id": "barneys-farm",
+      "name": "Barney's Farm",
       "roles": [
         "breeder",
         "seedCompany"
