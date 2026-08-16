@@ -1,6 +1,6 @@
 # CURRENT STATE｜Cannabis Strain Wisdom
 
-Last checked: 2026-08-15
+Last checked: 2026-08-17
 Target specification: `MASTER_CANNABIS_STRAIN_WISDOM.md` (FINAL / FROZEN)
 Migration branch: `master-migration`
 
@@ -33,7 +33,7 @@ Legacy files remain during migration and are not the new source of truth.
 - 4 shared entity records under `entities/`
 - MASTER controlled TYPE / generation / status / confidence / basis / role values
 - Claim-level evidence metadata
-- Primary visual requirement and visual scope metadata
+- Visual metadata requirements and primary visual validation when one or more visuals are registered
 - `scripts/validate-master-data.mjs`
 - `.github/workflows/validate-master-data.yml`
 - Initial MASTER validator run: PASS
@@ -47,6 +47,14 @@ Legacy files remain during migration and are not the new source of truth.
 - The migration preview reads `runtime/catalog.json` from the `master-migration` branch and does not load legacy cultivar/source JavaScript.
 - Preview includes unified search, MASTER EXPLORE type filtering, mobile-first 2-column cultivar tiles, basic full-screen detail, STATUS-style grid, source links, per-cultivar query URL, and list scroll restoration.
 - Final GitHub Pages static build after `.nojekyll`: PASS.
+
+## Current cultivar image registration rule
+
+- `visuals` remains a required field and must be an array.
+- Images are not a prerequisite for cultivar data registration. A cultivar may be registered first with `"visuals": []` as the normal image-pending state.
+- `scripts/validate-master-data.mjs` does not fail validation for an empty `visuals` array; it emits the warning `image pending` instead.
+- Images may be added later without requiring the cultivar data registration and image-production steps to happen together.
+- When `visuals` contains one or more entries, exactly one entry with `role: "primary"` is required, and the existing validation of `src`, image-file existence, `aiGenerated`, `sourceType`, `rights`, `alt`, `scope`, and the remaining visual metadata is not weakened.
 
 ## Migration decisions
 
