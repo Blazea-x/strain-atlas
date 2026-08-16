@@ -157,6 +157,17 @@ window.SOURCES={
       "history"
     ]
   },
+  "leafly-cataract-kush": {
+    "name": "Leafly — Cataract Kush strain",
+    "url": "https://www.leafly.com/strains/cataract-kush",
+    "type": "specialist",
+    "typeLabel": "専門資料",
+    "checked": "2026-08-17",
+    "supports": [
+      "aromas",
+      "terpenes"
+    ]
+  },
   "leafly-og-18": {
     "name": "Leafly — OG #18",
     "url": "https://www.leafly.com/strains/og-18",
@@ -256,6 +267,16 @@ window.SOURCES={
     "supports": [
       "breeder",
       "cultivarExistence"
+    ]
+  },
+  "seedfinder-cataract-kush": {
+    "name": "SeedFinder — Cataract Kush (DNA Genetics Seeds)",
+    "url": "https://seedfinder.eu/en/strain-info/cataract-kush/dna-genetics-seeds",
+    "type": "specialist",
+    "typeLabel": "専門資料",
+    "checked": "2026-08-17",
+    "supports": [
+      "lineage"
     ]
   },
   "seedfinder-the-og-18": {

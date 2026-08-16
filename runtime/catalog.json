@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-16T20:24:10.230Z",
+  "generatedAt": "2026-08-16T20:24:21.079Z",
   "sourceOfTruth": {
     "cultivars": "strains/<id>/strain.json",
     "sources": "sources/*.json",
@@ -8,7 +8,7 @@
   },
   "counts": {
     "cultivars": 8,
-    "sources": 23,
+    "sources": 25,
     "entities": 7
   },
   "explore": {
@@ -1103,6 +1103,21 @@
       "checkedAt": "2026-08-14",
       "note": "Migrated from legacy sources.js without adding new claims."
     },
+    "leafly-cataract-kush": {
+      "schemaVersion": 1,
+      "id": "leafly-cataract-kush",
+      "publisher": "Leafly",
+      "title": "Cataract Kush strain",
+      "url": "https://www.leafly.com/strains/cataract-kush",
+      "sourceType": "specialistDatabase",
+      "supports": [
+        "aromas",
+        "terpenes"
+      ],
+      "publishedAt": null,
+      "checkedAt": "2026-08-17",
+      "note": "Leafly cultivar page used for reported flavor descriptors and Certified Strain Science terpene ordering. These are treated conservatively and not as a cultivar-wide lot-specific COA."
+    },
     "leafly-og-18": {
       "schemaVersion": 1,
       "id": "leafly-og-18",
@@ -1235,6 +1250,20 @@
       "publishedAt": null,
       "checkedAt": "2026-08-16",
       "note": "Official Seed Junky site identifies Wedding Cake among its pheno-hunted cultivars. Supports breeder attribution and cultivar existence, but not the exact parentage or Triangle Mints #23 designation."
+    },
+    "seedfinder-cataract-kush": {
+      "schemaVersion": 1,
+      "id": "seedfinder-cataract-kush",
+      "publisher": "SeedFinder",
+      "title": "Cataract Kush (DNA Genetics Seeds)",
+      "url": "https://seedfinder.eu/en/strain-info/cataract-kush/dna-genetics-seeds",
+      "sourceType": "specialistDatabase",
+      "supports": [
+        "lineage"
+      ],
+      "publishedAt": null,
+      "checkedAt": "2026-08-17",
+      "note": "SeedFinder cultivar record used as an independent specialist-database cross-check for the L.A. Confidential and OG Kush parent combination."
     },
     "seedfinder-the-og-18": {
       "schemaVersion": 1,
