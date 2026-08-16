@@ -1,19 +1,20 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-16T20:29:32.476Z",
+  "generatedAt": "2026-08-16T21:56:31.687Z",
   "sourceOfTruth": {
     "cultivars": "strains/<id>/strain.json",
     "sources": "sources/*.json",
     "entities": "entities/*.json"
   },
   "counts": {
-    "cultivars": 9,
-    "sources": 25,
-    "entities": 7
+    "cultivars": 10,
+    "sources": 28,
+    "entities": 8
   },
   "explore": {
     "sativa": [
       "chocolope-256",
+      "malawi",
       "super-lemon-haze"
     ],
     "indica": [
@@ -366,6 +367,119 @@
       ],
       "checkedAt": "2026-08-16",
       "updatedAt": "2026-08-16"
+    },
+    {
+      "schemaVersion": 1,
+      "id": "malawi",
+      "status": "review",
+      "name": "Malawi",
+      "jp": null,
+      "aliases": [],
+      "classification": {
+        "type": "sativa"
+      },
+      "breeding": {
+        "generation": "other",
+        "method": null
+      },
+      "lineage": {
+        "status": "confirmed",
+        "confidence": "A",
+        "basis": "breederOfficial",
+        "sourceRefs": [
+          "ace-seeds-malawi",
+          "seedfinder-malawi"
+        ],
+        "display": "Old Malawi Killer × 3rd generation Malawis",
+        "parents": [
+          "Old Malawi Killer",
+          "3rd generation Malawis"
+        ],
+        "note": "ACE SeedsのMalawi由来P4 landrace。P4表記はbreeding.generationへ固定せず、lineage上で保持する。"
+      },
+      "relations": [
+        {
+          "entityId": "ace-seeds",
+          "roles": [
+            "breeder",
+            "seedCompany"
+          ],
+          "status": "confirmed",
+          "confidence": "A",
+          "basis": "breederOfficial",
+          "sourceRefs": [
+            "ace-seeds-malawi",
+            "ace-seeds-about"
+          ]
+        }
+      ],
+      "aromas": {
+        "status": "confirmed",
+        "confidence": "A",
+        "basis": "breederOfficial",
+        "sourceRefs": [
+          "ace-seeds-malawi"
+        ],
+        "items": [
+          "oil",
+          "wood",
+          "lemon",
+          "sweet carrot",
+          "ripe mandarin"
+        ],
+        "note": "主要表現はoil / wood / lemon。sweet carrot / ripe mandarinはphenotype差として保持する。"
+      },
+      "terpenes": {
+        "status": "confirmed",
+        "confidence": "B",
+        "basis": "breederOfficial",
+        "sourceRefs": [
+          "ace-seeds-malawi"
+        ],
+        "items": [
+          "β-Myrcene",
+          "Limonene",
+          "β-Pinene",
+          "β-Caryophyllene",
+          "α-Humulene",
+          "α-Bisabolol"
+        ],
+        "note": "β-Myrcene中心。Limonene / β-Pinene / β-Caryophyllene / α-Humulene / α-Bisabololを併記する。"
+      },
+      "origin": {
+        "status": "confirmed",
+        "confidence": "A",
+        "basis": "breederOfficial",
+        "sourceRefs": [
+          "ace-seeds-malawi",
+          "seedfinder-malawi"
+        ],
+        "text": "Malawi, Central Africa",
+        "note": "ACE Seeds公式Malawi品種ページを主根拠とし、SeedFinderで独立照合。"
+      },
+      "history": {
+        "status": "confirmed",
+        "confidence": "A",
+        "basis": "breederOfficial",
+        "sourceRefs": [
+          "ace-seeds-about"
+        ],
+        "text": "ACE Seeds公式沿革の2012年Malawi導入を根拠とする。",
+        "note": "2012年のMalawi導入はACE Seeds公式沿革で確認済み。"
+      },
+      "visuals": [
+        {
+          "role": "primary",
+          "src": "strains/malawi/images/generated/primary.webp",
+          "aiGenerated": true,
+          "sourceType": "aiGenerated",
+          "rights": "AI-generated project asset for Cannabis Strain Wisdom.",
+          "alt": "Malawiの乾燥前の花姿を表現したAI生成参考ビジュアル",
+          "scope": "cultivar"
+        }
+      ],
+      "checkedAt": "2026-08-17",
+      "updatedAt": "2026-08-17"
     },
     {
       "schemaVersion": 1,
@@ -1004,6 +1118,40 @@
     }
   ],
   "sources": {
+    "ace-seeds-about": {
+      "schemaVersion": 1,
+      "id": "ace-seeds-about",
+      "publisher": "ACE Seeds",
+      "title": "About Us",
+      "url": "https://www.aceseeds.org/en/content/6-about-us",
+      "sourceType": "breederOfficial",
+      "supports": [
+        "breeder",
+        "history"
+      ],
+      "publishedAt": null,
+      "checkedAt": "2026-08-17",
+      "note": "ACE Seeds公式沿革・entity確認。2012年のMalawi導入とACE Seedsのbreeder / seed company確認に使用。"
+    },
+    "ace-seeds-malawi": {
+      "schemaVersion": 1,
+      "id": "ace-seeds-malawi",
+      "publisher": "ACE Seeds",
+      "title": "Malawi",
+      "url": "https://www.aceseeds.org/en/seeds/malawi-standard/",
+      "sourceType": "breederOfficial",
+      "supports": [
+        "lineage",
+        "breeder",
+        "classification",
+        "aromas",
+        "terpenes",
+        "origin"
+      ],
+      "publishedAt": null,
+      "checkedAt": "2026-08-17",
+      "note": "ACE Seeds公式Malawi品種ページ。Malawi由来P4 landrace、Old Malawi Killer × 3rd generation Malawis、香味、テルペン、原産地、breeder / seed company確認に使用。"
+    },
     "acs-og-kush-volatiles-2021": {
       "schemaVersion": 1,
       "id": "acs-og-kush-volatiles-2021",
@@ -1372,6 +1520,21 @@
       "checkedAt": "2026-08-17",
       "note": "SeedFinder cultivar record used as an independent specialist-database cross-check for the L.A. Confidential and OG Kush parent combination."
     },
+    "seedfinder-malawi": {
+      "schemaVersion": 1,
+      "id": "seedfinder-malawi",
+      "publisher": "SeedFinder",
+      "title": "Malawi",
+      "url": "https://en.seedfinder.eu/strain-info/Malawi/ACE_Seeds/",
+      "sourceType": "specialistDatabase",
+      "supports": [
+        "lineage",
+        "origin"
+      ],
+      "publishedAt": null,
+      "checkedAt": "2026-08-17",
+      "note": "SeedFinderによるMalawi / ACE Seedsの独立照合。CannaConnectionとSeed-Cityはsourceファイルへ追加しない。"
+    },
     "seedfinder-the-og-18": {
       "schemaVersion": 1,
       "id": "seedfinder-the-og-18",
@@ -1425,6 +1588,18 @@
     }
   },
   "entities": {
+    "ace-seeds": {
+      "schemaVersion": 1,
+      "id": "ace-seeds",
+      "name": "ACE Seeds",
+      "roles": [
+        "breeder",
+        "seedCompany"
+      ],
+      "status": "confirmed",
+      "checkedAt": "2026-08-17",
+      "updatedAt": "2026-08-17"
+    },
     "dna-genetics": {
       "schemaVersion": 1,
       "id": "dna-genetics",

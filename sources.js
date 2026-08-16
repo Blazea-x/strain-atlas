@@ -1,4 +1,30 @@
 window.SOURCES={
+  "ace-seeds-about": {
+    "name": "ACE Seeds — About Us",
+    "url": "https://www.aceseeds.org/en/content/6-about-us",
+    "type": "primary",
+    "typeLabel": "一次情報",
+    "checked": "2026-08-17",
+    "supports": [
+      "breeder",
+      "history"
+    ]
+  },
+  "ace-seeds-malawi": {
+    "name": "ACE Seeds — Malawi",
+    "url": "https://www.aceseeds.org/en/seeds/malawi-standard/",
+    "type": "primary",
+    "typeLabel": "一次情報",
+    "checked": "2026-08-17",
+    "supports": [
+      "lineage",
+      "breeder",
+      "classification",
+      "aromas",
+      "terpenes",
+      "origin"
+    ]
+  },
   "acs-og-kush-volatiles-2021": {
     "name": "ACS Omega — Identification of a New Family of Prenylated Volatile Sulfur Compounds in Cannabis Revealed by Comprehensive Two-Dimensional Gas Chromatography",
     "url": "https://doi.org/10.1021/acsomega.1c04196",
@@ -277,6 +303,17 @@ window.SOURCES={
     "checked": "2026-08-17",
     "supports": [
       "lineage"
+    ]
+  },
+  "seedfinder-malawi": {
+    "name": "SeedFinder — Malawi",
+    "url": "https://en.seedfinder.eu/strain-info/Malawi/ACE_Seeds/",
+    "type": "specialist",
+    "typeLabel": "専門資料",
+    "checked": "2026-08-17",
+    "supports": [
+      "lineage",
+      "origin"
     ]
   },
   "seedfinder-the-og-18": {

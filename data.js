@@ -191,6 +191,71 @@ window.STRAINS=[
     "reviews": []
   },
   {
+    "id": "malawi",
+    "name": "Malawi",
+    "jp": "",
+    "type": {
+      "key": "sativa",
+      "label": "サティバ"
+    },
+    "aliases": [],
+    "identity": {
+      "scope": "cultivar",
+      "note": "品種一般の情報。特定ロット・製品・フェノタイプを示すものではありません。"
+    },
+    "lineage": {
+      "display": "Old Malawi Killer × 3rd generation Malawis",
+      "parents": [
+        "Old Malawi Killer",
+        "3rd generation Malawis"
+      ],
+      "note": "ACE SeedsのMalawi由来P4 landrace。P4表記はbreeding.generationへ固定せず、lineage上で保持する。"
+    },
+    "aromas": [
+      "oil",
+      "wood",
+      "lemon",
+      "sweet carrot",
+      "ripe mandarin"
+    ],
+    "breeder": {
+      "name": "ACE Seeds",
+      "era": ""
+    },
+    "terpenes": [
+      "β-Myrcene",
+      "Limonene",
+      "β-Pinene",
+      "β-Caryophyllene",
+      "α-Humulene",
+      "α-Bisabolol"
+    ],
+    "originHistory": "Malawi, Central Africa",
+    "history": "ACE Seeds公式沿革の2012年Malawi導入を根拠とする。",
+    "confidence": {
+      "display": "LINEAGE A / AROMA A / TERPENE B / ORIGIN A / HISTORY A",
+      "note": "正本データの項目別confidenceを表示"
+    },
+    "visuals": [
+      {
+        "role": "primary",
+        "src": "strains/malawi/images/generated/primary.webp",
+        "aiGenerated": true,
+        "sourceType": "aiGenerated",
+        "rights": "AI-generated project asset for Cannabis Strain Wisdom.",
+        "alt": "Malawiの乾燥前の花姿を表現したAI生成参考ビジュアル",
+        "scope": "cultivar",
+        "label": "VISUAL REFERENCE"
+      }
+    ],
+    "sourceIds": [
+      "ace-seeds-malawi",
+      "seedfinder-malawi",
+      "ace-seeds-about"
+    ],
+    "reviews": []
+  },
+  {
     "id": "og-kush",
     "name": "OG Kush",
     "jp": "",
