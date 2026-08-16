@@ -33,17 +33,17 @@ jobs:
       - name: Validate MASTER data
         run: node scripts/validate-master-data.mjs
 
-      - name: Build runtime catalog
+      - name: Build runtime catalog and current display data
         run: node scripts/build-runtime-data.mjs
 
-      - name: Commit generated runtime data
+      - name: Commit generated runtime and display data
         run: |
-          if git diff --quiet -- runtime/catalog.json && git ls-files --error-unmatch runtime/catalog.json >/dev/null 2>&1; then
-            echo "runtime/catalog.json is unchanged"
+          if git diff --quiet -- runtime/catalog.json data.js sources.js && git ls-files --error-unmatch runtime/catalog.json >/dev/null 2>&1; then
+            echo "Generated data is unchanged"
             exit 0
           fi
           git config user.name "strain-atlas-bot"
           git config user.email "actions@users.noreply.github.com"
-          git add runtime/catalog.json
-          git commit -m "Build MASTER runtime catalog"
+          git add runtime/catalog.json data.js sources.js
+          git commit -m "Build MASTER runtime and display data"
           git push origin HEAD:master-migration
