@@ -146,9 +146,9 @@ window.STRAINS=[
       "note": "品種一般の情報。特定ロット・製品・フェノタイプを示すものではありません。"
     },
     "lineage": {
-      "display": "確定していない。複数説あり",
+      "display": "親系統は確定していない。Florida / Triangle Kush系統との関連が示される",
       "parents": [],
-      "note": "Chemdawg・Lemon Thai・Hindu Kushなどを含む複数説がある"
+      "note": "Josh D公式は1996年にFloridaからLos Angelesへ持ち込まれたTriangle Kush geneticsとの関連を記録するが、生物学的な親系統そのものは特定していない。Leaflyもparentageはspeculativeと整理しているため、推測される親名を確定情報として追加せずconfidence Cを維持する。"
     },
     "aromas": [
       "レモン",
@@ -166,9 +166,9 @@ window.STRAINS=[
       "Caryophyllene"
     ],
     "originHistory": "1990年代半ばにFlorida系統がLos Angelesへ渡り、Josh Dらによって保存・普及したとされる",
-    "history": "West Coast系OGファミリーの基盤となった重要品種。Tahoe OG・SFV OG・Ghost OGなど多数の派生系統がある。",
+    "history": "1996年、Florida由来のOG Kush系統がLos Angelesへ持ち込まれ、Josh Dが保存・栽培・共有の中心人物となった。1990年代後半にはSouthern Californiaで広まり、1997年にはJosh D自身がNorthern Californiaへ持ち込んだ記録がある。",
     "confidence": {
-      "display": "LINEAGE C / AROMA C / TERPENE C / ORIGIN B / HISTORY B",
+      "display": "LINEAGE C / AROMA B / TERPENE B / ORIGIN B / HISTORY A",
       "note": "正本データの項目別confidenceを表示"
     },
     "visuals": [
@@ -194,8 +194,10 @@ window.STRAINS=[
       }
     ],
     "sourceIds": [
-      "leafly-og-kush",
-      "leafly-og-history"
+      "josh-d-og-kush-official",
+      "leafly-og-history",
+      "fischedick-og-kush-terpenoids-2017",
+      "acs-og-kush-volatiles-2021"
     ],
     "reviews": []
   },

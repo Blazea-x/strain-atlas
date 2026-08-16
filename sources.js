@@ -1,4 +1,15 @@
 window.SOURCES={
+  "acs-og-kush-volatiles-2021": {
+    "name": "ACS Omega — Identification of a New Family of Prenylated Volatile Sulfur Compounds in Cannabis Revealed by Comprehensive Two-Dimensional Gas Chromatography",
+    "url": "https://doi.org/10.1021/acsomega.1c04196",
+    "type": "scientificPublication",
+    "typeLabel": "資料",
+    "checked": "2026-08-16",
+    "supports": [
+      "aromas",
+      "terpenes"
+    ]
+  },
   "david-downs-wedding-cake-2026": {
     "name": "David Downs / Fire Follower — Seed Junky Genetics recuts Wedding Cake into Cake Straws",
     "url": "https://daviddownspresents.substack.com/p/seed-junky-genetics-recuts-wedding",
@@ -55,6 +66,16 @@ window.SOURCES={
       "history"
     ]
   },
+  "fischedick-og-kush-terpenoids-2017": {
+    "name": "Cannabis and Cannabinoid Research — Identification of Terpenoid Chemotypes Among High (-)-trans-Delta9-Tetrahydrocannabinol-Producing Cannabis sativa L. Cultivars",
+    "url": "https://doi.org/10.1089/can.2016.0040",
+    "type": "scientificPublication",
+    "typeLabel": "資料",
+    "checked": "2026-08-16",
+    "supports": [
+      "terpenes"
+    ]
+  },
   "ghsc-super-lemon-haze": {
     "name": "Green House Seed Co. — Super Lemon Haze",
     "url": "https://shop.greenhouseseeds.nl/feminised-cannabis-seeds/1-seed-pack/super-lemon-haze/?variation_id=26",
@@ -94,6 +115,18 @@ window.SOURCES={
       "breeder",
       "generation",
       "origin"
+    ]
+  },
+  "josh-d-og-kush-official": {
+    "name": "Josh D OG Kush — The OG Kush Story / Josh D Legacy",
+    "url": "https://www.joshd-ogkush.com/",
+    "type": "originatorOfficial",
+    "typeLabel": "資料",
+    "checked": "2026-08-16",
+    "supports": [
+      "lineage",
+      "aromas",
+      "history"
     ]
   },
   "leafly-bubble-gum": {

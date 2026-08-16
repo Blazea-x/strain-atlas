@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-16T11:47:22.710Z",
+  "generatedAt": "2026-08-16T13:14:00.214Z",
   "sourceOfTruth": {
     "cultivars": "strains/<id>/strain.json",
     "sources": "sources/*.json",
@@ -8,7 +8,7 @@
   },
   "counts": {
     "cultivars": 8,
-    "sources": 19,
+    "sources": 22,
     "entities": 7
   },
   "explore": {
@@ -279,22 +279,23 @@
       "lineage": {
         "status": "disputed",
         "confidence": "C",
-        "basis": "specialistDatabase",
+        "basis": "historicalSource",
         "sourceRefs": [
-          "leafly-og-kush",
+          "josh-d-og-kush-official",
           "leafly-og-history"
         ],
-        "display": "確定していない。複数説あり",
+        "display": "親系統は確定していない。Florida / Triangle Kush系統との関連が示される",
         "parents": [],
-        "note": "Chemdawg・Lemon Thai・Hindu Kushなどを含む複数説がある"
+        "note": "Josh D公式は1996年にFloridaからLos Angelesへ持ち込まれたTriangle Kush geneticsとの関連を記録するが、生物学的な親系統そのものは特定していない。Leaflyもparentageはspeculativeと整理しているため、推測される親名を確定情報として追加せずconfidence Cを維持する。"
       },
       "relations": [],
       "aromas": {
         "status": "confirmed",
-        "confidence": "C",
-        "basis": "specialistDatabase",
+        "confidence": "B",
+        "basis": "historicalSource",
         "sourceRefs": [
-          "leafly-og-kush"
+          "josh-d-og-kush-official",
+          "leafly-og-history"
         ],
         "items": [
           "レモン",
@@ -302,21 +303,22 @@
           "フューエル",
           "アーシー"
         ],
-        "note": "Migrated from legacy data; confidence kept conservative pending independent corroboration."
+        "note": "Josh D公式はOG Kushの香りをPine-Sol、kerosene、earthy gasとして説明し、LeaflyのJosh Dらへの取材記事もlemon-pine-fuel系として記録している。一次証言で主要ノートを補強できるが、流通個体の同一性とphenotype差を考慮してconfidenceはBとする。"
       },
       "terpenes": {
         "status": "confirmed",
-        "confidence": "C",
-        "basis": "specialistDatabase",
+        "confidence": "B",
+        "basis": "scientificPublication",
         "sourceRefs": [
-          "leafly-og-kush"
+          "fischedick-og-kush-terpenoids-2017",
+          "acs-og-kush-volatiles-2021"
         ],
         "items": [
           "Myrcene",
           "Limonene",
           "Caryophyllene"
         ],
-        "note": "Migrated from legacy data; confidence kept conservative pending independent corroboration."
+        "note": "2017年の査読研究ではOG Kushを含むOG Kush群でMyrceneとLimoneneが主要な特徴として報告され、2021年ACS Omega論文はOG Kushの香気についてβ-Myrceneとβ-Caryophylleneを主要成分として記載する。品種名だけでは遺伝的同一性を保証できずlot差もあるためAには上げない。"
       },
       "origin": {
         "status": "confirmed",
@@ -330,13 +332,14 @@
       },
       "history": {
         "status": "confirmed",
-        "confidence": "B",
-        "basis": "specialistDatabase",
+        "confidence": "A",
+        "basis": "historicalSource",
         "sourceRefs": [
+          "josh-d-og-kush-official",
           "leafly-og-history"
         ],
-        "text": "West Coast系OGファミリーの基盤となった重要品種。Tahoe OG・SFV OG・Ghost OGなど多数の派生系統がある。",
-        "note": "Migrated from legacy data without expanding the claim."
+        "text": "1996年、Florida由来のOG Kush系統がLos Angelesへ持ち込まれ、Josh Dが保存・栽培・共有の中心人物となった。1990年代後半にはSouthern Californiaで広まり、1997年にはJosh D自身がNorthern Californiaへ持ち込んだ記録がある。",
+        "note": "Josh D本人の公式サイトと、Josh D・B-Real・Kevin Jodreyらへの直接取材を含むLeaflyの系譜記事で主要な時系列を照合。親系統の断定はhistoryから切り離している。"
       },
       "visuals": [
         {
@@ -358,8 +361,8 @@
           "scope": "cultivar"
         }
       ],
-      "checkedAt": "2026-08-14",
-      "updatedAt": "2026-08-15"
+      "checkedAt": "2026-08-16",
+      "updatedAt": "2026-08-16"
     },
     {
       "schemaVersion": 1,
@@ -894,6 +897,21 @@
     }
   ],
   "sources": {
+    "acs-og-kush-volatiles-2021": {
+      "schemaVersion": 1,
+      "id": "acs-og-kush-volatiles-2021",
+      "publisher": "ACS Omega",
+      "title": "Identification of a New Family of Prenylated Volatile Sulfur Compounds in Cannabis Revealed by Comprehensive Two-Dimensional Gas Chromatography",
+      "url": "https://doi.org/10.1021/acsomega.1c04196",
+      "sourceType": "scientificPublication",
+      "supports": [
+        "aromas",
+        "terpenes"
+      ],
+      "publishedAt": "2021-11-12",
+      "checkedAt": "2026-08-16",
+      "note": "Peer-reviewed volatile-compound study coauthored by Josh Del Rosso. It describes OG Kush as strongly pungent and fuel-like and associates that profile with high beta-myrcene and beta-caryophyllene. Used as corroboration, not as proof that every OG Kush lot shares one fixed terpene profile."
+    },
     "david-downs-wedding-cake-2026": {
       "schemaVersion": 1,
       "id": "david-downs-wedding-cake-2026",
@@ -966,6 +984,20 @@
       "checkedAt": "2026-08-15",
       "note": "Primary source for the S1 designation, self-pollination description, breeder description, aroma and reported terpene claims."
     },
+    "fischedick-og-kush-terpenoids-2017": {
+      "schemaVersion": 1,
+      "id": "fischedick-og-kush-terpenoids-2017",
+      "publisher": "Cannabis and Cannabinoid Research",
+      "title": "Identification of Terpenoid Chemotypes Among High (-)-trans-Delta9-Tetrahydrocannabinol-Producing Cannabis sativa L. Cultivars",
+      "url": "https://doi.org/10.1089/can.2016.0040",
+      "sourceType": "scientificPublication",
+      "supports": [
+        "terpenes"
+      ],
+      "publishedAt": "2017-03-01",
+      "checkedAt": "2026-08-16",
+      "note": "Peer-reviewed terpene study including samples labeled OG Kush. The OG Kush group was characterized primarily by myrcene with similar or somewhat lower limonene, while beta-caryophyllene and related terpenoids also contributed to the group profile. Cultivar-name identity limitations remain."
+    },
     "ghsc-super-lemon-haze": {
       "schemaVersion": 1,
       "id": "ghsc-super-lemon-haze",
@@ -1018,6 +1050,22 @@
       "publishedAt": null,
       "checkedAt": "2026-08-16",
       "note": "Primary official source for the Wedding Cake S1 product name, Wedding Cake × Wedding Cake designation, feminized seed listing, and Humboldt CSI association. The page does not identify the exact Wedding Cake cut or provide cultivar-level aroma, terpene, or TYPE data."
+    },
+    "josh-d-og-kush-official": {
+      "schemaVersion": 1,
+      "id": "josh-d-og-kush-official",
+      "publisher": "Josh D OG Kush",
+      "title": "The OG Kush Story / Josh D Legacy",
+      "url": "https://www.joshd-ogkush.com/",
+      "sourceType": "originatorOfficial",
+      "supports": [
+        "lineage",
+        "aromas",
+        "history"
+      ],
+      "publishedAt": null,
+      "checkedAt": "2026-08-16",
+      "note": "Primary source from Josh Del Rosso (Josh D). Records OG Kush reaching Los Angeles from Florida in 1996, Josh D's central role in preserving and spreading the lineage, and his description of the original OG aroma as Pine-Sol, kerosene and earthy gas. Does not establish biological parentage."
     },
     "leafly-bubble-gum": {
       "schemaVersion": 1,
