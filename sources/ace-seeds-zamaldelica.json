@@ -1,0 +1,22 @@
+{
+  "schemaVersion": 1,
+  "id": "ace-seeds-zamaldelica",
+  "publisher": "ACE Seeds",
+  "title": "Zamaldelica Regular",
+  "url": "https://www.aceseeds.org/en/seeds/zamaldelica-regular-seeds/",
+  "sourceType": "breederOfficial",
+  "supports": [
+    "lineage",
+    "breeder",
+    "seedCompany",
+    "classification",
+    "generation",
+    "history",
+    "aromas",
+    "terpenes",
+    "origin"
+  ],
+  "publishedAt": null,
+  "checkedAt": "2026-08-17",
+  "note": "ACE Seeds公式Zamaldelica Regular品種ページ。F3 semi stabilized hybrid、100% sativa、Zamal x Malawi/Thai、Zamal母系のRéunion Island由来、作出説明、bouquet、詳細terpene profileを確認。"
+}
