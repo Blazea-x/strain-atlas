@@ -1,0 +1,106 @@
+{
+  "schemaVersion": 1,
+  "id": "cataract-kush",
+  "status": "review",
+  "name": "Cataract Kush",
+  "jp": null,
+  "aliases": [],
+  "classification": {
+    "type": "indica-dominant-hybrid"
+  },
+  "breeding": {
+    "generation": "unknown",
+    "method": null
+  },
+  "lineage": {
+    "status": "confirmed",
+    "confidence": "A",
+    "basis": "breederOfficial",
+    "sourceRefs": [
+      "dna-eu-cataract-kush",
+      "seedfinder-cataract-kush"
+    ],
+    "display": "L.A. Confidential × OG Kush",
+    "parents": [
+      "L.A. Confidential",
+      "OG Kush"
+    ],
+    "note": "DNA Genetics公式とSeedFinderはいずれもL.A. ConfidentialとOG Kushの組み合わせを示す。資料によって表記順が異なるため、ここでは親の組み合わせを示し母父方向までは断定しない。"
+  },
+  "relations": [
+    {
+      "entityId": "dna-genetics",
+      "roles": [
+        "breeder",
+        "seedCompany"
+      ],
+      "status": "confirmed",
+      "confidence": "A",
+      "basis": "breederOfficial",
+      "sourceRefs": [
+        "dna-eu-cataract-kush"
+      ]
+    }
+  ],
+  "aromas": {
+    "status": "confirmed",
+    "confidence": "C",
+    "basis": "specialistDatabase",
+    "sourceRefs": [
+      "leafly-cataract-kush"
+    ],
+    "items": [
+      "パングェント",
+      "スカンク",
+      "アーシー"
+    ],
+    "note": "Leaflyのユーザー集計・品種ページに掲載される主要フレーバー表現。品種固有の化学分析ではないためconfidenceはC。"
+  },
+  "terpenes": {
+    "status": "confirmed",
+    "confidence": "C",
+    "basis": "specialistDatabase",
+    "sourceRefs": [
+      "leafly-cataract-kush"
+    ],
+    "items": [
+      "Limonene",
+      "Pinene",
+      "Caryophyllene"
+    ],
+    "note": "Leafly Certified Strain Science欄の掲載順。特定lotのCOAを品種全体へ固定する資料ではないためconfidenceはC。"
+  },
+  "origin": {
+    "status": "confirmed",
+    "confidence": "A",
+    "basis": "breederOfficial",
+    "sourceRefs": [
+      "dna-eu-cataract-kush"
+    ],
+    "text": "DNA GeneticsがL.A. ConfidentialとOG Kushを組み合わせて展開したライン。",
+    "note": "DNA Genetics公式の商品ページを主根拠とする。作出地点や初回リリース年は確認できないため追加しない。"
+  },
+  "history": {
+    "status": "confirmed",
+    "confidence": "B",
+    "basis": "breederOfficial",
+    "sourceRefs": [
+      "dna-eu-cataract-kush"
+    ],
+    "text": "DNA Geneticsの現行ラインとしてL.A. ConfidentialとOG Kushを組み合わせた品種。公式は開発に長い期間を要したと記すが、作出年・初出年は確認できない。",
+    "note": "公式に確認できる範囲だけを記載し、具体的な年代は補わない。"
+  },
+  "visuals": [
+    {
+      "role": "primary",
+      "src": "strains/cataract-kush/images/generated/primary.webp",
+      "aiGenerated": true,
+      "sourceType": "aiGenerated",
+      "rights": "AI-generated project asset for Cannabis Strain Wisdom.",
+      "alt": "Cataract Kushの乾燥前の花・葉・枝の関係を実写資料寄りに表現したAI生成参考ビジュアル",
+      "scope": "cultivar"
+    }
+  ],
+  "checkedAt": "2026-08-17",
+  "updatedAt": "2026-08-17"
+}
