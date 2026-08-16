@@ -332,6 +332,69 @@ window.STRAINS=[
     "reviews": []
   },
   {
+    "id": "the-og-18",
+    "name": "The OG #18",
+    "jp": "",
+    "type": {
+      "key": "hybrid",
+      "label": "ハイブリッド"
+    },
+    "aliases": [
+      "OG #18",
+      "OG 18",
+      "Private Reserve",
+      "Private Reserve OG"
+    ],
+    "identity": {
+      "scope": "cultivar",
+      "note": "品種一般の情報。特定ロット・製品・フェノタイプを示すものではありません。"
+    },
+    "lineage": {
+      "display": "OG Kush S1 selection #18 (re-feminized)",
+      "parents": [
+        "OG Kush"
+      ],
+      "note": "DNA Geneticsの現行EU商品ページは遺伝背景をOG Kush S1と表示し、最初にリリースしたフェミナイズドOG Kush種子から#18を選抜して再フェミナイズしたと説明している。SeedFinderもReserva PrivadaのOG Kush背景を支持する。一方、資料間でS1/BX等の世代表現が揺れるため、breeding.generation自体はunknownとして固定する。"
+    },
+    "aromas": [
+      "サワー",
+      "フューエル / ディーゼル"
+    ],
+    "breeder": {
+      "name": "Reserva Privada",
+      "era": ""
+    },
+    "terpenes": [
+      "Limonene",
+      "Myrcene",
+      "Linalool"
+    ],
+    "originHistory": "Reserva Privadaが、先にリリースしたフェミナイズドOG Kush種子群から#18の個体を選抜し、その選抜個体を再フェミナイズして展開したライン。",
+    "history": "Reserva PrivadaのOG Kush選抜として展開され、公式商品ページでは2011年Spannabis Hydro 1位、2009年High Times Cannabis Cup Indica 2位、2007年同Indica 3位の受賞歴が記載されている。SeedFinderでも2011年と2009年の主要受賞を確認できる。",
+    "confidence": {
+      "display": "LINEAGE A / AROMA A / TERPENE C / ORIGIN A / HISTORY B",
+      "note": "正本データの項目別confidenceを表示"
+    },
+    "visuals": [
+      {
+        "role": "primary",
+        "src": "strains/the-og-18/images/generated/primary.svg",
+        "aiGenerated": true,
+        "sourceType": "aiGenerated",
+        "rights": "AI-generated project asset for Cannabis Strain Wisdom.",
+        "alt": "The OG #18の実写資料で確認した密度の高い樹脂質な花姿を参考に作成したAI生成参考ビジュアル",
+        "scope": "cultivar",
+        "label": "VISUAL REFERENCE"
+      }
+    ],
+    "sourceIds": [
+      "dna-eu-the-og-18",
+      "seedfinder-the-og-18",
+      "leafly-og-18"
+    ],
+    "reviews": []
+  },
+  {
     "id": "wedding-cake",
     "name": "Wedding Cake",
     "jp": "",
