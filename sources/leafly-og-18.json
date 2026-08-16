@@ -1,0 +1,12 @@
+{
+  "schemaVersion": 1,
+  "id": "leafly-og-18",
+  "publisher": "Leafly",
+  "title": "OG #18",
+  "url": "https://www.leafly.com/strains/og-18",
+  "sourceType": "specialistDatabase",
+  "supports": ["aliases", "classification", "aromas", "terpenes"],
+  "publishedAt": null,
+  "checkedAt": "2026-08-16",
+  "note": "Specialist database used conservatively for aliases, hybrid classification, reported flavor descriptors, and reported terpene names. Terpene claims are not treated as lot-specific laboratory data."
+}
