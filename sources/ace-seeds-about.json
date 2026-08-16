@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "ace-seeds-about",
+  "publisher": "ACE Seeds",
+  "title": "About Us",
+  "url": "https://www.aceseeds.org/en/content/6-about-us",
+  "sourceType": "breederOfficial",
+  "supports": [
+    "breeder",
+    "history"
+  ],
+  "publishedAt": null,
+  "checkedAt": "2026-08-17",
+  "note": "ACE Seeds公式沿革・entity確認。2012年のMalawi導入とACE Seedsのbreeder / seed company確認に使用。"
+}

@@ -1,0 +1,19 @@
+{
+  "schemaVersion": 1,
+  "id": "ace-seeds-malawi",
+  "publisher": "ACE Seeds",
+  "title": "Malawi",
+  "url": "https://www.aceseeds.org/en/seeds/malawi-standard/",
+  "sourceType": "breederOfficial",
+  "supports": [
+    "lineage",
+    "breeder",
+    "classification",
+    "aromas",
+    "terpenes",
+    "origin"
+  ],
+  "publishedAt": null,
+  "checkedAt": "2026-08-17",
+  "note": "ACE Seeds公式Malawi品種ページ。Malawi由来P4 landrace、Old Malawi Killer × 3rd generation Malawis、香味、テルペン、原産地、breeder / seed company確認に使用。"
+}

@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "seedfinder-malawi",
+  "publisher": "SeedFinder",
+  "title": "Malawi",
+  "url": "https://en.seedfinder.eu/strain-info/Malawi/ACE_Seeds/",
+  "sourceType": "specialistDatabase",
+  "supports": [
+    "lineage",
+    "origin"
+  ],
+  "publishedAt": null,
+  "checkedAt": "2026-08-17",
+  "note": "SeedFinderによるMalawi / ACE Seedsの独立照合。CannaConnectionとSeed-Cityはsourceファイルへ追加しない。"
+}

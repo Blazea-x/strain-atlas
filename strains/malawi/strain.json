@@ -1,0 +1,113 @@
+{
+  "schemaVersion": 1,
+  "id": "malawi",
+  "status": "review",
+  "name": "Malawi",
+  "jp": null,
+  "aliases": [],
+  "classification": {
+    "type": "sativa"
+  },
+  "breeding": {
+    "generation": "other",
+    "method": null
+  },
+  "lineage": {
+    "status": "confirmed",
+    "confidence": "A",
+    "basis": "breederOfficial",
+    "sourceRefs": [
+      "ace-seeds-malawi",
+      "seedfinder-malawi"
+    ],
+    "display": "Old Malawi Killer × 3rd generation Malawis",
+    "parents": [
+      "Old Malawi Killer",
+      "3rd generation Malawis"
+    ],
+    "note": "ACE SeedsのMalawi由来P4 landrace。P4表記はbreeding.generationへ固定せず、lineage上で保持する。"
+  },
+  "relations": [
+    {
+      "entityId": "ace-seeds",
+      "roles": [
+        "breeder",
+        "seedCompany"
+      ],
+      "status": "confirmed",
+      "confidence": "A",
+      "basis": "breederOfficial",
+      "sourceRefs": [
+        "ace-seeds-malawi",
+        "ace-seeds-about"
+      ]
+    }
+  ],
+  "aromas": {
+    "status": "confirmed",
+    "confidence": "A",
+    "basis": "breederOfficial",
+    "sourceRefs": [
+      "ace-seeds-malawi"
+    ],
+    "items": [
+      "oil",
+      "wood",
+      "lemon",
+      "sweet carrot",
+      "ripe mandarin"
+    ],
+    "note": "主要表現はoil / wood / lemon。sweet carrot / ripe mandarinはphenotype差として保持する。"
+  },
+  "terpenes": {
+    "status": "confirmed",
+    "confidence": "B",
+    "basis": "breederOfficial",
+    "sourceRefs": [
+      "ace-seeds-malawi"
+    ],
+    "items": [
+      "β-Myrcene",
+      "Limonene",
+      "β-Pinene",
+      "β-Caryophyllene",
+      "α-Humulene",
+      "α-Bisabolol"
+    ],
+    "note": "β-Myrcene中心。Limonene / β-Pinene / β-Caryophyllene / α-Humulene / α-Bisabololを併記する。"
+  },
+  "origin": {
+    "status": "confirmed",
+    "confidence": "A",
+    "basis": "breederOfficial",
+    "sourceRefs": [
+      "ace-seeds-malawi",
+      "seedfinder-malawi"
+    ],
+    "text": "Malawi, Central Africa",
+    "note": "ACE Seeds公式Malawi品種ページを主根拠とし、SeedFinderで独立照合。"
+  },
+  "history": {
+    "status": "confirmed",
+    "confidence": "A",
+    "basis": "breederOfficial",
+    "sourceRefs": [
+      "ace-seeds-about"
+    ],
+    "text": "ACE Seeds公式沿革の2012年Malawi導入を根拠とする。",
+    "note": "2012年のMalawi導入はACE Seeds公式沿革で確認済み。"
+  },
+  "visuals": [
+    {
+      "role": "primary",
+      "src": "strains/malawi/images/generated/primary.webp",
+      "aiGenerated": true,
+      "sourceType": "aiGenerated",
+      "rights": "AI-generated project asset for Cannabis Strain Wisdom.",
+      "alt": "Malawiの乾燥前の花姿を表現したAI生成参考ビジュアル",
+      "scope": "cultivar"
+    }
+  ],
+  "checkedAt": "2026-08-17",
+  "updatedAt": "2026-08-17"
+}
