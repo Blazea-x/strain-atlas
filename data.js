@@ -191,6 +191,99 @@ window.STRAINS=[
     "reviews": []
   },
   {
+    "id": "dr-grinspoon",
+    "name": "Dr Grinspoon",
+    "jp": "",
+    "type": {
+      "key": "sativa",
+      "label": "サティバ"
+    },
+    "aliases": [
+      "Dr. Grinspoon"
+    ],
+    "identity": {
+      "scope": "cultivar",
+      "note": "品種一般の情報。特定ロット・製品・フェノタイプを示すものではありません。"
+    },
+    "lineage": {
+      "display": "Heirloom Sativa Strain (parentage undisclosed)",
+      "parents": [],
+      "note": "Barney's Farm公式はpure Heirloom Sativaとするが、親品種を開示していないためparentageはunknown。"
+    },
+    "aromas": [
+      "sumac",
+      "lemon",
+      "tangy",
+      "tropical fruit"
+    ],
+    "breeder": {
+      "name": "Barney's Farm",
+      "era": ""
+    },
+    "terpenes": [
+      "Terpinolene",
+      "Myrcene",
+      "Pinene"
+    ],
+    "originHistory": "",
+    "history": "カンナビス擁護者・研究者・著者であるDr. Lester Grinspoonへの敬意を表して命名された。",
+    "confidence": {
+      "display": "AROMA A / TERPENE B / HISTORY A",
+      "note": "正本データの項目別confidenceを表示"
+    },
+    "visuals": [],
+    "sourceIds": [
+      "barneys-farm-dr-grinspoon",
+      "leafly-dr-grinspoon"
+    ],
+    "reviews": []
+  },
+  {
+    "id": "frisian-duck",
+    "name": "Frisian Duck",
+    "jp": "",
+    "type": {
+      "key": "hybrid",
+      "label": "ハイブリッド"
+    },
+    "aliases": [],
+    "identity": {
+      "scope": "cultivar",
+      "note": "品種一般の情報。特定ロット・製品・フェノタイプを示すものではありません。"
+    },
+    "lineage": {
+      "display": "Frisian Dew × DucksFoot",
+      "parents": [
+        "Frisian Dew",
+        "DucksFoot"
+      ],
+      "note": "Dutch Passion公式表記に基づく。世代番号は公式ページで特定できないためbreeding.generationはunknown。"
+    },
+    "aromas": [
+      "spicy",
+      "fresh forest",
+      "pine",
+      "citrus",
+      "fruity"
+    ],
+    "breeder": {
+      "name": "Dutch Passion",
+      "era": ""
+    },
+    "terpenes": [],
+    "originHistory": "",
+    "history": "Dutch Passionが特徴的なダックフット状の葉形と屋外での目立ちにくさを狙い、長年の選抜育種で作り上げた系統。",
+    "confidence": {
+      "display": "LINEAGE A / AROMA A / HISTORY A",
+      "note": "正本データの項目別confidenceを表示"
+    },
+    "visuals": [],
+    "sourceIds": [
+      "dutch-passion-frisian-duck"
+    ],
+    "reviews": []
+  },
+  {
     "id": "malawi",
     "name": "Malawi",
     "jp": "",
@@ -639,6 +732,65 @@ window.STRAINS=[
     ],
     "sourceIds": [
       "humboldt-csi-wedding-cake-s1"
+    ],
+    "reviews": []
+  },
+  {
+    "id": "zamaldelica",
+    "name": "Zamaldelica",
+    "jp": "",
+    "type": {
+      "key": "sativa",
+      "label": "サティバ"
+    },
+    "aliases": [],
+    "identity": {
+      "scope": "cultivar",
+      "note": "品種一般の情報。特定ロット・製品・フェノタイプを示すものではありません。"
+    },
+    "lineage": {
+      "display": "Zamal × Malawi/Thai",
+      "parents": [
+        "Zamal",
+        "Malawi/Thai"
+      ],
+      "note": "ACE Seeds公式Genetics表記に基づく。説明文では選抜Zamal母株をGolden Tigerで受粉して作出とされ、公式Genetics欄がZamal × Malawi/Thaiと要約している。"
+    },
+    "aromas": [
+      "sweet carrot",
+      "mango",
+      "orange",
+      "flowers",
+      "resins"
+    ],
+    "breeder": {
+      "name": "ACE Seeds",
+      "era": ""
+    },
+    "terpenes": [
+      "Terpinolene",
+      "β-Myrcene",
+      "β-Ocimene",
+      "β-Pinene",
+      "Limonene",
+      "α-Pinene",
+      "Linalool",
+      "δ-3-Carene",
+      "α-Terpinene",
+      "γ-Terpinene",
+      "β-Caryophyllene",
+      "α-Humulene",
+      "Nerolidol 2"
+    ],
+    "originHistory": "",
+    "history": "Réunion Island由来Zamalから、強いサイケデリック特性、比較的速い開花、sweet carrotとfloralの香りを持つ母株を選抜し、Golden Tigerで受粉してZamaldelicaが作出された。",
+    "confidence": {
+      "display": "LINEAGE A / AROMA A / TERPENE A / HISTORY A",
+      "note": "正本データの項目別confidenceを表示"
+    },
+    "visuals": [],
+    "sourceIds": [
+      "ace-seeds-zamaldelica"
     ],
     "reviews": []
   }
