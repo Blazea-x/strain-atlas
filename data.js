@@ -380,7 +380,7 @@ window.STRAINS=[
     "visuals": [
       {
         "role": "primary",
-        "src": "strains/the-og-18/images/generated/primary.svg",
+        "src": "strains/the-og-18/images/generated/primary.webp",
         "aiGenerated": true,
         "sourceType": "aiGenerated",
         "rights": "AI-generated project asset for Cannabis Strain Wisdom.",
