@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-16T11:46:24.066Z",
+  "generatedAt": "2026-08-16T11:46:33.407Z",
   "sourceOfTruth": {
     "cultivars": "strains/<id>/strain.json",
     "sources": "sources/*.json",
@@ -8,7 +8,7 @@
   },
   "counts": {
     "cultivars": 7,
-    "sources": 18,
+    "sources": 19,
     "entities": 7
   },
   "explore": {
@@ -924,6 +924,23 @@
       "publishedAt": null,
       "checkedAt": "2026-08-14",
       "note": "Migrated from legacy sources.js without adding new claims."
+    },
+    "leafly-og-18": {
+      "schemaVersion": 1,
+      "id": "leafly-og-18",
+      "publisher": "Leafly",
+      "title": "OG #18",
+      "url": "https://www.leafly.com/strains/og-18",
+      "sourceType": "specialistDatabase",
+      "supports": [
+        "aliases",
+        "classification",
+        "aromas",
+        "terpenes"
+      ],
+      "publishedAt": null,
+      "checkedAt": "2026-08-16",
+      "note": "Specialist database used conservatively for aliases, hybrid classification, reported flavor descriptors, and reported terpene names. Terpene claims are not treated as lot-specific laboratory data."
     },
     "leafly-og-history": {
       "schemaVersion": 1,

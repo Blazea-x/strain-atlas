@@ -110,6 +110,19 @@ window.SOURCES={
       "history"
     ]
   },
+  "leafly-og-18": {
+    "name": "Leafly — OG #18",
+    "url": "https://www.leafly.com/strains/og-18",
+    "type": "specialist",
+    "typeLabel": "専門資料",
+    "checked": "2026-08-16",
+    "supports": [
+      "aliases",
+      "classification",
+      "aromas",
+      "terpenes"
+    ]
+  },
   "leafly-og-history": {
     "name": "Leafly — OG Kush family genealogy",
     "url": "https://www.leafly.com/news/strains-products/og-kush-marijuana-family-strains-appreciation",
