@@ -13,7 +13,7 @@
   "terpenes": {"status": "confirmed", "confidence": "C", "basis": "breederOfficial", "sourceRefs": ["dna-strawberry-banana-s1", "leafly-strawberry-banana"], "items": ["Limonene", "Myrcene", "Caryophyllene"], "note": "DNA Genetics公式に記載がありOriginal Strawberry Bananaの専門DB情報とも一致するが、S1固有の分析対象・lotを確認できるラボ資料は未確認のため確度を抑えている。"},
   "origin": {"status": "confirmed", "confidence": "A", "basis": "breederOfficial", "sourceRefs": ["dna-strawberry-banana-s1"], "text": "DNA GeneticsがOriginal Strawberry Bananaをself-pollinationして展開したS1ライン。", "note": "S1自体の発売年は確認できていない。"},
   "history": {"status": "confirmed", "confidence": "A", "basis": "breederOfficial", "sourceRefs": ["dna-strawberry-banana-s1", "leafly-strawberry-banana", "serious-seeds-bubble-gum"], "text": "Original Strawberry Bananaをself-pollinationして作られたS1。元系統はCrockett’s Banana KushとSerious Seeds Bubble GumのStrawberry phenotypeを背景に持つ。Original Strawberry Banana側の受賞歴は確認できるが、S1固有の受賞としては登録しない。", "note": "OriginalとS1のscopeを分離して記録。"},
-  "visuals": [{"role": "primary", "src": "strains/strawberry-banana-s1/images/generated/primary.webp", "aiGenerated": true, "sourceType": "aiGenerated", "rights": "AI-generated project asset for Cannabis Strain Wisdom.", "alt": "Strawberry Bananaの実写資料の花姿を参照して作成したStrawberry Banana S1の乾燥前の花のAI生成参考ビジュアル", "scope": "cultivar"}],
+  "visuals": [{"role": "primary", "src": "strains/strawberry-banana-s1/images/generated/primary-20260817.webp", "aiGenerated": true, "sourceType": "aiGenerated", "rights": "AI-generated project asset for Cannabis Strain Wisdom.", "alt": "Strawberry Bananaの実写資料の花姿を参照して作成したStrawberry Banana S1の乾燥前の花のAI生成参考ビジュアル", "scope": "cultivar"}],
   "checkedAt": "2026-08-16",
   "updatedAt": "2026-08-16"
 }
