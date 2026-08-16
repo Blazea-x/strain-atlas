@@ -1,0 +1,83 @@
+{
+  "schemaVersion": 1,
+  "id": "frisian-duck",
+  "status": "review",
+  "name": "Frisian Duck",
+  "jp": null,
+  "aliases": [],
+  "classification": {
+    "type": "hybrid"
+  },
+  "breeding": {
+    "generation": "unknown",
+    "method": null
+  },
+  "lineage": {
+    "status": "confirmed",
+    "confidence": "A",
+    "basis": "breederOfficial",
+    "sourceRefs": [
+      "dutch-passion-frisian-duck"
+    ],
+    "display": "Frisian Dew × DucksFoot",
+    "parents": [
+      "Frisian Dew",
+      "DucksFoot"
+    ],
+    "note": "Dutch Passion公式表記に基づく。世代番号は公式ページで特定できないためbreeding.generationはunknown。"
+  },
+  "relations": [
+    {
+      "entityId": "dutch-passion",
+      "roles": [
+        "breeder",
+        "seedCompany"
+      ],
+      "status": "confirmed",
+      "confidence": "A",
+      "basis": "breederOfficial",
+      "sourceRefs": [
+        "dutch-passion-frisian-duck"
+      ]
+    }
+  ],
+  "aromas": {
+    "status": "confirmed",
+    "confidence": "A",
+    "basis": "breederOfficial",
+    "sourceRefs": [
+      "dutch-passion-frisian-duck"
+    ],
+    "items": [
+      "spicy",
+      "fresh forest",
+      "pine",
+      "citrus",
+      "fruity"
+    ],
+    "note": "Dutch Passion公式の香り説明を要約。phenotype差を含むため具体的な単一香調に固定しない。"
+  },
+  "terpenes": {
+    "status": "unknown",
+    "items": [],
+    "note": "公式ページで化学成分名としてのterpene profileを確認できないためunknown。"
+  },
+  "origin": {
+    "status": "unknown",
+    "text": "",
+    "note": "Dutch Passion公式ページから品種そのものの地理的起源を一意に確定できないためunknown。"
+  },
+  "history": {
+    "status": "confirmed",
+    "confidence": "A",
+    "basis": "breederOfficial",
+    "sourceRefs": [
+      "dutch-passion-frisian-duck"
+    ],
+    "text": "Dutch Passionが特徴的なダックフット状の葉形と屋外での目立ちにくさを狙い、長年の選抜育種で作り上げた系統。",
+    "note": "公式ページはmany years of careful breedingと説明している。"
+  },
+  "visuals": [],
+  "checkedAt": "2026-08-17",
+  "updatedAt": "2026-08-17"
+}
