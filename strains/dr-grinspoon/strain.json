@@ -1,0 +1,85 @@
+{
+  "schemaVersion": 1,
+  "id": "dr-grinspoon",
+  "status": "review",
+  "name": "Dr Grinspoon",
+  "jp": null,
+  "aliases": [
+    "Dr. Grinspoon"
+  ],
+  "classification": {
+    "type": "sativa"
+  },
+  "breeding": {
+    "generation": "unknown",
+    "method": null
+  },
+  "lineage": {
+    "status": "unknown",
+    "display": "Heirloom Sativa Strain (parentage undisclosed)",
+    "parents": [],
+    "note": "Barney's Farm公式はpure Heirloom Sativaとするが、親品種を開示していないためparentageはunknown。"
+  },
+  "relations": [
+    {
+      "entityId": "barneys-farm",
+      "roles": [
+        "breeder",
+        "seedCompany"
+      ],
+      "status": "confirmed",
+      "confidence": "A",
+      "basis": "breederOfficial",
+      "sourceRefs": [
+        "barneys-farm-dr-grinspoon"
+      ]
+    }
+  ],
+  "aromas": {
+    "status": "confirmed",
+    "confidence": "A",
+    "basis": "breederOfficial",
+    "sourceRefs": [
+      "barneys-farm-dr-grinspoon"
+    ],
+    "items": [
+      "sumac",
+      "lemon",
+      "tangy",
+      "tropical fruit"
+    ],
+    "note": "Barney's Farm公式Aroma表記を保持。"
+  },
+  "terpenes": {
+    "status": "confirmed",
+    "confidence": "B",
+    "basis": "specialistDatabase",
+    "sourceRefs": [
+      "leafly-dr-grinspoon"
+    ],
+    "items": [
+      "Terpinolene",
+      "Myrcene",
+      "Pinene"
+    ],
+    "note": "Leafly専門データベースのterpene表示を補助根拠として採用。Barney's Farm公式では化学成分名のterpene profileを確認できないためAにはしない。"
+  },
+  "origin": {
+    "status": "unknown",
+    "text": "",
+    "note": "Barney's Farm公式ページから品種そのものの地理的originを一意に確定できないためunknown。"
+  },
+  "history": {
+    "status": "confirmed",
+    "confidence": "A",
+    "basis": "breederOfficial",
+    "sourceRefs": [
+      "barneys-farm-dr-grinspoon"
+    ],
+    "text": "カンナビス擁護者・研究者・著者であるDr. Lester Grinspoonへの敬意を表して命名された。",
+    "note": "Barney's Farm公式Descriptionに基づく。"
+  },
+  "visuals": [],
+  "checkedAt": "2026-08-17",
+  "updatedAt": "2026-08-17"
+}
