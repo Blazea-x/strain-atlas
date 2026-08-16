@@ -1,0 +1,19 @@
+{
+  "schemaVersion": 1,
+  "id": "barneys-farm-dr-grinspoon",
+  "publisher": "Barney's Farm",
+  "title": "Dr Grinspoon Strain",
+  "url": "https://www.barneysfarm.com/dr-grinspoon-5",
+  "sourceType": "breederOfficial",
+  "supports": [
+    "breeder",
+    "seedCompany",
+    "classification",
+    "lineage",
+    "history",
+    "aromas"
+  ],
+  "publishedAt": null,
+  "checkedAt": "2026-08-17",
+  "note": "Barney's Farm公式Dr Grinspoon品種ページ。Heirloom Sativa Strain、100% sativa、Dr. Lester Grinspoonへの敬意による命名、sumac / lemon / tangy / tropical fruitのaromaを確認。親品種は公式ページで開示されていないためlineage parentageはunknown扱い。"
+}
