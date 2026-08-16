@@ -1,0 +1,18 @@
+{
+  "schemaVersion": 1,
+  "id": "dna-eu-cataract-kush",
+  "publisher": "DNA Genetics",
+  "title": "Cataract Kush",
+  "url": "https://www.dnagenetics.eu/cataract-kush.html",
+  "sourceType": "breederOfficial",
+  "supports": [
+    "lineage",
+    "breeder",
+    "classification",
+    "origin",
+    "history"
+  ],
+  "publishedAt": null,
+  "checkedAt": "2026-08-17",
+  "note": "Current DNA Genetics European catalog page. It identifies Cataract Kush as a combination of OG Kush and L.A. Confidential, lists 99% Indica / 1% Sativa, and states that the strain was years in the making."
+}
