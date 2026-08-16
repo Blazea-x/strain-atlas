@@ -20,6 +20,13 @@
     brand: "BRAND",
     distributor: "DISTRIBUTOR"
   };
+  const historyHeadlines = {
+    "wedding-cake": "2018 SoCal Cup 1位 / 2019 Leafly SOTY / 系譜説の変遷",
+    "bubble-gum": "Indiana由来から複数ブリーダー系統へ",
+    "og-kush": "West Coast OGファミリーの基盤",
+    "strawberry-banana-s1": "Original Strawberry BananaからS1へ",
+    "super-lemon-haze": "2008・2009年の主要カップで1位"
+  };
 
   const grid = document.getElementById("cultivar-grid");
   const search = document.getElementById("search");
@@ -51,6 +58,71 @@
     return compact([String(claim.status || "").toUpperCase(), claim.confidence]).join(" / ");
   };
   const evidenceShort = claim => claim?.confidence || (claim?.status === "unknown" ? "?" : "-");
+  const evidenceBadge = claim => {
+    const grade = String(claim?.confidence || "unknown").toLowerCase();
+    const cls = ["a", "b", "c"].includes(grade) ? grade : "unknown";
+    return `<span class="confidence-badge ${cls}"><i aria-hidden="true"></i>${esc(evidenceText(claim))}</span>`;
+  };
+
+  const sensoryColor = (item, kind) => {
+    const x = String(item || "").toLowerCase();
+    if (kind === "aroma") {
+      if (/strawberry|ストロベリー|berry|ベリー/.test(x)) return "242,78,125";
+      if (/banana|バナナ/.test(x)) return "242,204,66";
+      if (/bubble|バブルガム|sweet|スイート/.test(x)) return "232,103,190";
+      if (/gas|fuel|フューエル|ガス/.test(x)) return "242,132,62";
+      if (/vanilla|バニラ/.test(x)) return "232,195,132";
+      if (/lemon|レモン|citrus|シトラス/.test(x)) return "217,221,75";
+      if (/pine|パイン/.test(x)) return "65,182,108";
+      if (/floral|フローラル|haze|ヘイズ/.test(x)) return "180,105,218";
+      if (/earth|アーシー|wood|ウッド/.test(x)) return "157,132,82";
+      if (/pepper|ペッパー/.test(x)) return "224,99,73";
+      return "198,112,162";
+    }
+    if (/limonene/.test(x)) return "238,205,61";
+    if (/myrcene/.test(x)) return "72,190,107";
+    if (/caryophyllene/.test(x)) return "190,104,211";
+    if (/terpinolene/.test(x)) return "64,185,207";
+    return "86,169,207";
+  };
+
+  const ensureDetailUxStyles = () => {
+    if (document.getElementById("restored-detail-ux")) return;
+    const style = document.createElement("style");
+    style.id = "restored-detail-ux";
+    style.textContent = `
+      .detail-shell .status-item{position:relative;overflow:hidden}
+      .detail-shell .detail-action{padding-right:68px}
+      .detail-shell .detail-action.open{padding-right:9px;border-color:rgba(217,182,93,.22)}
+      .detail-shell .detail-toggle{position:absolute;right:0;top:0;bottom:0;width:58px;border:0;border-left:1px solid rgba(255,255,255,.09);background:linear-gradient(180deg,rgba(255,255,255,.045),rgba(255,255,255,.012));color:#cfd8d2;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px}
+      .detail-shell .detail-toggle small{font-size:6px;font-weight:950;letter-spacing:.13em}
+      .detail-shell .detail-toggle b{font-size:22px;line-height:.8;font-weight:400;transition:transform .16s ease}
+      .detail-shell .detail-action.open .detail-toggle{bottom:auto;height:58px}
+      .detail-shell .detail-action.open .detail-toggle b{transform:rotate(90deg)}
+      .detail-shell .detail-action.open>.status-label,.detail-shell .detail-action.open>.status-value,.detail-shell .detail-action.open>.status-meta{padding-right:58px}
+      .detail-shell .detail-deep{display:none;margin-top:11px;padding-top:11px;border-top:1px solid rgba(255,255,255,.08);color:#dbe3de;font-size:11px;line-height:1.72}
+      .detail-shell .detail-action.open .detail-deep{display:block}
+      .detail-shell .detail-deep-heading{margin:0 0 7px;color:#cfd8d2;font-size:7px;font-weight:950;letter-spacing:.13em}
+      .detail-shell .detail-deep p{margin:0 0 10px}
+      .detail-shell .detail-deep p:last-child{margin-bottom:0}
+      .detail-shell .detail-deep-note{padding-top:9px;border-top:1px solid rgba(255,255,255,.06);color:#9eaaa3;font-size:9px;line-height:1.65}
+      .detail-shell .detail-lineage{border-color:rgba(160,138,84,.22)}
+      .detail-shell .detail-history{border-color:rgba(120,106,160,.22)}
+      .detail-shell .detail-sources{border-color:rgba(176,148,82,.22)}
+      .detail-shell .chips{gap:7px;margin-top:8px}
+      .detail-shell .chip{--chip:180,180,180;display:inline-flex;align-items:center;gap:6px;padding:5px 8px;border:1px solid rgba(var(--chip),.34);border-radius:999px;background:rgba(255,255,255,.035);color:#edf2ef;font-size:8px;line-height:1.2}
+      .detail-shell .chip-dot{width:8px;height:8px;flex:0 0 8px;border-radius:50%;background:rgb(var(--chip));box-shadow:0 0 5px rgba(var(--chip),.95),0 0 12px rgba(var(--chip),.58)}
+      .detail-shell .sensory-aroma{border-color:rgba(212,93,145,.18)}
+      .detail-shell .sensory-terpene{border-color:rgba(59,181,196,.18)}
+      .detail-shell .confidence-badge{display:inline-flex;align-items:center;gap:5px;color:#8f9d95;font-size:7px;font-weight:820;letter-spacing:.02em}
+      .detail-shell .confidence-badge i{width:6px;height:6px;flex:0 0 6px;border-radius:50%;background:currentColor;box-shadow:0 0 5px currentColor}
+      .detail-shell .confidence-badge.a{color:#69d783}.detail-shell .confidence-badge.b{color:#efbd50}.detail-shell .confidence-badge.c{color:#e58c64}.detail-shell .confidence-badge.unknown{color:#83908a}
+      .detail-shell .source-detail-link{display:block;margin:0 0 10px;padding:8px;border:1px solid rgba(255,255,255,.065);border-radius:10px;background:rgba(255,255,255,.02);color:#dfc775;text-decoration:none;font-size:9px;line-height:1.4}
+      .detail-shell .source-detail-link:last-child{margin-bottom:0}
+      .detail-shell .source-detail-link small{display:block;margin-top:3px;color:#84958b}
+    `;
+    document.head.appendChild(style);
+  };
 
   const relationNames = cultivar => (cultivar.relations || []).map(relation => {
     const entity = catalog?.entities?.[relation.entityId];
@@ -130,8 +202,24 @@
     renderGrid();
   }
 
-  const chips = items => items?.length ? `<div class="chips">${items.map(item => `<span class="chip">${esc(item)}</span>`).join("")}</div>` : `<div class="status-value">未確認</div>`;
+  const chips = (items, kind) => items?.length
+    ? `<div class="chips">${items.map(item => `<span class="chip" style="--chip:${sensoryColor(item, kind)}"><i class="chip-dot" aria-hidden="true"></i><span>${esc(item)}</span></span>`).join("")}</div>`
+    : `<div class="status-value">未確認</div>`;
+
   const statusItem = (label, value, meta = "", wide = false) => `<section class="status-item${wide ? " wide" : ""}"><div class="status-label">${esc(label)}</div><div class="status-value">${value}</div>${meta ? `<div class="status-meta">${esc(meta)}</div>` : ""}</section>`;
+
+  const sensoryItem = (label, items, claim, kind) => `<section class="status-item wide sensory-${kind}"><div class="status-label">${esc(label)}</div><div class="status-value">${chips(items, kind)}</div><div class="status-meta">${evidenceBadge(claim)}</div></section>`;
+
+  const actionItem = (kind, label, summary, deep, claim, metaText = "") => {
+    const id = `detail-${kind}-${Math.random().toString(36).slice(2, 9)}`;
+    return `<section class="status-item wide detail-action detail-${kind}" data-detail-action>
+      <div class="status-label">${esc(label)}</div>
+      <div class="status-value">${summary}</div>
+      <div class="status-meta">${claim ? evidenceBadge(claim) : esc(metaText)}</div>
+      <button class="detail-toggle" type="button" aria-expanded="false" aria-controls="${id}" data-detail-toggle><small>DETAIL</small><b>›</b></button>
+      <div class="detail-deep" id="${id}">${deep}</div>
+    </section>`;
+  };
 
   function sourceRefsFor(cultivar) {
     const refs = [];
@@ -141,6 +229,7 @@
   }
 
   function renderDetail(cultivar) {
+    ensureDetailUxStyles();
     const visual = primaryVisual(cultivar);
     const entities = relationNames(cultivar);
     const entityText = entities.length
@@ -148,6 +237,24 @@
       : "未確認";
     const generation = cultivar.breeding?.generation || "unknown";
     const sources = sourceRefsFor(cultivar).map(id => catalog.sources?.[id]).filter(Boolean);
+
+    const lineageSummary = esc(cultivar.lineage?.display || "未確認");
+    const lineageNote = cultivar.lineage?.note || "";
+    const lineage = lineageNote
+      ? actionItem("lineage", "LINEAGE", lineageSummary, `<div class="detail-deep-heading">BACKGROUND / EVIDENCE</div><p>${esc(lineageNote)}</p>`, cultivar.lineage)
+      : statusItem("LINEAGE", lineageSummary, evidenceText(cultivar.lineage), true);
+
+    const historyText = cultivar.history?.status !== "unknown" ? (cultivar.history?.text || "") : "";
+    const historyNote = cultivar.history?.note || "";
+    const historyHeadline = historyHeadlines[cultivar.id] || "背景・受賞・変遷を詳しく見る";
+    const history = historyText
+      ? actionItem("history", "HISTORY", esc(historyHeadline), `<div class="detail-deep-heading">FULL HISTORY</div><p>${esc(historyText)}</p>${historyNote ? `<p class="detail-deep-note">${esc(historyNote)}</p>` : ""}`, cultivar.history)
+      : "";
+
+    const sourceDeep = sources.length
+      ? `<div class="detail-deep-heading">SOURCE LIST</div>${sources.map(source => `<a class="source-detail-link" href="${esc(source.url)}" target="_blank" rel="noopener noreferrer">${esc(source.publisher)} / ${esc(source.title)}<small>${esc(source.sourceType)} ・ checked ${esc(source.checkedAt)}</small></a>`).join("")}`
+      : `<div class="detail-deep-heading">SOURCE LIST</div><p>主張に紐付く出典は現在ありません。</p>`;
+    const sourceAction = actionItem("sources", "SOURCES", `${sources.length} SOURCES`, sourceDeep, null, "EVIDENCE");
 
     detailShell.innerHTML = `
       <div class="detail-topbar"><strong>${esc(cultivar.name)}</strong><button class="close-detail" type="button" aria-label="詳細を閉じる">×</button></div>
@@ -160,14 +267,13 @@
         ${statusItem("GENERATION", esc(generation))}
         ${statusItem("BREEDER / ENTITY", entityText, entities.map(item => item.evidence).join(" ・ "))}
         ${statusItem("UPDATED", esc(cultivar.updatedAt || ""), `CHECKED ${cultivar.checkedAt || "-"}`)}
-        ${statusItem("LINEAGE", esc(cultivar.lineage?.display || "未確認"), evidenceText(cultivar.lineage), true)}
-        ${statusItem("AROMA", chips(cultivar.aromas?.items || []), evidenceText(cultivar.aromas), true)}
-        ${statusItem("TERPENE", chips(cultivar.terpenes?.items || []), evidenceText(cultivar.terpenes), true)}
+        ${cultivar.origin && cultivar.origin.status !== "unknown" ? statusItem("ORIGIN", esc(claimText(cultivar.origin) || "未確認"), evidenceText(cultivar.origin), true) : ""}
+        ${lineage}
+        ${cultivar.aromas?.items?.length ? sensoryItem("AROMA", cultivar.aromas.items, cultivar.aromas, "aroma") : ""}
+        ${cultivar.terpenes?.items?.length ? sensoryItem("TERPENE", cultivar.terpenes.items, cultivar.terpenes, "terpene") : ""}
+        ${history}
+        ${sourceAction}
       </div>
-      ${cultivar.origin ? `<section class="deep-section"><h3>ORIGIN</h3><p>${esc(claimText(cultivar.origin) || "未確認")}</p></section>` : ""}
-      <section class="deep-section"><h3>LINEAGE DETAILS</h3><p>${esc(cultivar.lineage?.note || "追加注記なし")}</p></section>
-      ${cultivar.history ? `<section class="deep-section"><h3>HISTORY</h3><p>${esc(claimText(cultivar.history) || "未確認")}</p></section>` : ""}
-      <section class="deep-section"><h3>SOURCES</h3><div class="source-list">${sources.length ? sources.map(source => `<a class="source-link" href="${esc(source.url)}" target="_blank" rel="noopener noreferrer">${esc(source.publisher)} / ${esc(source.title)}<small>${esc(source.sourceType)} ・ checked ${esc(source.checkedAt)}</small></a>`).join("") : `<p>主張に紐付く出典は現在ありません。</p>`}</div></section>
     `;
   }
 
@@ -203,7 +309,22 @@
   });
 
   detailShell.addEventListener("click", event => {
-    if (event.target.closest(".close-detail")) closeDetail(true);
+    if (event.target.closest(".close-detail")) {
+      closeDetail(true);
+      return;
+    }
+    const button = event.target.closest("[data-detail-toggle]");
+    if (!button) return;
+    const box = button.closest("[data-detail-action]");
+    if (!box) return;
+    const open = !box.classList.contains("open");
+    detailShell.querySelectorAll("[data-detail-action].open").forEach(other => {
+      if (other === box) return;
+      other.classList.remove("open");
+      other.querySelector("[data-detail-toggle]")?.setAttribute("aria-expanded", "false");
+    });
+    box.classList.toggle("open", open);
+    button.setAttribute("aria-expanded", open ? "true" : "false");
   });
 
   grid.addEventListener("click", event => {
@@ -255,7 +376,7 @@
       dataState.textContent = "MASTER DATA";
       catalogMeta.textContent = `${catalog.counts?.cultivars ?? 0} CULTIVARS · ${catalog.counts?.sources ?? 0} SOURCES · ${catalog.counts?.entities ?? 0} ENTITIES`;
       setCount("entry-cultivar-count", catalog.counts?.cultivars);
-      for (const key of ["sativa", "indica", "hybrid"]) {
+      for (const key of ["sativa", "indica", "hybrid", "unclassified"]) {
         const count = catalog.explore?.[key]?.length || 0;
         setCount(`count-${key}`, count);
         setCount(`overview-${key}`, count);
