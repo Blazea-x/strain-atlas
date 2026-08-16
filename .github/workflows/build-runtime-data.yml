@@ -22,7 +22,7 @@ jobs:
   build-runtime:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
+      - name: Checkout MASTER data
         uses: actions/checkout@v4
         with:
           ref: master-migration
@@ -50,13 +50,27 @@ jobs:
             git push origin HEAD:master-migration
           fi
 
+      - name: Checkout published site shell from main
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          path: pages-site
+
+      - name: Verify published site shell
+        run: |
+          test -f pages-site/index.html
+          test -f pages-site/preview/app.js
+          grep -q 'preview/app.js' pages-site/index.html
+          grep -q 'master-migration/runtime/catalog.json' pages-site/preview/app.js
+          echo "Publishing main UI shell with master-migration runtime data"
+
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v6
 
       - name: Upload GitHub Pages artifact
         uses: actions/upload-pages-artifact@v5
         with:
-          path: "."
+          path: "pages-site"
 
   deploy-pages:
     needs: build-runtime
