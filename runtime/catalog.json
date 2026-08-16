@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-15T23:30:07.971Z",
+  "generatedAt": "2026-08-16T07:45:57.977Z",
   "sourceOfTruth": {
     "cultivars": "strains/<id>/strain.json",
     "sources": "sources/*.json",
@@ -828,11 +828,15 @@
       "supports": [
         "lineage",
         "breeder",
+        "classification",
+        "aromas",
+        "terpenes",
+        "origin",
         "history"
       ],
       "publishedAt": null,
-      "checkedAt": "2026-08-14",
-      "note": "Migrated from legacy sources.js without adding new claims."
+      "checkedAt": "2026-08-16",
+      "note": "Primary Green House Seed Co. source. Confirms Lemon Skunk × Super Silver Haze, 70% Sativa / 30% Indica, lemon/citrus/Haze/woody/pine sensory description, reported β-Caryophyllene/D-Limonene/Terpinolene profile, late-2000s breeding context, and listed awards."
     },
     "high-times-socal-2018-wedding-cake": {
       "schemaVersion": 1,
