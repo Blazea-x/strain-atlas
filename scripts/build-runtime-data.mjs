@@ -61,4 +61,113 @@ const outDir = path.join(ROOT, "runtime");
 fs.mkdirSync(outDir, { recursive: true });
 const outFile = path.join(outDir, "catalog.json");
 fs.writeFileSync(outFile, JSON.stringify(catalog, null, 2) + "\n", "utf8");
-console.log(`Built runtime/catalog.json: ${cultivars.length} cultivars / ${sourceRecords.length} sources / ${entityRecords.length} entities`);
+
+// Compatibility outputs for the current UI. These files are generated from
+// MASTER records so the existing design can stay unchanged while the data
+// source remains strains/, sources/, and entities/.
+const typeLabels = {
+  "sativa": "サティバ",
+  "sativa-dominant-hybrid": "サティバ優勢",
+  "indica": "インディカ",
+  "indica-dominant-hybrid": "インディカ優勢",
+  "hybrid": "ハイブリッド",
+  "balanced-hybrid": "ハイブリッド",
+  "unknown": "未分類"
+};
+
+const unique = values => [...new Set(values.filter(Boolean))];
+const sourceRefsFor = cultivar => unique([
+  ...(cultivar.lineage?.sourceRefs || []),
+  ...(cultivar.aromas?.sourceRefs || []),
+  ...(cultivar.terpenes?.sourceRefs || []),
+  ...(cultivar.origin?.sourceRefs || []),
+  ...(cultivar.history?.sourceRefs || []),
+  ...(cultivar.relations || []).flatMap(relation => relation.sourceRefs || [])
+]);
+
+const confidenceFor = cultivar => {
+  const parts = [];
+  const add = (label, section) => {
+    if (section?.confidence) parts.push(`${label} ${section.confidence}`);
+  };
+  add("LINEAGE", cultivar.lineage);
+  add("AROMA", cultivar.aromas);
+  add("TERPENE", cultivar.terpenes);
+  add("ORIGIN", cultivar.origin);
+  add("HISTORY", cultivar.history);
+  return {
+    display: parts.join(" / "),
+    note: "正本データの項目別confidenceを表示"
+  };
+};
+
+const legacyStrains = cultivars.map(cultivar => {
+  const breederRelation = (cultivar.relations || []).find(relation => (relation.roles || []).includes("breeder"))
+    || (cultivar.relations || []).find(relation => (relation.roles || []).includes("seedCompany"));
+  const breederEntity = breederRelation ? entities[breederRelation.entityId] : null;
+  const typeKey = cultivar.classification?.type || "unknown";
+
+  return {
+    id: cultivar.id,
+    name: cultivar.name,
+    jp: cultivar.jp || "",
+    type: { key: typeKey, label: typeLabels[typeKey] || typeKey },
+    aliases: cultivar.aliases || [],
+    identity: {
+      scope: "cultivar",
+      note: "品種一般の情報。特定ロット・製品・フェノタイプを示すものではありません。"
+    },
+    lineage: {
+      display: cultivar.lineage?.display || "",
+      parents: cultivar.lineage?.parents || [],
+      note: cultivar.lineage?.note || ""
+    },
+    aromas: cultivar.aromas?.items || [],
+    breeder: { name: breederEntity?.name || "", era: "" },
+    terpenes: cultivar.terpenes?.items || [],
+    originHistory: cultivar.origin?.text || "",
+    history: cultivar.history?.text || "",
+    confidence: confidenceFor(cultivar),
+    visuals: (cultivar.visuals || []).map(visual => ({
+      ...visual,
+      label: visual.role === "primary"
+        ? "VISUAL REFERENCE"
+        : visual.role === "aroma"
+          ? "AROMA VISUAL"
+          : String(visual.role || "VISUAL").toUpperCase()
+    })),
+    sourceIds: sourceRefsFor(cultivar),
+    reviews: []
+  };
+});
+
+const sourceTypeMap = {
+  breederOfficial: { type: "primary", typeLabel: "一次情報" },
+  specialistDatabase: { type: "specialist", typeLabel: "専門資料" },
+  historicalSource: { type: "historical", typeLabel: "歴史資料" }
+};
+
+const legacySources = Object.fromEntries(sourceRecords.map(source => {
+  const mapped = sourceTypeMap[source.sourceType] || { type: source.sourceType || "source", typeLabel: "資料" };
+  return [source.id, {
+    name: [source.publisher, source.title].filter(Boolean).join(" — ") || source.id,
+    url: source.url || "#",
+    type: mapped.type,
+    typeLabel: mapped.typeLabel,
+    checked: source.checkedAt || "",
+    supports: source.supports || []
+  }];
+}));
+
+fs.writeFileSync(
+  path.join(ROOT, "data.js"),
+  `window.STRAINS=${JSON.stringify(legacyStrains, null, 2)};\n`,
+  "utf8"
+);
+fs.writeFileSync(
+  path.join(ROOT, "sources.js"),
+  `window.SOURCES=${JSON.stringify(legacySources, null, 2)};\n`,
+  "utf8"
+);
+
+console.log(`Built runtime/catalog.json + display compatibility data: ${cultivars.length} cultivars / ${sourceRecords.length} sources / ${entityRecords.length} entities`);
