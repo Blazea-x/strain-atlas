@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-16T09:21:46.864Z",
+  "generatedAt": "2026-08-16T11:46:24.066Z",
   "sourceOfTruth": {
     "cultivars": "strains/<id>/strain.json",
     "sources": "sources/*.json",
@@ -8,8 +8,8 @@
   },
   "counts": {
     "cultivars": 7,
-    "sources": 16,
-    "entities": 6
+    "sources": 18,
+    "entities": 7
   },
   "explore": {
     "sativa": [
@@ -818,6 +818,24 @@
       "checkedAt": "2026-08-16",
       "note": "Primary DNA Genetics product source for Chocolope 256. It identifies the cross as Lemon Skunk 256 (Emerald Cup Winning Cut) × Chocolope, classifies the cultivar as Sativa-dominant (70% Sativa / 30% Indica in the product description), gives cultivar-level aroma descriptors, and names Myrcene, Beta-caryophyllene, and Limonene. The page is not a lot-specific laboratory COA, so terpene confidence should remain conservative. No named breeding generation such as F1/F2/BX is stated."
     },
+    "dna-eu-the-og-18": {
+      "schemaVersion": 1,
+      "id": "dna-eu-the-og-18",
+      "publisher": "DNA Genetics / Reserva Privada",
+      "title": "The OG #18",
+      "url": "https://www.dnagenetics.eu/the-og-18.html",
+      "sourceType": "breederOfficial",
+      "supports": [
+        "lineage",
+        "breeder",
+        "aromas",
+        "history",
+        "breeding"
+      ],
+      "publishedAt": null,
+      "checkedAt": "2026-08-16",
+      "note": "Current DNA Genetics European catalog page. It identifies The #18 as a selection from previously released feminized OG Kush seeds, says it was re-feminized, labels the genetics as OG Kush S1, describes sour/fuel characteristics, and lists historical awards."
+    },
     "dna-strawberry-banana-s1": {
       "schemaVersion": 1,
       "id": "dna-strawberry-banana-s1",
@@ -1023,6 +1041,24 @@
       "checkedAt": "2026-08-16",
       "note": "Official Seed Junky site identifies Wedding Cake among its pheno-hunted cultivars. Supports breeder attribution and cultivar existence, but not the exact parentage or Triangle Mints #23 designation."
     },
+    "seedfinder-the-og-18": {
+      "schemaVersion": 1,
+      "id": "seedfinder-the-og-18",
+      "publisher": "SeedFinder.eu",
+      "title": "The OG #18 (Reserva Privada)",
+      "url": "https://seedfinder.eu/en/strain-info/the-og-nr18/reserva-privada",
+      "sourceType": "specialistDatabase",
+      "supports": [
+        "lineage",
+        "breeder",
+        "classification",
+        "history",
+        "awards"
+      ],
+      "publishedAt": null,
+      "checkedAt": "2026-08-16",
+      "note": "Specialist database corroborating Reserva Privada attribution, feminized-seed status, OG Kush background, flowering description, and major award records."
+    },
     "serious-seeds-bubble-gum": {
       "schemaVersion": 1,
       "id": "serious-seeds-bubble-gum",
@@ -1093,6 +1129,19 @@
       "status": "confirmed",
       "checkedAt": "2026-08-16",
       "updatedAt": "2026-08-16"
+    },
+    "reserva-privada": {
+      "schemaVersion": 1,
+      "id": "reserva-privada",
+      "name": "Reserva Privada",
+      "roles": [
+        "breeder",
+        "seedCompany",
+        "brand"
+      ],
+      "checkedAt": "2026-08-16",
+      "updatedAt": "2026-08-16",
+      "note": "DNA Genetics-associated breeding and seed line. The OG #18 is listed under Reserva Privada on DNA Genetics' current European catalog and historical Reserva Privada material."
     },
     "seed-junky-genetics": {
       "schemaVersion": 1,

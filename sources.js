@@ -27,6 +27,20 @@ window.SOURCES={
       "origin"
     ]
   },
+  "dna-eu-the-og-18": {
+    "name": "DNA Genetics / Reserva Privada — The OG #18",
+    "url": "https://www.dnagenetics.eu/the-og-18.html",
+    "type": "primary",
+    "typeLabel": "一次情報",
+    "checked": "2026-08-16",
+    "supports": [
+      "lineage",
+      "breeder",
+      "aromas",
+      "history",
+      "breeding"
+    ]
+  },
   "dna-strawberry-banana-s1": {
     "name": "DNA Genetics — Strawberry Banana S1",
     "url": "https://dnagenetics.com/product/strawberry-banana-s1/",
@@ -182,6 +196,20 @@ window.SOURCES={
     "supports": [
       "breeder",
       "cultivarExistence"
+    ]
+  },
+  "seedfinder-the-og-18": {
+    "name": "SeedFinder.eu — The OG #18 (Reserva Privada)",
+    "url": "https://seedfinder.eu/en/strain-info/the-og-nr18/reserva-privada",
+    "type": "specialist",
+    "typeLabel": "専門資料",
+    "checked": "2026-08-16",
+    "supports": [
+      "lineage",
+      "breeder",
+      "classification",
+      "history",
+      "awards"
     ]
   },
   "serious-seeds-bubble-gum": {
