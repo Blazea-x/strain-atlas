@@ -1,12 +1,12 @@
 {
-  "schemaVersion":1,
-  "id":"ghsc-super-lemon-haze",
-  "publisher":"Green House Seed Co.",
-  "title":"Super Lemon Haze",
-  "url":"https://shop.greenhouseseeds.nl/feminised-cannabis-seeds/1-seed-pack/super-lemon-haze/?variation_id=26",
-  "sourceType":"breederOfficial",
-  "supports":["lineage","breeder","history"],
-  "publishedAt":null,
-  "checkedAt":"2026-08-14",
-  "note":"Migrated from legacy sources.js without adding new claims."
+  "schemaVersion": 1,
+  "id": "ghsc-super-lemon-haze",
+  "publisher": "Green House Seed Co.",
+  "title": "Super Lemon Haze",
+  "url": "https://shop.greenhouseseeds.nl/feminised-cannabis-seeds/1-seed-pack/super-lemon-haze/?variation_id=26",
+  "sourceType": "breederOfficial",
+  "supports": ["lineage", "breeder", "classification", "aromas", "terpenes", "origin", "history"],
+  "publishedAt": null,
+  "checkedAt": "2026-08-16",
+  "note": "Primary Green House Seed Co. source. Confirms Lemon Skunk × Super Silver Haze, 70% Sativa / 30% Indica, lemon/citrus/Haze/woody/pine sensory description, reported β-Caryophyllene/D-Limonene/Terpinolene profile, late-2000s breeding context, and listed awards."
 }
