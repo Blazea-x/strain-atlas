@@ -25,6 +25,24 @@ window.SOURCES={
       "origin"
     ]
   },
+  "ace-seeds-zamaldelica": {
+    "name": "ACE Seeds — Zamaldelica Regular",
+    "url": "https://www.aceseeds.org/en/seeds/zamaldelica-regular-seeds/",
+    "type": "primary",
+    "typeLabel": "一次情報",
+    "checked": "2026-08-17",
+    "supports": [
+      "lineage",
+      "breeder",
+      "seedCompany",
+      "classification",
+      "generation",
+      "history",
+      "aromas",
+      "terpenes",
+      "origin"
+    ]
+  },
   "acs-og-kush-volatiles-2021": {
     "name": "ACS Omega — Identification of a New Family of Prenylated Volatile Sulfur Compounds in Cannabis Revealed by Comprehensive Two-Dimensional Gas Chromatography",
     "url": "https://doi.org/10.1021/acsomega.1c04196",
@@ -34,6 +52,21 @@ window.SOURCES={
     "supports": [
       "aromas",
       "terpenes"
+    ]
+  },
+  "barneys-farm-dr-grinspoon": {
+    "name": "Barney's Farm — Dr Grinspoon Strain",
+    "url": "https://www.barneysfarm.com/dr-grinspoon-5",
+    "type": "primary",
+    "typeLabel": "一次情報",
+    "checked": "2026-08-17",
+    "supports": [
+      "breeder",
+      "seedCompany",
+      "classification",
+      "lineage",
+      "history",
+      "aromas"
     ]
   },
   "david-downs-wedding-cake-2026": {
@@ -104,6 +137,21 @@ window.SOURCES={
       "aromas",
       "terpenes",
       "history"
+    ]
+  },
+  "dutch-passion-frisian-duck": {
+    "name": "Dutch Passion — Frisian Duck®",
+    "url": "https://dutch-passion.com/en/cannabis-seeds/frisian-duck",
+    "type": "primary",
+    "typeLabel": "一次情報",
+    "checked": "2026-08-17",
+    "supports": [
+      "lineage",
+      "breeder",
+      "seedCompany",
+      "classification",
+      "history",
+      "aromas"
     ]
   },
   "fischedick-og-kush-terpenoids-2017": {
@@ -192,6 +240,18 @@ window.SOURCES={
     "supports": [
       "aromas",
       "terpenes"
+    ]
+  },
+  "leafly-dr-grinspoon": {
+    "name": "Leafly — Dr. Grinspoon strain",
+    "url": "https://www.leafly.com/strains/dr-grinspoon",
+    "type": "specialist",
+    "typeLabel": "専門資料",
+    "checked": "2026-08-17",
+    "supports": [
+      "terpenes",
+      "classification",
+      "aliases"
     ]
   },
   "leafly-og-18": {

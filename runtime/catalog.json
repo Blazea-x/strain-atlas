@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-16T23:14:24.851Z",
+  "generatedAt": "2026-08-16T23:25:56.994Z",
   "sourceOfTruth": {
     "cultivars": "strains/<id>/strain.json",
     "sources": "sources/*.json",
@@ -8,8 +8,8 @@
   },
   "counts": {
     "cultivars": 10,
-    "sources": 28,
-    "entities": 8
+    "sources": 32,
+    "entities": 9
   },
   "explore": {
     "sativa": [
@@ -1152,6 +1152,28 @@
       "checkedAt": "2026-08-17",
       "note": "ACE Seeds公式Malawi品種ページ。Malawi由来P4 landrace、Old Malawi Killer × 3rd generation Malawis、香味、テルペン、原産地、breeder / seed company確認に使用。"
     },
+    "ace-seeds-zamaldelica": {
+      "schemaVersion": 1,
+      "id": "ace-seeds-zamaldelica",
+      "publisher": "ACE Seeds",
+      "title": "Zamaldelica Regular",
+      "url": "https://www.aceseeds.org/en/seeds/zamaldelica-regular-seeds/",
+      "sourceType": "breederOfficial",
+      "supports": [
+        "lineage",
+        "breeder",
+        "seedCompany",
+        "classification",
+        "generation",
+        "history",
+        "aromas",
+        "terpenes",
+        "origin"
+      ],
+      "publishedAt": null,
+      "checkedAt": "2026-08-17",
+      "note": "ACE Seeds公式Zamaldelica Regular品種ページ。F3 semi stabilized hybrid、100% sativa、Zamal x Malawi/Thai、Zamal母系のRéunion Island由来、作出説明、bouquet、詳細terpene profileを確認。"
+    },
     "acs-og-kush-volatiles-2021": {
       "schemaVersion": 1,
       "id": "acs-og-kush-volatiles-2021",
@@ -1166,6 +1188,25 @@
       "publishedAt": "2021-11-12",
       "checkedAt": "2026-08-16",
       "note": "Peer-reviewed volatile-compound study coauthored by Josh Del Rosso. It describes OG Kush as strongly pungent and fuel-like and associates that profile with high beta-myrcene and beta-caryophyllene. Used as corroboration, not as proof that every OG Kush lot shares one fixed terpene profile."
+    },
+    "barneys-farm-dr-grinspoon": {
+      "schemaVersion": 1,
+      "id": "barneys-farm-dr-grinspoon",
+      "publisher": "Barney's Farm",
+      "title": "Dr Grinspoon Strain",
+      "url": "https://www.barneysfarm.com/dr-grinspoon-5",
+      "sourceType": "breederOfficial",
+      "supports": [
+        "breeder",
+        "seedCompany",
+        "classification",
+        "lineage",
+        "history",
+        "aromas"
+      ],
+      "publishedAt": null,
+      "checkedAt": "2026-08-17",
+      "note": "Barney's Farm公式Dr Grinspoon品種ページ。Heirloom Sativa Strain、100% sativa、Dr. Lester Grinspoonへの敬意による命名、sumac / lemon / tangy / tropical fruitのaromaを確認。親品種は公式ページで開示されていないためlineage parentageはunknown扱い。"
     },
     "david-downs-wedding-cake-2026": {
       "schemaVersion": 1,
@@ -1256,6 +1297,25 @@
       "publishedAt": null,
       "checkedAt": "2026-08-15",
       "note": "Primary source for the S1 designation, self-pollination description, breeder description, aroma and reported terpene claims."
+    },
+    "dutch-passion-frisian-duck": {
+      "schemaVersion": 1,
+      "id": "dutch-passion-frisian-duck",
+      "publisher": "Dutch Passion",
+      "title": "Frisian Duck®",
+      "url": "https://dutch-passion.com/en/cannabis-seeds/frisian-duck",
+      "sourceType": "breederOfficial",
+      "supports": [
+        "lineage",
+        "breeder",
+        "seedCompany",
+        "classification",
+        "history",
+        "aromas"
+      ],
+      "publishedAt": null,
+      "checkedAt": "2026-08-17",
+      "note": "Dutch Passion公式Frisian Duck品種ページ。Frisian Dew x DucksFoot、hybrid表記、長年の選抜育種、特徴的な葉形、spicy / fresh forest / pine / citrus / fruity系の香りを確認。"
     },
     "fischedick-og-kush-terpenoids-2017": {
       "schemaVersion": 1,
@@ -1372,6 +1432,22 @@
       "publishedAt": null,
       "checkedAt": "2026-08-17",
       "note": "Leafly cultivar page used for reported flavor descriptors and Certified Strain Science terpene ordering. These are treated conservatively and not as a cultivar-wide lot-specific COA."
+    },
+    "leafly-dr-grinspoon": {
+      "schemaVersion": 1,
+      "id": "leafly-dr-grinspoon",
+      "publisher": "Leafly",
+      "title": "Dr. Grinspoon strain",
+      "url": "https://www.leafly.com/strains/dr-grinspoon",
+      "sourceType": "specialistDatabase",
+      "supports": [
+        "terpenes",
+        "classification",
+        "aliases"
+      ],
+      "publishedAt": null,
+      "checkedAt": "2026-08-17",
+      "note": "専門データベース補助資料。Dr. GrinspoonのterpeneとしてTerpinolene / Myrcene / Pineneを確認。公式一次情報ではないためterpene claimはconfidence Bとする。"
     },
     "leafly-og-18": {
       "schemaVersion": 1,
@@ -1611,6 +1687,18 @@
       "status": "confirmed",
       "checkedAt": "2026-08-15",
       "updatedAt": "2026-08-15"
+    },
+    "dutch-passion": {
+      "schemaVersion": 1,
+      "id": "dutch-passion",
+      "name": "Dutch Passion",
+      "roles": [
+        "breeder",
+        "seedCompany"
+      ],
+      "status": "confirmed",
+      "checkedAt": "2026-08-17",
+      "updatedAt": "2026-08-17"
     },
     "green-house-seed-co": {
       "schemaVersion": 1,
