@@ -1,0 +1,74 @@
+{
+  "schemaVersion": 1,
+  "id": "the-og-18",
+  "status": "review",
+  "name": "The OG #18",
+  "jp": null,
+  "aliases": ["OG #18", "OG 18", "Private Reserve", "Private Reserve OG"],
+  "classification": {"type": "hybrid"},
+  "breeding": {"generation": "unknown", "method": "selected phenotype from feminized OG Kush seed stock; re-feminized"},
+  "lineage": {
+    "status": "confirmed",
+    "confidence": "A",
+    "basis": "breederOfficial",
+    "sourceRefs": ["dna-eu-the-og-18", "seedfinder-the-og-18"],
+    "display": "OG Kush S1 selection #18 (re-feminized)",
+    "parents": ["OG Kush"],
+    "note": "DNA Geneticsの現行EU商品ページは遺伝背景をOG Kush S1と表示し、最初にリリースしたフェミナイズドOG Kush種子から#18を選抜して再フェミナイズしたと説明している。SeedFinderもReserva PrivadaのOG Kush背景を支持する。一方、資料間でS1/BX等の世代表現が揺れるため、breeding.generation自体はunknownとして固定する。"
+  },
+  "relations": [
+    {
+      "entityId": "reserva-privada",
+      "roles": ["breeder", "seedCompany", "brand"],
+      "status": "confirmed",
+      "confidence": "A",
+      "basis": "breederOfficial",
+      "sourceRefs": ["dna-eu-the-og-18"]
+    }
+  ],
+  "aromas": {
+    "status": "confirmed",
+    "confidence": "A",
+    "basis": "breederOfficial",
+    "sourceRefs": ["dna-eu-the-og-18"],
+    "items": ["サワー", "フューエル / ディーゼル"],
+    "note": "DNA Genetics / Reserva Privadaの商品説明にあるsourおよびfuely tasteの記述を、香味表現として控えめに要約。"
+  },
+  "terpenes": {
+    "status": "confirmed",
+    "confidence": "C",
+    "basis": "specialistDatabase",
+    "sourceRefs": ["leafly-og-18"],
+    "items": ["Limonene", "Myrcene", "Linalool"],
+    "note": "Leafly掲載の報告テルペン。The OG #18全体に固定された成分や特定lotのラボ分析とは扱わないためconfidenceはC。"
+  },
+  "origin": {
+    "status": "confirmed",
+    "confidence": "A",
+    "basis": "breederOfficial",
+    "sourceRefs": ["dna-eu-the-og-18"],
+    "text": "Reserva Privadaが、先にリリースしたフェミナイズドOG Kush種子群から#18の個体を選抜し、その選抜個体を再フェミナイズして展開したライン。",
+    "note": "作出年や具体的な選抜地点は一次情報から確定できないため追加しない。"
+  },
+  "history": {
+    "status": "confirmed",
+    "confidence": "B",
+    "basis": "breederOfficial",
+    "sourceRefs": ["dna-eu-the-og-18", "seedfinder-the-og-18"],
+    "text": "Reserva PrivadaのOG Kush選抜として展開され、公式商品ページでは2011年Spannabis Hydro 1位、2009年High Times Cannabis Cup Indica 2位、2007年同Indica 3位の受賞歴が記載されている。SeedFinderでも2011年と2009年の主要受賞を確認できる。",
+    "note": "受賞歴は公式商品ページを主根拠とし、専門データベースで部分的に照合。2007年分は今回独立した一次アーカイブまでは確認できていないためconfidenceはB。"
+  },
+  "visuals": [
+    {
+      "role": "primary",
+      "src": "strains/the-og-18/images/generated/primary.svg",
+      "aiGenerated": true,
+      "sourceType": "aiGenerated",
+      "rights": "AI-generated project asset for Cannabis Strain Wisdom.",
+      "alt": "The OG #18の実写資料で確認した密度の高い樹脂質な花姿を参考に作成したAI生成参考ビジュアル",
+      "scope": "cultivar"
+    }
+  ],
+  "checkedAt": "2026-08-16",
+  "updatedAt": "2026-08-16"
+}
