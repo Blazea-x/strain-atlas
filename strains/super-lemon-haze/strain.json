@@ -1,51 +1,65 @@
 {
-  "schemaVersion":1,
-  "id":"super-lemon-haze",
-  "status":"review",
-  "name":"Super Lemon Haze",
-  "jp":null,
-  "aliases":["SLH"],
-  "classification":{"type":"sativa-dominant-hybrid"},
-  "breeding":{"generation":"unknown","method":null},
-  "lineage":{
-    "status":"confirmed",
-    "confidence":"A",
-    "basis":"breederOfficial",
-    "sourceRefs":["ghsc-super-lemon-haze"],
-    "display":"Lemon Skunk × Super Silver Haze",
-    "parents":["Lemon Skunk","Super Silver Haze"],
-    "note":""
+  "schemaVersion": 1,
+  "id": "super-lemon-haze",
+  "status": "review",
+  "name": "Super Lemon Haze",
+  "jp": null,
+  "aliases": ["SLH"],
+  "classification": {"type": "sativa-dominant-hybrid"},
+  "breeding": {"generation": "unknown", "method": null},
+  "lineage": {
+    "status": "confirmed",
+    "confidence": "A",
+    "basis": "breederOfficial",
+    "sourceRefs": ["ghsc-super-lemon-haze"],
+    "display": "Lemon Skunk × Super Silver Haze",
+    "parents": ["Lemon Skunk", "Super Silver Haze"],
+    "note": "Green House Seed Co.公式で確認。"
   },
-  "relations":[{
-    "entityId":"green-house-seed-co",
-    "roles":["breeder","seedCompany"],
-    "status":"confirmed",
-    "confidence":"A",
-    "basis":"breederOfficial",
-    "sourceRefs":["ghsc-super-lemon-haze"]
+  "relations": [{
+    "entityId": "green-house-seed-co",
+    "roles": ["breeder", "seedCompany"],
+    "status": "confirmed",
+    "confidence": "A",
+    "basis": "breederOfficial",
+    "sourceRefs": ["ghsc-super-lemon-haze"]
   }],
-  "aromas":{
-    "status":"unknown",
-    "items":["レモンゼスト","シトラス","ヘイズ","ウッド","パイン"],
-    "note":"Legacy values retained during migration; claim-level source evidence is not yet mapped."
+  "aromas": {
+    "status": "confirmed",
+    "confidence": "A",
+    "basis": "breederOfficial",
+    "sourceRefs": ["ghsc-super-lemon-haze"],
+    "items": ["レモンゼスト", "シトラス", "ヘイズ", "ウッド", "パイン"],
+    "note": "Green House Seed Co.公式の商品説明にあるlemon-zest、citrusy、Haze、woodiness、pine-tree freshnessの表現を要約。"
   },
-  "terpenes":{
-    "status":"unknown",
-    "items":["β-Caryophyllene","D-Limonene","Terpinolene"],
-    "note":"Legacy values retained during migration; claim-level source evidence is not yet mapped."
+  "terpenes": {
+    "status": "confirmed",
+    "confidence": "C",
+    "basis": "breederOfficial",
+    "sourceRefs": ["ghsc-super-lemon-haze"],
+    "items": ["β-Caryophyllene", "D-Limonene", "Terpinolene"],
+    "note": "Green House Seed Co.公式はmost expressed terpenesとして3成分を記載。ただしlot固有のラボCOAではないため、cultivar全体の固定成分断定を避けてconfidenceはCとする。"
   },
-  "history":{
-    "status":"confirmed",
-    "confidence":"A",
-    "basis":"breederOfficial",
-    "sourceRefs":["ghsc-super-lemon-haze"],
-    "text":"2008年・2009年の主要カップで1位を獲得した代表的品種。",
-    "note":"Migrated from legacy data without expanding the claim."
+  "origin": {
+    "status": "confirmed",
+    "confidence": "A",
+    "basis": "breederOfficial",
+    "sourceRefs": ["ghsc-super-lemon-haze"],
+    "text": "Green House Seed Co.が2000年代末にLemon SkunkとSuper Silver Hazeを交配して育種した品種。",
+    "note": "公式ページのbred at the end of the 2000sという説明に基づく。"
   },
-  "visuals":[
-    {"role":"primary","src":"images/strains/super-lemon-haze-appearance.svg","aiGenerated":true,"sourceType":"aiGenerated","rights":"Legacy AI-generated site asset; formal rights record pending review.","alt":"Super Lemon HazeのAI生成参考ビジュアル","scope":"cultivar"},
-    {"role":"aroma","src":"images/strains/super-lemon-haze-aroma.svg","aiGenerated":true,"sourceType":"aiGenerated","rights":"Legacy AI-generated site asset; formal rights record pending review.","alt":"Super Lemon Hazeの香りを表現したAI生成イメージ","scope":"cultivar"}
+  "history": {
+    "status": "confirmed",
+    "confidence": "A",
+    "basis": "breederOfficial",
+    "sourceRefs": ["ghsc-super-lemon-haze"],
+    "text": "2008年・2009年のHigh Times Cannabis Cupで1位を獲得し、その後も複数のカップ受賞歴を持つ。",
+    "note": "Green House Seed Co.公式のAWARDS一覧に基づく。"
+  },
+  "visuals": [
+    {"role": "primary", "src": "images/strains/super-lemon-haze-appearance.svg", "aiGenerated": true, "sourceType": "aiGenerated", "rights": "Legacy AI-generated site asset; formal rights record pending review.", "alt": "Super Lemon HazeのAI生成参考ビジュアル", "scope": "cultivar"},
+    {"role": "aroma", "src": "images/strains/super-lemon-haze-aroma.svg", "aiGenerated": true, "sourceType": "aiGenerated", "rights": "Legacy AI-generated site asset; formal rights record pending review.", "alt": "Super Lemon Hazeの香りを表現したAI生成イメージ", "scope": "cultivar"}
   ],
-  "checkedAt":"2026-08-14",
-  "updatedAt":"2026-08-15"
+  "checkedAt": "2026-08-16",
+  "updatedAt": "2026-08-16"
 }
