@@ -38,6 +38,20 @@ window.SOURCES={
       "origin"
     ]
   },
+  "dna-eu-cataract-kush": {
+    "name": "DNA Genetics — Cataract Kush",
+    "url": "https://www.dnagenetics.eu/cataract-kush.html",
+    "type": "primary",
+    "typeLabel": "一次情報",
+    "checked": "2026-08-17",
+    "supports": [
+      "lineage",
+      "breeder",
+      "classification",
+      "origin",
+      "history"
+    ]
+  },
   "dna-eu-the-og-18": {
     "name": "DNA Genetics / Reserva Privada — The OG #18",
     "url": "https://www.dnagenetics.eu/the-og-18.html",

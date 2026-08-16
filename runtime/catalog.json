@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-16T19:50:12.860Z",
+  "generatedAt": "2026-08-16T20:24:10.230Z",
   "sourceOfTruth": {
     "cultivars": "strains/<id>/strain.json",
     "sources": "sources/*.json",
@@ -8,7 +8,7 @@
   },
   "counts": {
     "cultivars": 8,
-    "sources": 22,
+    "sources": 23,
     "entities": 7
   },
   "explore": {
@@ -947,6 +947,24 @@
       "publishedAt": null,
       "checkedAt": "2026-08-16",
       "note": "Primary DNA Genetics product source for Chocolope 256. It identifies the cross as Lemon Skunk 256 (Emerald Cup Winning Cut) × Chocolope, classifies the cultivar as Sativa-dominant (70% Sativa / 30% Indica in the product description), gives cultivar-level aroma descriptors, and names Myrcene, Beta-caryophyllene, and Limonene. The page is not a lot-specific laboratory COA, so terpene confidence should remain conservative. No named breeding generation such as F1/F2/BX is stated."
+    },
+    "dna-eu-cataract-kush": {
+      "schemaVersion": 1,
+      "id": "dna-eu-cataract-kush",
+      "publisher": "DNA Genetics",
+      "title": "Cataract Kush",
+      "url": "https://www.dnagenetics.eu/cataract-kush.html",
+      "sourceType": "breederOfficial",
+      "supports": [
+        "lineage",
+        "breeder",
+        "classification",
+        "origin",
+        "history"
+      ],
+      "publishedAt": null,
+      "checkedAt": "2026-08-17",
+      "note": "Current DNA Genetics European catalog page. It identifies Cataract Kush as a combination of OG Kush and L.A. Confidential, lists 99% Indica / 1% Sativa, and states that the strain was years in the making."
     },
     "dna-eu-the-og-18": {
       "schemaVersion": 1,
