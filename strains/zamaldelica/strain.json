@@ -1,0 +1,102 @@
+{
+  "schemaVersion": 1,
+  "id": "zamaldelica",
+  "status": "review",
+  "name": "Zamaldelica",
+  "jp": null,
+  "aliases": [],
+  "classification": {
+    "type": "sativa"
+  },
+  "breeding": {
+    "generation": "F3",
+    "method": "semi stabilized hybrid"
+  },
+  "lineage": {
+    "status": "confirmed",
+    "confidence": "A",
+    "basis": "breederOfficial",
+    "sourceRefs": [
+      "ace-seeds-zamaldelica"
+    ],
+    "display": "Zamal × Malawi/Thai",
+    "parents": [
+      "Zamal",
+      "Malawi/Thai"
+    ],
+    "note": "ACE Seeds公式Genetics表記に基づく。説明文では選抜Zamal母株をGolden Tigerで受粉して作出とされ、公式Genetics欄がZamal × Malawi/Thaiと要約している。"
+  },
+  "relations": [
+    {
+      "entityId": "ace-seeds",
+      "roles": [
+        "breeder",
+        "seedCompany"
+      ],
+      "status": "confirmed",
+      "confidence": "A",
+      "basis": "breederOfficial",
+      "sourceRefs": [
+        "ace-seeds-zamaldelica"
+      ]
+    }
+  ],
+  "aromas": {
+    "status": "confirmed",
+    "confidence": "A",
+    "basis": "breederOfficial",
+    "sourceRefs": [
+      "ace-seeds-zamaldelica"
+    ],
+    "items": [
+      "sweet carrot",
+      "mango",
+      "orange",
+      "flowers",
+      "resins"
+    ],
+    "note": "ACE Seeds公式Bouquet表記を保持。"
+  },
+  "terpenes": {
+    "status": "confirmed",
+    "confidence": "A",
+    "basis": "breederOfficial",
+    "sourceRefs": [
+      "ace-seeds-zamaldelica"
+    ],
+    "items": [
+      "Terpinolene",
+      "β-Myrcene",
+      "β-Ocimene",
+      "β-Pinene",
+      "Limonene",
+      "α-Pinene",
+      "Linalool",
+      "δ-3-Carene",
+      "α-Terpinene",
+      "γ-Terpinene",
+      "β-Caryophyllene",
+      "α-Humulene",
+      "Nerolidol 2"
+    ],
+    "note": "ACE Seeds公式Terpene profile。Terpinolene 23%とβ-Myrcene 22%が高含有として示され、その他は少量またはtraceとして記載される。"
+  },
+  "origin": {
+    "status": "unknown",
+    "text": "",
+    "note": "公式は母系ZamalをRéunion Island由来と明示するが、ハイブリッドcultivar Zamaldelica自体の単一地理的originとしては断定しない。"
+  },
+  "history": {
+    "status": "confirmed",
+    "confidence": "A",
+    "basis": "breederOfficial",
+    "sourceRefs": [
+      "ace-seeds-zamaldelica"
+    ],
+    "text": "Réunion Island由来Zamalから、強いサイケデリック特性、比較的速い開花、sweet carrotとfloralの香りを持つ母株を選抜し、Golden Tigerで受粉してZamaldelicaが作出された。",
+    "note": "ACE Seeds公式Descriptionに基づく。"
+  },
+  "visuals": [],
+  "checkedAt": "2026-08-17",
+  "updatedAt": "2026-08-17"
+}
