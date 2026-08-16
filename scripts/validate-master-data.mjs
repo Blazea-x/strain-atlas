@@ -119,6 +119,7 @@ for (const strain of strains.values()) {
     validateEvidence(relation, relScope);
   }
 
+  // Empty visuals is an intentional image-pending state; populated visuals remain strictly validated.
   if (!Array.isArray(strain.visuals)) {
     addError(scope, "visuals must be an array");
   } else if (strain.visuals.length === 0) {
