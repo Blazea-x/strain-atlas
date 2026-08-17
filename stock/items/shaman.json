@@ -1,0 +1,250 @@
+{
+  "schemaVersion": "AUTO_STOCK_V1",
+  "stockId": "shaman",
+  "status": "IMAGE_PENDING",
+  "createdAt": "2026-08-17T16:05:00+09:00",
+  "candidate": {
+    "id": "shaman",
+    "canonicalName": "Shaman",
+    "strainData": {
+      "schemaVersion": 1,
+      "id": "shaman",
+      "status": "review",
+      "name": "Shaman",
+      "jp": null,
+      "aliases": [
+        "Shaman®"
+      ],
+      "classification": {
+        "type": "sativa-dominant-hybrid"
+      },
+      "breeding": {
+        "generation": "F1",
+        "method": "Purple #1 male × early Skunk female; offered as regular and feminised seed"
+      },
+      "lineage": {
+        "status": "confirmed",
+        "confidence": "A",
+        "basis": "breederOfficial",
+        "sourceRefs": [
+          "dutch-passion-shaman",
+          "dutch-passion-shaman-story"
+        ],
+        "display": "Purple #1 × Skunk",
+        "parents": [
+          "Purple #1",
+          "Skunk"
+        ],
+        "note": "Dutch Passion's current history page specifies a Purple #1 male crossed with an exceptional early Skunk female and identifies the result as a sativa-dominant F1 hybrid."
+      },
+      "relations": [
+        {
+          "entityId": "dutch-passion",
+          "roles": [
+            "breeder",
+            "seedCompany"
+          ],
+          "status": "confirmed",
+          "confidence": "A",
+          "basis": "breederOfficial",
+          "sourceRefs": [
+            "dutch-passion-shaman",
+            "dutch-passion-shaman-story"
+          ]
+        }
+      ],
+      "aromas": {
+        "status": "confirmed",
+        "confidence": "A",
+        "basis": "breederOfficial",
+        "sourceRefs": [
+          "dutch-passion-shaman"
+        ],
+        "items": [
+          "fresh",
+          "sweet",
+          "fruity",
+          "floral",
+          "spicy",
+          "sour",
+          "pine",
+          "woody"
+        ],
+        "note": "Official product description calls the aroma fresh, sweet and spicy; more specifically sweet, fruity, floral and spicy, with sour/pine and sometimes woody notes across phenotypes."
+      },
+      "terpenes": {
+        "status": "unknown",
+        "items": [],
+        "note": "Dutch Passion uses sensory 'terpene profile' descriptors such as spicy/herbal and aroma terms, but the reviewed official sources do not identify a compound-level terpene composition. No compounds are inferred."
+      },
+      "origin": {
+        "status": "confirmed",
+        "confidence": "A",
+        "basis": "breederOfficial",
+        "sourceRefs": [
+          "dutch-passion-shaman-story"
+        ],
+        "text": "The Netherlands; Dutch Passion outdoor breeding program",
+        "note": "Official history states Shaman originated in Dutch Passion's outdoor breeding program and was selected over years under Dutch outdoor conditions."
+      },
+      "history": {
+        "status": "confirmed",
+        "confidence": "A",
+        "basis": "breederOfficial",
+        "sourceRefs": [
+          "dutch-passion-shaman-story"
+        ],
+        "text": "Developed through years of outdoor selection in the Netherlands from Purple #1 × early Skunk.",
+        "note": "Dutch Passion describes decades of Dutch outdoor/greenhouse selection for the cultivar."
+      },
+      "visuals": [],
+      "checkedAt": "2026-08-17",
+      "updatedAt": "2026-08-17"
+    }
+  },
+  "confidence": {
+    "lineage": {
+      "grade": "A",
+      "basis": "Dutch Passion official product/history material directly states Purple #1 × Skunk and specifies the parental sexes in the history article.",
+      "sourceIds": [
+        "dutch-passion-shaman",
+        "dutch-passion-shaman-story"
+      ]
+    },
+    "history": {
+      "grade": "A",
+      "basis": "Dutch Passion's official cultivar history describes years/decades of outdoor selection in the Netherlands.",
+      "sourceIds": [
+        "dutch-passion-shaman-story"
+      ]
+    },
+    "aroma": {
+      "grade": "A",
+      "basis": "Dutch Passion's official product page provides cultivar-specific fresh, sweet, fruity, floral and spicy aroma descriptors.",
+      "sourceIds": [
+        "dutch-passion-shaman"
+      ]
+    },
+    "terpene": {
+      "grade": "unknown",
+      "basis": "Official material uses sensory terpene-profile language but does not provide chemical terpene identities or quantitative composition; compounds are not inferred.",
+      "sourceIds": [
+        "dutch-passion-shaman-story"
+      ]
+    }
+  },
+  "sources": [
+    {
+      "id": "dutch-passion-shaman",
+      "url": "https://dutch-passion.com/en/cannabis-seeds/shaman",
+      "payload": {
+        "schemaVersion": 1,
+        "id": "dutch-passion-shaman",
+        "publisher": "Dutch Passion",
+        "title": "Shaman",
+        "url": "https://dutch-passion.com/en/cannabis-seeds/shaman",
+        "sourceType": "breederOfficial",
+        "supports": [
+          "lineage",
+          "breeder",
+          "classification",
+          "breeding",
+          "aromas"
+        ],
+        "publishedAt": null,
+        "checkedAt": "2026-08-17",
+        "note": "Dutch Passion official Shaman product page. Used for Purple #1 × Skunk lineage, sativa-dominant identity, F1/regular-feminised product context, aroma and visual colour evidence."
+      }
+    },
+    {
+      "id": "dutch-passion-shaman-story",
+      "url": "https://dutch-passion.com/en/blog/shaman-cannabis-strain-story-and-grow-tips-n1294",
+      "payload": {
+        "schemaVersion": 1,
+        "id": "dutch-passion-shaman-story",
+        "publisher": "Dutch Passion",
+        "title": "Shaman cannabis strain story and grow tips",
+        "url": "https://dutch-passion.com/en/blog/shaman-cannabis-strain-story-and-grow-tips-n1294",
+        "sourceType": "breederOfficial",
+        "supports": [
+          "lineage",
+          "breeder",
+          "classification",
+          "breeding",
+          "history",
+          "origin",
+          "aromas"
+        ],
+        "publishedAt": null,
+        "checkedAt": "2026-08-17",
+        "note": "Dutch Passion official cultivar history page. Used for Purple #1 male × early Skunk female, sativa-dominant F1 designation, Dutch outdoor breeding-program history/origin and structural visual evidence."
+      }
+    }
+  ],
+  "entities": [
+    {
+      "id": "dutch-passion",
+      "canonicalName": "Dutch Passion",
+      "payload": {
+        "schemaVersion": 1,
+        "id": "dutch-passion",
+        "name": "Dutch Passion",
+        "roles": [
+          "breeder",
+          "seedCompany"
+        ],
+        "status": "confirmed",
+        "checkedAt": "2026-08-17",
+        "updatedAt": "2026-08-17"
+      }
+    }
+  ],
+  "duplicateCheck": {
+    "productionChecked": true,
+    "stockChecked": true,
+    "strain": {
+      "key": "id=shaman; canonicalName=Shaman",
+      "result": "UNIQUE",
+      "reason": "No matching production strain ID/canonical name and no existing STOCK item."
+    },
+    "sources": [
+      {
+        "key": "id=dutch-passion-shaman; url=https://dutch-passion.com/en/cannabis-seeds/shaman",
+        "result": "UNIQUE",
+        "reason": "No production or STOCK source matches this ID or URL."
+      },
+      {
+        "key": "id=dutch-passion-shaman-story; url=https://dutch-passion.com/en/blog/shaman-cannabis-strain-story-and-grow-tips-n1294",
+        "result": "UNIQUE",
+        "reason": "No production or STOCK source matches this ID or URL."
+      }
+    ],
+    "entities": [
+      {
+        "key": "id=dutch-passion; canonicalName=Dutch Passion",
+        "result": "MATCH",
+        "matchedPath": "entities/dutch-passion.json",
+        "reason": "Existing production entity payload is reused exactly; no duplicate entity file is proposed."
+      }
+    ]
+  },
+  "visualStatus": "IMAGE_PENDING",
+  "visualPreparation": {
+    "prompt": "Photorealistic botanical reference image of a mature flowering Shaman cannabis cultivar outdoors in temperate autumn light: tall open sativa-dominant structure, slender long leaves, long internodes and airy elongated flower clusters. Show a plausible coloured phenotype with pink-to-purple flower tones or pistils while retaining natural green foliage; do not force all tissues to black or purple. No labels, logos, packaging, people, smoke or consumption context.",
+    "evidence": [
+      {
+        "description": "Dutch Passion describes Shaman as tall with open branching, long internodes and airy blooms; around half of plants develop pink to dark-purple flower or pistil coloration.",
+        "sourceIds": [
+          "dutch-passion-shaman",
+          "dutch-passion-shaman-story"
+        ]
+      }
+    ],
+    "alt": "Shamanの開いたサティバ優勢形態と、桃色〜紫色の花色が現れる表現型を示すAI生成参考ビジュアル",
+    "rights": "AI-generated project asset planned for Cannabis Strain Wisdom; no third-party image will be copied. Visual prompt is derived from cited factual morphology evidence.",
+    "scope": "cultivar",
+    "aiGenerated": true
+  },
+  "visuals": [],
+  "notes": "AUTO STOCK V1 research-only candidate. Compound-level terpene data remains unknown; no image generated and no production data changed."
+}

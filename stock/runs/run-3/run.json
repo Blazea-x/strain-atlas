@@ -1,0 +1,34 @@
+{
+  "schemaVersion": "AUTO_STOCK_V1",
+  "runId": "run-3",
+  "status": "SUCCESS",
+  "startedAt": "2026-08-17T16:05:00+09:00",
+  "baseSha": "08f3d6c522afd19d03852c8c9a4b32aa01262d14",
+  "mainHeadAtStart": "d3079795288e17548ecfc7cba83804f40476665b",
+  "attempt": 1,
+  "previousAttempts": [],
+  "items": [
+    "stock/items/california-octane.json",
+    "stock/items/panama.json",
+    "stock/items/shaman.json"
+  ],
+  "transaction": {
+    "commitCount": 1,
+    "refUpdateCount": 1,
+    "forceUsed": false,
+    "method": "blob-tree-commit-ref-update"
+  },
+  "audit": {
+    "baseMatchedBeforeWrite": true,
+    "allChangedFilesUnderStock": true,
+    "mainUnchanged": true,
+    "protectedTreesUnchanged": true,
+    "changedFiles": [
+      "stock/items/california-octane.json",
+      "stock/items/panama.json",
+      "stock/items/shaman.json",
+      "stock/runs/run-3/run.json"
+    ],
+    "reason": "Prepared transaction contains only stock/** paths. END_SHA, commitSha and mainHeadAtEnd are intentionally not embedded because the run record is part of the same one-commit transaction; authoritative END/main results are verified by remote post-write audit."
+  }
+}

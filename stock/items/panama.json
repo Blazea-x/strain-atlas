@@ -1,0 +1,248 @@
+{
+  "schemaVersion": "AUTO_STOCK_V1",
+  "stockId": "panama",
+  "status": "IMAGE_PENDING",
+  "createdAt": "2026-08-17T16:05:00+09:00",
+  "candidate": {
+    "id": "panama",
+    "canonicalName": "Panama",
+    "strainData": {
+      "schemaVersion": 1,
+      "id": "panama",
+      "status": "review",
+      "name": "Panama",
+      "jp": null,
+      "aliases": [],
+      "classification": {
+        "type": "sativa"
+      },
+      "breeding": {
+        "generation": "other",
+        "method": "F8-F12 semi-stabilized hybrid (official ACE Seeds designation)"
+      },
+      "lineage": {
+        "status": "confirmed",
+        "confidence": "A",
+        "basis": "breederOfficial",
+        "sourceRefs": [
+          "ace-seeds-panama"
+        ],
+        "display": "Hybrid between 3 Panamanian sativa strains",
+        "parents": [],
+        "note": "ACE Seeds officially describes Panama as a hybrid between three Panamanian sativa strains. The individual parent cultivar names are not published, so no parent names are invented."
+      },
+      "relations": [
+        {
+          "entityId": "ace-seeds",
+          "roles": [
+            "breeder",
+            "seedCompany"
+          ],
+          "status": "confirmed",
+          "confidence": "A",
+          "basis": "breederOfficial",
+          "sourceRefs": [
+            "ace-seeds-panama",
+            "ace-seeds-about-2026"
+          ]
+        }
+      ],
+      "aromas": {
+        "status": "confirmed",
+        "confidence": "A",
+        "basis": "breederOfficial",
+        "sourceRefs": [
+          "ace-seeds-panama"
+        ],
+        "items": [
+          "lemon",
+          "vanilla",
+          "incense",
+          "strawberry"
+        ],
+        "note": "Official bouquet: penetrating organic aroma mainly lemon, vanilla and incense; some phenotypes are sweeter with strawberry aromas."
+      },
+      "terpenes": {
+        "status": "confirmed",
+        "confidence": "B",
+        "basis": "breederOfficial",
+        "sourceRefs": [
+          "ace-seeds-panama"
+        ],
+        "items": [
+          "Terpinolene",
+          "α-Pinene",
+          "β-Pinene",
+          "Limonene",
+          "β-Myrcene",
+          "trans-Ocimene",
+          "Guaiol"
+        ],
+        "note": "ACE Seeds publishes a terpene profile led by terpinolene (almost 50%), followed by moderate alpha/beta pinene and limonene, with smaller myrcene/trans-ocimene and guaiol. Confidence remains B because the page is breeder-published rather than an independently retrieved lab report."
+      },
+      "origin": {
+        "status": "confirmed",
+        "confidence": "A",
+        "basis": "breederOfficial",
+        "sourceRefs": [
+          "ace-seeds-panama"
+        ],
+        "text": "Panama",
+        "note": "Official genetics are three sativa strains from Panama."
+      },
+      "history": {
+        "status": "confirmed",
+        "confidence": "A",
+        "basis": "breederOfficial",
+        "sourceRefs": [
+          "ace-seeds-about-2026"
+        ],
+        "text": "Panama was included in ACE Seeds' first catalog in 2005.",
+        "note": "ACE Seeds' current official About page lists Panama among the cultivars in its first 2005 catalog."
+      },
+      "visuals": [],
+      "checkedAt": "2026-08-17",
+      "updatedAt": "2026-08-17"
+    }
+  },
+  "confidence": {
+    "lineage": {
+      "grade": "A",
+      "basis": "ACE Seeds official Panama page directly identifies the genetics as a hybrid between three Panamanian sativa strains.",
+      "sourceIds": [
+        "ace-seeds-panama"
+      ]
+    },
+    "history": {
+      "grade": "A",
+      "basis": "ACE Seeds' current official About page directly lists Panama in its first catalog in 2005.",
+      "sourceIds": [
+        "ace-seeds-about-2026"
+      ]
+    },
+    "aroma": {
+      "grade": "A",
+      "basis": "ACE Seeds publishes cultivar-specific bouquet descriptors on the official Panama page.",
+      "sourceIds": [
+        "ace-seeds-panama"
+      ]
+    },
+    "terpene": {
+      "grade": "B",
+      "basis": "ACE Seeds publishes a detailed cultivar-specific terpene profile, but an independent underlying laboratory report was not retrieved for this run.",
+      "sourceIds": [
+        "ace-seeds-panama"
+      ]
+    }
+  },
+  "sources": [
+    {
+      "id": "ace-seeds-panama",
+      "url": "https://www.aceseeds.org/en/seeds/panama-regular-seeds/",
+      "payload": {
+        "schemaVersion": 1,
+        "id": "ace-seeds-panama",
+        "publisher": "ACE Seeds",
+        "title": "Panama Regular",
+        "url": "https://www.aceseeds.org/en/seeds/panama-regular-seeds/",
+        "sourceType": "breederOfficial",
+        "supports": [
+          "lineage",
+          "breeder",
+          "classification",
+          "breeding",
+          "aromas",
+          "terpenes",
+          "origin"
+        ],
+        "publishedAt": null,
+        "checkedAt": "2026-08-17",
+        "note": "ACE Seeds official Panama page. Used for three-Panamanian-sativa lineage, F8-F12 designation, 100% sativa type, aroma, terpene profile, origin and visual morphology evidence."
+      }
+    },
+    {
+      "id": "ace-seeds-about-2026",
+      "url": "https://www.aceseeds.org/en/about-us/",
+      "payload": {
+        "schemaVersion": 1,
+        "id": "ace-seeds-about-2026",
+        "publisher": "ACE Seeds",
+        "title": "About us",
+        "url": "https://www.aceseeds.org/en/about-us/",
+        "sourceType": "breederOfficial",
+        "supports": [
+          "breeder",
+          "history"
+        ],
+        "publishedAt": null,
+        "checkedAt": "2026-08-17",
+        "note": "Current ACE Seeds official About page. Used to confirm Panama was included in ACE Seeds' first catalog in 2005 and to support breeder/seed-company context."
+      }
+    }
+  ],
+  "entities": [
+    {
+      "id": "ace-seeds",
+      "canonicalName": "ACE Seeds",
+      "payload": {
+        "schemaVersion": 1,
+        "id": "ace-seeds",
+        "name": "ACE Seeds",
+        "roles": [
+          "breeder",
+          "seedCompany"
+        ],
+        "status": "confirmed",
+        "checkedAt": "2026-08-17",
+        "updatedAt": "2026-08-17"
+      }
+    }
+  ],
+  "duplicateCheck": {
+    "productionChecked": true,
+    "stockChecked": true,
+    "strain": {
+      "key": "id=panama; canonicalName=Panama",
+      "result": "UNIQUE",
+      "reason": "No matching production strain ID/canonical name and no existing STOCK item."
+    },
+    "sources": [
+      {
+        "key": "id=ace-seeds-panama; url=https://www.aceseeds.org/en/seeds/panama-regular-seeds/",
+        "result": "UNIQUE",
+        "reason": "No production or STOCK source matches this ID or URL."
+      },
+      {
+        "key": "id=ace-seeds-about-2026; url=https://www.aceseeds.org/en/about-us/",
+        "result": "UNIQUE",
+        "reason": "No production or STOCK source matches this ID or current URL; the older production ace-seeds-about record uses a different URL and is not overwritten."
+      }
+    ],
+    "entities": [
+      {
+        "key": "id=ace-seeds; canonicalName=ACE Seeds",
+        "result": "MATCH",
+        "matchedPath": "entities/ace-seeds.json",
+        "reason": "Existing production entity payload is reused exactly; no duplicate entity file is proposed."
+      }
+    ]
+  },
+  "visualStatus": "IMAGE_PENDING",
+  "visualPreparation": {
+    "prompt": "Photorealistic botanical reference image of a mature flowering Panama cannabis cultivar in neutral natural light: tall, strongly branched sativa structure; large dense resinous flower clusters with abundant visible trichomes; reddish to pink pistils where expressed; narrow sativa foliage. Keep the rendering botanically plausible and cultivar-focused. No labels, logos, packaging, people, smoke, consumption context, or invented purple coloration.",
+    "evidence": [
+      {
+        "description": "ACE Seeds describes a tall and branched sativa producing beautiful, large, dense flowers full of trichomes, often with reddish and pinkish pistils.",
+        "sourceIds": [
+          "ace-seeds-panama"
+        ]
+      }
+    ],
+    "alt": "Panamaの背が高く枝分かれしたサティバ形態と、赤〜桃色の雌しべを含む樹脂質な花を表現したAI生成参考ビジュアル",
+    "rights": "AI-generated project asset planned for Cannabis Strain Wisdom; no third-party image will be copied. Visual prompt is derived from cited factual morphology evidence.",
+    "scope": "cultivar",
+    "aiGenerated": true
+  },
+  "visuals": [],
+  "notes": "AUTO STOCK V1 research-only candidate. No image generated and no production data changed."
+}
