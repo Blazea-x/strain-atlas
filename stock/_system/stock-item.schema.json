@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://cannabis-strains-wisdom.local/schemas/auto-stock-v1/stock-item.schema.json",
-  "title": "AUTO STOCK V1 Stock Item",
+  "title": "AUTO STOCK V1 / IMAGE STOCK V1 Stock Item",
   "type": "object",
   "additionalProperties": false,
   "required": [
@@ -21,7 +21,7 @@
   "properties": {
     "schemaVersion": { "const": "AUTO_STOCK_V1" },
     "stockId": { "type": "string", "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$" },
-    "status": { "enum": ["IMAGE_PENDING", "NEEDS_REVIEW", "REJECTED_DUPLICATE"] },
+    "status": { "enum": ["IMAGE_PENDING", "READY", "NEEDS_REVIEW", "REJECTED_DUPLICATE"] },
     "createdAt": { "type": "string", "format": "date-time" },
     "updatedAt": { "type": "string", "format": "date-time" },
     "candidate": {
@@ -31,7 +31,16 @@
       "properties": {
         "id": { "type": "string", "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$" },
         "canonicalName": { "type": "string", "minLength": 1 },
-        "strainData": { "type": "object" }
+        "strainData": {
+          "type": "object",
+          "required": ["visuals"],
+          "properties": {
+            "visuals": {
+              "type": "array",
+              "items": { "$ref": "#/$defs/visual" }
+            }
+          }
+        }
       }
     },
     "confidence": {
@@ -67,7 +76,7 @@
         "entities": { "type": "array", "items": { "$ref": "#/$defs/duplicateResult" } }
       }
     },
-    "visualStatus": { "const": "IMAGE_PENDING" },
+    "visualStatus": { "enum": ["IMAGE_PENDING", "READY"] },
     "visualPreparation": {
       "type": "object",
       "additionalProperties": false,
@@ -99,12 +108,67 @@
     },
     "visuals": {
       "type": "array",
-      "maxItems": 0,
-      "description": "AUTO STOCK V1 does not create or store images. Must remain an empty array."
+      "items": { "$ref": "#/$defs/visual" }
     },
     "notes": { "type": "string" }
   },
+  "allOf": [
+    {
+      "if": { "properties": { "status": { "const": "IMAGE_PENDING" } }, "required": ["status"] },
+      "then": {
+        "properties": {
+          "visualStatus": { "const": "IMAGE_PENDING" },
+          "visuals": { "maxItems": 0 },
+          "candidate": {
+            "properties": {
+              "strainData": {
+                "properties": {
+                  "visuals": { "maxItems": 0 }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": { "properties": { "status": { "const": "READY" } }, "required": ["status"] },
+      "then": {
+        "properties": {
+          "visualStatus": { "const": "READY" },
+          "visuals": { "minItems": 1, "maxItems": 1 },
+          "candidate": {
+            "properties": {
+              "strainData": {
+                "properties": {
+                  "visuals": { "minItems": 1, "maxItems": 1 }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": { "properties": { "visualStatus": { "const": "READY" } }, "required": ["visualStatus"] },
+      "then": { "properties": { "status": { "const": "READY" } } }
+    }
+  ],
   "$defs": {
+    "visual": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["role", "src", "aiGenerated", "sourceType", "rights", "alt", "scope"],
+      "properties": {
+        "role": { "const": "primary" },
+        "src": { "type": "string", "pattern": "^stock/images/[a-z0-9]+(?:-[a-z0-9]+)*/primary\\.webp$" },
+        "aiGenerated": { "const": true },
+        "sourceType": { "type": "string", "minLength": 1 },
+        "rights": { "type": "string" },
+        "alt": { "type": "string", "minLength": 1 },
+        "scope": { "enum": ["cultivar", "phenotype", "product", "lot"] }
+      }
+    },
     "confidenceEntry": {
       "type": "object",
       "additionalProperties": false,

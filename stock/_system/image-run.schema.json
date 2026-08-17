@@ -1,0 +1,167 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://cannabis-strains-wisdom.local/schemas/image-stock-v1/image-run.schema.json",
+  "title": "IMAGE STOCK V1 Run Record",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "runId",
+    "status",
+    "startedAt",
+    "baseSha",
+    "mainHeadAtStart",
+    "attempt",
+    "previousAttempts",
+    "items",
+    "transaction",
+    "audit"
+  ],
+  "properties": {
+    "schemaVersion": { "const": "IMAGE_STOCK_V1" },
+    "runId": {
+      "type": "string",
+      "pattern": "^image-run-[0-9]{8}T[0-9]{6}-[0-9a-f]{6}$"
+    },
+    "status": {
+      "enum": [
+        "PREPARED",
+        "READY_TO_COMMIT",
+        "SUCCESS",
+        "NEEDS_REVIEW",
+        "STALE_BASE_RETRY",
+        "ABORTED_CONCURRENT_UPDATE",
+        "FAILED_AUDIT"
+      ]
+    },
+    "startedAt": { "type": "string", "format": "date-time" },
+    "finishedAt": { "type": "string", "format": "date-time" },
+    "baseSha": { "$ref": "#/$defs/sha" },
+    "endSha": { "$ref": "#/$defs/sha" },
+    "mainHeadAtStart": { "$ref": "#/$defs/sha" },
+    "mainHeadAtEnd": { "$ref": "#/$defs/sha" },
+    "attempt": { "type": "integer", "minimum": 1, "maximum": 2 },
+    "previousAttempts": {
+      "type": "array",
+      "maxItems": 1,
+      "items": { "$ref": "#/$defs/previousAttempt" }
+    },
+    "items": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 3,
+      "items": { "$ref": "#/$defs/imageItem" }
+    },
+    "transaction": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["branch", "commitCount", "refUpdateCount", "forceUsed", "branchCreated", "method"],
+      "properties": {
+        "branch": { "const": "master-migration" },
+        "commitCount": { "const": 1 },
+        "refUpdateCount": { "const": 1 },
+        "forceUsed": { "const": false },
+        "branchCreated": { "const": false },
+        "method": { "const": "blob-tree-commit-ref-update" },
+        "commitSha": { "$ref": "#/$defs/sha" }
+      }
+    },
+    "audit": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "baseMatchedBeforeWrite",
+        "allChangedFilesUnderStock",
+        "mainUnchanged",
+        "protectedTreesUnchanged",
+        "existingImagesUnchangedExceptTargets"
+      ],
+      "properties": {
+        "baseMatchedBeforeWrite": { "type": "boolean" },
+        "allChangedFilesUnderStock": { "type": "boolean" },
+        "mainUnchanged": { "type": "boolean" },
+        "protectedTreesUnchanged": { "type": "boolean" },
+        "existingImagesUnchangedExceptTargets": { "type": "boolean" },
+        "changedFiles": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 },
+          "uniqueItems": true
+        },
+        "reason": { "type": "string" }
+      }
+    }
+  },
+  "$defs": {
+    "sha": { "type": "string", "pattern": "^[0-9a-f]{40}$" },
+    "visual": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["role", "src", "aiGenerated", "sourceType", "rights", "alt", "scope"],
+      "properties": {
+        "role": { "const": "primary" },
+        "src": { "type": "string", "pattern": "^stock/images/[a-z0-9]+(?:-[a-z0-9]+)*/primary\\.webp$" },
+        "aiGenerated": { "const": true },
+        "sourceType": { "type": "string", "minLength": 1 },
+        "rights": { "type": "string" },
+        "alt": { "type": "string", "minLength": 1 },
+        "scope": { "enum": ["cultivar", "phenotype", "product", "lot"] }
+      }
+    },
+    "imageItem": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "stockId",
+        "stockPath",
+        "imagePath",
+        "inputStatus",
+        "attachmentMapping",
+        "webpVerified",
+        "evidenceCheck",
+        "visual"
+      ],
+      "properties": {
+        "stockId": { "type": "string", "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$" },
+        "stockPath": { "type": "string", "pattern": "^stock/items/[a-z0-9]+(?:-[a-z0-9]+)*\\.json$" },
+        "imagePath": { "type": "string", "pattern": "^stock/images/[a-z0-9]+(?:-[a-z0-9]+)*/primary\\.webp$" },
+        "inputStatus": { "const": "IMAGE_PENDING" },
+        "attachmentMapping": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["confirmed", "sourceFileName"],
+          "properties": {
+            "confirmed": { "const": true },
+            "sourceFileName": { "type": "string", "minLength": 1 }
+          }
+        },
+        "webpVerified": { "const": true },
+        "evidenceCheck": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["result", "checkedAgainst", "note"],
+          "properties": {
+            "result": { "const": "PASS" },
+            "checkedAgainst": {
+              "type": "array",
+              "minItems": 1,
+              "items": { "type": "string", "minLength": 1 }
+            },
+            "note": { "type": "string", "minLength": 1 }
+          }
+        },
+        "visual": { "$ref": "#/$defs/visual" }
+      }
+    },
+    "previousAttempt": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["baseSha", "checkedAt", "status", "reason"],
+      "properties": {
+        "baseSha": { "$ref": "#/$defs/sha" },
+        "checkedAt": { "type": "string", "format": "date-time" },
+        "status": { "const": "STALE_BASE_RETRY" },
+        "reason": { "type": "string", "minLength": 1 }
+      }
+    }
+  }
+}
