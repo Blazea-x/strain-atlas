@@ -1,0 +1,124 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://cannabis-strains-wisdom.local/schemas/auto-stock-v1/stock-item.schema.json",
+  "title": "AUTO STOCK V1 Stock Item",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "stockId",
+    "status",
+    "createdAt",
+    "candidate",
+    "confidence",
+    "sources",
+    "entities",
+    "duplicateCheck",
+    "visuals"
+  ],
+  "properties": {
+    "schemaVersion": { "const": "AUTO_STOCK_V1" },
+    "stockId": { "type": "string", "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$" },
+    "status": {
+      "enum": ["READY", "NEEDS_REVIEW", "REJECTED_DUPLICATE"]
+    },
+    "createdAt": { "type": "string", "format": "date-time" },
+    "updatedAt": { "type": "string", "format": "date-time" },
+    "candidate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "canonicalName", "strainData"],
+      "properties": {
+        "id": { "type": "string", "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$" },
+        "canonicalName": { "type": "string", "minLength": 1 },
+        "strainData": { "type": "object" }
+      }
+    },
+    "confidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["lineage", "history", "aroma", "terpene"],
+      "properties": {
+        "lineage": { "$ref": "#/$defs/confidenceEntry" },
+        "history": { "$ref": "#/$defs/confidenceEntry" },
+        "aroma": { "$ref": "#/$defs/confidenceEntry" },
+        "terpene": { "$ref": "#/$defs/confidenceEntry" }
+      }
+    },
+    "sources": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/sourceCandidate" },
+      "uniqueItems": true
+    },
+    "entities": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/entityCandidate" },
+      "uniqueItems": true
+    },
+    "duplicateCheck": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["productionChecked", "stockChecked", "strain", "sources", "entities"],
+      "properties": {
+        "productionChecked": { "const": true },
+        "stockChecked": { "const": true },
+        "strain": { "$ref": "#/$defs/duplicateResult" },
+        "sources": { "type": "array", "items": { "$ref": "#/$defs/duplicateResult" } },
+        "entities": { "type": "array", "items": { "$ref": "#/$defs/duplicateResult" } }
+      }
+    },
+    "visuals": {
+      "type": "array",
+      "maxItems": 0,
+      "description": "AUTO STOCK V1 does not create or store images. Must remain an empty array."
+    },
+    "notes": { "type": "string" }
+  },
+  "$defs": {
+    "confidenceEntry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["grade", "basis"],
+      "properties": {
+        "grade": { "enum": ["A", "B", "C", "unknown"] },
+        "basis": { "type": "string", "minLength": 1 },
+        "sourceIds": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 },
+          "uniqueItems": true
+        }
+      }
+    },
+    "sourceCandidate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "url", "payload"],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "url": { "type": "string", "format": "uri" },
+        "payload": { "type": "object" }
+      }
+    },
+    "entityCandidate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "canonicalName", "payload"],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "canonicalName": { "type": "string", "minLength": 1 },
+        "payload": { "type": "object" }
+      }
+    },
+    "duplicateResult": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["key", "result"],
+      "properties": {
+        "key": { "type": "string", "minLength": 1 },
+        "result": { "enum": ["UNIQUE", "MATCH", "CONFLICT", "NOT_APPLICABLE"] },
+        "matchedPath": { "type": "string" },
+        "reason": { "type": "string" }
+      }
+    }
+  }
+}

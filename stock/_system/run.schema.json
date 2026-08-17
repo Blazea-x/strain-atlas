@@ -1,0 +1,100 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://cannabis-strains-wisdom.local/schemas/auto-stock-v1/run.schema.json",
+  "title": "AUTO STOCK V1 Run Record",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "runId",
+    "status",
+    "startedAt",
+    "baseSha",
+    "mainHeadAtStart",
+    "attempt",
+    "previousAttempts",
+    "items",
+    "transaction",
+    "audit"
+  ],
+  "properties": {
+    "schemaVersion": { "const": "AUTO_STOCK_V1" },
+    "runId": { "type": "string", "minLength": 1 },
+    "status": {
+      "enum": [
+        "PREPARED",
+        "SUCCESS",
+        "NEEDS_REVIEW",
+        "STALE_BASE_RETRY",
+        "ABORTED_CONCURRENT_UPDATE",
+        "FAILED_AUDIT"
+      ]
+    },
+    "startedAt": { "type": "string", "format": "date-time" },
+    "finishedAt": { "type": "string", "format": "date-time" },
+    "baseSha": { "$ref": "#/$defs/sha" },
+    "endSha": { "$ref": "#/$defs/sha" },
+    "mainHeadAtStart": { "$ref": "#/$defs/sha" },
+    "mainHeadAtEnd": { "$ref": "#/$defs/sha" },
+    "attempt": { "type": "integer", "minimum": 1, "maximum": 2 },
+    "previousAttempts": {
+      "type": "array",
+      "maxItems": 1,
+      "items": { "$ref": "#/$defs/previousAttempt" }
+    },
+    "items": {
+      "type": "array",
+      "maxItems": 3,
+      "items": { "type": "string", "pattern": "^stock/items/.+\\.json$" },
+      "uniqueItems": true
+    },
+    "transaction": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["commitCount", "refUpdateCount", "forceUsed", "method"],
+      "properties": {
+        "commitCount": { "const": 1 },
+        "refUpdateCount": { "const": 1 },
+        "forceUsed": { "const": false },
+        "method": { "const": "blob-tree-commit-ref-update" },
+        "commitSha": { "$ref": "#/$defs/sha" }
+      }
+    },
+    "audit": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "baseMatchedBeforeWrite",
+        "allChangedFilesUnderStock",
+        "mainUnchanged",
+        "protectedTreesUnchanged"
+      ],
+      "properties": {
+        "baseMatchedBeforeWrite": { "type": "boolean" },
+        "allChangedFilesUnderStock": { "type": "boolean" },
+        "mainUnchanged": { "type": "boolean" },
+        "protectedTreesUnchanged": { "type": "boolean" },
+        "changedFiles": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 },
+          "uniqueItems": true
+        },
+        "reason": { "type": "string" }
+      }
+    }
+  },
+  "$defs": {
+    "sha": { "type": "string", "pattern": "^[0-9a-f]{40}$" },
+    "previousAttempt": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["baseSha", "checkedAt", "status", "reason"],
+      "properties": {
+        "baseSha": { "$ref": "#/$defs/sha" },
+        "checkedAt": { "type": "string", "format": "date-time" },
+        "status": { "const": "STALE_BASE_RETRY" },
+        "reason": { "type": "string", "minLength": 1 }
+      }
+    }
+  }
+}

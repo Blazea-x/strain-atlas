@@ -1,0 +1,61 @@
+{
+  "$schemaVersion": "AUTO_STOCK_V1",
+  "version": 1,
+  "enabled": true,
+  "branch": "master-migration",
+  "writeRoot": "stock/",
+  "systemRoot": "stock/_system/",
+  "itemsRoot": "stock/items/",
+  "runsRoot": "stock/runs/",
+  "batchSize": 3,
+  "images": {
+    "mode": "disabled-v1",
+    "allowFiles": false,
+    "defaultVisuals": []
+  },
+  "concurrency": {
+    "requireBaseShaMatchImmediatelyBeforeWrite": true,
+    "maxAutomaticRetries": 1,
+    "firstConflictStatus": "STALE_BASE_RETRY",
+    "secondConflictStatus": "ABORTED_CONCURRENT_UPDATE",
+    "commitStaleAttemptSeparately": false
+  },
+  "transaction": {
+    "oneRunOneCommit": true,
+    "oneRunOneRefUpdate": true,
+    "forceRefUpdate": false,
+    "method": ["blob", "tree", "commit", "ref-update"]
+  },
+  "allowedWritePrefixes": ["stock/"],
+  "forbiddenWritePrefixes": [
+    "strains/",
+    "sources/",
+    "entities/",
+    "runtime/",
+    "schemas/",
+    "scripts/",
+    ".github/workflows/",
+    "images/"
+  ],
+  "forbiddenWritePaths": ["data.js", "sources.js"],
+  "protectedBranches": ["main"],
+  "duplicatePolicy": {
+    "checkProduction": true,
+    "checkExistingStock": true,
+    "strainKeys": ["id", "canonicalName"],
+    "sourceKeys": ["id", "url"],
+    "entityKeys": ["id", "canonicalName"],
+    "conflictingSameIdStatus": "NEEDS_REVIEW",
+    "automaticOverwriteOnConflict": false
+  },
+  "confidence": {
+    "allowed": ["A", "B", "C", "unknown"],
+    "claimFields": ["lineage", "history", "aroma", "terpene"]
+  },
+  "successAudit": {
+    "requireMasterHeadChanged": true,
+    "requireAllChangedFilesUnderStock": true,
+    "requireMainHeadUnchanged": true,
+    "requireProtectedTreesUnchanged": true
+  }
+}
