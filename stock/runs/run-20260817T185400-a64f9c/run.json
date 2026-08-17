@@ -1,0 +1,40 @@
+{
+  "schemaVersion": "AUTO_STOCK_V1",
+  "runId": "run-20260817T185400-a64f9c",
+  "status": "SUCCESS",
+  "startedAt": "2026-08-17T18:54:00Z",
+  "baseSha": "d27ea0cadbb0e8b4a8a380c3a58e6e163ce73db6",
+  "mainHeadAtStart": "d3079795288e17548ecfc7cba83804f40476665b",
+  "attempt": 1,
+  "previousAttempts": [],
+  "items": [
+    "stock/items/bangi-haze.json",
+    "stock/items/kali-mist.json",
+    "stock/items/warlock.json",
+    "stock/items/shiva-skunk.json",
+    "stock/items/durban-poison.json",
+    "stock/items/laughing-buddha.json"
+  ],
+  "transaction": {
+    "commitCount": 1,
+    "refUpdateCount": 1,
+    "forceUsed": false,
+    "method": "blob-tree-commit-ref-update"
+  },
+  "audit": {
+    "baseMatchedBeforeWrite": true,
+    "allChangedFilesUnderStock": true,
+    "mainUnchanged": true,
+    "protectedTreesUnchanged": true,
+    "changedFiles": [
+      "stock/items/bangi-haze.json",
+      "stock/items/kali-mist.json",
+      "stock/items/warlock.json",
+      "stock/items/shiva-skunk.json",
+      "stock/items/durban-poison.json",
+      "stock/items/laughing-buddha.json",
+      "stock/runs/run-20260817T185400-a64f9c/run.json"
+    ],
+    "reason": "Prepared transaction contains only stock/** paths. END_SHA, commitSha and mainHeadAtEnd are intentionally not embedded because the run record is part of the same one-commit transaction; authoritative END/main results are verified by remote post-write audit."
+  }
+}
