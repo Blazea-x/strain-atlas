@@ -7,7 +7,7 @@
   "systemRoot": "stock/_system/",
   "itemsRoot": "stock/items/",
   "runsRoot": "stock/runs/",
-  "batchSize": 3,
+  "batchSize": 6,
   "runIdentity": {
     "newRunIdPattern": "^run-[0-9]{8}T[0-9]{6}-[0-9a-f]{6}$",
     "timestampFormat": "YYYYMMDDTHHMMSS",

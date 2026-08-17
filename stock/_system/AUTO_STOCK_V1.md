@@ -18,7 +18,7 @@ A stock item is an isolated package containing the candidate strain payload, pro
 
 ## V1 run size and images
 
-A normal AUTO STOCK V1 run prepares up to three candidate items. V1 does not generate, download, or store images. Every stock item therefore carries `visuals: []`. Image work is a later, separate phase.
+A normal AUTO STOCK V1 run prepares up to six candidate items. V1 does not generate, download, or store images. Every newly prepared stock item therefore carries `visuals: []` and remains `IMAGE_PENDING` until the separate IMAGE STOCK V1 phase adds its image. IMAGE STOCK V1 remains independently limited to up to three items per image run.
 
 ## Research and confidence
 

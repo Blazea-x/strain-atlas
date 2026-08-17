@@ -79,7 +79,7 @@
     },
     "items": {
       "type": "array",
-      "maxItems": 3,
+      "maxItems": 6,
       "items": {
         "type": "string",
         "pattern": "^stock/items/.+\\.json$"
