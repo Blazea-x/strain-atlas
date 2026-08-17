@@ -77,7 +77,17 @@
     "text": "Dutch Passionが特徴的なダックフット状の葉形と屋外での目立ちにくさを狙い、長年の選抜育種で作り上げた系統。",
     "note": "公式ページはmany years of careful breedingと説明している。"
   },
-  "visuals": [],
+  "visuals": [
+    {
+      "role": "primary",
+      "src": "strains/frisian-duck/images/generated/primary.webp",
+      "aiGenerated": true,
+      "sourceType": "aiGenerated",
+      "rights": "AI-generated project asset for Cannabis Strain Wisdom.",
+      "alt": "Frisian Duckのダックフット型の葉と紫色の花を表現したAI生成参考ビジュアル",
+      "scope": "cultivar"
+    }
+  ],
   "checkedAt": "2026-08-17",
   "updatedAt": "2026-08-17"
 }

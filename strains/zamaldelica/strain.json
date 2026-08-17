@@ -96,7 +96,17 @@
     "text": "Réunion Island由来Zamalから、強いサイケデリック特性、比較的速い開花、sweet carrotとfloralの香りを持つ母株を選抜し、Golden Tigerで受粉してZamaldelicaが作出された。",
     "note": "ACE Seeds公式Descriptionに基づく。"
   },
-  "visuals": [],
+  "visuals": [
+    {
+      "role": "primary",
+      "src": "strains/zamaldelica/images/generated/primary.webp",
+      "aiGenerated": true,
+      "sourceType": "aiGenerated",
+      "rights": "AI-generated project asset for Cannabis Strain Wisdom.",
+      "alt": "Zamaldelicaの非常にブッシーな株姿と多数の側枝に付く花を表現したAI生成参考ビジュアル",
+      "scope": "cultivar"
+    }
+  ],
   "checkedAt": "2026-08-17",
   "updatedAt": "2026-08-17"
 }
