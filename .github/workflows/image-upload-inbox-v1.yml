@@ -1,0 +1,50 @@
+name: IMAGE UPLOAD INBOX V1
+
+on:
+  push:
+    branches: [master-migration]
+    paths:
+      - "uploads/images/**"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: image-upload-inbox-v1-master-migration
+  cancel-in-progress: false
+
+jobs:
+  process-inbox:
+    if: github.actor != 'github-actions[bot]' && !startsWith(github.event.head_commit.message || '', '[IMAGE UPLOAD INBOX V1]')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout master-migration
+        uses: actions/checkout@v4
+        with:
+          ref: master-migration
+          fetch-depth: 0
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install image decoder
+        run: python -m pip install --disable-pip-version-check "Pillow==11.3.0"
+
+      - name: Process and validate inbox atomically
+        run: python scripts/process-image-upload-inbox.py
+
+      - name: Commit all accepted images as one batch
+        run: |
+          set -euo pipefail
+          git add -- uploads/images strains
+          if git diff --cached --quiet; then
+            echo "No accepted inbox images to commit"
+            exit 0
+          fi
+          git config user.name "strain-atlas-image-inbox-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git commit -m "[IMAGE UPLOAD INBOX V1] Process image batch"
+          git push origin HEAD:master-migration
