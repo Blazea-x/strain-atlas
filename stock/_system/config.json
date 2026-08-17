@@ -26,6 +26,64 @@
     "allowFiles": false,
     "defaultVisuals": []
   },
+  "imageStock": {
+    "schemaVersion": "IMAGE_STOCK_V1",
+    "enabled": true,
+    "branch": "master-migration",
+    "imagesRoot": "stock/images/",
+    "imageRunsRoot": "stock/image-runs/",
+    "batchSize": 3,
+    "allowedFormats": [
+      "webp"
+    ],
+    "primaryFilename": "primary.webp",
+    "sourceType": "aiGenerated",
+    "runIdentity": {
+      "newRunIdPattern": "^image-run-[0-9]{8}T[0-9]{6}-[0-9a-f]{6}$",
+      "timestampFormat": "YYYYMMDDTHHMMSS",
+      "timestampZone": "UTC",
+      "randomHexLength": 6,
+      "batchSizeMustNotBeUsedAsRunId": true,
+      "requireRemoteNonexistenceCheckBeforeWrite": true,
+      "collisionAction": "regenerate",
+      "maxGenerationAttempts": 20
+    },
+    "visualPolicy": {
+      "role": "primary",
+      "aiGenerated": true,
+      "requireExactTopLevelAndCandidateMatch": true,
+      "requireEvidencePass": true,
+      "requirePreparationMetadataMatch": true
+    },
+    "transaction": {
+      "oneRunOneCommit": true,
+      "oneRunOneRefUpdate": true,
+      "forceRefUpdate": false,
+      "allowBranchCreation": false,
+      "method": [
+        "blob",
+        "tree",
+        "commit",
+        "ref-update"
+      ]
+    },
+    "concurrency": {
+      "requireBaseShaMatchImmediatelyBeforeWrite": true,
+      "maxAutomaticRetries": 1,
+      "firstConflictStatus": "STALE_BASE_RETRY",
+      "secondConflictStatus": "ABORTED_CONCURRENT_UPDATE",
+      "commitStaleAttemptSeparately": false
+    },
+    "allowedWritePrefixes": [
+      "stock/items/",
+      "stock/images/",
+      "stock/image-runs/"
+    ],
+    "forbiddenDuringImageRunPrefixes": [
+      "stock/_system/",
+      "stock/runs/"
+    ]
+  },
   "concurrency": {
     "requireBaseShaMatchImmediatelyBeforeWrite": true,
     "maxAutomaticRetries": 1,
