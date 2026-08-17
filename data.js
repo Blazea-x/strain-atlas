@@ -277,7 +277,18 @@ window.STRAINS=[
       "display": "LINEAGE A / AROMA A / HISTORY A",
       "note": "正本データの項目別confidenceを表示"
     },
-    "visuals": [],
+    "visuals": [
+      {
+        "role": "primary",
+        "src": "strains/frisian-duck/images/generated/primary.webp",
+        "aiGenerated": true,
+        "sourceType": "aiGenerated",
+        "rights": "AI-generated project asset for Cannabis Strain Wisdom.",
+        "alt": "Frisian Duckのダックフット型の葉と紫色の花を表現したAI生成参考ビジュアル",
+        "scope": "cultivar",
+        "label": "VISUAL REFERENCE"
+      }
+    ],
     "sourceIds": [
       "dutch-passion-frisian-duck"
     ],
@@ -788,7 +799,18 @@ window.STRAINS=[
       "display": "LINEAGE A / AROMA A / TERPENE A / HISTORY A",
       "note": "正本データの項目別confidenceを表示"
     },
-    "visuals": [],
+    "visuals": [
+      {
+        "role": "primary",
+        "src": "strains/zamaldelica/images/generated/primary.webp",
+        "aiGenerated": true,
+        "sourceType": "aiGenerated",
+        "rights": "AI-generated project asset for Cannabis Strain Wisdom.",
+        "alt": "Zamaldelicaの非常にブッシーな株姿と多数の側枝に付く花を表現したAI生成参考ビジュアル",
+        "scope": "cultivar",
+        "label": "VISUAL REFERENCE"
+      }
+    ],
     "sourceIds": [
       "ace-seeds-zamaldelica"
     ],

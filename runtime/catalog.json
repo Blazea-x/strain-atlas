@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-16T23:28:04.693Z",
+  "generatedAt": "2026-08-17T22:09:30.493Z",
   "sourceOfTruth": {
     "cultivars": "strains/<id>/strain.json",
     "sources": "sources/*.json",
@@ -535,7 +535,17 @@
         "text": "Dutch Passionが特徴的なダックフット状の葉形と屋外での目立ちにくさを狙い、長年の選抜育種で作り上げた系統。",
         "note": "公式ページはmany years of careful breedingと説明している。"
       },
-      "visuals": [],
+      "visuals": [
+        {
+          "role": "primary",
+          "src": "strains/frisian-duck/images/generated/primary.webp",
+          "aiGenerated": true,
+          "sourceType": "aiGenerated",
+          "rights": "AI-generated project asset for Cannabis Strain Wisdom.",
+          "alt": "Frisian Duckのダックフット型の葉と紫色の花を表現したAI生成参考ビジュアル",
+          "scope": "cultivar"
+        }
+      ],
       "checkedAt": "2026-08-17",
       "updatedAt": "2026-08-17"
     },
@@ -1385,7 +1395,17 @@
         "text": "Réunion Island由来Zamalから、強いサイケデリック特性、比較的速い開花、sweet carrotとfloralの香りを持つ母株を選抜し、Golden Tigerで受粉してZamaldelicaが作出された。",
         "note": "ACE Seeds公式Descriptionに基づく。"
       },
-      "visuals": [],
+      "visuals": [
+        {
+          "role": "primary",
+          "src": "strains/zamaldelica/images/generated/primary.webp",
+          "aiGenerated": true,
+          "sourceType": "aiGenerated",
+          "rights": "AI-generated project asset for Cannabis Strain Wisdom.",
+          "alt": "Zamaldelicaの非常にブッシーな株姿と多数の側枝に付く花を表現したAI生成参考ビジュアル",
+          "scope": "cultivar"
+        }
+      ],
       "checkedAt": "2026-08-17",
       "updatedAt": "2026-08-17"
     }
