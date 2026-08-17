@@ -1,25 +1,28 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-17T22:09:30.493Z",
+  "generatedAt": "2026-08-17T23:32:55.073Z",
   "sourceOfTruth": {
     "cultivars": "strains/<id>/strain.json",
     "sources": "sources/*.json",
     "entities": "entities/*.json"
   },
   "counts": {
-    "cultivars": 13,
-    "sources": 32,
-    "entities": 10
+    "cultivars": 16,
+    "sources": 38,
+    "entities": 11
   },
   "explore": {
     "sativa": [
       "chocolope-256",
       "dr-grinspoon",
       "malawi",
+      "panama",
+      "shaman",
       "super-lemon-haze",
       "zamaldelica"
     ],
     "indica": [
+      "california-octane",
       "cataract-kush",
       "strawberry-banana-s1"
     ],
@@ -167,6 +170,86 @@
       ],
       "checkedAt": "2026-08-14",
       "updatedAt": "2026-08-15"
+    },
+    {
+      "schemaVersion": 1,
+      "id": "california-octane",
+      "status": "review",
+      "name": "California Octane",
+      "jp": null,
+      "aliases": [
+        "Cali Octane"
+      ],
+      "classification": {
+        "type": "indica-dominant-hybrid"
+      },
+      "breeding": {
+        "generation": "other",
+        "method": "S3 feminized photoperiod (official Humboldt Seed Company designation)"
+      },
+      "lineage": {
+        "status": "confirmed",
+        "confidence": "A",
+        "basis": "breederOfficial",
+        "sourceRefs": [
+          "hsc-california-octane"
+        ],
+        "display": "Dream Queen × I-369 × Papaya",
+        "parents": [
+          "Dream Queen",
+          "I-369",
+          "Papaya"
+        ],
+        "note": "Exact parentals and S3 designation are taken from Humboldt Seed Company's current feminized California Octane product page."
+      },
+      "relations": [
+        {
+          "entityId": "humboldt-seed-company",
+          "roles": [
+            "breeder",
+            "seedCompany"
+          ],
+          "status": "confirmed",
+          "confidence": "A",
+          "basis": "breederOfficial",
+          "sourceRefs": [
+            "hsc-california-octane",
+            "humboldt-seed-company-about"
+          ]
+        }
+      ],
+      "aromas": {
+        "status": "confirmed",
+        "confidence": "A",
+        "basis": "breederOfficial",
+        "sourceRefs": [
+          "hsc-california-octane"
+        ],
+        "items": [
+          "gas",
+          "guava",
+          "crème"
+        ],
+        "note": "Official product page describes a strong gas nose with hints of guava and crème."
+      },
+      "terpenes": {
+        "status": "unknown",
+        "items": [],
+        "note": "The official Humboldt Seed Company product page gives aroma/flavor descriptors but no compound-level terpene profile. Third-party terpene claims were not promoted to the candidate record."
+      },
+      "origin": {
+        "status": "unknown",
+        "text": "",
+        "note": "Humboldt Seed Company is based in Humboldt County, California, but the reviewed official product page does not explicitly establish the cultivar's place of origin. Company location is not treated as cultivar origin."
+      },
+      "history": {
+        "status": "unknown",
+        "text": "",
+        "note": "The official product page labels California Octane an original strain and provides parentals/S3 status, but the reviewed primary sources do not provide a dated cultivar-development history. No history is inferred."
+      },
+      "visuals": [],
+      "checkedAt": "2026-08-17",
+      "updatedAt": "2026-08-17"
     },
     {
       "schemaVersion": 1,
@@ -765,6 +848,199 @@
       ],
       "checkedAt": "2026-08-16",
       "updatedAt": "2026-08-16"
+    },
+    {
+      "schemaVersion": 1,
+      "id": "panama",
+      "status": "review",
+      "name": "Panama",
+      "jp": null,
+      "aliases": [],
+      "classification": {
+        "type": "sativa"
+      },
+      "breeding": {
+        "generation": "other",
+        "method": "F8-F12 semi-stabilized hybrid (official ACE Seeds designation)"
+      },
+      "lineage": {
+        "status": "confirmed",
+        "confidence": "A",
+        "basis": "breederOfficial",
+        "sourceRefs": [
+          "ace-seeds-panama"
+        ],
+        "display": "Hybrid between 3 Panamanian sativa strains",
+        "parents": [],
+        "note": "ACE Seeds officially describes Panama as a hybrid between three Panamanian sativa strains. The individual parent cultivar names are not published, so no parent names are invented."
+      },
+      "relations": [
+        {
+          "entityId": "ace-seeds",
+          "roles": [
+            "breeder",
+            "seedCompany"
+          ],
+          "status": "confirmed",
+          "confidence": "A",
+          "basis": "breederOfficial",
+          "sourceRefs": [
+            "ace-seeds-panama",
+            "ace-seeds-about-2026"
+          ]
+        }
+      ],
+      "aromas": {
+        "status": "confirmed",
+        "confidence": "A",
+        "basis": "breederOfficial",
+        "sourceRefs": [
+          "ace-seeds-panama"
+        ],
+        "items": [
+          "lemon",
+          "vanilla",
+          "incense",
+          "strawberry"
+        ],
+        "note": "Official bouquet: penetrating organic aroma mainly lemon, vanilla and incense; some phenotypes are sweeter with strawberry aromas."
+      },
+      "terpenes": {
+        "status": "confirmed",
+        "confidence": "B",
+        "basis": "breederOfficial",
+        "sourceRefs": [
+          "ace-seeds-panama"
+        ],
+        "items": [
+          "Terpinolene",
+          "α-Pinene",
+          "β-Pinene",
+          "Limonene",
+          "β-Myrcene",
+          "trans-Ocimene",
+          "Guaiol"
+        ],
+        "note": "ACE Seeds publishes a terpene profile led by terpinolene (almost 50%), followed by moderate alpha/beta pinene and limonene, with smaller myrcene/trans-ocimene and guaiol. Confidence remains B because the page is breeder-published rather than an independently retrieved lab report."
+      },
+      "origin": {
+        "status": "confirmed",
+        "confidence": "A",
+        "basis": "breederOfficial",
+        "sourceRefs": [
+          "ace-seeds-panama"
+        ],
+        "text": "Panama",
+        "note": "Official genetics are three sativa strains from Panama."
+      },
+      "history": {
+        "status": "confirmed",
+        "confidence": "A",
+        "basis": "breederOfficial",
+        "sourceRefs": [
+          "ace-seeds-about-2026"
+        ],
+        "text": "Panama was included in ACE Seeds' first catalog in 2005.",
+        "note": "ACE Seeds' current official About page lists Panama among the cultivars in its first 2005 catalog."
+      },
+      "visuals": [],
+      "checkedAt": "2026-08-17",
+      "updatedAt": "2026-08-17"
+    },
+    {
+      "schemaVersion": 1,
+      "id": "shaman",
+      "status": "review",
+      "name": "Shaman",
+      "jp": null,
+      "aliases": [
+        "Shaman®"
+      ],
+      "classification": {
+        "type": "sativa-dominant-hybrid"
+      },
+      "breeding": {
+        "generation": "F1",
+        "method": "Purple #1 male × early Skunk female; offered as regular and feminised seed"
+      },
+      "lineage": {
+        "status": "confirmed",
+        "confidence": "A",
+        "basis": "breederOfficial",
+        "sourceRefs": [
+          "dutch-passion-shaman",
+          "dutch-passion-shaman-story"
+        ],
+        "display": "Purple #1 × Skunk",
+        "parents": [
+          "Purple #1",
+          "Skunk"
+        ],
+        "note": "Dutch Passion's current history page specifies a Purple #1 male crossed with an exceptional early Skunk female and identifies the result as a sativa-dominant F1 hybrid."
+      },
+      "relations": [
+        {
+          "entityId": "dutch-passion",
+          "roles": [
+            "breeder",
+            "seedCompany"
+          ],
+          "status": "confirmed",
+          "confidence": "A",
+          "basis": "breederOfficial",
+          "sourceRefs": [
+            "dutch-passion-shaman",
+            "dutch-passion-shaman-story"
+          ]
+        }
+      ],
+      "aromas": {
+        "status": "confirmed",
+        "confidence": "A",
+        "basis": "breederOfficial",
+        "sourceRefs": [
+          "dutch-passion-shaman"
+        ],
+        "items": [
+          "fresh",
+          "sweet",
+          "fruity",
+          "floral",
+          "spicy",
+          "sour",
+          "pine",
+          "woody"
+        ],
+        "note": "Official product description calls the aroma fresh, sweet and spicy; more specifically sweet, fruity, floral and spicy, with sour/pine and sometimes woody notes across phenotypes."
+      },
+      "terpenes": {
+        "status": "unknown",
+        "items": [],
+        "note": "Dutch Passion uses sensory 'terpene profile' descriptors such as spicy/herbal and aroma terms, but the reviewed official sources do not identify a compound-level terpene composition. No compounds are inferred."
+      },
+      "origin": {
+        "status": "confirmed",
+        "confidence": "A",
+        "basis": "breederOfficial",
+        "sourceRefs": [
+          "dutch-passion-shaman-story"
+        ],
+        "text": "The Netherlands; Dutch Passion outdoor breeding program",
+        "note": "Official history states Shaman originated in Dutch Passion's outdoor breeding program and was selected over years under Dutch outdoor conditions."
+      },
+      "history": {
+        "status": "confirmed",
+        "confidence": "A",
+        "basis": "breederOfficial",
+        "sourceRefs": [
+          "dutch-passion-shaman-story"
+        ],
+        "text": "Developed through years of outdoor selection in the Netherlands from Purple #1 × early Skunk.",
+        "note": "Dutch Passion describes decades of Dutch outdoor/greenhouse selection for the cultivar."
+      },
+      "visuals": [],
+      "checkedAt": "2026-08-17",
+      "updatedAt": "2026-08-17"
     },
     {
       "schemaVersion": 1,
@@ -1411,6 +1687,21 @@
     }
   ],
   "sources": {
+    "ace-seeds-about-2026": {
+      "schemaVersion": 1,
+      "id": "ace-seeds-about-2026",
+      "publisher": "ACE Seeds",
+      "title": "About us",
+      "url": "https://www.aceseeds.org/en/about-us/",
+      "sourceType": "breederOfficial",
+      "supports": [
+        "breeder",
+        "history"
+      ],
+      "publishedAt": null,
+      "checkedAt": "2026-08-17",
+      "note": "Current ACE Seeds official About page. Used to confirm Panama was included in ACE Seeds' first catalog in 2005 and to support breeder/seed-company context."
+    },
     "ace-seeds-about": {
       "schemaVersion": 1,
       "id": "ace-seeds-about",
@@ -1444,6 +1735,26 @@
       "publishedAt": null,
       "checkedAt": "2026-08-17",
       "note": "ACE Seeds公式Malawi品種ページ。Malawi由来P4 landrace、Old Malawi Killer × 3rd generation Malawis、香味、テルペン、原産地、breeder / seed company確認に使用。"
+    },
+    "ace-seeds-panama": {
+      "schemaVersion": 1,
+      "id": "ace-seeds-panama",
+      "publisher": "ACE Seeds",
+      "title": "Panama Regular",
+      "url": "https://www.aceseeds.org/en/seeds/panama-regular-seeds/",
+      "sourceType": "breederOfficial",
+      "supports": [
+        "lineage",
+        "breeder",
+        "classification",
+        "breeding",
+        "aromas",
+        "terpenes",
+        "origin"
+      ],
+      "publishedAt": null,
+      "checkedAt": "2026-08-17",
+      "note": "ACE Seeds official Panama page. Used for three-Panamanian-sativa lineage, F8-F12 designation, 100% sativa type, aroma, terpene profile, origin and visual morphology evidence."
     },
     "ace-seeds-zamaldelica": {
       "schemaVersion": 1,
@@ -1610,6 +1921,44 @@
       "checkedAt": "2026-08-17",
       "note": "Dutch Passion公式Frisian Duck品種ページ。Frisian Dew x DucksFoot、hybrid表記、長年の選抜育種、特徴的な葉形、spicy / fresh forest / pine / citrus / fruity系の香りを確認。"
     },
+    "dutch-passion-shaman-story": {
+      "schemaVersion": 1,
+      "id": "dutch-passion-shaman-story",
+      "publisher": "Dutch Passion",
+      "title": "Shaman cannabis strain story and grow tips",
+      "url": "https://dutch-passion.com/en/blog/shaman-cannabis-strain-story-and-grow-tips-n1294",
+      "sourceType": "breederOfficial",
+      "supports": [
+        "lineage",
+        "breeder",
+        "classification",
+        "breeding",
+        "history",
+        "origin",
+        "aromas"
+      ],
+      "publishedAt": null,
+      "checkedAt": "2026-08-17",
+      "note": "Dutch Passion official cultivar history page. Used for Purple #1 male × early Skunk female, sativa-dominant F1 designation, Dutch outdoor breeding-program history/origin and structural visual evidence."
+    },
+    "dutch-passion-shaman": {
+      "schemaVersion": 1,
+      "id": "dutch-passion-shaman",
+      "publisher": "Dutch Passion",
+      "title": "Shaman",
+      "url": "https://dutch-passion.com/en/cannabis-seeds/shaman",
+      "sourceType": "breederOfficial",
+      "supports": [
+        "lineage",
+        "breeder",
+        "classification",
+        "breeding",
+        "aromas"
+      ],
+      "publishedAt": null,
+      "checkedAt": "2026-08-17",
+      "note": "Dutch Passion official Shaman product page. Used for Purple #1 × Skunk lineage, sativa-dominant identity, F1/regular-feminised product context, aroma and visual colour evidence."
+    },
     "fischedick-og-kush-terpenoids-2017": {
       "schemaVersion": 1,
       "id": "fischedick-og-kush-terpenoids-2017",
@@ -1660,6 +2009,24 @@
       "checkedAt": "2026-08-16",
       "note": "High Times event result lists Wedding Cake by New Amsterdam Naturals with Cannastar as 1st Place, Best Hybrid Flower. This supports the cultivar's competition history and hybrid classification, not breeder attribution."
     },
+    "hsc-california-octane": {
+      "schemaVersion": 1,
+      "id": "hsc-california-octane",
+      "publisher": "Humboldt Seed Company",
+      "title": "California Octane Seeds",
+      "url": "https://californiahempseeds.com/product/california-octane-feminized/",
+      "sourceType": "breederOfficial",
+      "supports": [
+        "lineage",
+        "breeder",
+        "classification",
+        "breeding",
+        "aromas"
+      ],
+      "publishedAt": null,
+      "checkedAt": "2026-08-17",
+      "note": "Humboldt Seed Company official California Octane product page. Used for Dream Queen × I-369 × Papaya lineage, S3 designation, indica-leaning hybrid type, gas/guava/crème aroma and dense trichome-rich flower evidence."
+    },
     "humboldt-csi-wedding-cake-s1": {
       "schemaVersion": 1,
       "id": "humboldt-csi-wedding-cake-s1",
@@ -1676,6 +2043,20 @@
       "publishedAt": null,
       "checkedAt": "2026-08-16",
       "note": "Primary official source for the Wedding Cake S1 product name, Wedding Cake × Wedding Cake designation, feminized seed listing, and Humboldt CSI association. The page does not identify the exact Wedding Cake cut or provide cultivar-level aroma, terpene, or TYPE data."
+    },
+    "humboldt-seed-company-about": {
+      "schemaVersion": 1,
+      "id": "humboldt-seed-company-about",
+      "publisher": "Humboldt Seed Company",
+      "title": "About",
+      "url": "https://californiahempseeds.com/about/",
+      "sourceType": "breederOfficial",
+      "supports": [
+        "breeder"
+      ],
+      "publishedAt": null,
+      "checkedAt": "2026-08-17",
+      "note": "Humboldt Seed Company official About page. Used to confirm company identity and breeding/seed-company context. Company founding location is not used as proof of California Octane cultivar origin."
     },
     "josh-d-og-kush-official": {
       "schemaVersion": 1,
@@ -2028,6 +2409,18 @@
       "status": "confirmed",
       "checkedAt": "2026-08-16",
       "updatedAt": "2026-08-16"
+    },
+    "humboldt-seed-company": {
+      "schemaVersion": 1,
+      "id": "humboldt-seed-company",
+      "name": "Humboldt Seed Company",
+      "roles": [
+        "breeder",
+        "seedCompany"
+      ],
+      "checkedAt": "2026-08-17",
+      "updatedAt": "2026-08-17",
+      "note": "Humboldt Seed Company official product and About pages identify the company as the breeder/seed company for California Octane."
     },
     "reserva-privada": {
       "schemaVersion": 1,

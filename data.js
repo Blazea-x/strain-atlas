@@ -71,6 +71,53 @@ window.STRAINS=[
     "reviews": []
   },
   {
+    "id": "california-octane",
+    "name": "California Octane",
+    "jp": "",
+    "type": {
+      "key": "indica-dominant-hybrid",
+      "label": "インディカ優勢"
+    },
+    "aliases": [
+      "Cali Octane"
+    ],
+    "identity": {
+      "scope": "cultivar",
+      "note": "品種一般の情報。特定ロット・製品・フェノタイプを示すものではありません。"
+    },
+    "lineage": {
+      "display": "Dream Queen × I-369 × Papaya",
+      "parents": [
+        "Dream Queen",
+        "I-369",
+        "Papaya"
+      ],
+      "note": "Exact parentals and S3 designation are taken from Humboldt Seed Company's current feminized California Octane product page."
+    },
+    "aromas": [
+      "gas",
+      "guava",
+      "crème"
+    ],
+    "breeder": {
+      "name": "Humboldt Seed Company",
+      "era": ""
+    },
+    "terpenes": [],
+    "originHistory": "",
+    "history": "",
+    "confidence": {
+      "display": "LINEAGE A / AROMA A",
+      "note": "正本データの項目別confidenceを表示"
+    },
+    "visuals": [],
+    "sourceIds": [
+      "hsc-california-octane",
+      "humboldt-seed-company-about"
+    ],
+    "reviews": []
+  },
+  {
     "id": "cataract-kush",
     "name": "Cataract Kush",
     "jp": "",
@@ -427,6 +474,107 @@ window.STRAINS=[
       "leafly-og-history",
       "fischedick-og-kush-terpenoids-2017",
       "acs-og-kush-volatiles-2021"
+    ],
+    "reviews": []
+  },
+  {
+    "id": "panama",
+    "name": "Panama",
+    "jp": "",
+    "type": {
+      "key": "sativa",
+      "label": "サティバ"
+    },
+    "aliases": [],
+    "identity": {
+      "scope": "cultivar",
+      "note": "品種一般の情報。特定ロット・製品・フェノタイプを示すものではありません。"
+    },
+    "lineage": {
+      "display": "Hybrid between 3 Panamanian sativa strains",
+      "parents": [],
+      "note": "ACE Seeds officially describes Panama as a hybrid between three Panamanian sativa strains. The individual parent cultivar names are not published, so no parent names are invented."
+    },
+    "aromas": [
+      "lemon",
+      "vanilla",
+      "incense",
+      "strawberry"
+    ],
+    "breeder": {
+      "name": "ACE Seeds",
+      "era": ""
+    },
+    "terpenes": [
+      "Terpinolene",
+      "α-Pinene",
+      "β-Pinene",
+      "Limonene",
+      "β-Myrcene",
+      "trans-Ocimene",
+      "Guaiol"
+    ],
+    "originHistory": "Panama",
+    "history": "Panama was included in ACE Seeds' first catalog in 2005.",
+    "confidence": {
+      "display": "LINEAGE A / AROMA A / TERPENE B / ORIGIN A / HISTORY A",
+      "note": "正本データの項目別confidenceを表示"
+    },
+    "visuals": [],
+    "sourceIds": [
+      "ace-seeds-panama",
+      "ace-seeds-about-2026"
+    ],
+    "reviews": []
+  },
+  {
+    "id": "shaman",
+    "name": "Shaman",
+    "jp": "",
+    "type": {
+      "key": "sativa-dominant-hybrid",
+      "label": "サティバ優勢"
+    },
+    "aliases": [
+      "Shaman®"
+    ],
+    "identity": {
+      "scope": "cultivar",
+      "note": "品種一般の情報。特定ロット・製品・フェノタイプを示すものではありません。"
+    },
+    "lineage": {
+      "display": "Purple #1 × Skunk",
+      "parents": [
+        "Purple #1",
+        "Skunk"
+      ],
+      "note": "Dutch Passion's current history page specifies a Purple #1 male crossed with an exceptional early Skunk female and identifies the result as a sativa-dominant F1 hybrid."
+    },
+    "aromas": [
+      "fresh",
+      "sweet",
+      "fruity",
+      "floral",
+      "spicy",
+      "sour",
+      "pine",
+      "woody"
+    ],
+    "breeder": {
+      "name": "Dutch Passion",
+      "era": ""
+    },
+    "terpenes": [],
+    "originHistory": "The Netherlands; Dutch Passion outdoor breeding program",
+    "history": "Developed through years of outdoor selection in the Netherlands from Purple #1 × early Skunk.",
+    "confidence": {
+      "display": "LINEAGE A / AROMA A / ORIGIN A / HISTORY A",
+      "note": "正本データの項目別confidenceを表示"
+    },
+    "visuals": [],
+    "sourceIds": [
+      "dutch-passion-shaman",
+      "dutch-passion-shaman-story"
     ],
     "reviews": []
   },

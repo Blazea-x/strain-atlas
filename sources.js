@@ -1,4 +1,15 @@
 window.SOURCES={
+  "ace-seeds-about-2026": {
+    "name": "ACE Seeds — About us",
+    "url": "https://www.aceseeds.org/en/about-us/",
+    "type": "primary",
+    "typeLabel": "一次情報",
+    "checked": "2026-08-17",
+    "supports": [
+      "breeder",
+      "history"
+    ]
+  },
   "ace-seeds-about": {
     "name": "ACE Seeds — About Us",
     "url": "https://www.aceseeds.org/en/content/6-about-us",
@@ -20,6 +31,22 @@ window.SOURCES={
       "lineage",
       "breeder",
       "classification",
+      "aromas",
+      "terpenes",
+      "origin"
+    ]
+  },
+  "ace-seeds-panama": {
+    "name": "ACE Seeds — Panama Regular",
+    "url": "https://www.aceseeds.org/en/seeds/panama-regular-seeds/",
+    "type": "primary",
+    "typeLabel": "一次情報",
+    "checked": "2026-08-17",
+    "supports": [
+      "lineage",
+      "breeder",
+      "classification",
+      "breeding",
       "aromas",
       "terpenes",
       "origin"
@@ -154,6 +181,36 @@ window.SOURCES={
       "aromas"
     ]
   },
+  "dutch-passion-shaman-story": {
+    "name": "Dutch Passion — Shaman cannabis strain story and grow tips",
+    "url": "https://dutch-passion.com/en/blog/shaman-cannabis-strain-story-and-grow-tips-n1294",
+    "type": "primary",
+    "typeLabel": "一次情報",
+    "checked": "2026-08-17",
+    "supports": [
+      "lineage",
+      "breeder",
+      "classification",
+      "breeding",
+      "history",
+      "origin",
+      "aromas"
+    ]
+  },
+  "dutch-passion-shaman": {
+    "name": "Dutch Passion — Shaman",
+    "url": "https://dutch-passion.com/en/cannabis-seeds/shaman",
+    "type": "primary",
+    "typeLabel": "一次情報",
+    "checked": "2026-08-17",
+    "supports": [
+      "lineage",
+      "breeder",
+      "classification",
+      "breeding",
+      "aromas"
+    ]
+  },
   "fischedick-og-kush-terpenoids-2017": {
     "name": "Cannabis and Cannabinoid Research — Identification of Terpenoid Chemotypes Among High (-)-trans-Delta9-Tetrahydrocannabinol-Producing Cannabis sativa L. Cultivars",
     "url": "https://doi.org/10.1089/can.2016.0040",
@@ -192,6 +249,20 @@ window.SOURCES={
       "classification"
     ]
   },
+  "hsc-california-octane": {
+    "name": "Humboldt Seed Company — California Octane Seeds",
+    "url": "https://californiahempseeds.com/product/california-octane-feminized/",
+    "type": "primary",
+    "typeLabel": "一次情報",
+    "checked": "2026-08-17",
+    "supports": [
+      "lineage",
+      "breeder",
+      "classification",
+      "breeding",
+      "aromas"
+    ]
+  },
   "humboldt-csi-wedding-cake-s1": {
     "name": "Humboldt CSI — Wedding Cake S1",
     "url": "https://humboldtcsi.com/product/wedding-cake-s1/",
@@ -203,6 +274,16 @@ window.SOURCES={
       "breeder",
       "generation",
       "origin"
+    ]
+  },
+  "humboldt-seed-company-about": {
+    "name": "Humboldt Seed Company — About",
+    "url": "https://californiahempseeds.com/about/",
+    "type": "primary",
+    "typeLabel": "一次情報",
+    "checked": "2026-08-17",
+    "supports": [
+      "breeder"
     ]
   },
   "josh-d-og-kush-official": {
