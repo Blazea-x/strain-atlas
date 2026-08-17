@@ -8,6 +8,19 @@
   "itemsRoot": "stock/items/",
   "runsRoot": "stock/runs/",
   "batchSize": 3,
+  "runIdentity": {
+    "newRunIdPattern": "^run-[0-9]{8}T[0-9]{6}-[0-9a-f]{6}$",
+    "timestampFormat": "YYYYMMDDTHHMMSS",
+    "timestampZone": "UTC",
+    "randomHexLength": 6,
+    "batchSizeMustNotBeUsedAsRunId": true,
+    "requireRemoteNonexistenceCheckBeforeWrite": true,
+    "collisionAction": "regenerate",
+    "maxGenerationAttempts": 20,
+    "legacyRunIds": [
+      "run-3"
+    ]
+  },
   "images": {
     "mode": "disabled-v1",
     "allowFiles": false,
@@ -24,9 +37,16 @@
     "oneRunOneCommit": true,
     "oneRunOneRefUpdate": true,
     "forceRefUpdate": false,
-    "method": ["blob", "tree", "commit", "ref-update"]
+    "method": [
+      "blob",
+      "tree",
+      "commit",
+      "ref-update"
+    ]
   },
-  "allowedWritePrefixes": ["stock/"],
+  "allowedWritePrefixes": [
+    "stock/"
+  ],
   "forbiddenWritePrefixes": [
     "strains/",
     "sources/",
@@ -37,20 +57,44 @@
     ".github/workflows/",
     "images/"
   ],
-  "forbiddenWritePaths": ["data.js", "sources.js"],
-  "protectedBranches": ["main"],
+  "forbiddenWritePaths": [
+    "data.js",
+    "sources.js"
+  ],
+  "protectedBranches": [
+    "main"
+  ],
   "duplicatePolicy": {
     "checkProduction": true,
     "checkExistingStock": true,
-    "strainKeys": ["id", "canonicalName"],
-    "sourceKeys": ["id", "url"],
-    "entityKeys": ["id", "canonicalName"],
+    "strainKeys": [
+      "id",
+      "canonicalName"
+    ],
+    "sourceKeys": [
+      "id",
+      "url"
+    ],
+    "entityKeys": [
+      "id",
+      "canonicalName"
+    ],
     "conflictingSameIdStatus": "NEEDS_REVIEW",
     "automaticOverwriteOnConflict": false
   },
   "confidence": {
-    "allowed": ["A", "B", "C", "unknown"],
-    "claimFields": ["lineage", "history", "aroma", "terpene"]
+    "allowed": [
+      "A",
+      "B",
+      "C",
+      "unknown"
+    ],
+    "claimFields": [
+      "lineage",
+      "history",
+      "aroma",
+      "terpene"
+    ]
   },
   "successAudit": {
     "requireMasterHeadChanged": true,

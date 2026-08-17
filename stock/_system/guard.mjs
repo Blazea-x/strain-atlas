@@ -3,6 +3,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import process from 'node:process';
 import { execFileSync } from 'node:child_process';
+import { randomBytes } from 'node:crypto';
 
 const ROOT = process.cwd();
 const SYSTEM_DIR = path.join(ROOT, 'stock', '_system');
@@ -77,6 +78,46 @@ function stable(value) {
 
 function sameContent(a, b) {
   return JSON.stringify(stable(a)) === JSON.stringify(stable(b));
+}
+
+function formatRunTimestamp(date = new Date()) {
+  return date.toISOString().replace(/[-:]/g, '').replace(/\.\d{3}Z$/, '');
+}
+
+function isNewRunId(runId, config) {
+  return new RegExp(config.runIdentity.newRunIdPattern).test(runId);
+}
+
+function localRunExists(runId, config) {
+  return fs.existsSync(path.join(ROOT, config.runsRoot, runId));
+}
+
+function generateRunId(config, remoteExistingRunIds = []) {
+  const policy = config.runIdentity;
+  if (!policy) fail('runIdentity policy is missing from config.json');
+
+  const remote = new Set(remoteExistingRunIds);
+  for (let attempt = 1; attempt <= policy.maxGenerationAttempts; attempt += 1) {
+    const suffix = randomBytes(Math.ceil(policy.randomHexLength / 2)).toString('hex').slice(0, policy.randomHexLength);
+    const runId = `run-${formatRunTimestamp()}-${suffix}`;
+    if (!isNewRunId(runId, config)) continue;
+    if (localRunExists(runId, config) || remote.has(runId)) continue;
+    return { runId, attempt };
+  }
+  fail('Unable to generate a collision-free runId', { attempts: policy.maxGenerationAttempts });
+}
+
+function assertNewRunIdAvailable(runId, config, remoteExistingRunIds = []) {
+  if (!isNewRunId(runId, config)) {
+    fail('New runId does not match the required timestamp-plus-random format', {
+      runId,
+      requiredPattern: config.runIdentity.newRunIdPattern
+    });
+  }
+  if (localRunExists(runId, config) || remoteExistingRunIds.includes(runId)) {
+    fail('runId collision detected; existing run must never be overwritten', { runId });
+  }
+  return true;
 }
 
 function duplicateScan(config) {
@@ -200,6 +241,8 @@ if (!command || command === 'help') {
   console.log('  node stock/_system/guard.mjs precommit <BASE_SHA> [HEAD]');
   console.log('  node stock/_system/guard.mjs postaudit <BASE_SHA> <END_SHA> <MAIN_START_SHA> <MAIN_END_SHA>');
   console.log('  node stock/_system/guard.mjs duplicates');
+  console.log('  node stock/_system/guard.mjs runid [REMOTE_EXISTING_RUN_ID ...]');
+  console.log('  node stock/_system/guard.mjs check-runid <RUN_ID> [REMOTE_EXISTING_RUN_ID ...]');
   process.exit(0);
 }
 
@@ -233,6 +276,22 @@ if (command === 'precommit') {
     fail('Duplicate conflicts require NEEDS_REVIEW; automatic overwrite is forbidden', result);
   }
   ok('Duplicate scan completed', result);
+} else if (command === 'runid') {
+  const generated = generateRunId(config, args);
+  ok('Generated collision-free AUTO STOCK runId', {
+    ...generated,
+    path: `${config.runsRoot}${generated.runId}/run.json`,
+    remoteCheckRequiredBeforeWrite: config.runIdentity.requireRemoteNonexistenceCheckBeforeWrite
+  });
+} else if (command === 'check-runid') {
+  const [runId, ...remoteExistingRunIds] = args;
+  if (!runId) fail('RUN_ID is required');
+  assertNewRunIdAvailable(runId, config, remoteExistingRunIds);
+  ok('New runId is available in the supplied local/remote run set', {
+    runId,
+    path: `${config.runsRoot}${runId}/run.json`,
+    remoteCheckRequiredBeforeWrite: config.runIdentity.requireRemoteNonexistenceCheckBeforeWrite
+  });
 } else {
   fail('Unknown command', { command });
 }
