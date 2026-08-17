@@ -35,7 +35,7 @@ function git(args) {
 }
 
 function normalizeRepoPath(p) {
-  return p.replaceAll('\\\\', '/').replace(/^\.\//, '');
+  return p.replaceAll('\\', '/').replace(/^\.\//, '');
 }
 
 function isAllowedPath(p, config) {
@@ -67,40 +67,129 @@ function fileSha(ref, filePath) {
   return out;
 }
 
-function duplicateScan() {
-  const seen = new Map();
-  const conflicts = [];
-  const roots = [
-    ['production-strain', path.join(ROOT, 'strains')],
-    ['production-source', path.join(ROOT, 'sources')],
-    ['production-entity', path.join(ROOT, 'entities')],
-    ['stock', path.join(ROOT, 'stock', 'items')]
-  ];
+function stable(value) {
+  if (Array.isArray(value)) return value.map(stable);
+  if (value && typeof value === 'object') {
+    return Object.fromEntries(Object.keys(value).sort().map(key => [key, stable(value[key])]));
+  }
+  return value;
+}
 
-  function visit(kind, dir) {
+function sameContent(a, b) {
+  return JSON.stringify(stable(a)) === JSON.stringify(stable(b));
+}
+
+function duplicateScan(config) {
+  const policy = config.duplicatePolicy;
+  const records = { strain: [], source: [], entity: [] };
+  const results = { matches: [], conflicts: [] };
+
+  function add(kind, record) {
+    if (!record || typeof record.id !== 'string' || !record.id) return;
+    records[kind].push(record);
+  }
+
+  function walkJson(dir, callback) {
     if (!fs.existsSync(dir)) return;
     for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
       const full = path.join(dir, entry.name);
-      if (entry.isDirectory()) visit(kind, full);
+      if (entry.isDirectory()) walkJson(full, callback);
       else if (entry.isFile() && entry.name.endsWith('.json')) {
         let data;
         try { data = JSON.parse(fs.readFileSync(full, 'utf8')); } catch { continue; }
-        const ids = [];
-        if (typeof data.id === 'string') ids.push(data.id);
-        if (typeof data.stockId === 'string') ids.push(data.stockId);
-        if (data.candidate && typeof data.candidate.id === 'string') ids.push(data.candidate.id);
-        for (const id of ids) {
-          const key = `${kind.includes('source') ? 'source' : kind.includes('entity') ? 'entity' : 'strain'}:${id}`;
-          const rel = normalizeRepoPath(path.relative(ROOT, full));
-          if (seen.has(key) && seen.get(key) !== rel) conflicts.push({ key, first: seen.get(key), second: rel });
-          else seen.set(key, rel);
+        callback(data, normalizeRepoPath(path.relative(ROOT, full)));
+      }
+    }
+  }
+
+  if (policy.checkProduction) {
+    walkJson(path.join(ROOT, 'strains'), (data, rel) => {
+      add('strain', { id: data.id, canonicalName: data.canonicalName ?? data.name, payload: data, path: rel, origin: 'production' });
+    });
+    walkJson(path.join(ROOT, 'sources'), (data, rel) => {
+      add('source', { id: data.id, url: data.url, payload: data, path: rel, origin: 'production' });
+    });
+    walkJson(path.join(ROOT, 'entities'), (data, rel) => {
+      add('entity', { id: data.id, canonicalName: data.canonicalName ?? data.name, payload: data, path: rel, origin: 'production' });
+    });
+  }
+
+  if (policy.checkExistingStock) {
+    walkJson(path.join(ROOT, 'stock', 'items'), (data, rel) => {
+      if (data.candidate && typeof data.candidate === 'object') {
+        add('strain', {
+          id: data.candidate.id,
+          canonicalName: data.candidate.canonicalName,
+          payload: data.candidate.strainData ?? data.candidate,
+          path: rel,
+          origin: 'stock'
+        });
+      }
+      for (const source of Array.isArray(data.sources) ? data.sources : []) {
+        add('source', {
+          id: source.id,
+          url: source.url,
+          payload: source.payload ?? source,
+          path: rel,
+          origin: 'stock'
+        });
+      }
+      for (const entity of Array.isArray(data.entities) ? data.entities : []) {
+        add('entity', {
+          id: entity.id,
+          canonicalName: entity.canonicalName,
+          payload: entity.payload ?? entity,
+          path: rel,
+          origin: 'stock'
+        });
+      }
+    });
+  }
+
+  function compareKind(kind, keys) {
+    const list = records[kind];
+    for (let i = 0; i < list.length; i += 1) {
+      for (let j = i + 1; j < list.length; j += 1) {
+        const a = list[i];
+        const b = list[j];
+        const matchedKeys = keys.filter(key => a[key] && b[key] && a[key] === b[key]);
+        if (!matchedKeys.length) continue;
+
+        const sameId = a.id === b.id;
+        const contentEqual = sameContent(a.payload, b.payload);
+        const entry = {
+          kind,
+          matchedKeys,
+          first: a.path,
+          second: b.path,
+          firstOrigin: a.origin,
+          secondOrigin: b.origin,
+          id: sameId ? a.id : undefined
+        };
+
+        if (sameId && !contentEqual) {
+          results.conflicts.push({
+            ...entry,
+            status: policy.conflictingSameIdStatus,
+            automaticOverwrite: policy.automaticOverwriteOnConflict,
+            reason: 'Same ID has different content; automatic overwrite is forbidden.'
+          });
+        } else {
+          results.matches.push({
+            ...entry,
+            result: 'MATCH',
+            reuse: true,
+            reason: 'Existing equivalent key detected; reuse instead of duplicating.'
+          });
         }
       }
     }
   }
 
-  for (const [kind, dir] of roots) visit(kind, dir);
-  return conflicts;
+  compareKind('strain', policy.strainKeys);
+  compareKind('source', policy.sourceKeys);
+  compareKind('entity', policy.entityKeys);
+  return results;
 }
 
 const config = readJson(CONFIG_PATH);
@@ -139,9 +228,11 @@ if (command === 'precommit') {
   }
   ok('Post-write audit passed', { masterHeadChanged, files, mainUnchanged, protectedTreesUnchanged, treeAudit, fileAudit });
 } else if (command === 'duplicates') {
-  const conflicts = duplicateScan();
-  if (conflicts.length) fail('Duplicate/conflicting IDs require NEEDS_REVIEW', { conflicts });
-  ok('No duplicate IDs detected by guard scan');
+  const result = duplicateScan(config);
+  if (result.conflicts.length) {
+    fail('Duplicate conflicts require NEEDS_REVIEW; automatic overwrite is forbidden', result);
+  }
+  ok('Duplicate scan completed', result);
 } else {
   fail('Unknown command', { command });
 }
