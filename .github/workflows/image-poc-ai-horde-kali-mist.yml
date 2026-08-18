@@ -1,0 +1,148 @@
+name: IMAGE PRODUCTION V2 AI Horde Kali Mist PoC
+
+on:
+  push:
+    branches:
+      - master-migration
+    paths:
+      - '.github/workflows/image-poc-ai-horde-kali-mist.yml'
+      - 'scripts/image-poc-ai-horde-kali-mist.py'
+      - 'docs/IMAGE_PRODUCTION_V2_AI_HORDE_POC.md'
+
+permissions:
+  contents: read
+
+env:
+  POC_OUTPUT_DIR: poc-artifact
+
+jobs:
+  kali-mist-image-poc:
+    name: Free async generation / Kali Mist only
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout master-migration commit
+        uses: actions/checkout@v4
+        with:
+          ref: master-migration
+          persist-credentials: false
+          fetch-depth: 1
+
+      - name: Assert branch and protected production baseline
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$GITHUB_REF" = "refs/heads/master-migration"
+          python - <<'PY'
+          import hashlib, json
+          from pathlib import Path
+
+          protected = [Path('strains'), Path('production'), Path('runtime'), Path('UPLOAD_IMAGES_HERE')]
+          snapshot = {}
+          for root in protected:
+              if not root.exists():
+                  continue
+              for path in sorted(p for p in root.rglob('*') if p.is_file()):
+                  snapshot[str(path)] = hashlib.sha256(path.read_bytes()).hexdigest()
+          Path('/tmp/protected-before.json').write_text(json.dumps(snapshot, sort_keys=True), encoding='utf-8')
+
+          ids = []
+          for path in sorted(Path('strains').glob('*/strain.json')):
+              ids.append(json.loads(path.read_text(encoding='utf-8'))['id'])
+          Path('/tmp/public-ids-before.json').write_text(json.dumps(ids, sort_keys=True), encoding='utf-8')
+          print(f'protectedFiles={len(snapshot)} publicIds={len(ids)}')
+          PY
+
+      - name: Verify Kali Mist formal manifest state
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          manifest = json.loads(Path('production/manifests/kali-mist.json').read_text(encoding='utf-8'))
+          run = json.loads(Path('production/runs/content-production-20260818T060700Z-01.json').read_text(encoding='utf-8'))
+          publication = json.loads(Path('production/publication.json').read_text(encoding='utf-8'))
+          strain = json.loads(Path('strains/kali-mist/strain.json').read_text(encoding='utf-8'))
+          item = next(x for x in run['items'] if x['strainId'] == 'kali-mist')
+          pub = next(x for x in publication['entries'] if x['strainId'] == 'kali-mist')
+          assert manifest['runId'] == 'content-production-20260818T060700Z-01'
+          assert manifest['strainId'] == 'kali-mist'
+          assert manifest['approvalStatus'] == 'pending'
+          assert item['productionPhase'] == 'IMAGE_PENDING'
+          assert pub['state'] == 'pending'
+          assert strain['visuals'] == []
+          print(f"manifestVersion={manifest['manifestVersion']} revision={manifest['revision']} attempt={manifest['attempt']} phase={item['productionPhase']} publication={pub['state']} visuals={len(strain['visuals'])}")
+          PY
+
+      - name: Install PoC-only Python dependencies
+        run: python -m pip install --disable-pip-version-check --no-cache-dir 'requests>=2.31,<3' 'Pillow>=10,<12'
+
+      - name: Generate one Kali Mist image through free anonymous AI Horde
+        id: generate
+        env:
+          AI_HORDE_QUEUE_TIMEOUT_SECONDS: '600'
+          AI_HORDE_GENERATION_TIMEOUT_SECONDS: '900'
+          AI_HORDE_POLL_SECONDS: '5'
+          AI_HORDE_HTTP_TIMEOUT_SECONDS: '30'
+        run: python scripts/image-poc-ai-horde-kali-mist.py
+
+      - name: Run CONTENT PRODUCTION V1 audit
+        run: node scripts/audit-content-production.mjs
+
+      - name: Run MASTER validator
+        run: node scripts/validate-master-data.mjs
+
+      - name: Assert no protected production or runtime mutation
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import hashlib, json
+          from pathlib import Path
+          before = json.loads(Path('/tmp/protected-before.json').read_text(encoding='utf-8'))
+          after = {}
+          for root in [Path('strains'), Path('production'), Path('runtime'), Path('UPLOAD_IMAGES_HERE')]:
+              if not root.exists():
+                  continue
+              for path in sorted(p for p in root.rglob('*') if p.is_file()):
+                  after[str(path)] = hashlib.sha256(path.read_bytes()).hexdigest()
+          assert before == after, 'Protected production/runtime content changed during PoC'
+          before_ids = json.loads(Path('/tmp/public-ids-before.json').read_text(encoding='utf-8'))
+          after_ids = [json.loads(p.read_text(encoding='utf-8'))['id'] for p in sorted(Path('strains').glob('*/strain.json'))]
+          assert before_ids == after_ids, 'MASTER public ID set changed during PoC'
+          print(f'PROTECTED_CHANGE_COUNT=0 PUBLIC_ID_SET_MATCH=true publicIds={len(after_ids)}')
+          PY
+          test -z "$(git status --porcelain -- strains production runtime UPLOAD_IMAGES_HERE)"
+
+      - name: Upload Kali Mist PoC artifact
+        id: artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: image-poc-kali-mist-r${{ steps.generate.outputs.revision }}-a${{ steps.generate.outputs.attempt }}-run${{ github.run_id }}-try${{ github.run_attempt }}
+          path: poc-artifact/
+          if-no-files-found: error
+          retention-days: 14
+
+      - name: Report artifact upload failure code
+        if: ${{ failure() && steps.generate.outcome == 'success' && steps.artifact.outcome == 'failure' }}
+        run: |
+          echo 'POC_FAILURE code=ARTIFACT_UPLOAD_FAILED message=actions/upload-artifact failed' >&2
+          exit 1
+
+      - name: Summarize successful PoC
+        if: ${{ success() }}
+        run: |
+          {
+            echo '### FREE IMAGE GENERATION POC: PASS'
+            echo ''
+            echo "- providerGenerationId: ${{ steps.generate.outputs.generation_id }}"
+            echo "- model: ${{ steps.generate.outputs.model }}"
+            echo "- durationSeconds: ${{ steps.generate.outputs.duration_seconds }}"
+            echo "- byteLength: ${{ steps.generate.outputs.byte_length }}"
+            echo "- sha256: ${{ steps.generate.outputs.sha256 }}"
+            echo "- dimensions: ${{ steps.generate.outputs.width }}x${{ steps.generate.outputs.height }}"
+            echo "- artifact: image-poc-kali-mist-r${{ steps.generate.outputs.revision }}-a${{ steps.generate.outputs.attempt }}-run${{ github.run_id }}-try${{ github.run_attempt }}"
+            echo '- production mutation: 0'
+            echo '- visual gate: human review only; no manifest approval performed'
+          } >> "$GITHUB_STEP_SUMMARY"
