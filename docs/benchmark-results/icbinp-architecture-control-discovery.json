@@ -1,0 +1,23 @@
+{
+  "observerRunId": 32184730890,
+  "targetHeadSha": "a923ebc29c6d837c349c6f09e3289ec35b569028",
+  "targetRunFound": true,
+  "targetRun": {
+    "runId": 32184207496,
+    "name": "ICBINP Architecture Control Test",
+    "headSha": "a923ebc29c6d837c349c6f09e3289ec35b569028",
+    "status": "in_progress",
+    "conclusion": null,
+    "htmlUrl": "https://github.com/Blazea-x/strain-atlas/actions/runs/32184207496",
+    "createdAt": "2026-08-18T20:47:12Z",
+    "updatedAt": "2026-08-18T20:47:16Z"
+  },
+  "recentTargetWorkflowRuns": [
+    {
+      "runId": 32184207496,
+      "headSha": "a923ebc29c6d837c349c6f09e3289ec35b569028",
+      "status": "in_progress",
+      "conclusion": null
+    }
+  ]
+}
