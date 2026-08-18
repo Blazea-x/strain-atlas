@@ -1,6 +1,18 @@
 name: Cross-Provider Image API Benchmark
 
 on:
+  workflow_dispatch:
+    inputs:
+      provider:
+        description: Provider to benchmark
+        required: true
+        default: all
+        type: choice
+        options:
+          - all
+          - google
+          - stability
+          - replicate
   push:
     branches: [master-migration]
     paths: ['.github/workflows/cross-provider-image-api-benchmark.yml']
@@ -10,6 +22,7 @@ permissions:
 
 env:
   OUT: cross-provider-image-api-benchmark-artifact
+  TARGET_PROVIDER: ${{ github.event_name == 'workflow_dispatch' && inputs.provider || 'stability' }}
   GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY || secrets.GOOGLE_API_KEY }}
   STABILITY_API_KEY: ${{ secrets.STABILITY_API_KEY }}
   REPLICATE_API_TOKEN: ${{ secrets.REPLICATE_API_TOKEN }}
@@ -26,24 +39,30 @@ jobs:
           persist-credentials: false
 
       - name: Install benchmark dependencies
-        run: python -m pip install --disable-pip-version-check --no-cache-dir 'requests>=2.31,<3' 'Pillow>=10,<12' 'google-genai>=1.30,<2'
+        run: python -m pip install --disable-pip-version-check --no-cache-dir 'requests>=2.31,<3' 'Pillow>=10,<12' 'google-genai>=1.30,<3'
 
       - name: Run cross-provider Architecture Control Test
         shell: bash
         run: |
           python - <<'PY'
-          import os, io, json, time, base64, hashlib, traceback
+          import os, io, json, time, base64, hashlib
           from pathlib import Path
           import requests
           from PIL import Image, ImageOps, ImageDraw
 
-          O = Path(os.environ['OUT']); O.mkdir(parents=True, exist_ok=True)
+          O = Path(os.environ['OUT'])
+          O.mkdir(parents=True, exist_ok=True)
+          target = os.getenv('TARGET_PROVIDER', 'all').strip().lower()
+          if target not in ('all', 'google', 'stability', 'replicate'):
+              raise SystemExit(f'Invalid TARGET_PROVIDER: {target}')
+          enabled = lambda provider: target in ('all', provider)
+
           seeds = [104729, 130363]
           common = (
               'photorealistic botanical reference photograph, mature living female cannabis plant, realistic cannabis leaves, '
               'realistic mature female cannabis flowers, complete plant architecture visible, neutral non-distracting background, '
-              'natural photographic lighting, single continuous frame, single plant, complete plant visible, '
-              'no human, no additional plants, no collage, no text, no watermark, no illustration, no painting'
+              'natural photographic lighting, single continuous photographic frame, no human, no additional plants, no collage, '
+              'no text, no watermark, no illustration, no painting'
           )
           controls = {
               'A': ('very tall and narrow mature female cannabis plant, strong vertical growth, long internodal spacing, '
@@ -68,10 +87,16 @@ jobs:
               'estimatedUsdPerImage':0.067, 'freeTierForImageGeneration':False
             },
             'stability': {
-              'provider':'Stability AI', 'preferredModel':'sd3.5-large-turbo',
+              'provider':'Stability AI Developer Platform', 'preferredModel':'sd3.5-large-turbo',
               'auth':'GitHub Actions secret STABILITY_API_KEY',
               'negativePromptSupported':True, 'seedSupported':True,
-              'estimatedUsdPerImage':0.04, 'freeCreditsMayApply':True
+              'cfgScale':1.0, 'aspectRatio':'2:3', 'outputFormat':'jpeg',
+              'creditCostPerSuccessfulImage':4.0, 'creditUsdValue':0.01,
+              'estimatedUsdPerImage':0.04, 'maximumSuccessfulGenerations':4,
+              'maximumAllowedCredits':25.0,
+              'pricingSource':'https://platform.stability.ai/pricing',
+              'apiReference':'https://platform.stability.ai/docs/api-reference',
+              'pricingVerifiedDate':'2026-08-19'
             },
             'replicate': {
               'provider':'Replicate', 'preferredModel':'black-forest-labs/flux-schnell',
@@ -83,12 +108,13 @@ jobs:
           }
           results = []
           availability = {}
+          stability_balance = {'before': None, 'after': None, 'observedDelta': None, 'beforeHttpStatus': None, 'afterHttpStatus': None}
 
           def inspect_and_save(provider, model, control, index, data, elapsed, request_id=None, seed=None, extra=None):
               with Image.open(io.BytesIO(data)) as im:
                   im.verify()
               with Image.open(io.BytesIO(data)) as im:
-                  w,h,fmt = im.width, im.height, im.format
+                  w, h, fmt = im.width, im.height, im.format
               ext = {'JPEG':'jpg','PNG':'png','WEBP':'webp'}.get(str(fmt).upper(),'img')
               seed_part = f'seed-{seed}' if seed is not None else f'run-{index}'
               fn = f'{provider}__control-{control}__{seed_part}.{ext}'
@@ -101,133 +127,258 @@ jobs:
                 'negativePromptSha256': negative_sha if provider == 'stability' else None,
                 'file': fn
               }
-              if extra: row.update(extra)
+              if extra:
+                  row.update(extra)
               results.append(row)
               return row
 
-          def record_failure(provider, model, control, index, exc, seed=None, request_id=None):
-              results.append({
-                'provider':provider,'model':model,'control':control,'index':index,'status':'failed','seed':seed,
-                'requestId':request_id,'finalPromptSha256':prompt_sha[control],
+          def record_failure(provider, model, control, index, message, seed=None, request_id=None, extra=None):
+              row = {
+                'provider':provider, 'model':model, 'control':control, 'index':index, 'status':'failed', 'seed':seed,
+                'requestId':request_id, 'finalPromptSha256':prompt_sha[control],
                 'negativePromptSha256':negative_sha if provider=='stability' else None,
-                'error':str(exc)[:2000]
-              })
+                'error':str(message)[:1200]
+              }
+              if extra:
+                  row.update(extra)
+              results.append(row)
 
-          # Google
-          gkey = os.getenv('GEMINI_API_KEY','').strip()
-          if not gkey:
-              availability['google'] = {'status':'UNAVAILABLE','reason':'GEMINI_API_KEY/GOOGLE_API_KEY not configured'}
+          # Google: retained from the existing cross-provider benchmark; skipped for Stability-only runs.
+          if not enabled('google'):
+              availability['google'] = {'status':'SKIPPED','reason':f'TARGET_PROVIDER={target}'}
           else:
-              try:
-                  from google import genai
-                  client = genai.Client(api_key=gkey)
-                  used_model = 'gemini-3.1-flash-image'
-                  google_ok = 0
-                  for control in ('A','B'):
-                      for idx in (1,2):
-                          t0=time.monotonic()
-                          try:
+              gkey = os.getenv('GEMINI_API_KEY','').strip()
+              if not gkey:
+                  availability['google'] = {'status':'UNAVAILABLE','reason':'GEMINI_API_KEY/GOOGLE_API_KEY not configured'}
+              else:
+                  try:
+                      from google import genai
+                      client = genai.Client(api_key=gkey)
+                      used_model = 'gemini-3.1-flash-image'
+                      google_ok = 0
+                      for control in ('A','B'):
+                          for idx in (1,2):
+                              t0=time.monotonic()
                               try:
-                                  r = client.interactions.create(
-                                      model=used_model,
-                                      input=prompts[control],
-                                      response_format={'type':'image','mime_type':'image/jpeg','aspect_ratio':'2:3','image_size':'1K'}
-                                  )
-                                  raw = getattr(getattr(r,'output_image',None),'data',None)
-                                  if raw is None: raise RuntimeError('Google response contained no output_image data')
-                                  data = base64.b64decode(raw) if isinstance(raw,(str,bytes,bytearray)) else bytes(raw)
-                                  reqid = getattr(r,'id',None) or getattr(r,'interaction_id',None)
-                              except Exception as first:
-                                  msg=str(first).lower()
-                                  if any(x in msg for x in ('not found','404','unsupported model','model is not found')):
-                                      used_model='gemini-2.5-flash-image'
-                                      from google.genai import types
-                                      rr = client.models.generate_content(
+                                  try:
+                                      r = client.interactions.create(
                                           model=used_model,
-                                          contents=prompts[control],
-                                          config=types.GenerateContentConfig(response_modalities=['IMAGE'])
+                                          input=prompts[control],
+                                          response_format={'type':'image','mime_type':'image/jpeg','aspect_ratio':'2:3','image_size':'1K'}
                                       )
-                                      data=None
-                                      for cand in getattr(rr,'candidates',[]) or []:
-                                          for part in getattr(getattr(cand,'content',None),'parts',[]) or []:
-                                              inline=getattr(part,'inline_data',None)
-                                              if inline and getattr(inline,'data',None): data=inline.data; break
-                                          if data: break
-                                      if not data: raise RuntimeError('Google fallback response contained no image data')
-                                      if isinstance(data,str): data=base64.b64decode(data)
-                                      reqid=getattr(rr,'response_id',None)
-                                  else: raise
-                              inspect_and_save('google',used_model,control,idx,data,time.monotonic()-t0,reqid,None)
-                              google_ok += 1
+                                      raw = getattr(getattr(r,'output_image',None),'data',None)
+                                      if raw is None:
+                                          raise RuntimeError('Google response contained no output_image data')
+                                      data = base64.b64decode(raw) if isinstance(raw,(str,bytes,bytearray)) else bytes(raw)
+                                      reqid = getattr(r,'id',None) or getattr(r,'interaction_id',None)
+                                  except Exception as first:
+                                      msg=str(first).lower()
+                                      if any(x in msg for x in ('not found','404','unsupported model','model is not found')):
+                                          used_model='gemini-2.5-flash-image'
+                                          from google.genai import types
+                                          rr = client.models.generate_content(
+                                              model=used_model,
+                                              contents=prompts[control],
+                                              config=types.GenerateContentConfig(response_modalities=['IMAGE'])
+                                          )
+                                          data=None
+                                          for cand in getattr(rr,'candidates',[]) or []:
+                                              for part in getattr(getattr(cand,'content',None),'parts',[]) or []:
+                                                  inline=getattr(part,'inline_data',None)
+                                                  if inline and getattr(inline,'data',None):
+                                                      data=inline.data
+                                                      break
+                                              if data:
+                                                  break
+                                          if not data:
+                                              raise RuntimeError('Google fallback response contained no image data')
+                                          if isinstance(data,str):
+                                              data=base64.b64decode(data)
+                                          reqid=getattr(rr,'response_id',None)
+                                      else:
+                                          raise
+                                  inspect_and_save('google',used_model,control,idx,data,time.monotonic()-t0,reqid,None)
+                                  google_ok += 1
+                              except Exception as e:
+                                  record_failure('google',used_model,control,idx,e)
+                      availability['google']={'status':'AVAILABLE' if google_ok else 'UNAVAILABLE','model':used_model,'successCount':google_ok,
+                        'reason':None if google_ok else 'API returned no successful images; see per-image errors'}
+                  except Exception as e:
+                      availability['google']={'status':'UNAVAILABLE','reason':str(e)[:1200]}
+
+          # Stability AI / SD 3.5 Large Turbo. No model fallback is permitted.
+          if not enabled('stability'):
+              availability['stability'] = {'status':'SKIPPED','reason':f'TARGET_PROVIDER={target}'}
+          else:
+              skey = os.getenv('STABILITY_API_KEY','').strip()
+              if not skey:
+                  print('STABILITY_API_KEY: NOT CONFIGURED')
+                  availability['stability']={'status':'UNAVAILABLE','reason':'STABILITY_API_KEY: NOT CONFIGURED'}
+              else:
+                  print('STABILITY_API_KEY: CONFIGURED')
+                  model='sd3.5-large-turbo'
+                  credits_per_image = float(provider_meta['stability']['creditCostPerSuccessfulImage'])
+                  max_success = int(provider_meta['stability']['maximumSuccessfulGenerations'])
+                  expected_credits = credits_per_image * max_success
+                  max_allowed = float(provider_meta['stability']['maximumAllowedCredits'])
+                  if expected_credits > max_allowed:
+                      availability['stability']={
+                          'status':'COST_GUARD_STOP', 'model':model,
+                          'reason':f'Expected {expected_credits:g} credits exceeds {max_allowed:g} credit guard',
+                          'successCount':0
+                      }
+                  else:
+                      auth_headers = {
+                          'authorization': f'Bearer {skey}',
+                          'stability-client-id': 'CannabisStrainsWisdom-CrossProviderBenchmark'
+                      }
+
+                      def safe_text(value):
+                          text = str(value)
+                          return text.replace(skey, '[REDACTED]') if skey else text
+
+                      def balance(stage):
+                          try:
+                              rr = requests.get('https://api.stability.ai/v1/user/balance', headers=auth_headers, timeout=30)
+                              stability_balance[f'{stage}HttpStatus'] = rr.status_code
+                              if rr.status_code == 200:
+                                  value = float(rr.json()['credits'])
+                                  stability_balance[stage] = value
+                                  return value, rr.status_code
+                              return None, rr.status_code
+                          except requests.RequestException:
+                              return None, None
+
+                      before, before_status = balance('before')
+                      if before_status in (401,403):
+                          availability['stability']={
+                              'status':'UNAVAILABLE','model':model,'reason':f'Balance authentication failed with HTTP {before_status}',
+                              'successCount':0
+                          }
+                      elif before is not None and before < expected_credits:
+                          availability['stability']={
+                              'status':'INSUFFICIENT_CREDITS','model':model,
+                              'reason':f'Credit balance {before:.4f} is below required {expected_credits:g}',
+                              'successCount':0
+                          }
+                      else:
+                          ok=0
+                          transient_statuses={408,429,500,502,503,504}
+                          for control in ('A','B'):
+                              for idx,seed in enumerate(seeds,1):
+                                  if ok >= max_success:
+                                      break
+                                  t0=time.monotonic(); rid=None; final_status=None; content_type=None; used_attempts=0
+                                  try:
+                                      response=None
+                                      for attempt in (1,2):
+                                          used_attempts=attempt
+                                          try:
+                                              response=requests.post(
+                                                  'https://api.stability.ai/v2beta/stable-image/generate/sd3',
+                                                  headers={**auth_headers,'accept':'image/*'},
+                                                  files={'none':('',b'')},
+                                                  data={
+                                                      'prompt':prompts[control],
+                                                      'negative_prompt':negative,
+                                                      'model':model,
+                                                      'seed':str(seed),
+                                                      'cfg_scale':'1',
+                                                      'output_format':'jpeg',
+                                                      'aspect_ratio':'2:3'
+                                                  },
+                                                  timeout=180
+                                              )
+                                          except (requests.ConnectionError, requests.Timeout) as exc:
+                                              if attempt == 1:
+                                                  time.sleep(2)
+                                                  continue
+                                              raise RuntimeError(f'transient network failure after {attempt} attempts: {safe_text(exc)}')
+                                          final_status=response.status_code
+                                          rid=response.headers.get('x-request-id') or response.headers.get('request-id')
+                                          content_type=response.headers.get('content-type')
+                                          if response.status_code == 200:
+                                              break
+                                          if response.status_code in transient_statuses and attempt == 1:
+                                              time.sleep(2)
+                                              continue
+                                          body=safe_text(response.text[:800])
+                                          raise RuntimeError(f'HTTP {response.status_code}: {body}')
+                                      if response is None or response.status_code != 200:
+                                          raise RuntimeError(f'No successful Stability response; last HTTP status={final_status}')
+                                      inspect_and_save(
+                                          'stability',model,control,idx,response.content,time.monotonic()-t0,rid,seed,
+                                          {
+                                            'httpStatus':response.status_code,
+                                            'outputContentType':content_type,
+                                            'requestAttempts':used_attempts,
+                                            'stabilityCreditCost':credits_per_image,
+                                            'estimatedUsdCost':round(credits_per_image * provider_meta['stability']['creditUsdValue'],4),
+                                            'cfgScale':1.0,
+                                            'aspectRatio':'2:3',
+                                            'outputFormat':'jpeg'
+                                          }
+                                      )
+                                      ok+=1
+                                  except Exception as e:
+                                      record_failure(
+                                          'stability',model,control,idx,safe_text(e),seed,rid,
+                                          {'httpStatus':final_status,'outputContentType':content_type,'requestAttempts':used_attempts}
+                                      )
+                          after, _ = balance('after')
+                          if before is not None and after is not None:
+                              stability_balance['observedDelta'] = round(before-after, 6)
+                          availability['stability']={
+                              'status':'AVAILABLE' if ok else 'UNAVAILABLE','model':model,'successCount':ok,
+                              'reason':None if ok else 'API returned no successful images; see per-image errors'
+                          }
+
+          # Replicate FLUX Schnell: retained from the existing benchmark; skipped for Stability-only runs.
+          if not enabled('replicate'):
+              availability['replicate'] = {'status':'SKIPPED','reason':f'TARGET_PROVIDER={target}'}
+          else:
+              rkey=os.getenv('REPLICATE_API_TOKEN','').strip()
+              if not rkey:
+                  availability['replicate']={'status':'UNAVAILABLE','reason':'REPLICATE_API_TOKEN not configured'}
+              else:
+                  ok=0; model='black-forest-labs/flux-schnell'
+                  headers={'Authorization':f'Bearer {rkey}','Content-Type':'application/json'}
+                  for control in ('A','B'):
+                      for idx,seed in enumerate(seeds,1):
+                          t0=time.monotonic(); pid=None
+                          try:
+                              q=requests.post('https://api.replicate.com/v1/models/black-forest-labs/flux-schnell/predictions',
+                                headers=headers,json={'input':{'prompt':prompts[control],'seed':seed,'go_fast':False,'num_outputs':1,
+                                'aspect_ratio':'2:3','megapixels':'1','num_inference_steps':4,'output_format':'webp','output_quality':90,
+                                'disable_safety_checker':False}},timeout=60)
+                              if q.status_code>=400:
+                                  raise RuntimeError(f'HTTP {q.status_code}: {q.text[:1000]}')
+                              j=q.json(); pid=j.get('id')
+                              if not pid:
+                                  raise RuntimeError('Replicate response had no prediction id')
+                              deadline=time.monotonic()+600
+                              while j.get('status') not in ('succeeded','failed','canceled'):
+                                  if time.monotonic()>deadline:
+                                      raise TimeoutError('Replicate prediction timeout')
+                                  time.sleep(2)
+                                  p=requests.get(f'https://api.replicate.com/v1/predictions/{pid}',headers=headers,timeout=60)
+                                  if p.status_code>=400:
+                                      raise RuntimeError(f'poll HTTP {p.status_code}: {p.text[:1000]}')
+                                  j=p.json()
+                              if j.get('status')!='succeeded':
+                                  raise RuntimeError(f"prediction {j.get('status')}: {j.get('error')}")
+                              outs=j.get('output') or []
+                              if len(outs)!=1:
+                                  raise RuntimeError(f'expected one output, got {len(outs)}')
+                              img=requests.get(outs[0],timeout=120); img.raise_for_status()
+                              metrics=j.get('metrics') or {}
+                              inspect_and_save('replicate',model,control,idx,img.content,time.monotonic()-t0,pid,seed,
+                                {'providerPredictTimeSeconds':metrics.get('predict_time'),'providerTotalTimeSeconds':metrics.get('total_time')})
+                              ok+=1
                           except Exception as e:
-                              record_failure('google',used_model,control,idx,e)
-                  availability['google']={'status':'AVAILABLE' if google_ok else 'UNAVAILABLE','model':used_model,'successCount':google_ok,
-                    'reason':None if google_ok else 'API returned no successful images; see per-image errors'}
-              except Exception as e:
-                  availability['google']={'status':'UNAVAILABLE','reason':str(e)[:2000]}
-
-          # Stability AI
-          skey=os.getenv('STABILITY_API_KEY','').strip()
-          if not skey:
-              availability['stability']={'status':'UNAVAILABLE','reason':'STABILITY_API_KEY not configured'}
-          else:
-              ok=0; model='sd3.5-large-turbo'
-              for control in ('A','B'):
-                  for idx,seed in enumerate(seeds,1):
-                      t0=time.monotonic(); rid=None
-                      try:
-                          r=requests.post('https://api.stability.ai/v2beta/stable-image/generate/sd3',
-                            headers={'authorization':f'Bearer {skey}','accept':'image/*','stability-client-id':'CannabisStrainsWisdom-CrossProviderBenchmark'},
-                            files={'none':('',b'')},
-                            data={'prompt':prompts[control],'negative_prompt':negative,'model':model,'seed':str(seed),'output_format':'jpeg','aspect_ratio':'2:3'},
-                            timeout=180)
-                          rid=r.headers.get('x-request-id') or r.headers.get('request-id')
-                          if r.status_code>=400:
-                              raise RuntimeError(f'HTTP {r.status_code}: {r.text[:1000]}')
-                          inspect_and_save('stability',model,control,idx,r.content,time.monotonic()-t0,rid,seed)
-                          ok+=1
-                      except Exception as e:
-                          record_failure('stability',model,control,idx,e,seed,rid)
-              availability['stability']={'status':'AVAILABLE' if ok else 'UNAVAILABLE','model':model,'successCount':ok,
-                'reason':None if ok else 'API returned no successful images; see per-image errors'}
-
-          # Replicate FLUX Schnell, async polling
-          rkey=os.getenv('REPLICATE_API_TOKEN','').strip()
-          if not rkey:
-              availability['replicate']={'status':'UNAVAILABLE','reason':'REPLICATE_API_TOKEN not configured'}
-          else:
-              ok=0; model='black-forest-labs/flux-schnell'
-              headers={'Authorization':f'Bearer {rkey}','Content-Type':'application/json'}
-              for control in ('A','B'):
-                  for idx,seed in enumerate(seeds,1):
-                      t0=time.monotonic(); pid=None
-                      try:
-                          q=requests.post('https://api.replicate.com/v1/models/black-forest-labs/flux-schnell/predictions',
-                            headers=headers,json={'input':{'prompt':prompts[control],'seed':seed,'go_fast':False,'num_outputs':1,
-                            'aspect_ratio':'2:3','megapixels':'1','num_inference_steps':4,'output_format':'webp','output_quality':90,
-                            'disable_safety_checker':False}},timeout=60)
-                          if q.status_code>=400: raise RuntimeError(f'HTTP {q.status_code}: {q.text[:1000]}')
-                          j=q.json(); pid=j.get('id')
-                          if not pid: raise RuntimeError('Replicate response had no prediction id')
-                          deadline=time.monotonic()+600
-                          while j.get('status') not in ('succeeded','failed','canceled'):
-                              if time.monotonic()>deadline: raise TimeoutError('Replicate prediction timeout')
-                              time.sleep(2)
-                              p=requests.get(f'https://api.replicate.com/v1/predictions/{pid}',headers=headers,timeout=60)
-                              if p.status_code>=400: raise RuntimeError(f'poll HTTP {p.status_code}: {p.text[:1000]}')
-                              j=p.json()
-                          if j.get('status')!='succeeded': raise RuntimeError(f"prediction {j.get('status')}: {j.get('error')}")
-                          outs=j.get('output') or []
-                          if len(outs)!=1: raise RuntimeError(f'expected one output, got {len(outs)}')
-                          img=requests.get(outs[0],timeout=120); img.raise_for_status()
-                          metrics=j.get('metrics') or {}
-                          inspect_and_save('replicate',model,control,idx,img.content,time.monotonic()-t0,pid,seed,
-                            {'providerPredictTimeSeconds':metrics.get('predict_time'),'providerTotalTimeSeconds':metrics.get('total_time')})
-                          ok+=1
-                      except Exception as e:
-                          record_failure('replicate',model,control,idx,e,seed,pid)
-              availability['replicate']={'status':'AVAILABLE' if ok else 'UNAVAILABLE','model':model,'successCount':ok,
-                'reason':None if ok else 'API returned no successful images; see per-image errors'}
+                              record_failure('replicate',model,control,idx,e,seed,pid)
+                  availability['replicate']={'status':'AVAILABLE' if ok else 'UNAVAILABLE','model':model,'successCount':ok,
+                    'reason':None if ok else 'API returned no successful images; see per-image errors'}
 
           # Contact sheets. Labels exist only on the sheet, never on source images.
           def provider_sheet(provider):
@@ -265,19 +416,32 @@ jobs:
 
           success_by={p:sum(x['status']=='success' and x['provider']==p for x in results) for p in ('google','stability','replicate')}
           cost={p:round(success_by[p]*provider_meta[p]['estimatedUsdPerImage'],4) for p in success_by}
+          stability_success = success_by['stability']
+          actual_stability_credits = round(stability_success * provider_meta['stability']['creditCostPerSuccessfulImage'], 4)
+          benchmark_status = 'COMPLETE' if (target == 'stability' and stability_success == 4) else 'INCOMPLETE'
           summary={
-            'benchmark':'CROSS-PROVIDER IMAGE API BENCHMARK','test':'Architecture Control Test','runId':int(os.environ['GITHUB_RUN_ID']),
-            'sourceCommit':os.environ.get('GITHUB_SHA'),'sharedSeedsForSupportedProviders':seeds,
-            'controls':controls,'commonPrompt':common,'negativePrompt':negative,'promptSha256':prompt_sha,'negativePromptSha256':negative_sha,
-            'providerMeta':provider_meta,'availability':availability,'successByProvider':success_by,'estimatedGenerationCostUsd':cost,
-            'estimatedTotalGenerationCostUsd':round(sum(cost.values()),4),'results':results,
-            'productionMutationCount':0,'mainMutationCount':0,'productionPromotion':'NOT PERFORMED'
+            'benchmark':'CROSS-PROVIDER IMAGE API BENCHMARK','test':'Architecture Control Test','targetProvider':target,
+            'runId':int(os.environ['GITHUB_RUN_ID']),'sourceCommit':os.environ.get('GITHUB_SHA'),
+            'sharedSeedsForSupportedProviders':seeds,'controls':controls,'commonPrompt':common,'negativePrompt':negative,
+            'promptSha256':prompt_sha,'negativePromptSha256':negative_sha,'providerMeta':provider_meta,
+            'availability':availability,'successByProvider':success_by,'estimatedGenerationCostUsd':cost,
+            'estimatedTotalGenerationCostUsd':round(sum(cost.values()),4),'stabilityActualCreditCostBySuccessfulGeneration':actual_stability_credits,
+            'stabilityCreditBalance':stability_balance,'results':results,'productionMutationCount':0,'mainMutationCount':0,
+            'productionPromotion':'NOT PERFORMED','stabilityBenchmarkStatus':benchmark_status,
+            'architectureDifferentiationEstablishedPairs':None,
+            'architectureControllability':'HUMAN REVIEW REQUIRED','botanicalPlausibility':'HUMAN REVIEW REQUIRED',
+            'aiHordeComparison':'PENDING HUMAN REVIEW'
           }
           (O/'benchmark-summary.json').write_text(json.dumps(summary,indent=2,ensure_ascii=False)+'\n')
           (O/'benchmark-config.json').write_text(json.dumps({
-            'controls':controls,'commonPrompt':common,'negativePrompt':negative,'seeds':seeds,'providerMeta':provider_meta
+            'targetProvider':target,'controls':controls,'commonPrompt':common,'negativePrompt':negative,'seeds':seeds,
+            'providerMeta':provider_meta,'promptSha256':prompt_sha,'negativePromptSha256':negative_sha
           },indent=2,ensure_ascii=False)+'\n')
-          print(json.dumps({'availability':availability,'successByProvider':success_by,'estimatedGenerationCostUsd':cost},ensure_ascii=False))
+          print(json.dumps({
+            'targetProvider':target,'availability':availability,'successByProvider':success_by,
+            'estimatedGenerationCostUsd':cost,'stabilityCreditBalance':stability_balance,
+            'stabilityActualCreditCostBySuccessfulGeneration':actual_stability_credits
+          },ensure_ascii=False))
           PY
 
       - name: Verify production safety
