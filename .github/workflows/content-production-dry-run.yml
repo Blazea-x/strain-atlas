@@ -161,6 +161,7 @@ jobs:
           const pendingIds = (publication.entries || []).filter(e => e.state === 'pending').map(e => e.strainId).sort();
           const currentIds = current ? ids(current.cultivars) : [];
           const candidateIds = candidate ? ids(candidate.cultivars) : [];
+          let sourceClosureSafe = false;
 
           if (!current) add('ERROR', 'RUNTIME_TARGET_MISSING', 'runtime/catalog.json is missing or unreadable');
           if (current && !sameSet(currentIds, publishedIds)) {
@@ -179,9 +180,19 @@ jobs:
             const cv = Object.fromEntries((current.cultivars || []).map(c => [c.id, c.visuals || []]));
             const nv = Object.fromEntries((candidate.cultivars || []).map(c => [c.id, c.visuals || []]));
             if (!same(cv, nv)) add('ERROR', 'RUNTIME_VISUAL_MISMATCH', 'current visual references differ from candidate visual references');
-            if (!same(current.sources || {}, candidate.sources || {})) {
-              add('ERROR', 'PUBLICATION_SET_MISMATCH', 'current source closure differs from candidate source closure');
+
+            const currentSourceIds = Object.keys(current.sources || {}).sort();
+            const candidateSourceIds = Object.keys(candidate.sources || {}).sort();
+            const candidateOnlySources = candidateSourceIds.filter(id => !currentSourceIds.includes(id));
+            const sourcePayloadMismatches = candidateSourceIds.filter(id => current.sources?.[id] && !same(current.sources[id], candidate.sources[id]));
+            if (candidateOnlySources.length) {
+              add('ERROR', 'PUBLICATION_SET_MISMATCH', `candidate published closure contains sources missing from current runtime: ${candidateOnlySources.join(', ')}`);
             }
+            if (sourcePayloadMismatches.length) {
+              add('ERROR', 'PUBLICATION_SET_MISMATCH', `current runtime source payload differs for published closure: ${sourcePayloadMismatches.join(', ')}`);
+            }
+            sourceClosureSafe = candidateOnlySources.length === 0 && sourcePayloadMismatches.length === 0;
+
             if (!same(current.entities || {}, candidate.entities || {})) {
               add('ERROR', 'PUBLICATION_SET_MISMATCH', 'current entity closure differs from candidate entity closure');
             }
@@ -224,7 +235,7 @@ jobs:
           const publicIdsIdentical = current && candidate && sameSet(currentIds, candidateIds) && sameSet(currentIds, publishedIds);
           const payloadIdentical = current && candidate
             && same(current.cultivars, candidate.cultivars)
-            && same(current.sources || {}, candidate.sources || {})
+            && sourceClosureSafe
             && same(current.entities || {}, candidate.entities || {});
           const mainViolationCount = countCode('MAIN_WRITE_VIOLATION') + countCode('MAIN_PRODUCTION_ASSET_VIOLATION');
           const readiness = Number(process.env.VALIDATION_RC || 1) === 0

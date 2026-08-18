@@ -11,6 +11,7 @@ const mainArg=args.find(x=>x.startsWith('--main-dir='));
 const MAIN_DIR=mainArg?path.resolve(mainArg.slice('--main-dir='.length)):null;
 const findings=[];
 const add=(code,message,context={})=>findings.push({severity:CONFIG.auditSeverity[code]||'ERROR',code,message,...context});
+const addInfo=(code,message,context={})=>findings.push({severity:'INFO',code,message,...context});
 const readJson=f=>JSON.parse(fs.readFileSync(f,'utf8'));
 const exists=f=>fs.existsSync(f);
 const jsonFiles=dir=>exists(dir)?fs.readdirSync(dir).filter(n=>n.endsWith('.json')).map(n=>path.join(dir,n)):[];
@@ -56,8 +57,30 @@ for(const s of strains.values()){
   if(strict&&prim.length===1){const m=[...manifests.values()].filter(x=>x.strainId===s.id).sort((a,b)=>b.revision-a.revision||b.attempt-a.attempt)[0];if(!m)add('IMAGE_MANIFEST_MISMATCH',`${s.id} content-production visual has no manifest`);else{if(prim[0].src!==m.expectedPrimaryPath)add('VISUAL_METADATA_MISMATCH',`${s.id} primary src differs from manifest`);for(const k of ['alt','rights','scope','aiGenerated','sourceType'])if(prim[0][k]!==m.visualMetadataSnapshot?.[k])add('VISUAL_METADATA_MISMATCH',`${s.id} visual ${k} differs from manifest`);if(!m.imageInboxCommit)add('IMAGE_INBOX_COMMIT_MISSING',`${m.manifestId} imageInboxCommit missing`);if(!m.imageProcessingCommit)add('IMAGE_PROCESSING_COMMIT_MISSING',`${m.manifestId} imageProcessingCommit missing`);const fp=path.join(ROOT,m.expectedPrimaryPath||'');if(!exists(fp))add('IMAGE_FILE_MISSING',`${m.manifestId} primary file missing`);else{const b=fs.readFileSync(fp);if(b.length<12||b.subarray(0,4).toString()!=='RIFF'||b.subarray(8,12).toString()!=='WEBP')add('INVALID_WEBP_SIGNATURE',`${m.manifestId} primary is not RIFF/WEBP`);if(m.processedPrimarySha256&&sha256File(fp)!==m.processedPrimarySha256)add('IMAGE_DIGEST_MISMATCH',`${m.manifestId} processed digest mismatch`)}}}
 }
 const inbox=path.join(ROOT,'uploads/images');const inboxFiles=exists(inbox)?fs.readdirSync(inbox).filter(n=>n!=='.gitkeep'&&!n.startsWith('.')):[];if(inboxFiles.length)add('FAILED_INBOX_PENDING',`uploads/images contains ${inboxFiles.join(', ')}`);
-let candidate=null,current=null,runtimeDiff={cultivarIds:[],cultivars:false,visuals:false,sources:false,entities:false};
-try{candidate=buildRuntimeSnapshot().catalog;current=readJson(path.join(ROOT,'runtime/catalog.json'));const cids=current.cultivars.map(x=>x.id).sort(),nids=candidate.cultivars.map(x=>x.id).sort();runtimeDiff.cultivarIds=[...new Set([...cids,...nids])].filter(x=>!cids.includes(x)||!nids.includes(x));if(runtimeDiff.cultivarIds.length)add('PUBLICATION_SET_MISMATCH',`runtime cultivar set differs from publication-filtered candidate: ${runtimeDiff.cultivarIds.join(', ')}`);const j=x=>JSON.stringify(x);runtimeDiff.cultivars=j(current.cultivars)!==j(candidate.cultivars);runtimeDiff.visuals=j(current.cultivars.map(x=>[x.id,x.visuals]))!==j(candidate.cultivars.map(x=>[x.id,x.visuals]));runtimeDiff.sources=j(current.sources)!==j(candidate.sources);runtimeDiff.entities=j(current.entities)!==j(candidate.entities);if(runtimeDiff.cultivars)add('RUNTIME_TARGET_MISSING','current cultivar payload differs from publication-filtered candidate');if(runtimeDiff.visuals)add('RUNTIME_VISUAL_MISMATCH','current visuals differ from publication-filtered candidate');if(runtimeDiff.sources||runtimeDiff.entities)add('PUBLICATION_SET_MISMATCH','current source/entity payload differs from published closure');}catch(e){add('CANDIDATE_BUILD_FAILED',e.message)}
+let candidate=null,current=null,runtimeDiff={cultivarIds:[],cultivars:false,visuals:false,sources:false,entities:false,currentOnlySourceIds:[],candidateOnlySourceIds:[],sourcePayloadMismatches:[]};
+try{
+  candidate=buildRuntimeSnapshot().catalog;current=readJson(path.join(ROOT,'runtime/catalog.json'));
+  const cids=current.cultivars.map(x=>x.id).sort(),nids=candidate.cultivars.map(x=>x.id).sort();
+  runtimeDiff.cultivarIds=[...new Set([...cids,...nids])].filter(x=>!cids.includes(x)||!nids.includes(x));
+  if(runtimeDiff.cultivarIds.length)add('PUBLICATION_SET_MISMATCH',`runtime cultivar set differs from publication-filtered candidate: ${runtimeDiff.cultivarIds.join(', ')}`);
+  const j=x=>JSON.stringify(x);
+  runtimeDiff.cultivars=j(current.cultivars)!==j(candidate.cultivars);
+  runtimeDiff.visuals=j(current.cultivars.map(x=>[x.id,x.visuals]))!==j(candidate.cultivars.map(x=>[x.id,x.visuals]));
+  runtimeDiff.sources=j(current.sources)!==j(candidate.sources);
+  runtimeDiff.entities=j(current.entities)!==j(candidate.entities);
+  if(runtimeDiff.cultivars)add('RUNTIME_TARGET_MISSING','current cultivar payload differs from publication-filtered candidate');
+  if(runtimeDiff.visuals)add('RUNTIME_VISUAL_MISMATCH','current visuals differ from publication-filtered candidate');
+  const currentSourceIds=Object.keys(current.sources||{}).sort();
+  const candidateSourceIds=Object.keys(candidate.sources||{}).sort();
+  runtimeDiff.currentOnlySourceIds=currentSourceIds.filter(id=>!candidateSourceIds.includes(id));
+  runtimeDiff.candidateOnlySourceIds=candidateSourceIds.filter(id=>!currentSourceIds.includes(id));
+  runtimeDiff.sourcePayloadMismatches=candidateSourceIds.filter(id=>current.sources?.[id]&&j(current.sources[id])!==j(candidate.sources[id]));
+  const masterOwners=id=>[...strains.values()].filter(s=>deepRefs(s).has(id)).map(s=>s.id).sort();
+  for(const id of runtimeDiff.currentOnlySourceIds){const owners=masterOwners(id);if(owners.length===0)addInfo('LEGACY_UNREFERENCED_SOURCE',`current runtime contains unreachable legacy source ${id}`,{sourceId:id,sourcePath:`sources/${id}.json`});else add('PUBLICATION_SET_MISMATCH',`current runtime contains source outside published closure: ${id}`,{sourceId:id,referencedBy:owners});}
+  if(runtimeDiff.candidateOnlySourceIds.length)add('PUBLICATION_SET_MISMATCH',`candidate published closure contains sources missing from current runtime: ${runtimeDiff.candidateOnlySourceIds.join(', ')}`);
+  if(runtimeDiff.sourcePayloadMismatches.length)add('PUBLICATION_SET_MISMATCH',`current runtime source payload differs for published closure: ${runtimeDiff.sourcePayloadMismatches.join(', ')}`);
+  if(runtimeDiff.entities)add('PUBLICATION_SET_MISMATCH','current entity payload differs from published closure');
+}catch(e){add('CANDIDATE_BUILD_FAILED',e.message)}
 let mainAudit={performed:false};if(MAIN_DIR&&exists(MAIN_DIR)){mainAudit.performed=true;const targetIds=new Set([...strains.keys(),...stockIds]);const walk=d=>{for(const e of fs.readdirSync(d,{withFileTypes:true})){const p=path.join(d,e.name);if(e.isDirectory()&&!p.includes(`${path.sep}.git`))walk(p);else if(e.isFile()){const rel=path.relative(MAIN_DIR,p).replaceAll('\\','/');const ext=path.extname(e.name).toLowerCase();if(['.jpg','.jpeg','.png','.webp'].includes(ext)){for(const id of targetIds){if(rel.includes(id)&&!rel.startsWith('images/hero')&&!rel.startsWith('assets/'))add('MAIN_PRODUCTION_ASSET_VIOLATION',`${id} production-like asset found on main: ${rel}`)}}}}};walk(MAIN_DIR)}
 const counts={ERROR:0,WARNING:0,INFO:0};for(const f of findings)counts[f.severity]=(counts[f.severity]||0)+1;
 const report={system:'CONTENT_PRODUCTION_V1',dryRun:true,generatedAt:new Date().toISOString(),counts,sets:{publicRuntime:(current?.cultivars||[]).map(x=>x.id).sort(),master:[...strains.keys()].sort(),grandfathered:(publication.entries||[]).filter(e=>e.origin==='grandfathered').map(e=>e.strainId).sort(),stock:stockIds.sort(),stockMasterOverlap:promoted.sort()},runtimeDiff,inboxFiles,mainAudit,findings};
