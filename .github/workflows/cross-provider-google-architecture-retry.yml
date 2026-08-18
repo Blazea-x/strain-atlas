@@ -1,0 +1,118 @@
+name: Cross-Provider Google Architecture Retry
+
+on:
+  push:
+    branches: [master-migration]
+    paths: ['.github/workflows/cross-provider-google-architecture-retry.yml']
+
+permissions:
+  contents: read
+
+env:
+  OUT: cross-provider-google-architecture-retry-artifact
+  GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY || secrets.GOOGLE_API_KEY }}
+
+jobs:
+  google-architecture-retry:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: master-migration
+          fetch-depth: 1
+          persist-credentials: false
+      - run: python -m pip install --disable-pip-version-check --no-cache-dir 'requests>=2.31,<3' 'Pillow>=10,<12'
+      - name: Generate Google control images using current Interactions REST schema
+        shell: bash
+        run: |
+          python - <<'PY'
+          import os,io,json,time,base64,hashlib
+          from pathlib import Path
+          import requests
+          from PIL import Image,ImageOps,ImageDraw
+          O=Path(os.environ['OUT']); O.mkdir(parents=True,exist_ok=True)
+          key=os.getenv('GEMINI_API_KEY','').strip()
+          common=('photorealistic botanical reference photograph, mature living female cannabis plant, realistic cannabis leaves, '
+                  'realistic mature female cannabis flowers, complete plant architecture visible, neutral non-distracting background, '
+                  'natural photographic lighting, single continuous frame, single plant, complete plant visible, no human, '
+                  'no additional plants, no collage, no text, no watermark, no illustration, no painting')
+          controls={
+            'A':('very tall and narrow mature female cannabis plant, strong vertical growth, long internodal spacing, minimal lateral spread, '
+                 'few side branches, open sparse architecture, single plant, complete plant visible'),
+            'B':('short and wide mature female cannabis plant, strong lateral spread, many well-developed side branches, short internodal spacing, '
+                 'dense bushy architecture, broad overall silhouette, multiple lateral flowering branches, single plant, complete plant visible')}
+          prompts={k:v+'\n\n'+common for k,v in controls.items()}
+          sha={k:hashlib.sha256(v.encode()).hexdigest() for k,v in prompts.items()}
+          results=[]; model='gemini-3.1-flash-image'
+          if not key:
+            status={'status':'UNAVAILABLE','reason':'GEMINI_API_KEY/GOOGLE_API_KEY not configured'}
+          else:
+            headers={'x-goog-api-key':key,'Content-Type':'application/json','Api-Revision':'2026-05-20'}
+            for control in ('A','B'):
+              for idx in (1,2):
+                t0=time.monotonic(); rid=None
+                try:
+                  payload={'model':model,'input':prompts[control],
+                           'response_format':{'type':'image','mime_type':'image/jpeg','aspect_ratio':'2:3','image_size':'1K'}}
+                  r=requests.post('https://generativelanguage.googleapis.com/v1beta/interactions',headers=headers,json=payload,timeout=180)
+                  if r.status_code>=400: raise RuntimeError(f'HTTP {r.status_code}: {r.text[:1600]}')
+                  j=r.json(); rid=j.get('id'); raw=None; mime=None
+                  for step in j.get('steps') or []:
+                    if step.get('type')!='model_output': continue
+                    for block in step.get('content') or []:
+                      if block.get('type')=='image' and block.get('data'):
+                        raw=block['data']; mime=block.get('mime_type'); break
+                    if raw: break
+                  if not raw: raise RuntimeError('Google response contained no image content block')
+                  data=base64.b64decode(raw,validate=True)
+                  with Image.open(io.BytesIO(data)) as im: im.verify()
+                  with Image.open(io.BytesIO(data)) as im: w,h,fmt=im.width,im.height,im.format
+                  ext={'JPEG':'jpg','PNG':'png','WEBP':'webp'}.get(str(fmt).upper(),'img')
+                  fn=f'google__control-{control}__run-{idx}.{ext}'; (O/fn).write_bytes(data)
+                  results.append({'provider':'google','model':model,'control':control,'index':idx,'status':'success','seed':None,
+                    'generationElapsedSeconds':round(time.monotonic()-t0,3),'dimensions':{'width':w,'height':h},'byteLength':len(data),
+                    'sha256':hashlib.sha256(data).hexdigest(),'requestId':rid,'responseMimeType':mime,
+                    'finalPromptSha256':sha[control],'negativePromptSha256':None,'file':fn})
+                except Exception as e:
+                  results.append({'provider':'google','model':model,'control':control,'index':idx,'status':'failed','seed':None,
+                    'requestId':rid,'finalPromptSha256':sha[control],'negativePromptSha256':None,'error':str(e)[:2000]})
+            ok=sum(x['status']=='success' for x in results)
+            status={'status':'AVAILABLE' if ok else 'UNAVAILABLE','model':model,'successCount':ok,
+                    'reason':None if ok else 'API returned no successful images; see per-image errors'}
+          tw,th,lh=420,630,72
+          sheet=Image.new('RGB',(2*tw,2*(th+lh)),'white'); d=ImageDraw.Draw(sheet)
+          for ri,c in enumerate(('A','B')):
+            rows=sorted([x for x in results if x.get('control')==c and x.get('status')=='success'],key=lambda x:x['index'])
+            for ci in range(2):
+              x0=ci*tw; y0=ri*(th+lh)
+              if ci<len(rows):
+                x=rows[ci]
+                with Image.open(O/x['file']) as im:
+                  tile=ImageOps.contain(im.convert('RGB'),(tw,th),method=Image.Resampling.LANCZOS)
+                  sheet.paste(tile,(x0+(tw-tile.width)//2,y0+(th-tile.height)//2))
+                label=f"Control {c} | run {x['index']}\n{model}"
+              else: label=f'Control {c} | no image'
+              d.text((x0+8,y0+th+8),label,fill='black')
+          sheet.save(O/'google-architecture-retry-contact-sheet.jpg',quality=94,optimize=True)
+          summary={'benchmark':'CROSS-PROVIDER IMAGE API BENCHMARK','retry':'GOOGLE CURRENT INTERACTIONS API','runId':int(os.environ['GITHUB_RUN_ID']),
+                   'model':model,'availability':status,'successCount':sum(x['status']=='success' for x in results),'total':4,
+                   'estimatedGenerationCostUsd':round(sum(x['status']=='success' for x in results)*0.067,3),'freeTierForImageGeneration':False,
+                   'seedSupported':False,'negativePromptSupported':False,'promptSha256':sha,'results':results,
+                   'productionMutationCount':0,'mainMutationCount':0,'productionPromotion':'NOT PERFORMED'}
+          (O/'google-retry-summary.json').write_text(json.dumps(summary,indent=2,ensure_ascii=False)+'\n')
+          print(json.dumps({'availability':status,'successCount':summary['successCount'],'estimatedGenerationCostUsd':summary['estimatedGenerationCostUsd']},ensure_ascii=False))
+          PY
+      - name: Verify production safety
+        shell: bash
+        run: |
+          test -z "$(git status --porcelain -- strains production runtime UPLOAD_IMAGES_HERE uploads/images)"
+          test "$(git branch --show-current)" = "master-migration"
+      - name: Upload Google retry artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cross-provider-google-architecture-retry-${{ github.run_id }}
+          path: cross-provider-google-architecture-retry-artifact/
+          if-no-files-found: error
+          retention-days: 14
