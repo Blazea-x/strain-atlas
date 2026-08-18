@@ -1,0 +1,5 @@
+{
+  "$schema":"https://json-schema.org/draft/2020-12/schema","$id":"production-publication-v1","type":"object","additionalProperties":false,
+  "required":["schemaVersion","registryVersion","entries"],
+  "properties":{"schemaVersion":{"const":1},"registryVersion":{"type":"integer","minimum":1},"entries":{"type":"array","items":{"type":"object","additionalProperties":false,"required":["strainId","state","origin","introducedByRun","publishedAt","bootstrapMasterSha"],"properties":{"strainId":{"type":"string","pattern":"^[a-z0-9]+(?:-[a-z0-9]+)*$"},"state":{"enum":["pending","published"]},"origin":{"enum":["grandfathered","content-production"]},"introducedByRun":{"type":["string","null"]},"publishedAt":{"type":["string","null"],"format":"date-time"},"bootstrapMasterSha":{"type":["string","null"]}}}}}
+}

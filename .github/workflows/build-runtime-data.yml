@@ -8,8 +8,14 @@ on:
       - "sources/**"
       - "entities/**"
       - "schemas/**"
+      - "production/publication.json"
+      - "production/runs/**"
+      - "production/manifests/**"
+      - "production/_system/**"
       - "scripts/validate-master-data.mjs"
       - "scripts/build-runtime-data.mjs"
+      - "scripts/audit-content-production.mjs"
+      - "scripts/content-production-state.mjs"
       - ".github/workflows/build-runtime-data.yml"
   workflow_dispatch:
 
@@ -26,16 +32,26 @@ jobs:
         uses: actions/checkout@v4
         with:
           ref: master-migration
+          fetch-depth: 0
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: "22"
 
+      - name: Checkout main for read-only protection audit
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          path: .content-production-main-audit
+
       - name: Validate MASTER data
         run: node scripts/validate-master-data.mjs
 
-      - name: Build runtime catalog and current display data
+      - name: CONTENT PRODUCTION V1 read-only dry run
+        run: node scripts/audit-content-production.mjs --main-dir=.content-production-main-audit
+
+      - name: Build publication-filtered runtime catalog and current display data
         run: node scripts/build-runtime-data.mjs
 
       - name: Commit generated runtime and display data
