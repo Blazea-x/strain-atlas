@@ -1,0 +1,296 @@
+name: Cross-Provider Image API Benchmark
+
+on:
+  push:
+    branches: [master-migration]
+    paths: ['.github/workflows/cross-provider-image-api-benchmark.yml']
+
+permissions:
+  contents: read
+
+env:
+  OUT: cross-provider-image-api-benchmark-artifact
+  GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY || secrets.GOOGLE_API_KEY }}
+  STABILITY_API_KEY: ${{ secrets.STABILITY_API_KEY }}
+  REPLICATE_API_TOKEN: ${{ secrets.REPLICATE_API_TOKEN }}
+
+jobs:
+  architecture-control:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: master-migration
+          fetch-depth: 1
+          persist-credentials: false
+
+      - name: Install benchmark dependencies
+        run: python -m pip install --disable-pip-version-check --no-cache-dir 'requests>=2.31,<3' 'Pillow>=10,<12' 'google-genai>=1.30,<2'
+
+      - name: Run cross-provider Architecture Control Test
+        shell: bash
+        run: |
+          python - <<'PY'
+          import os, io, json, time, base64, hashlib, traceback
+          from pathlib import Path
+          import requests
+          from PIL import Image, ImageOps, ImageDraw
+
+          O = Path(os.environ['OUT']); O.mkdir(parents=True, exist_ok=True)
+          seeds = [104729, 130363]
+          common = (
+              'photorealistic botanical reference photograph, mature living female cannabis plant, realistic cannabis leaves, '
+              'realistic mature female cannabis flowers, complete plant architecture visible, neutral non-distracting background, '
+              'natural photographic lighting, single continuous frame, single plant, complete plant visible, '
+              'no human, no additional plants, no collage, no text, no watermark, no illustration, no painting'
+          )
+          controls = {
+              'A': ('very tall and narrow mature female cannabis plant, strong vertical growth, long internodal spacing, '
+                    'minimal lateral spread, few side branches, open sparse architecture, single plant, complete plant visible'),
+              'B': ('short and wide mature female cannabis plant, strong lateral spread, many well-developed side branches, '
+                    'short internodal spacing, dense bushy architecture, broad overall silhouette, multiple lateral flowering branches, '
+                    'single plant, complete plant visible')
+          }
+          negative = (
+              'human, person, multiple plants, duplicated trunk, duplicated branches, fused leaves, impossible anatomy, '
+              'male pollen sacs, non-cannabis flowers, fantasy plant, CGI, illustration, painting, collage, text, watermark'
+          )
+          prompts = {k: controls[k] + '\n\n' + common for k in controls}
+          prompt_sha = {k: hashlib.sha256(prompts[k].encode()).hexdigest() for k in controls}
+          negative_sha = hashlib.sha256(negative.encode()).hexdigest()
+
+          provider_meta = {
+            'google': {
+              'provider':'Google', 'preferredModel':'gemini-3.1-flash-image', 'fallbackModel':'gemini-2.5-flash-image',
+              'auth':'GitHub Actions secret GEMINI_API_KEY (or GOOGLE_API_KEY alias)',
+              'negativePromptSupported':False, 'seedSupported':False,
+              'estimatedUsdPerImage':0.067, 'freeTierForImageGeneration':False
+            },
+            'stability': {
+              'provider':'Stability AI', 'preferredModel':'sd3.5-large-turbo',
+              'auth':'GitHub Actions secret STABILITY_API_KEY',
+              'negativePromptSupported':True, 'seedSupported':True,
+              'estimatedUsdPerImage':0.04, 'freeCreditsMayApply':True
+            },
+            'replicate': {
+              'provider':'Replicate', 'preferredModel':'black-forest-labs/flux-schnell',
+              'auth':'GitHub Actions secret REPLICATE_API_TOKEN',
+              'negativePromptSupported':False, 'seedSupported':True,
+              'estimatedUsdPerImage':0.003, 'freeCreditsMayApply':True,
+              'goFast':False, 'goFastReason':'disabled so seed comparisons remain deterministic'
+            }
+          }
+          results = []
+          availability = {}
+
+          def inspect_and_save(provider, model, control, index, data, elapsed, request_id=None, seed=None, extra=None):
+              with Image.open(io.BytesIO(data)) as im:
+                  im.verify()
+              with Image.open(io.BytesIO(data)) as im:
+                  w,h,fmt = im.width, im.height, im.format
+              ext = {'JPEG':'jpg','PNG':'png','WEBP':'webp'}.get(str(fmt).upper(),'img')
+              seed_part = f'seed-{seed}' if seed is not None else f'run-{index}'
+              fn = f'{provider}__control-{control}__{seed_part}.{ext}'
+              (O/fn).write_bytes(data)
+              row = {
+                'provider': provider, 'model': model, 'control': control, 'index': index, 'status':'success',
+                'seed': seed, 'generationElapsedSeconds': round(elapsed,3), 'dimensions': {'width':w,'height':h},
+                'byteLength': len(data), 'sha256': hashlib.sha256(data).hexdigest(), 'requestId': request_id,
+                'finalPromptSha256': prompt_sha[control],
+                'negativePromptSha256': negative_sha if provider == 'stability' else None,
+                'file': fn
+              }
+              if extra: row.update(extra)
+              results.append(row)
+              return row
+
+          def record_failure(provider, model, control, index, exc, seed=None, request_id=None):
+              results.append({
+                'provider':provider,'model':model,'control':control,'index':index,'status':'failed','seed':seed,
+                'requestId':request_id,'finalPromptSha256':prompt_sha[control],
+                'negativePromptSha256':negative_sha if provider=='stability' else None,
+                'error':str(exc)[:2000]
+              })
+
+          # Google
+          gkey = os.getenv('GEMINI_API_KEY','').strip()
+          if not gkey:
+              availability['google'] = {'status':'UNAVAILABLE','reason':'GEMINI_API_KEY/GOOGLE_API_KEY not configured'}
+          else:
+              try:
+                  from google import genai
+                  client = genai.Client(api_key=gkey)
+                  used_model = 'gemini-3.1-flash-image'
+                  google_ok = 0
+                  for control in ('A','B'):
+                      for idx in (1,2):
+                          t0=time.monotonic()
+                          try:
+                              try:
+                                  r = client.interactions.create(
+                                      model=used_model,
+                                      input=prompts[control],
+                                      response_format={'type':'image','mime_type':'image/jpeg','aspect_ratio':'2:3','image_size':'1K'}
+                                  )
+                                  raw = getattr(getattr(r,'output_image',None),'data',None)
+                                  if raw is None: raise RuntimeError('Google response contained no output_image data')
+                                  data = base64.b64decode(raw) if isinstance(raw,(str,bytes,bytearray)) else bytes(raw)
+                                  reqid = getattr(r,'id',None) or getattr(r,'interaction_id',None)
+                              except Exception as first:
+                                  msg=str(first).lower()
+                                  if any(x in msg for x in ('not found','404','unsupported model','model is not found')):
+                                      used_model='gemini-2.5-flash-image'
+                                      from google.genai import types
+                                      rr = client.models.generate_content(
+                                          model=used_model,
+                                          contents=prompts[control],
+                                          config=types.GenerateContentConfig(response_modalities=['IMAGE'])
+                                      )
+                                      data=None
+                                      for cand in getattr(rr,'candidates',[]) or []:
+                                          for part in getattr(getattr(cand,'content',None),'parts',[]) or []:
+                                              inline=getattr(part,'inline_data',None)
+                                              if inline and getattr(inline,'data',None): data=inline.data; break
+                                          if data: break
+                                      if not data: raise RuntimeError('Google fallback response contained no image data')
+                                      if isinstance(data,str): data=base64.b64decode(data)
+                                      reqid=getattr(rr,'response_id',None)
+                                  else: raise
+                              inspect_and_save('google',used_model,control,idx,data,time.monotonic()-t0,reqid,None)
+                              google_ok += 1
+                          except Exception as e:
+                              record_failure('google',used_model,control,idx,e)
+                  availability['google']={'status':'AVAILABLE' if google_ok else 'UNAVAILABLE','model':used_model,'successCount':google_ok,
+                    'reason':None if google_ok else 'API returned no successful images; see per-image errors'}
+              except Exception as e:
+                  availability['google']={'status':'UNAVAILABLE','reason':str(e)[:2000]}
+
+          # Stability AI
+          skey=os.getenv('STABILITY_API_KEY','').strip()
+          if not skey:
+              availability['stability']={'status':'UNAVAILABLE','reason':'STABILITY_API_KEY not configured'}
+          else:
+              ok=0; model='sd3.5-large-turbo'
+              for control in ('A','B'):
+                  for idx,seed in enumerate(seeds,1):
+                      t0=time.monotonic(); rid=None
+                      try:
+                          r=requests.post('https://api.stability.ai/v2beta/stable-image/generate/sd3',
+                            headers={'authorization':f'Bearer {skey}','accept':'image/*','stability-client-id':'CannabisStrainsWisdom-CrossProviderBenchmark'},
+                            files={'none':('',b'')},
+                            data={'prompt':prompts[control],'negative_prompt':negative,'model':model,'seed':str(seed),'output_format':'jpeg','aspect_ratio':'2:3'},
+                            timeout=180)
+                          rid=r.headers.get('x-request-id') or r.headers.get('request-id')
+                          if r.status_code>=400:
+                              raise RuntimeError(f'HTTP {r.status_code}: {r.text[:1000]}')
+                          inspect_and_save('stability',model,control,idx,r.content,time.monotonic()-t0,rid,seed)
+                          ok+=1
+                      except Exception as e:
+                          record_failure('stability',model,control,idx,e,seed,rid)
+              availability['stability']={'status':'AVAILABLE' if ok else 'UNAVAILABLE','model':model,'successCount':ok,
+                'reason':None if ok else 'API returned no successful images; see per-image errors'}
+
+          # Replicate FLUX Schnell, async polling
+          rkey=os.getenv('REPLICATE_API_TOKEN','').strip()
+          if not rkey:
+              availability['replicate']={'status':'UNAVAILABLE','reason':'REPLICATE_API_TOKEN not configured'}
+          else:
+              ok=0; model='black-forest-labs/flux-schnell'
+              headers={'Authorization':f'Bearer {rkey}','Content-Type':'application/json'}
+              for control in ('A','B'):
+                  for idx,seed in enumerate(seeds,1):
+                      t0=time.monotonic(); pid=None
+                      try:
+                          q=requests.post('https://api.replicate.com/v1/models/black-forest-labs/flux-schnell/predictions',
+                            headers=headers,json={'input':{'prompt':prompts[control],'seed':seed,'go_fast':False,'num_outputs':1,
+                            'aspect_ratio':'2:3','megapixels':'1','num_inference_steps':4,'output_format':'webp','output_quality':90,
+                            'disable_safety_checker':False}},timeout=60)
+                          if q.status_code>=400: raise RuntimeError(f'HTTP {q.status_code}: {q.text[:1000]}')
+                          j=q.json(); pid=j.get('id')
+                          if not pid: raise RuntimeError('Replicate response had no prediction id')
+                          deadline=time.monotonic()+600
+                          while j.get('status') not in ('succeeded','failed','canceled'):
+                              if time.monotonic()>deadline: raise TimeoutError('Replicate prediction timeout')
+                              time.sleep(2)
+                              p=requests.get(f'https://api.replicate.com/v1/predictions/{pid}',headers=headers,timeout=60)
+                              if p.status_code>=400: raise RuntimeError(f'poll HTTP {p.status_code}: {p.text[:1000]}')
+                              j=p.json()
+                          if j.get('status')!='succeeded': raise RuntimeError(f"prediction {j.get('status')}: {j.get('error')}")
+                          outs=j.get('output') or []
+                          if len(outs)!=1: raise RuntimeError(f'expected one output, got {len(outs)}')
+                          img=requests.get(outs[0],timeout=120); img.raise_for_status()
+                          metrics=j.get('metrics') or {}
+                          inspect_and_save('replicate',model,control,idx,img.content,time.monotonic()-t0,pid,seed,
+                            {'providerPredictTimeSeconds':metrics.get('predict_time'),'providerTotalTimeSeconds':metrics.get('total_time')})
+                          ok+=1
+                      except Exception as e:
+                          record_failure('replicate',model,control,idx,e,seed,pid)
+              availability['replicate']={'status':'AVAILABLE' if ok else 'UNAVAILABLE','model':model,'successCount':ok,
+                'reason':None if ok else 'API returned no successful images; see per-image errors'}
+
+          # Contact sheets. Labels exist only on the sheet, never on source images.
+          def provider_sheet(provider):
+              rows=[x for x in results if x['provider']==provider and x['status']=='success']
+              tw,th,lh=360,540,70
+              sheet=Image.new('RGB',(2*tw,2*(th+lh)),'white'); draw=ImageDraw.Draw(sheet)
+              for ri,control in enumerate(('A','B')):
+                  candidates=sorted([x for x in rows if x['control']==control],key=lambda z:z['index'])
+                  for ci in range(2):
+                      x0=ci*tw; y0=ri*(th+lh)
+                      if ci<len(candidates):
+                          x=candidates[ci]
+                          with Image.open(O/x['file']) as im:
+                              tile=ImageOps.contain(im.convert('RGB'),(tw,th),method=Image.Resampling.LANCZOS)
+                              sheet.paste(tile,(x0+(tw-tile.width)//2,y0+(th-tile.height)//2))
+                          seedlabel=f"seed {x['seed']}" if x.get('seed') is not None else f"run {x['index']}"
+                          label=f"Control {control} | {seedlabel}\n{x['model']}"
+                      else:
+                          label=f"Control {control} | no image"
+                      draw.text((x0+8,y0+th+8),label,fill='black')
+              fn=f'{provider}-contact-sheet.jpg'; sheet.save(O/fn,quality=94,optimize=True)
+              return fn
+
+          sheets=[]
+          for provider in ('google','stability','replicate'):
+              fn=provider_sheet(provider); sheets.append((provider,fn))
+          sw,sh=720,1220
+          combined=Image.new('RGB',(sw,3*sh),'white'); d=ImageDraw.Draw(combined)
+          for i,(provider,fn) in enumerate(sheets):
+              with Image.open(O/fn) as im:
+                  tile=ImageOps.contain(im.convert('RGB'),(sw,sh-40),method=Image.Resampling.LANCZOS)
+                  combined.paste(tile,((sw-tile.width)//2,i*sh+40))
+              d.text((10,i*sh+10),f"{provider.upper()} | Architecture Control A vs B",fill='black')
+          combined.save(O/'cross-provider-contact-sheet.jpg',quality=94,optimize=True)
+
+          success_by={p:sum(x['status']=='success' and x['provider']==p for x in results) for p in ('google','stability','replicate')}
+          cost={p:round(success_by[p]*provider_meta[p]['estimatedUsdPerImage'],4) for p in success_by}
+          summary={
+            'benchmark':'CROSS-PROVIDER IMAGE API BENCHMARK','test':'Architecture Control Test','runId':int(os.environ['GITHUB_RUN_ID']),
+            'sourceCommit':os.environ.get('GITHUB_SHA'),'sharedSeedsForSupportedProviders':seeds,
+            'controls':controls,'commonPrompt':common,'negativePrompt':negative,'promptSha256':prompt_sha,'negativePromptSha256':negative_sha,
+            'providerMeta':provider_meta,'availability':availability,'successByProvider':success_by,'estimatedGenerationCostUsd':cost,
+            'estimatedTotalGenerationCostUsd':round(sum(cost.values()),4),'results':results,
+            'productionMutationCount':0,'mainMutationCount':0,'productionPromotion':'NOT PERFORMED'
+          }
+          (O/'benchmark-summary.json').write_text(json.dumps(summary,indent=2,ensure_ascii=False)+'\n')
+          (O/'benchmark-config.json').write_text(json.dumps({
+            'controls':controls,'commonPrompt':common,'negativePrompt':negative,'seeds':seeds,'providerMeta':provider_meta
+          },indent=2,ensure_ascii=False)+'\n')
+          print(json.dumps({'availability':availability,'successByProvider':success_by,'estimatedGenerationCostUsd':cost},ensure_ascii=False))
+          PY
+
+      - name: Verify production safety
+        shell: bash
+        run: |
+          test -z "$(git status --porcelain -- strains production runtime UPLOAD_IMAGES_HERE uploads/images)"
+          test "$(git branch --show-current)" = "master-migration"
+
+      - name: Upload benchmark artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cross-provider-image-api-benchmark-${{ github.run_id }}
+          path: cross-provider-image-api-benchmark-artifact/
+          if-no-files-found: error
+          retention-days: 14
