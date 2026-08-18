@@ -1,0 +1,180 @@
+name: ICBINP Architecture Control Test
+
+on:
+  push:
+    branches: [master-migration]
+    paths: ['.github/workflows/icbinp-architecture-control-test.yml']
+
+permissions:
+  contents: read
+
+env:
+  OUT: icbinp-architecture-control-artifact
+
+jobs:
+  architecture-control:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+        with: {ref: master-migration, fetch-depth: 1, persist-credentials: false}
+      - run: python -m pip install --disable-pip-version-check --no-cache-dir 'requests>=2.31,<3' 'Pillow>=10,<12'
+      - name: Generate synthetic architecture controls with ICBINP
+        shell: bash
+        run: |
+          python - <<'PY'
+          import requests,json,time,hashlib,io,base64,os
+          from pathlib import Path
+          from PIL import Image,ImageOps,ImageDraw
+          from concurrent.futures import ThreadPoolExecutor,as_completed
+
+          B='https://aihorde.net/api/v2'; K='0000000000'; O=Path(os.environ['OUT']); O.mkdir()
+          model="ICBINP - I Can't Believe It's Not Photography"
+          seeds=[104729,105729,130363,131363,156997]
+
+          common=(
+            'photorealistic botanical reference photograph, mature living female cannabis plant, realistic cannabis leaves, '
+            'realistic mature female cannabis flowers, complete plant architecture visible, neutral non-distracting studio/background environment, '
+            'natural photographic lighting, single continuous photographic frame, single plant, complete plant visible, '
+            'no human, no additional plants, no collage, no text, no watermark, no illustration, no painting'
+          )
+          controls={
+            'A':(
+              'very tall and narrow mature female cannabis plant, strong vertical growth, long internodal spacing, '
+              'minimal lateral spread, few side branches, open sparse architecture'
+            ),
+            'B':(
+              'short and wide mature female cannabis plant, strong lateral spread, many well-developed side branches, '
+              'short internodal spacing, dense bushy architecture, broad overall silhouette, multiple lateral flowering branches'
+            )
+          }
+          neg=(
+            'human, person, multiple plants, duplicated trunk, duplicated branches, fused leaves, impossible anatomy, '
+            'male pollen sacs, non-cannabis flowers, fantasy plant, CGI, illustration, painting, collage, text, watermark'
+          )
+          params_base={'cfg_scale':7,'sampler_name':'k_euler_a','height':768,'width':512,'steps':24,'n':1}
+          payload_common={'nsfw':False,'censor_nsfw':True,'r2':True,'shared':False,'slow_workers':True,'dry_run':False}
+
+          finals={k:(v+'\n\n'+common+' ### '+neg) for k,v in controls.items()}
+          final_sha={k:hashlib.sha256(v.encode()).hexdigest() for k,v in finals.items()}
+          neg_sha=hashlib.sha256(neg.encode()).hexdigest()
+          config={
+            'test':'ICBINP ARCHITECTURE CONTROL TEST',
+            'model':model,
+            'seeds':seeds,
+            'controls':controls,
+            'commonPrompt':common,
+            'negativePrompt':neg,
+            'negativePromptSha256':neg_sha,
+            'finalPromptSha256':final_sha,
+            'generationParameters':params_base,
+            'payload':payload_common,
+            'comparisonVariable':'architecture instruction A vs B only'
+          }
+          (O/'architecture-control-config.json').write_text(json.dumps(config,indent=2,ensure_ascii=False)+'\n')
+
+          headers={'apikey':K,'Client-Agent':'CannabisStrainsWisdom-ArchitectureControlTest:1.0:github.com/Blazea-x/strain-atlas','Accept':'application/json'}
+          s=requests.Session(); s.headers.update(headers)
+          for ep in ('/status/heartbeat','/status/modes'):
+            r=s.get(B+ep,timeout=30); r.raise_for_status()
+          modes=s.get(B+'/status/modes',timeout=30).json()
+          if modes.get('maintenance_mode'): raise SystemExit('AI Horde maintenance mode')
+          r=s.get(B+'/status/models?type=image',timeout=30); r.raise_for_status(); live=r.json()
+          live_names={x.get('name') for x in live if int(x.get('count') or 0)>0}
+          if model not in live_names: raise SystemExit('ICBINP unavailable')
+
+          tasks=[]
+          for control in ('A','B'):
+            for si,seed in enumerate(seeds,1):
+              params={**params_base,'seed':str(seed)}
+              payload={'prompt':finals[control],'params':params,'models':[model],**payload_common}
+              t0=time.monotonic(); q=s.post(B+'/generate/async',json=payload,timeout=30); q.raise_for_status(); gid=q.json().get('id')
+              if not gid: raise RuntimeError('no generation id')
+              tasks.append({'control':control,'seedIndex':si,'seedRequested':seed,'providerGenerationId':gid,'start':t0,'params':params})
+              time.sleep(.45)
+
+          def run(t):
+            ss=requests.Session(); ss.headers.update(headers); start=t['start']; seen=False
+            while time.monotonic()-start<1800:
+              c=ss.get(B+'/generate/check/'+t['providerGenerationId'],timeout=30); c.raise_for_status(); j=c.json()
+              if j.get('faulted'): raise RuntimeError('faulted')
+              if int(j.get('processing') or 0)>0 or int(j.get('finished') or 0)>0: seen=True
+              if j.get('done'): break
+              if not seen and time.monotonic()-start>1100: raise TimeoutError('queue timeout')
+              time.sleep(5)
+            else: raise TimeoutError('generation timeout')
+            st=ss.get(B+'/generate/status/'+t['providerGenerationId'],timeout=30); st.raise_for_status(); gs=st.json().get('generations') or []
+            if len(gs)!=1: raise RuntimeError(f'generation count {len(gs)}')
+            g=gs[0]; ref=g.get('img')
+            if not ref: raise RuntimeError('missing image reference')
+            if ref.startswith(('http://','https://')):
+              rr=ss.get(ref,timeout=60); rr.raise_for_status(); data=rr.content
+            else: data=base64.b64decode(ref,validate=True)
+            with Image.open(io.BytesIO(data)) as im: im.verify()
+            with Image.open(io.BytesIO(data)) as im: w,h,fmt=im.width,im.height,im.format
+            ext={'JPEG':'jpg','PNG':'png','WEBP':'webp'}.get(fmt.upper(),'img')
+            fn=f"control-{t['control']}__ICBINP__seed-{t['seedRequested']}.{ext}"; (O/fn).write_bytes(data)
+            return {
+              'control':t['control'],'status':'success','file':fn,'model':model,'modelReturned':g.get('model'),
+              'seedRequested':t['seedRequested'],'seedReturned':g.get('seed'),'providerGenerationId':t['providerGenerationId'],
+              'providerJobId':g.get('id'),'elapsedSeconds':round(time.monotonic()-start,1),'dimensions':{'width':w,'height':h},
+              'byteLength':len(data),'sha256':hashlib.sha256(data).hexdigest(),'generationParameters':t['params'],
+              'finalPromptSha256':final_sha[t['control']],'negativePromptSha256':neg_sha
+            }
+
+          results=[]
+          with ThreadPoolExecutor(max_workers=10) as ex:
+            fs={ex.submit(run,t):t for t in tasks}
+            for f in as_completed(fs):
+              t=fs[f]
+              try: results.append(f.result())
+              except Exception as e:
+                results.append({
+                  'control':t['control'],'status':'failed','model':model,'seedRequested':t['seedRequested'],
+                  'providerGenerationId':t['providerGenerationId'],'elapsedSeconds':round(time.monotonic()-t['start'],1),
+                  'generationParameters':t['params'],'finalPromptSha256':final_sha[t['control']],
+                  'negativePromptSha256':neg_sha,'error':repr(e)
+                })
+          results.sort(key=lambda x:(x['control'],seeds.index(x['seedRequested'])))
+
+          by={(x['control'],x['seedRequested']):x for x in results if x['status']=='success'}
+          tw,th,lh=300,450,60; sheet=Image.new('RGB',(5*tw,2*(th+lh)),'white'); draw=ImageDraw.Draw(sheet)
+          labels={'A':'Control A TALL/NARROW','B':'Control B SHORT/WIDE/BUSHY'}
+          for row,control in enumerate(('A','B')):
+            for col,seed in enumerate(seeds):
+              x=by.get((control,seed)); x0=col*tw; y0=row*(th+lh)
+              if x:
+                with Image.open(O/x['file']) as im:
+                  tile=ImageOps.contain(im.convert('RGB'),(tw,th),method=Image.Resampling.LANCZOS)
+                  px=x0+(tw-tile.width)//2; py=y0+(th-tile.height)//2
+                  sheet.paste(tile,(px,py))
+              draw.text((x0+7,y0+th+6),f"{labels[control]}\nseed {seed}",fill='black')
+          sheet.save(O/'icbinp-architecture-control-contact-sheet.jpg',quality=94,optimize=True)
+
+          success=sum(x['status']=='success' for x in results)
+          summary={
+            'test':'ICBINP ARCHITECTURE CONTROL TEST',
+            'status':'HUMAN REVIEW REQUIRED' if success==10 else 'INCOMPLETE',
+            'successCount':success,'total':10,'pairCount':5,
+            'model':model,'sharedSeeds':seeds,'results':results,
+            'productionMutationCount':0,'mainMutationCount':0,
+            'runId':int(os.environ['GITHUB_RUN_ID']),
+            'artifactName':'icbinp-architecture-control-'+os.environ['GITHUB_RUN_ID']
+          }
+          (O/'architecture-control-summary.json').write_text(json.dumps(summary,indent=2,ensure_ascii=False)+'\n')
+          print(json.dumps(summary,ensure_ascii=False))
+          if success!=10: raise SystemExit(f'Only {success}/10 generations succeeded')
+          PY
+      - name: Verify production safety
+        shell: bash
+        run: |
+          test -z "$(git status --porcelain -- strains production runtime UPLOAD_IMAGES_HERE)"
+          test -z "$(git status --porcelain --branch | grep '^## .*main' || true)"
+      - name: Upload architecture control artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: icbinp-architecture-control-${{ github.run_id }}
+          path: icbinp-architecture-control-artifact/
+          if-no-files-found: error
+          retention-days: 14
