@@ -1,0 +1,21 @@
+{
+  "profileName": "Cannabis Strain Wisdom Botanical Primary Visual",
+  "version": "csw-generation-profile-test2-v1",
+  "purpose": "Site-wide visual representation rules only. Cultivar-specific facts remain authoritative in the formal image manifest.",
+  "representationPrompt": "Photorealistic botanical reference photography. Single mature living female cannabis plant. Botanically plausible cannabis morphology, natural branching and internode structure, natural leaf arrangement, realistic mature female inflorescences, realistic calyx and pistil structure, natural trichome coverage. Plant architecture clearly visible with enough framing to evaluate cultivar-specific structure. Single continuous photographic frame, neutral non-distracting background, natural photographic lighting. Documentary botanical reference photograph rather than decorative artwork. No decorative or fantasy interpretation and no artistic reinterpretation of botanical structures.",
+  "negativePrompt": "cotton-like flowers, woolly flowers, fuzzy white cones, bottle-brush flowers, identical repeated buds, duplicated flower structures, geometric buds, artificial flower morphology, fantasy cannabis, ornamental flowers, non-cannabis flowers, male pollen sacs, immature male flowers, mutated inflorescences, impossible branching, duplicated branches, fused leaves, deformed leaves, plastic appearance, CGI appearance, illustration, painting, surrealism, multiple plants, collage, split screen, multiple panels, text, labels, watermark",
+  "comparisonPolicy": {
+    "cultivarFactsSource": "formal manifest promptSnapshot/evidenceSnapshot only",
+    "sameModelRequired": "ICBINP - I Can't Believe It's Not Photography",
+    "fallbackModelAllowed": false,
+    "keepTest1Parameters": true
+  },
+  "generationParameters": {
+    "cfg_scale": 7,
+    "sampler_name": "k_euler_a",
+    "height": 768,
+    "width": 512,
+    "steps": 24,
+    "n": 1
+  }
+}

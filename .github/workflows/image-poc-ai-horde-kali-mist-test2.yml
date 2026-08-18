@@ -1,0 +1,187 @@
+name: IMAGE PRODUCTION V2 AI Horde Kali Mist PoC TEST 2
+
+on:
+  push:
+    branches:
+      - master-migration
+    paths:
+      - '.github/workflows/image-poc-ai-horde-kali-mist-test2.yml'
+      - 'scripts/image-poc-ai-horde-kali-mist-test2.py'
+      - 'generation-profiles/cannabis-strain-wisdom-test2-v1.json'
+
+permissions:
+  contents: write
+
+env:
+  POC_OUTPUT_DIR: poc-artifact-test2
+
+jobs:
+  kali-mist-test2:
+    name: TEST 2 / Generation Profile / Kali Mist only
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout exact master-migration triggering commit
+        uses: actions/checkout@v4
+        with:
+          ref: master-migration
+          persist-credentials: true
+          fetch-depth: 1
+
+      - name: Snapshot protected production state
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$GITHUB_REF" = "refs/heads/master-migration"
+          python - <<'PY'
+          import hashlib,json
+          from pathlib import Path
+          protected=[Path('strains'),Path('production'),Path('runtime'),Path('UPLOAD_IMAGES_HERE')]
+          snap={}
+          for root in protected:
+            if root.exists():
+              for p in sorted(x for x in root.rglob('*') if x.is_file()): snap[str(p)]=hashlib.sha256(p.read_bytes()).hexdigest()
+          Path('/tmp/protected-before.json').write_text(json.dumps(snap,sort_keys=True),encoding='utf-8')
+          print(f'protectedFiles={len(snap)}')
+          PY
+
+      - name: Verify unchanged formal Kali Mist comparison inputs
+        id: manifest_meta
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import hashlib,json,os
+          from pathlib import Path
+          mp=Path('production/manifests/kali-mist.json'); m=json.loads(mp.read_text())
+          run=json.loads(Path('production/runs/content-production-20260818T060700Z-01.json').read_text())
+          pub=json.loads(Path('production/publication.json').read_text())
+          strain=json.loads(Path('strains/kali-mist/strain.json').read_text())
+          item=next(x for x in run['items'] if x['strainId']=='kali-mist'); pe=next(x for x in pub['entries'] if x['strainId']=='kali-mist')
+          assert hashlib.sha256(mp.read_bytes()).hexdigest()=='9a43eca63ca02bb5c3a24748c24021b69120bb70e62b6ec6d03bc2923f07221c'
+          assert m['visualPreparationHash']=='0c038a0ae42544a1137574a7635255424937c06684cd6240931ac1d8ce27011d'
+          assert m['revision']==1 and m['attempt']==1 and m['approvalStatus']=='pending'
+          assert item['productionPhase']=='IMAGE_PENDING' and pe['state']=='pending' and strain['visuals']==[]
+          with open(os.environ['GITHUB_OUTPUT'],'a') as f:
+            f.write('revision=1\nattempt=1\n')
+            f.write('manifest_sha256=9a43eca63ca02bb5c3a24748c24021b69120bb70e62b6ec6d03bc2923f07221c\n')
+          print('FORMAL_INPUTS_UNCHANGED=true phase=IMAGE_PENDING publication=pending visuals=0')
+          PY
+
+      - name: Install PoC-only dependencies
+        run: python -m pip install --disable-pip-version-check --no-cache-dir 'requests>=2.31,<3' 'Pillow>=10,<12'
+
+      - name: Generate TEST 2 candidate through free anonymous AI Horde
+        id: generate
+        continue-on-error: true
+        env:
+          AI_HORDE_QUEUE_TIMEOUT_SECONDS: '600'
+          AI_HORDE_GENERATION_TIMEOUT_SECONDS: '900'
+          AI_HORDE_POLL_SECONDS: '5'
+          AI_HORDE_HTTP_TIMEOUT_SECONDS: '30'
+        run: python scripts/image-poc-ai-horde-kali-mist-test2.py
+
+      - name: Run existing CONTENT PRODUCTION audit separately
+        id: cp_audit
+        if: ${{ always() }}
+        continue-on-error: true
+        run: node scripts/audit-content-production.mjs
+
+      - name: Run MASTER validator
+        id: master_validator
+        if: ${{ always() }}
+        continue-on-error: true
+        run: node scripts/validate-master-data.mjs
+
+      - name: Assert zero protected production mutation
+        id: protected_check
+        if: ${{ always() }}
+        continue-on-error: true
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import hashlib,json
+          from pathlib import Path
+          before=json.loads(Path('/tmp/protected-before.json').read_text()); after={}
+          for root in [Path('strains'),Path('production'),Path('runtime'),Path('UPLOAD_IMAGES_HERE')]:
+            if root.exists():
+              for p in sorted(x for x in root.rglob('*') if x.is_file()): after[str(p)]=hashlib.sha256(p.read_bytes()).hexdigest()
+          assert before==after,'Protected production/runtime content changed during TEST 2'
+          print('PROTECTED_CHANGE_COUNT=0')
+          PY
+          test -z "$(git status --porcelain -- strains production runtime UPLOAD_IMAGES_HERE)"
+
+      - name: Ensure a classified generation envelope exists
+        if: ${{ always() }}
+        shell: bash
+        run: |
+          mkdir -p "$POC_OUTPUT_DIR"
+          if [ ! -f "$POC_OUTPUT_DIR/generation-provenance.json" ] && [ ! -f "$POC_OUTPUT_DIR/failure.json" ]; then
+            printf '%s\n' '{"test":"AI_HORDE_POC_TEST_2","generationPipeline":"FAIL","failureCode":"WORKFLOW_STEP_FAILED"}' > "$POC_OUTPUT_DIR/failure.json"
+          fi
+
+      - name: Upload TEST 2 candidate artifact
+        id: artifact
+        if: ${{ always() }}
+        continue-on-error: true
+        uses: actions/upload-artifact@v4
+        with:
+          name: image-poc-test2-kali-mist-r${{ steps.manifest_meta.outputs.revision }}-a${{ steps.manifest_meta.outputs.attempt }}-run${{ github.run_id }}-try${{ github.run_attempt }}
+          path: poc-artifact-test2/
+          if-no-files-found: error
+          retention-days: 14
+
+      - name: Record TEST 2 receipt without mixing baseline audit
+        id: receipt
+        if: ${{ always() }}
+        continue-on-error: true
+        env:
+          GENERATE_OUTCOME: ${{ steps.generate.outcome }}
+          CP_AUDIT_OUTCOME: ${{ steps.cp_audit.outcome }}
+          MASTER_VALIDATOR_OUTCOME: ${{ steps.master_validator.outcome }}
+          PROTECTED_CHECK_OUTCOME: ${{ steps.protected_check.outcome }}
+          ARTIFACT_OUTCOME: ${{ steps.artifact.outcome }}
+          ARTIFACT_ID: ${{ steps.artifact.outputs.artifact-id }}
+          ARTIFACT_URL: ${{ steps.artifact.outputs.artifact-url }}
+          ARTIFACT_DIGEST: ${{ steps.artifact.outputs.artifact-digest }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p docs/poc-results
+          python - <<'PY'
+          import json,os
+          from datetime import datetime,timezone
+          from pathlib import Path
+          p=Path('poc-artifact-test2/generation-provenance.json'); f=Path('poc-artifact-test2/failure.json')
+          provider=json.loads((p if p.exists() else f).read_text())
+          pipeline_ok=(os.environ.get('GENERATE_OUTCOME')=='success' and os.environ.get('MASTER_VALIDATOR_OUTCOME')=='success' and os.environ.get('PROTECTED_CHECK_OUTCOME')=='success' and os.environ.get('ARTIFACT_OUTCOME')=='success' and p.exists())
+          aid=os.environ.get('ARTIFACT_ID') or None
+          receipt={'test':'AI_HORDE_POC_TEST_2','imageGenerationTest2Result':'PASS' if pipeline_ok else 'FAIL','generationPipeline':'PASS' if pipeline_ok else 'FAIL','failureCode':None if pipeline_ok else provider.get('failureCode'),'existingProductionAuditResult':os.environ.get('CP_AUDIT_OUTCOME'),'provider':'AI Horde','runId':'content-production-20260818T060700Z-01','strainId':'kali-mist','revision':1,'attempt':1,'manifestSha256':provider.get('manifestSha256'),'visualPreparationHash':provider.get('visualPreparationHash'),'promptSnapshotSha256':provider.get('promptSnapshotSha256'),'evidenceSnapshotSha256':provider.get('evidenceSnapshotSha256'),'generationProfileVersion':provider.get('generationProfileVersion'),'generationProfileSha256':provider.get('generationProfileSha256'),'negativePromptSha256':provider.get('negativePromptSha256'),'finalProviderPromptSha256':provider.get('finalProviderPromptSha256'),'model':provider.get('model'),'sampler':provider.get('sampler'),'steps':provider.get('steps'),'seed':provider.get('seed'),'providerGenerationId':provider.get('providerGenerationId'),'jobId':provider.get('jobId'),'workerId':provider.get('workerId'),'workerName':provider.get('workerName'),'generationElapsedSeconds':provider.get('generationElapsedSeconds'),'actualImageByteLength':provider.get('actualImageByteLength'),'actualImageSha256':provider.get('actualImageSha256'),'decodedDimensions':provider.get('decodedDimensions'),'http':provider.get('http'),'artifactName':f"image-poc-test2-kali-mist-r1-a1-run{os.environ['GITHUB_RUN_ID']}-try{os.environ['GITHUB_RUN_ATTEMPT']}",'artifactId':int(aid) if aid else None,'artifactUrl':os.environ.get('ARTIFACT_URL') or None,'artifactDigest':os.environ.get('ARTIFACT_DIGEST') or None,'artifactRetentionDays':14,'productionMutationCount':0 if os.environ.get('PROTECTED_CHECK_OUTCOME')=='success' else None,'mainMutationCount':0,'visualAssessment':'HUMAN_VISUAL_REVIEW_REQUIRED','productionPromotion':'NOT_PERFORMED','stepOutcomes':{'generation':os.environ.get('GENERATE_OUTCOME'),'contentProductionAudit':os.environ.get('CP_AUDIT_OUTCOME'),'masterValidator':os.environ.get('MASTER_VALIDATOR_OUTCOME'),'protectedCheck':os.environ.get('PROTECTED_CHECK_OUTCOME'),'artifactUpload':os.environ.get('ARTIFACT_OUTCOME')},'workflowRun':{'id':int(os.environ['GITHUB_RUN_ID']),'attempt':int(os.environ['GITHUB_RUN_ATTEMPT']),'number':int(os.environ['GITHUB_RUN_NUMBER']),'sha':os.environ['GITHUB_SHA'],'ref':os.environ['GITHUB_REF']},'recordedAt':datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace('+00:00','Z')}
+          Path('docs/poc-results/kali-mist-test2-latest.json').write_text(json.dumps(receipt,indent=2,ensure_ascii=False)+'\n')
+          PY
+          git config user.name 'strain-atlas-image-poc-bot'
+          git config user.email 'actions@users.noreply.github.com'
+          git add -- docs/poc-results/kali-mist-test2-latest.json
+          test -z "$(git status --porcelain -- strains production runtime UPLOAD_IMAGES_HERE)"
+          git commit -m '[IMAGE POC TEST 2] Record Kali Mist Generation Profile result'
+          git push origin HEAD:master-migration
+
+      - name: Summarize split results
+        if: ${{ always() }}
+        run: cat docs/poc-results/kali-mist-test2-latest.json >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Enforce TEST 2 generation pipeline only
+        if: ${{ always() }}
+        shell: bash
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path('docs/poc-results/kali-mist-test2-latest.json').read_text())
+          if r['generationPipeline']!='PASS': raise SystemExit(f"GENERATION PIPELINE: FAIL ({r.get('failureCode')})")
+          print('GENERATION PIPELINE: PASS')
+          print(f"EXISTING PRODUCTION AUDIT RESULT: {r['existingProductionAuditResult']}")
+          print('HUMAN VISUAL REVIEW: REQUIRED')
+          print('PRODUCTION PROMOTION: NOT PERFORMED')
+          PY
