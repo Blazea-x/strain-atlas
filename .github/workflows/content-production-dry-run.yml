@@ -199,7 +199,7 @@ jobs:
           }
 
           const mainRoot = '.content-production-main-audit';
-          const forbiddenMainRoots = ['production', 'strains', 'sources', 'entities', 'stock', 'runtime', 'uploads'];
+          const forbiddenMainRoots = ['production', 'strains', 'sources', 'entities', 'stock', 'runtime', 'uploads', 'UPLOAD_IMAGES_HERE'];
           if (fs.existsSync(mainRoot)) {
             const violations = forbiddenMainRoots.filter(name => fs.existsSync(path.join(mainRoot, name)));
             if (violations.length) {
@@ -214,11 +214,11 @@ jobs:
             if (run && activeStatuses.has(run.status)) activeRunCount += 1;
           }
           const stockCount = listJson('stock/items').length;
-          const inboxFiles = fs.existsSync('uploads/images')
-            ? fs.readdirSync('uploads/images').filter(name => name !== '.gitkeep' && !name.startsWith('.'))
+          const inboxFiles = fs.existsSync('UPLOAD_IMAGES_HERE')
+            ? fs.readdirSync('UPLOAD_IMAGES_HERE').filter(name => !['.gitkeep', 'README.md'].includes(name) && !name.startsWith('.'))
             : [];
           if (inboxFiles.length && !findings.some(f => f.code === 'FAILED_INBOX_PENDING')) {
-            add('ERROR', 'FAILED_INBOX_PENDING', `uploads/images contains ${inboxFiles.join(', ')}`);
+            add('ERROR', 'FAILED_INBOX_PENDING', `UPLOAD_IMAGES_HERE contains ${inboxFiles.join(', ')}`);
           }
 
           const deduped = [];

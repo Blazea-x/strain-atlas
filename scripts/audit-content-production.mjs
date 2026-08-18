@@ -108,7 +108,7 @@ for(const s of strains.values()){
     for(const k of ['alt','rights','scope','aiGenerated','sourceType'])if(prim[0][k]!==m.visualMetadataSnapshot?.[k])add('VISUAL_METADATA_MISMATCH',`${s.id} visual ${k} differs from manifest`);
   }
 }
-const inbox=path.join(ROOT,'uploads/images');const inboxFiles=exists(inbox)?fs.readdirSync(inbox).filter(n=>n!=='.gitkeep'&&!n.startsWith('.')):[];if(inboxFiles.length)add('FAILED_INBOX_PENDING',`uploads/images contains ${inboxFiles.join(', ')}`);
+const inbox=path.join(ROOT,'UPLOAD_IMAGES_HERE');const inboxFiles=exists(inbox)?fs.readdirSync(inbox).filter(n=>!['.gitkeep','README.md'].includes(n)&&!n.startsWith('.')):[];if(inboxFiles.length)add('FAILED_INBOX_PENDING',`UPLOAD_IMAGES_HERE contains ${inboxFiles.join(', ')}`);
 let candidate=null,current=null,runtimeDiff={cultivarIds:[],cultivars:false,visuals:false,sources:false,entities:false,currentOnlySourceIds:[],candidateOnlySourceIds:[],sourcePayloadMismatches:[]};
 try{
   candidate=buildRuntimeSnapshot().catalog;current=readJson(path.join(ROOT,'runtime/catalog.json'));

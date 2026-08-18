@@ -4,7 +4,7 @@ on:
   push:
     branches: [master-migration]
     paths:
-      - "uploads/images/**"
+      - "UPLOAD_IMAGES_HERE/**"
   workflow_dispatch:
 
 permissions:
@@ -47,7 +47,7 @@ jobs:
       - name: Commit all accepted images as one batch
         run: |
           set -euo pipefail
-          git add -- uploads/images strains
+          git add -- UPLOAD_IMAGES_HERE strains
           if git diff --cached --quiet; then
             echo "No accepted inbox images to commit"
             exit 0

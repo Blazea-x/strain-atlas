@@ -24,7 +24,7 @@ Production manifests bind prompt, evidence, and visual metadata (`alt`, `rights`
 
 If `approvedSourceSha256` exists, the Inbox source digest must match it. Otherwise revision/attempt plus inbox/processing commit provenance remain mandatory. Production Inbox filenames and expected primary paths must match the approved manifest exactly. `mode: new-publication` cannot overwrite an existing primary for a strain that was already published at RUN start; that belongs to future `image-replacement` mode.
 
-IMAGE UPLOAD INBOX V1 keeps its atomic conversion behavior. Production targets add the manifest allowlist/approval guard. `IMAGE_READY` requires valid RIFF/WEBP, successful decode, positive dimensions, strain/path match, current approved revision/attempt, and traceable inbox/processing commits. `VISUAL_LINKED` requires one primary for CONTENT PRODUCTION-managed strains, correct path/file, and exact visual metadata snapshot. A standard `primary.webp` that exists but is not referenced is `ORPHAN_PRIMARY`.
+The formal human upload entry for IMAGE UPLOAD INBOX V1 is the repository-root `UPLOAD_IMAGES_HERE/` directory on `master-migration`. IMAGE UPLOAD INBOX V1 keeps its atomic conversion behavior. Production targets add the manifest allowlist/approval guard. `IMAGE_READY` requires valid RIFF/WEBP, successful decode, positive dimensions, strain/path match, current approved revision/attempt, and traceable inbox/processing commits. `VISUAL_LINKED` requires one primary for CONTENT PRODUCTION-managed strains, correct path/file, and exact visual metadata snapshot. A standard `primary.webp` that exists but is not referenced is `ORPHAN_PRIMARY`.
 
 ## Recovery, main protection, and write safety
 
@@ -34,7 +34,7 @@ A fresh `master-migration` HEAD check is required immediately before writes. One
 
 CONTENT PRODUCTION has zero main-write path. An external main HEAD change is a warning requiring display verification on the latest main. CONTENT PRODUCTION-originated main writes are `MAIN_WRITE_VIOLATION`; production strain assets found on main are `MAIN_PRODUCTION_ASSET_VIOLATION`, while normal UI/hero assets are excluded from that rule.
 
-Successful Inbox processing leaves only `.gitkeep`. Failed residual input is not deleted automatically and is reported as `FAILED_INBOX_PENDING`.
+Successful Inbox processing leaves only `UPLOAD_IMAGES_HERE/.gitkeep` and `UPLOAD_IMAGES_HERE/README.md`. Failed residual input is not deleted automatically and is reported as `FAILED_INBOX_PENDING`.
 
 ## Audit severity and codes
 

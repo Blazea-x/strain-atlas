@@ -1,9 +1,7 @@
 # IMAGE UPLOAD INBOX V1
 
-Place batch image uploads in this directory on `master-migration`.
+人間が画像を投入する正式入口は、リポジトリ直下の `UPLOAD_IMAGES_HERE/` です。
 
-Accepted filename pattern: `<strain-id>.jpg`, `<strain-id>.jpeg`, `<strain-id>.png`, or `<strain-id>.webp`.
+画像のアップロード方法とファイル名ルールは `UPLOAD_IMAGES_HERE/README.md` を確認してください。
 
-The filename stem must match an existing `strains/<strain-id>/strain.json`. The workflow processes the whole upload batch atomically, converts every accepted image to `strains/<strain-id>/images/generated/primary.webp`, validates the WebP payload, and removes accepted inbox files in the same automated commit. Duplicate strain IDs or any invalid item fail the run without committing partial outputs.
-
-V1 batch limit: 50 images per run.
+IMAGE UPLOAD INBOX V1 は `master-migration` 上で、既存strain確認、バッチ全体のatomic検証、WebP変換、RIFF/WEBP検証、画像decode検証、production manifest / approval guard、既存published primary保護、正式primary配置、正常処理後の元画像削除を行います。

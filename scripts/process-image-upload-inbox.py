@@ -3,7 +3,7 @@ from __future__ import annotations
 import hashlib,json,shutil,sys,tempfile
 from pathlib import Path
 from PIL import Image
-ROOT=Path(__file__).resolve().parents[1]; INBOX=ROOT/'uploads'/'images'; ALLOWED_EXTENSIONS={'.jpg','.jpeg','.png','.webp'}; MAX_BATCH=50; ACTIVE_STATUSES={'ACTIVE','WAITING_REPAIR','PUBLISHING'}
+ROOT=Path(__file__).resolve().parents[1]; INBOX=ROOT/'UPLOAD_IMAGES_HERE'; ALLOWED_EXTENSIONS={'.jpg','.jpeg','.png','.webp'}; MAX_BATCH=50; ACTIVE_STATUSES={'ACTIVE','WAITING_REPAIR','PUBLISHING'}; INBOX_CONTROL_FILES={'.gitkeep','README.md'}
 def fail(code,message): print(f'IMAGE UPLOAD INBOX V1 FAIL [{code}]: {message}',file=sys.stderr); raise SystemExit(1)
 def load_json(p): return json.loads(p.read_text(encoding='utf-8'))
 def sha256(p):
@@ -50,7 +50,7 @@ def validate_webp(p):
  if w<=0 or h<=0: fail('INVALID_IMAGE_DIMENSIONS',f'invalid image dimensions {w}x{h}: {p}')
  return w,h
 def main():
- INBOX.mkdir(parents=True,exist_ok=True); entries=sorted(p for p in INBOX.iterdir() if p.is_file() and not p.name.startswith('.'))
+ INBOX.mkdir(parents=True,exist_ok=True); entries=sorted(p for p in INBOX.iterdir() if p.is_file() and p.name not in INBOX_CONTROL_FILES and not p.name.startswith('.'))
  if not entries: print('IMAGE UPLOAD INBOX V1: inbox is empty'); return
  unsupported=[p.name for p in entries if p.suffix.lower() not in ALLOWED_EXTENSIONS]
  if unsupported: fail('INBOX_WRONG_FILENAME','unsupported file(s): '+', '.join(unsupported))
