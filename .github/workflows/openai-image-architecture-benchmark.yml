@@ -1,0 +1,177 @@
+name: OpenAI Image Architecture Benchmark
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [master-migration]
+    paths:
+      - .github/workflows/openai-image-architecture-benchmark.yml
+
+permissions:
+  contents: read
+
+jobs:
+  benchmark:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+      OUT: openai-image-architecture-benchmark-artifact
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: master-migration
+          persist-credentials: false
+
+      - name: Install dependencies
+        run: python -m pip install --disable-pip-version-check --no-cache-dir 'openai>=1.100,<3' 'Pillow>=10,<12'
+
+      - name: Generate benchmark images
+        shell: bash
+        run: |
+          python - <<'PY'
+          import os, io, json, base64, hashlib, time
+          from pathlib import Path
+          from PIL import Image, ImageOps, ImageDraw
+
+          out = Path(os.environ['OUT'])
+          out.mkdir(parents=True, exist_ok=True)
+          model = 'gpt-image-2'
+          size = '1024x1536'
+          quality = 'medium'
+          output_format = 'jpeg'
+          output_cost_per_image = 0.041
+          text_input_cost_per_million = 5.0
+
+          common = ('photorealistic botanical reference photograph, mature living female cannabis plant, realistic cannabis leaves, '
+                    'realistic mature female cannabis flowers, complete plant architecture visible, neutral non-distracting background, '
+                    'natural photographic lighting, single continuous frame, no human, no additional plants, no collage, no text, '
+                    'no watermark, no illustration, no painting')
+          controls = {
+            'A': ('very tall and narrow mature female cannabis plant, strong vertical growth, long internodal spacing, minimal lateral spread, '
+                  'few side branches, open sparse architecture, single plant, complete plant visible'),
+            'B': ('short and wide mature female cannabis plant, strong lateral spread, many well-developed side branches, short internodal spacing, '
+                  'dense bushy architecture, broad overall silhouette, multiple lateral flowering branches, single plant, complete plant visible')
+          }
+          prompts = {k: controls[k] + '\n\n' + common for k in controls}
+          prompt_sha = {k: hashlib.sha256(v.encode()).hexdigest() for k, v in prompts.items()}
+          results = []
+          configured = bool(os.environ.get('OPENAI_API_KEY', '').strip())
+
+          if not configured:
+            print('OPENAI_API_KEY: NOT CONFIGURED')
+          else:
+            print('OPENAI_API_KEY: CONFIGURED')
+            from openai import OpenAI
+            client = OpenAI()
+            request_count = 0
+            for control in ('A', 'B'):
+              for index in (1, 2):
+                if request_count >= 4:
+                  break
+                request_count += 1
+                started = time.monotonic()
+                try:
+                  response = client.images.generate(
+                    model=model,
+                    prompt=prompts[control],
+                    size=size,
+                    quality=quality,
+                    output_format=output_format,
+                    n=1,
+                  )
+                  if len(response.data) != 1 or not response.data[0].b64_json:
+                    raise RuntimeError('OpenAI response did not contain exactly one base64 image')
+                  raw = base64.b64decode(response.data[0].b64_json)
+                  with Image.open(io.BytesIO(raw)) as im:
+                    im.verify()
+                  with Image.open(io.BytesIO(raw)) as im:
+                    width, height, fmt = im.width, im.height, im.format
+                  ext = {'JPEG':'jpg','PNG':'png','WEBP':'webp'}.get(str(fmt).upper(), 'img')
+                  filename = f'openai__control-{control}__run-{index}.{ext}'
+                  (out / filename).write_bytes(raw)
+                  usage = response.usage.model_dump() if getattr(response, 'usage', None) else {}
+                  input_tokens = usage.get('input_tokens') if isinstance(usage, dict) else None
+                  input_cost = input_tokens * text_input_cost_per_million / 1_000_000 if isinstance(input_tokens, (int, float)) else 0
+                  results.append({
+                    'control': control, 'index': index, 'status': 'success', 'model': model,
+                    'seed': None, 'seedSupported': False, 'file': filename,
+                    'sha256': hashlib.sha256(raw).hexdigest(), 'byteLength': len(raw),
+                    'dimensions': {'width': width, 'height': height}, 'format': fmt,
+                    'elapsedSeconds': round(time.monotonic() - started, 3),
+                    'promptSha256': prompt_sha[control], 'usage': usage,
+                    'estimatedOutputCostUsd': output_cost_per_image,
+                    'estimatedInputCostUsd': round(input_cost, 8)
+                  })
+                except Exception as exc:
+                  results.append({
+                    'control': control, 'index': index, 'status': 'failed', 'model': model,
+                    'seed': None, 'seedSupported': False, 'promptSha256': prompt_sha[control],
+                    'error': str(exc)[:1000]
+                  })
+
+          tw, th, lh = 400, 600, 70
+          sheet = Image.new('RGB', (tw*2, (th+lh)*2), 'white')
+          draw = ImageDraw.Draw(sheet)
+          for ri, control in enumerate(('A', 'B')):
+            rows = sorted([r for r in results if r['status']=='success' and r['control']==control], key=lambda r:r['index'])
+            for ci in range(2):
+              x0, y0 = ci*tw, ri*(th+lh)
+              if ci < len(rows):
+                row = rows[ci]
+                with Image.open(out / row['file']) as im:
+                  tile = ImageOps.contain(im.convert('RGB'), (tw, th), method=Image.Resampling.LANCZOS)
+                  sheet.paste(tile, (x0+(tw-tile.width)//2, y0+(th-tile.height)//2))
+                label = f"Control {control} | run {row['index']}\n{model} | {size} | {quality}"
+              else:
+                label = f'Control {control} | no image'
+              draw.text((x0+8, y0+th+8), label, fill='black')
+          sheet.save(out / 'openai-contact-sheet.jpg', quality=94, optimize=True)
+
+          success = sum(r['status']=='success' for r in results)
+          input_cost = sum(r.get('estimatedInputCostUsd', 0) for r in results if r['status']=='success')
+          summary = {
+            'benchmark': 'OPENAI IMAGE BENCHMARK',
+            'test': 'Architecture Control Test',
+            'runId': int(os.environ['GITHUB_RUN_ID']),
+            'sourceCommit': os.environ.get('GITHUB_SHA'),
+            'secretStatus': 'CONFIGURED' if configured else 'NOT CONFIGURED',
+            'model': model,
+            'size': size,
+            'quality': quality,
+            'outputFormat': output_format,
+            'seedSupported': False,
+            'seedComparisonNote': 'The public OpenAI Image API generation parameters do not expose a seed. The two runs per control use the same model, prompt, size, quality, and output format.',
+            'controls': controls,
+            'commonPrompt': common,
+            'promptSha256': prompt_sha,
+            'successCount': success,
+            'requestCount': len(results),
+            'maximumRequests': 4,
+            'estimatedOutputCostUsdPerImage': output_cost_per_image,
+            'estimatedGenerationCostUsd': round(success * output_cost_per_image + input_cost, 6),
+            'results': results,
+            'productionMutationCount': 0,
+            'mainMutationCount': 0,
+            'benchmarkStatus': 'COMPLETE' if success == 4 else 'INCOMPLETE',
+            'architectureControllability': 'HUMAN REVIEW REQUIRED',
+            'productionPromotion': 'NOT PERFORMED'
+          }
+          (out/'benchmark-summary.json').write_text(json.dumps(summary, indent=2, ensure_ascii=False)+'\n')
+          print(json.dumps({k: summary[k] for k in ('benchmarkStatus','secretStatus','model','successCount','estimatedGenerationCostUsd')}, ensure_ascii=False))
+          PY
+
+      - name: Verify production safety
+        shell: bash
+        run: |
+          test -z "$(git status --porcelain -- strains production runtime UPLOAD_IMAGES_HERE uploads/images)"
+          test "$(git branch --show-current)" = "master-migration"
+
+      - name: Upload benchmark artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: openai-image-architecture-benchmark-${{ github.run_id }}
+          path: openai-image-architecture-benchmark-artifact/
+          if-no-files-found: error
+          retention-days: 14
