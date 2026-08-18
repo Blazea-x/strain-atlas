@@ -110,7 +110,18 @@ window.STRAINS=[
       "display": "LINEAGE A / AROMA A",
       "note": "正本データの項目別confidenceを表示"
     },
-    "visuals": [],
+    "visuals": [
+      {
+        "role": "primary",
+        "src": "strains/california-octane/images/generated/primary.webp",
+        "aiGenerated": true,
+        "sourceType": "aiGenerated",
+        "rights": "AI-generated project asset planned for Cannabis Strain Wisdom; no third-party image will be copied. Visual prompt is derived from cited factual morphology evidence.",
+        "alt": "California Octaneの密に重なった花と強いトリコーム被覆を表現したAI生成参考ビジュアル",
+        "scope": "cultivar",
+        "label": "VISUAL REFERENCE"
+      }
+    ],
     "sourceIds": [
       "hsc-california-octane",
       "humboldt-seed-company-about"
@@ -520,7 +531,18 @@ window.STRAINS=[
       "display": "LINEAGE A / AROMA A / TERPENE B / ORIGIN A / HISTORY A",
       "note": "正本データの項目別confidenceを表示"
     },
-    "visuals": [],
+    "visuals": [
+      {
+        "role": "primary",
+        "src": "strains/panama/images/generated/primary.webp",
+        "aiGenerated": true,
+        "sourceType": "aiGenerated",
+        "rights": "AI-generated project asset planned for Cannabis Strain Wisdom; no third-party image will be copied. Visual prompt is derived from cited factual morphology evidence.",
+        "alt": "Panamaの背が高く枝分かれしたサティバ形態と、赤〜桃色の雌しべを含む樹脂質な花を表現したAI生成参考ビジュアル",
+        "scope": "cultivar",
+        "label": "VISUAL REFERENCE"
+      }
+    ],
     "sourceIds": [
       "ace-seeds-panama",
       "ace-seeds-about-2026"
@@ -571,7 +593,18 @@ window.STRAINS=[
       "display": "LINEAGE A / AROMA A / ORIGIN A / HISTORY A",
       "note": "正本データの項目別confidenceを表示"
     },
-    "visuals": [],
+    "visuals": [
+      {
+        "role": "primary",
+        "src": "strains/shaman/images/generated/primary.webp",
+        "aiGenerated": true,
+        "sourceType": "aiGenerated",
+        "rights": "AI-generated project asset planned for Cannabis Strain Wisdom; no third-party image will be copied. Visual prompt is derived from cited factual morphology evidence.",
+        "alt": "Shamanの開いたサティバ優勢形態と、桃色〜紫色の花色が現れる表現型を示すAI生成参考ビジュアル",
+        "scope": "cultivar",
+        "label": "VISUAL REFERENCE"
+      }
+    ],
     "sourceIds": [
       "dutch-passion-shaman",
       "dutch-passion-shaman-story"
