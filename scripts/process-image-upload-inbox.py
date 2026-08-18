@@ -3,7 +3,7 @@ from __future__ import annotations
 import hashlib,json,shutil,sys,tempfile
 from pathlib import Path
 from PIL import Image
-ROOT=Path(__file__).resolve().parents[1]; INBOX=ROOT/'UPLOAD_IMAGES_HERE'; ALLOWED_EXTENSIONS={'.jpg','.jpeg','.png','.webp'}; MAX_BATCH=50; ACTIVE_STATUSES={'ACTIVE','WAITING_REPAIR','PUBLISHING'}; INBOX_CONTROL_FILES={'.gitkeep','README.md'}
+ROOT=Path(__file__).resolve().parents[1]; INBOX=ROOT/'UPLOAD_IMAGES_HERE'; ALLOWED_EXTENSIONS={'.jpg','.jpeg','.png','.webp'}; MAX_BATCH=50; ACTIVE_STATUSES={'ACTIVE','WAITING_REPAIR','PUBLISHING'}; INBOX_CONTROL_FILES={'.gitkeep','README.md','REPROCESS_REQUEST.txt'}
 def fail(code,message): print(f'IMAGE UPLOAD INBOX V1 FAIL [{code}]: {message}',file=sys.stderr); raise SystemExit(1)
 def load_json(p): return json.loads(p.read_text(encoding='utf-8'))
 def sha256(p):

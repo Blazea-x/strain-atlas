@@ -1,0 +1,7 @@
+IMAGE UPLOAD INBOX V1 manual reprocess trigger.
+
+When approved image files remain in UPLOAD_IMAGES_HERE after an earlier blocked or failed run, edit this file on the master-migration branch and commit the change. The existing IMAGE UPLOAD INBOX V1 push trigger will run the normal processor again without re-uploading the images.
+
+This file is a control file. The processor ignores it as image input and never deletes it.
+
+retry-token: 2026-08-18T21:30+09:00
