@@ -1,0 +1,343 @@
+name: CONTENT PRODUCTION V1 Batch Readiness Dry Run
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [master-migration]
+    paths:
+      - "production/**"
+      - "stock/_system/**"
+      - "schemas/**"
+      - "scripts/audit-content-production.mjs"
+      - "scripts/build-runtime-data.mjs"
+      - "scripts/content-production-state.mjs"
+      - "scripts/validate-master-data.mjs"
+      - ".github/workflows/content-production-dry-run.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  readiness:
+    name: Read-only batch readiness
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout master-migration completely
+        uses: actions/checkout@v4
+        with:
+          ref: master-migration
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Capture master-migration execution SHA
+        id: master
+        shell: bash
+        run: |
+          set -euo pipefail
+          MASTER_HEAD="$(git rev-parse HEAD)"
+          echo "master_head=$MASTER_HEAD" >> "$GITHUB_OUTPUT"
+          echo "execution_sha=$GITHUB_SHA" >> "$GITHUB_OUTPUT"
+          echo "master-migration HEAD: $MASTER_HEAD"
+          echo "GitHub event SHA: $GITHUB_SHA"
+
+      - name: Setup Node.js used by existing MASTER workflows
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Checkout remote main for read-only audit
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          path: .content-production-main-audit
+          fetch-depth: 1
+          persist-credentials: false
+
+      - name: Capture main HEAD
+        id: main
+        shell: bash
+        run: |
+          set -euo pipefail
+          MAIN_HEAD="$(git -C .content-production-main-audit rev-parse HEAD)"
+          echo "main_head=$MAIN_HEAD" >> "$GITHUB_OUTPUT"
+          echo "main HEAD: $MAIN_HEAD"
+
+      - name: Prepare ephemeral artifact directory
+        shell: bash
+        run: mkdir -p artifacts
+
+      - name: MASTER validation
+        id: validation
+        shell: bash
+        run: |
+          set +e
+          node scripts/validate-master-data.mjs > artifacts/master-validation.log 2>&1
+          RC=$?
+          cat artifacts/master-validation.log
+          echo "exit_code=$RC" >> "$GITHUB_OUTPUT"
+          exit 0
+
+      - name: CONTENT PRODUCTION audit
+        id: audit
+        shell: bash
+        run: |
+          set +e
+          node scripts/audit-content-production.mjs --json --main-dir=.content-production-main-audit > artifacts/content-production-audit.json 2> artifacts/content-production-audit.stderr.log
+          RC=$?
+          cat artifacts/content-production-audit.stderr.log >&2
+          echo "exit_code=$RC" >> "$GITHUB_OUTPUT"
+          exit 0
+
+      - name: Build publication-filtered candidate runtime in ephemeral output
+        id: candidate
+        shell: bash
+        run: |
+          set +e
+          node scripts/build-runtime-data.mjs --dry-run > artifacts/candidate-runtime.json 2> artifacts/candidate-runtime.stderr.log
+          RC=$?
+          cat artifacts/candidate-runtime.stderr.log >&2
+          echo "exit_code=$RC" >> "$GITHUB_OUTPUT"
+          exit 0
+
+      - name: Merge checks and write machine-readable readiness report
+        id: report
+        if: always()
+        env:
+          MASTER_HEAD: ${{ steps.master.outputs.master_head }}
+          MAIN_HEAD: ${{ steps.main.outputs.main_head }}
+          EXECUTION_SHA: ${{ steps.master.outputs.execution_sha }}
+          VALIDATION_RC: ${{ steps.validation.outputs.exit_code }}
+          AUDIT_RC: ${{ steps.audit.outputs.exit_code }}
+          CANDIDATE_RC: ${{ steps.candidate.outputs.exit_code }}
+        shell: bash
+        run: |
+          node <<'NODE'
+          const fs = require('fs');
+          const path = require('path');
+
+          const readJson = (file, fallback = null) => {
+            try { return JSON.parse(fs.readFileSync(file, 'utf8')); }
+            catch { return fallback; }
+          };
+          const listJson = dir => fs.existsSync(dir)
+            ? fs.readdirSync(dir).filter(name => name.endsWith('.json'))
+            : [];
+          const canonical = value => {
+            if (Array.isArray(value)) return value.map(canonical);
+            if (value && typeof value === 'object') {
+              return Object.fromEntries(Object.keys(value).sort().map(key => [key, canonical(value[key])]));
+            }
+            return value;
+          };
+          const same = (a, b) => JSON.stringify(canonical(a)) === JSON.stringify(canonical(b));
+          const ids = items => (items || []).map(item => item.id).sort();
+          const sameSet = (a, b) => JSON.stringify([...a].sort()) === JSON.stringify([...b].sort());
+
+          const publication = readJson('production/publication.json', { entries: [] });
+          const current = readJson('runtime/catalog.json', null);
+          const candidate = Number(process.env.CANDIDATE_RC || 1) === 0
+            ? readJson('artifacts/candidate-runtime.json', null)
+            : null;
+          const audit = readJson('artifacts/content-production-audit.json', { findings: [], inboxFiles: [] });
+          const config = readJson('production/_system/config.json', { activeRunStatuses: [] });
+
+          const findings = [];
+          const add = (severity, code, message, context = {}) => findings.push({ severity, code, message, ...context });
+          for (const finding of audit.findings || []) {
+            add(finding.code === 'FAILED_INBOX_PENDING' ? 'ERROR' : finding.severity, finding.code, finding.message, finding);
+          }
+
+          if (Number(process.env.VALIDATION_RC || 1) !== 0) {
+            add('ERROR', 'MASTER_VALIDATION_FAILED', 'scripts/validate-master-data.mjs returned a non-zero exit code');
+          }
+          if (Number(process.env.CANDIDATE_RC || 1) !== 0 || !candidate) {
+            add('ERROR', 'CANDIDATE_BUILD_FAILED', 'publication-filtered candidate runtime generation failed');
+          }
+          if (Number(process.env.AUDIT_RC || 0) !== 0 && !(audit.findings || []).some(f => f.severity === 'ERROR')) {
+            add('ERROR', 'CANDIDATE_BUILD_FAILED', 'CONTENT PRODUCTION audit returned non-zero without a readable ERROR finding');
+          }
+
+          const publishedIds = (publication.entries || []).filter(e => e.state === 'published').map(e => e.strainId).sort();
+          const pendingIds = (publication.entries || []).filter(e => e.state === 'pending').map(e => e.strainId).sort();
+          const currentIds = current ? ids(current.cultivars) : [];
+          const candidateIds = candidate ? ids(candidate.cultivars) : [];
+
+          if (!current) add('ERROR', 'RUNTIME_TARGET_MISSING', 'runtime/catalog.json is missing or unreadable');
+          if (current && !sameSet(currentIds, publishedIds)) {
+            add('ERROR', 'PUBLICATION_SET_MISMATCH', 'current runtime cultivar IDs differ from publication published IDs');
+          }
+          if (candidate && !sameSet(candidateIds, publishedIds)) {
+            add('ERROR', 'PUBLICATION_SET_MISMATCH', 'candidate runtime cultivar IDs differ from publication published IDs');
+          }
+          if (current && candidate && !sameSet(currentIds, candidateIds)) {
+            add('ERROR', 'PUBLICATION_SET_MISMATCH', 'current runtime cultivar IDs differ from candidate runtime cultivar IDs');
+          }
+          if (current && candidate && !same(current.cultivars, candidate.cultivars)) {
+            add('ERROR', 'RUNTIME_TARGET_MISSING', 'current cultivar payload differs from candidate cultivar payload');
+          }
+          if (current && candidate) {
+            const cv = Object.fromEntries((current.cultivars || []).map(c => [c.id, c.visuals || []]));
+            const nv = Object.fromEntries((candidate.cultivars || []).map(c => [c.id, c.visuals || []]));
+            if (!same(cv, nv)) add('ERROR', 'RUNTIME_VISUAL_MISMATCH', 'current visual references differ from candidate visual references');
+            if (!same(current.sources || {}, candidate.sources || {})) {
+              add('ERROR', 'PUBLICATION_SET_MISMATCH', 'current source closure differs from candidate source closure');
+            }
+            if (!same(current.entities || {}, candidate.entities || {})) {
+              add('ERROR', 'PUBLICATION_SET_MISMATCH', 'current entity closure differs from candidate entity closure');
+            }
+          }
+
+          const mainRoot = '.content-production-main-audit';
+          const forbiddenMainRoots = ['production', 'strains', 'sources', 'entities', 'stock', 'runtime', 'uploads'];
+          if (fs.existsSync(mainRoot)) {
+            const violations = forbiddenMainRoots.filter(name => fs.existsSync(path.join(mainRoot, name)));
+            if (violations.length) {
+              add('ERROR', 'MAIN_WRITE_VIOLATION', `main contains MASTER/production roots: ${violations.join(', ')}`, { paths: violations });
+            }
+          }
+
+          const activeStatuses = new Set(config.activeRunStatuses || []);
+          let activeRunCount = 0;
+          for (const name of listJson('production/runs')) {
+            const run = readJson(path.join('production/runs', name), null);
+            if (run && activeStatuses.has(run.status)) activeRunCount += 1;
+          }
+          const stockCount = listJson('stock/items').length;
+          const inboxFiles = fs.existsSync('uploads/images')
+            ? fs.readdirSync('uploads/images').filter(name => name !== '.gitkeep' && !name.startsWith('.'))
+            : [];
+          if (inboxFiles.length && !findings.some(f => f.code === 'FAILED_INBOX_PENDING')) {
+            add('ERROR', 'FAILED_INBOX_PENDING', `uploads/images contains ${inboxFiles.join(', ')}`);
+          }
+
+          const deduped = [];
+          const seen = new Set();
+          for (const finding of findings) {
+            const key = `${finding.severity}|${finding.code}|${finding.message}`;
+            if (!seen.has(key)) { seen.add(key); deduped.push(finding); }
+          }
+          const counts = { ERROR: 0, WARNING: 0, INFO: 0 };
+          for (const finding of deduped) counts[finding.severity] = (counts[finding.severity] || 0) + 1;
+          const codes = severity => [...new Set(deduped.filter(f => f.severity === severity).map(f => f.code))].sort();
+          const countCode = code => deduped.filter(f => f.code === code).length;
+
+          const publicIdsIdentical = current && candidate && sameSet(currentIds, candidateIds) && sameSet(currentIds, publishedIds);
+          const payloadIdentical = current && candidate
+            && same(current.cultivars, candidate.cultivars)
+            && same(current.sources || {}, candidate.sources || {})
+            && same(current.entities || {}, candidate.entities || {});
+          const mainViolationCount = countCode('MAIN_WRITE_VIOLATION') + countCode('MAIN_PRODUCTION_ASSET_VIOLATION');
+          const readiness = Number(process.env.VALIDATION_RC || 1) === 0
+            && Number(process.env.CANDIDATE_RC || 1) === 0
+            && counts.ERROR === 0
+            && inboxFiles.length === 0
+            && Boolean(publicIdsIdentical)
+            && Boolean(payloadIdentical)
+            && mainViolationCount === 0
+            ? 'GO' : 'NO-GO';
+
+          const report = {
+            system: 'CONTENT_PRODUCTION_V1',
+            reportVersion: 1,
+            dryRun: true,
+            generatedAt: new Date().toISOString(),
+            execution: {
+              eventSha: process.env.EXECUTION_SHA || null,
+              masterMigrationHead: process.env.MASTER_HEAD || null,
+              mainHead: process.env.MAIN_HEAD || null,
+              permissions: 'contents: read'
+            },
+            exitCodes: {
+              masterValidation: Number(process.env.VALIDATION_RC || 1),
+              contentProductionAudit: Number(process.env.AUDIT_RC || 1),
+              candidateBuild: Number(process.env.CANDIDATE_RC || 1)
+            },
+            counts,
+            codes: { ERROR: codes('ERROR'), WARNING: codes('WARNING'), INFO: codes('INFO') },
+            metrics: {
+              publicStrains: currentIds.length,
+              publicationPublished: publishedIds.length,
+              publicationPending: pendingIds.length,
+              stock: stockCount,
+              orphanPrimary: countCode('ORPHAN_PRIMARY'),
+              brokenPrimaryReference: countCode('BROKEN_PRIMARY_REFERENCE'),
+              publicationOrphan: countCode('ORPHAN_PUBLICATION_ENTRY'),
+              publicationMissing: countCode('MISSING_PUBLICATION_ENTRY'),
+              inboxResidue: inboxFiles.length,
+              activeRuns: activeRunCount,
+              candidateRuntimeCultivars: candidateIds.length,
+              currentRuntimeCultivars: currentIds.length,
+              currentSources: current ? Object.keys(current.sources || {}).length : 0,
+              candidateSources: candidate ? Object.keys(candidate.sources || {}).length : 0,
+              currentEntities: current ? Object.keys(current.entities || {}).length : 0,
+              candidateEntities: candidate ? Object.keys(candidate.entities || {}).length : 0
+            },
+            checks: {
+              publicIdSetIdentical: Boolean(publicIdsIdentical),
+              publicPayloadIdentical: Boolean(payloadIdentical),
+              inboxNormal: inboxFiles.length === 0,
+              mainProductionViolation: mainViolationCount > 0
+            },
+            sets: { publishedIds, pendingIds, currentIds, candidateIds },
+            findings: deduped,
+            readiness
+          };
+
+          fs.writeFileSync('artifacts/content-production-dry-run-report.json', JSON.stringify(report, null, 2) + '\n');
+
+          const codeText = arr => arr.length ? arr.join(', ') : 'none';
+          const summary = [
+            `# CONTENT PRODUCTION V1 BATCH READINESS: ${readiness}`,
+            '',
+            `**実行commit SHA:** ${report.execution.eventSha || 'unknown'}`,
+            `**master-migration HEAD:** ${report.execution.masterMigrationHead || 'unknown'}`,
+            `**main HEAD:** ${report.execution.mainHead || 'unknown'}`,
+            '',
+            '| Metric | Value |',
+            '|---|---:|',
+            `| public strain数 | ${report.metrics.publicStrains} |`,
+            `| publication published数 | ${report.metrics.publicationPublished} |`,
+            `| publication pending数 | ${report.metrics.publicationPending} |`,
+            `| STOCK数 | ${report.metrics.stock} |`,
+            `| ERROR数 | ${counts.ERROR} |`,
+            `| WARNING数 | ${counts.WARNING} |`,
+            `| INFO数 | ${counts.INFO} |`,
+            `| ORPHAN_PRIMARY数 | ${report.metrics.orphanPrimary} |`,
+            `| BROKEN_PRIMARY_REFERENCE数 | ${report.metrics.brokenPrimaryReference} |`,
+            `| publication orphan数 | ${report.metrics.publicationOrphan} |`,
+            `| publication missing数 | ${report.metrics.publicationMissing} |`,
+            `| Inbox残骸数 | ${report.metrics.inboxResidue} |`,
+            `| active RUN数 | ${report.metrics.activeRuns} |`,
+            `| candidate runtime cultivar数 | ${report.metrics.candidateRuntimeCultivars} |`,
+            `| current runtime cultivar数 | ${report.metrics.currentRuntimeCultivars} |`,
+            `| public ID集合一致 | ${report.checks.publicIdSetIdentical} |`,
+            `| source closure件数 | candidate ${report.metrics.candidateSources} / current ${report.metrics.currentSources} |`,
+            `| entity closure件数 | candidate ${report.metrics.candidateEntities} / current ${report.metrics.currentEntities} |`,
+            '',
+            `**ERROR codes:** ${codeText(report.codes.ERROR)}`,
+            '',
+            `**WARNING codes:** ${codeText(report.codes.WARNING)}`,
+            '',
+            `**INFO codes:** ${codeText(report.codes.INFO)}`,
+            '',
+            `## 最終判定: ${readiness}`
+          ].join('\n');
+          fs.appendFileSync(process.env.GITHUB_STEP_SUMMARY, summary + '\n');
+          console.log(summary);
+          console.log(`readiness=${readiness}`);
+          NODE
+
+      - name: Upload machine-readable dry run report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: content-production-dry-run-report
+          path: artifacts/content-production-dry-run-report.json
+          if-no-files-found: error
+          retention-days: 30
+
+      - name: Enforce GO or NO-GO exit code
+        if: always()
+        shell: bash
+        run: |
+          node -e "const r=require('./artifacts/content-production-dry-run-report.json'); console.log('CONTENT PRODUCTION V1 BATCH READINESS:', r.readiness); process.exit(r.readiness==='GO'?0:1)"
