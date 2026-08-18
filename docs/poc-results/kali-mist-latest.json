@@ -1,0 +1,40 @@
+{
+  "pocStatus": "FAIL",
+  "failureCode": "CONTENT_PRODUCTION_AUDIT_FAILED",
+  "provider": "AI Horde",
+  "runId": "content-production-20260818T060700Z-01",
+  "strainId": "kali-mist",
+  "manifestVersion": 1,
+  "revision": 1,
+  "attempt": 1,
+  "manifestSha256": "9a43eca63ca02bb5c3a24748c24021b69120bb70e62b6ec6d03bc2923f07221c",
+  "providerGenerationId": "a9032881-27a2-42ac-9c58-f585b0187ead",
+  "model": "ICBINP - I Can't Believe It's Not Photography",
+  "generationDurationSeconds": 83.3,
+  "sourceImageByteLength": 85164,
+  "sourceImageSha256": "021bf43f3e758b7408e13fc88e05c9a208f088f5a4bfc76b9dbd52db74d26847",
+  "width": 512,
+  "height": 768,
+  "artifactName": "image-poc-kali-mist-r1-a1-run32173055607-try1",
+  "artifactId": 9338024076,
+  "artifactUrl": "https://github.com/Blazea-x/strain-atlas/actions/runs/32173055607/artifacts/9338024076",
+  "artifactDigest": "4055721873a296dfea5935d8f5b9d06baf8df4eb63c8f6a5f811fbcb237526e7",
+  "stepOutcomes": {
+    "generation": "success",
+    "contentProductionAudit": "failure",
+    "masterValidator": "success",
+    "protectedCheck": "success",
+    "artifactUpload": "success"
+  },
+  "workflowRun": {
+    "id": 32173055607,
+    "attempt": 1,
+    "number": 3,
+    "sha": "16ab2b435e8b2be3d053abaa7125fd5faf073d27",
+    "ref": "refs/heads/master-migration"
+  },
+  "productionMutationCount": 0,
+  "mainMutationCount": 0,
+  "visualGate": "HUMAN_REVIEW_REQUIRED",
+  "recordedAt": "2026-08-18T18:49:59Z"
+}
