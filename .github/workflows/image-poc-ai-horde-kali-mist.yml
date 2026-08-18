@@ -10,7 +10,7 @@ on:
       - 'docs/IMAGE_PRODUCTION_V2_AI_HORDE_POC.md'
 
 permissions:
-  contents: read
+  contents: write
 
 env:
   POC_OUTPUT_DIR: poc-artifact
@@ -25,7 +25,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           ref: master-migration
-          persist-credentials: false
+          persist-credentials: true
           fetch-depth: 1
 
       - name: Assert branch and protected production baseline
@@ -129,6 +129,69 @@ jobs:
         run: |
           echo 'POC_FAILURE code=ARTIFACT_UPLOAD_FAILED message=actions/upload-artifact failed' >&2
           exit 1
+
+      - name: Write observable PoC receipt documentation
+        if: ${{ success() }}
+        env:
+          POC_REVISION: ${{ steps.generate.outputs.revision }}
+          POC_ATTEMPT: ${{ steps.generate.outputs.attempt }}
+          POC_GENERATION_ID: ${{ steps.generate.outputs.generation_id }}
+          POC_MODEL: ${{ steps.generate.outputs.model }}
+          POC_DURATION_SECONDS: ${{ steps.generate.outputs.duration_seconds }}
+          POC_BYTE_LENGTH: ${{ steps.generate.outputs.byte_length }}
+          POC_SHA256: ${{ steps.generate.outputs.sha256 }}
+          POC_WIDTH: ${{ steps.generate.outputs.width }}
+          POC_HEIGHT: ${{ steps.generate.outputs.height }}
+          POC_ARTIFACT_ID: ${{ steps.artifact.outputs.artifact-id }}
+          POC_ARTIFACT_URL: ${{ steps.artifact.outputs.artifact-url }}
+          POC_ARTIFACT_DIGEST: ${{ steps.artifact.outputs.artifact-digest }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p docs/poc-results
+          python - <<'PY'
+          import json, os
+          from datetime import datetime, timezone
+          from pathlib import Path
+          artifact_name = f"image-poc-kali-mist-r{os.environ['POC_REVISION']}-a{os.environ['POC_ATTEMPT']}-run{os.environ['GITHUB_RUN_ID']}-try{os.environ['GITHUB_RUN_ATTEMPT']}"
+          receipt = {
+              "pocStatus": "PASS",
+              "provider": "AI Horde",
+              "runId": "content-production-20260818T060700Z-01",
+              "strainId": "kali-mist",
+              "revision": int(os.environ["POC_REVISION"]),
+              "attempt": int(os.environ["POC_ATTEMPT"]),
+              "providerGenerationId": os.environ["POC_GENERATION_ID"],
+              "model": os.environ["POC_MODEL"],
+              "generationDurationSeconds": float(os.environ["POC_DURATION_SECONDS"]),
+              "sourceImageByteLength": int(os.environ["POC_BYTE_LENGTH"]),
+              "sourceImageSha256": os.environ["POC_SHA256"],
+              "width": int(os.environ["POC_WIDTH"]),
+              "height": int(os.environ["POC_HEIGHT"]),
+              "artifactName": artifact_name,
+              "artifactId": int(os.environ["POC_ARTIFACT_ID"]),
+              "artifactUrl": os.environ.get("POC_ARTIFACT_URL"),
+              "artifactDigest": os.environ.get("POC_ARTIFACT_DIGEST"),
+              "workflowRun": {
+                  "id": int(os.environ["GITHUB_RUN_ID"]),
+                  "attempt": int(os.environ["GITHUB_RUN_ATTEMPT"]),
+                  "number": int(os.environ["GITHUB_RUN_NUMBER"]),
+                  "sha": os.environ["GITHUB_SHA"],
+                  "ref": os.environ["GITHUB_REF"],
+              },
+              "productionMutationCount": 0,
+              "mainMutationCount": 0,
+              "visualGate": "HUMAN_REVIEW_REQUIRED",
+              "recordedAt": datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z"),
+          }
+          Path('docs/poc-results/kali-mist-latest.json').write_text(json.dumps(receipt, indent=2) + '\n', encoding='utf-8')
+          PY
+          git config user.name 'strain-atlas-image-poc-bot'
+          git config user.email 'actions@users.noreply.github.com'
+          git add -- docs/poc-results/kali-mist-latest.json
+          test -z "$(git status --porcelain -- strains production runtime UPLOAD_IMAGES_HERE)"
+          git commit -m '[IMAGE POC] Record Kali Mist AI Horde result'
+          git push origin HEAD:master-migration
 
       - name: Summarize successful PoC
         if: ${{ success() }}
