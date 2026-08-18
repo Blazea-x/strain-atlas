@@ -19,6 +19,40 @@ const strainFiles=()=>exists(path.join(ROOT,'strains'))?fs.readdirSync(path.join
 const norm=s=>String(s||'').normalize('NFKC').toLowerCase().replace(/[^a-z0-9]+/g,'');
 const sha256File=f=>crypto.createHash('sha256').update(fs.readFileSync(f)).digest('hex');
 const deepRefs=(v,out=new Set())=>{if(Array.isArray(v)){for(const x of v)deepRefs(x,out);return out}if(v&&typeof v==='object'){if(Array.isArray(v.sourceRefs))for(const x of v.sourceRefs)out.add(x);for(const x of Object.values(v))deepRefs(x,out)}return out};
+const VISUAL_PHASES=['STOCKED','DATA_READY','IMAGE_PENDING','IMAGE_READY','VISUAL_LINKED','PUBLISHED'];
+const phaseAtLeast=(phase,target)=>VISUAL_PHASES.indexOf(phase)>=VISUAL_PHASES.indexOf(target)&&VISUAL_PHASES.indexOf(phase)!==-1;
+function visualAuditPolicy(entry,phase){
+  const managed=entry?.origin==='content-production';
+  return {
+    manifestRequired:managed&&phaseAtLeast(phase,'IMAGE_PENDING'),
+    imageReadyRequired:managed&&phaseAtLeast(phase,'IMAGE_READY'),
+    primaryLinkageRequired:managed&&(entry?.state==='published'||phaseAtLeast(phase,'VISUAL_LINKED'))
+  };
+}
+function regressionCheckVisualPhaseGates(){
+  const fixtureCodes=({entry,phase,primaryCount,metadataOk=true,brokenPrimary=false,orphanPrimary=false})=>{
+    const policy=visualAuditPolicy(entry,phase);
+    const codes=[];
+    if(policy.primaryLinkageRequired&&primaryCount!==1)codes.push('PRIMARY_COUNT_INVALID');
+    if(policy.primaryLinkageRequired&&primaryCount===1&&!metadataOk)codes.push('VISUAL_METADATA_MISMATCH');
+    if(brokenPrimary)codes.push('BROKEN_PRIMARY_REFERENCE');
+    if(orphanPrimary)codes.push('ORPHAN_PRIMARY');
+    return codes;
+  };
+  const cpPending={origin:'content-production',state:'pending'};
+  const grandfathered={origin:'grandfathered',state:'published'};
+  const A=fixtureCodes({entry:cpPending,phase:'IMAGE_PENDING',primaryCount:0});
+  const B=fixtureCodes({entry:cpPending,phase:'VISUAL_LINKED',primaryCount:0});
+  const C=fixtureCodes({entry:cpPending,phase:'VISUAL_LINKED',primaryCount:1,metadataOk:true});
+  const D=fixtureCodes({entry:grandfathered,phase:null,primaryCount:1,brokenPrimary:true});
+  const E=fixtureCodes({entry:grandfathered,phase:null,primaryCount:1,orphanPrimary:true});
+  if(A.includes('PRIMARY_COUNT_INVALID'))throw new Error('visual regression A: IMAGE_PENDING visuals=[] must not require primary linkage');
+  if(!B.includes('PRIMARY_COUNT_INVALID'))throw new Error('visual regression B: VISUAL_LINKED visuals=[] must fail primary linkage');
+  if(C.includes('PRIMARY_COUNT_INVALID')||C.includes('VISUAL_METADATA_MISMATCH'))throw new Error('visual regression C: valid VISUAL_LINKED primary must pass linkage audit');
+  if(!D.includes('BROKEN_PRIMARY_REFERENCE'))throw new Error('visual regression D: broken published primary must remain blocking');
+  if(!E.includes('ORPHAN_PRIMARY'))throw new Error('visual regression E: orphan published primary must remain blocking');
+}
+regressionCheckVisualPhaseGates();
 function loadUnique(files,kind){const map=new Map();for(const f of files){let x;try{x=readJson(f)}catch(e){add(kind==='strain'?'DUPLICATE_STRAIN_ID':kind==='source'?'SOURCE_ID_CONFLICT':'ENTITY_ID_CONFLICT',`cannot parse ${f}: ${e.message}`);continue}if(map.has(x.id))add(kind==='strain'?'DUPLICATE_STRAIN_ID':kind==='source'?'SOURCE_ID_CONFLICT':'ENTITY_ID_CONFLICT',`duplicate ${kind} id ${x.id}`,{files:[map.get(x.id).__file,f]});x.__file=f;map.set(x.id,x)}return map}
 const strains=loadUnique(strainFiles(),'strain');
 const sources=loadUnique(jsonFiles(path.join(ROOT,'sources')),'source');
@@ -40,21 +74,39 @@ for(const s of strains.values()){
 const urls=new Map();for(const s of sources.values()){const u=String(s.url||'').trim();if(!u)continue;if(urls.has(u)&&urls.get(u)!==s.id)add('SOURCE_URL_DUPLICATE',`${s.id} and ${urls.get(u)} share URL`,{url:u});else urls.set(u,s.id)}
 const entityNames=new Map();for(const e of entities.values()){const n=norm(e.canonicalName||e.name);if(!n)continue;if(entityNames.has(n)&&entityNames.get(n)!==e.id)add('ENTITY_DUPLICATE_REVIEW',`${e.id} and ${entityNames.get(n)} share normalized canonicalName/name`);else entityNames.set(n,e.id)}
 const runFiles=jsonFiles(path.join(ROOT,'production/runs'));
-const active=new Set(CONFIG.activeRunStatuses);const activeStrains=new Map(),activeStocks=new Map(),activeBlobs=new Map();
+const active=new Set(CONFIG.activeRunStatuses);const activeStrains=new Map(),activeStocks=new Map(),activeBlobs=new Map();const runItems=new Map();
 for(const f of runFiles){let run;try{run=readJson(f)}catch(e){add('RUN_RECORD_STALE',`run unreadable ${f}: ${e.message}`);continue}if(run.schemaVersion!==1||run.runVersion!==1){add('UNSUPPORTED_SCHEMA_VERSION',`${f} has unsupported run version`);continue}
-  for(const item of run.items||[]){if(item.audit?.some(a=>a.fromPhase&&a.toPhase)){for(const a of item.audit){if(a.fromPhase&&a.toPhase&&!validatePhaseTransition(a.fromPhase,a.toPhase,a.previousStablePhase).ok)add('INVALID_PHASE_TRANSITION',`${run.runId}/${item.strainId}: ${a.fromPhase} -> ${a.toPhase}`)}}
+  for(const item of run.items||[]){runItems.set(`${run.runId}\u0000${item.strainId}`,{run,item});if(item.audit?.some(a=>a.fromPhase&&a.toPhase)){for(const a of item.audit){if(a.fromPhase&&a.toPhase&&!validatePhaseTransition(a.fromPhase,a.toPhase,a.previousStablePhase).ok)add('INVALID_PHASE_TRANSITION',`${run.runId}/${item.strainId}: ${a.fromPhase} -> ${a.toPhase}`)}}
     if(active.has(run.status)){if(activeStrains.has(item.strainId))add('ACTIVE_RUN_CONFLICT',`${item.strainId} active in ${activeStrains.get(item.strainId)} and ${run.runId}`);else activeStrains.set(item.strainId,run.runId);if(item.sourceStockPath){if(activeStocks.has(item.sourceStockPath))add('ACTIVE_STOCK_CONFLICT',`${item.sourceStockPath} active in multiple runs`);else activeStocks.set(item.sourceStockPath,run.runId)}if(item.sourceStockBlobSha){if(activeBlobs.has(item.sourceStockBlobSha))add('ACTIVE_STOCK_CONFLICT',`${item.sourceStockBlobSha} active in multiple runs`);else activeBlobs.set(item.sourceStockBlobSha,run.runId)}}
     if(item.productionStrainPath&&!exists(path.join(ROOT,item.productionStrainPath))&&item.productionPhase!=='STOCKED')add('PRODUCTION_STRAIN_MISSING',`${run.runId}/${item.strainId} expected ${item.productionStrainPath}`);
   }}
 const stocks=jsonFiles(path.join(ROOT,'stock/items'));const stockIds=[];const promoted=[];
 for(const f of stocks){const id=path.basename(f,'.json');stockIds.push(id);if(strains.has(id)){promoted.push(id);add('ALREADY_PROMOTED_STOCK',`${id} exists in STOCK and MASTER; allowed history, exclude from new promotion`,{sourceStockPath:path.relative(ROOT,f)})}}
 const manifests=new Map();for(const f of jsonFiles(path.join(ROOT,'production/manifests'))){let m;try{m=readJson(f)}catch(e){add('IMAGE_MANIFEST_MISMATCH',`manifest unreadable ${f}: ${e.message}`);continue}if(m.schemaVersion!==1||m.manifestVersion!==1){add('UNSUPPORTED_SCHEMA_VERSION',`${f} has unsupported manifest version`);continue}manifests.set(m.manifestId,m);if(m.visualPreparationHash!==visualPreparationHash({promptSnapshot:m.promptSnapshot,evidenceSnapshot:m.evidenceSnapshot,visualMetadataSnapshot:m.visualMetadataSnapshot}))add('IMAGE_MANIFEST_MISMATCH',`${m.manifestId} visualPreparationHash mismatch`);if(m.approvalStatus==='approved'&&!approvalMatches(m))add('STALE_IMAGE_ATTEMPT',`${m.manifestId} approval is not bound to current revision/attempt`)}
+const latestManifestFor=id=>[...manifests.values()].filter(x=>x.strainId===id).sort((a,b)=>b.revision-a.revision||b.attempt-a.attempt)[0];
 for(const s of strains.values()){
-  const prim=(s.visuals||[]).filter(v=>v.role==='primary');const entry=pub.get(s.id);const strict=entry?.origin==='content-production';
-  if(strict&&prim.length!==1)add('PRIMARY_COUNT_INVALID',`${s.id} has ${prim.length} primary visuals`);
+  const prim=(s.visuals||[]).filter(v=>v.role==='primary');const entry=pub.get(s.id);const runItem=entry?.introducedByRun?runItems.get(`${entry.introducedByRun}\u0000${s.id}`):null;const phase=runItem?.item?.productionPhase||null;const policy=visualAuditPolicy(entry,phase);
+  if(entry?.origin==='content-production'&&entry.introducedByRun&&!runItem)add('RUN_RECORD_STALE',`${s.id} publication points to missing RUN item ${entry.introducedByRun}`);
+  if(policy.primaryLinkageRequired&&prim.length!==1)add('PRIMARY_COUNT_INVALID',`${s.id} has ${prim.length} primary visuals`,{productionPhase:phase});
   for(const v of prim){const fp=path.join(ROOT,String(v.src||'').split(/[?#]/)[0]);if(!/^https?:\/\//.test(v.src||'')&&!exists(fp))add('BROKEN_PRIMARY_REFERENCE',`${s.id} primary missing: ${v.src}`)}
-  const standard=path.join(ROOT,'strains',s.id,'images/generated/primary.webp');if(exists(standard)&&!prim.some(v=>String(v.src||'').split(/[?#]/)[0]===`strains/${s.id}/images/generated/primary.webp`))add('ORPHAN_PRIMARY',`${s.id} has primary.webp not referenced by visuals`);
-  if(strict&&prim.length===1){const m=[...manifests.values()].filter(x=>x.strainId===s.id).sort((a,b)=>b.revision-a.revision||b.attempt-a.attempt)[0];if(!m)add('IMAGE_MANIFEST_MISMATCH',`${s.id} content-production visual has no manifest`);else{if(prim[0].src!==m.expectedPrimaryPath)add('VISUAL_METADATA_MISMATCH',`${s.id} primary src differs from manifest`);for(const k of ['alt','rights','scope','aiGenerated','sourceType'])if(prim[0][k]!==m.visualMetadataSnapshot?.[k])add('VISUAL_METADATA_MISMATCH',`${s.id} visual ${k} differs from manifest`);if(!m.imageInboxCommit)add('IMAGE_INBOX_COMMIT_MISSING',`${m.manifestId} imageInboxCommit missing`);if(!m.imageProcessingCommit)add('IMAGE_PROCESSING_COMMIT_MISSING',`${m.manifestId} imageProcessingCommit missing`);const fp=path.join(ROOT,m.expectedPrimaryPath||'');if(!exists(fp))add('IMAGE_FILE_MISSING',`${m.manifestId} primary file missing`);else{const b=fs.readFileSync(fp);if(b.length<12||b.subarray(0,4).toString()!=='RIFF'||b.subarray(8,12).toString()!=='WEBP')add('INVALID_WEBP_SIGNATURE',`${m.manifestId} primary is not RIFF/WEBP`);if(m.processedPrimarySha256&&sha256File(fp)!==m.processedPrimarySha256)add('IMAGE_DIGEST_MISMATCH',`${m.manifestId} processed digest mismatch`)}}}
+  const standardSrc=`strains/${s.id}/images/generated/primary.webp`;const standard=path.join(ROOT,standardSrc);if(exists(standard)&&!prim.some(v=>String(v.src||'').split(/[?#]/)[0]===standardSrc))add('ORPHAN_PRIMARY',`${s.id} has primary.webp not referenced by visuals`);
+  const m=runItem?.item?.manifestId?manifests.get(runItem.item.manifestId):latestManifestFor(s.id);
+  if(policy.manifestRequired&&!m)add('IMAGE_MANIFEST_MISMATCH',`${s.id} ${phase} requires an image manifest`);
+  if(m&&entry?.origin==='content-production'&&m.strainId!==s.id)add('IMAGE_MANIFEST_MISMATCH',`${s.id} manifest strainId mismatch`);
+  if(policy.imageReadyRequired&&m){
+    if(!approvalMatches(m))add('IMAGE_MANIFEST_MISMATCH',`${m.manifestId} ${phase} requires approval bound to current revision/attempt`);
+    if(!m.imageInboxCommit)add('IMAGE_INBOX_COMMIT_MISSING',`${m.manifestId} imageInboxCommit missing`);
+    if(!m.imageProcessingCommit)add('IMAGE_PROCESSING_COMMIT_MISSING',`${m.manifestId} imageProcessingCommit missing`);
+    if(!m.processedPrimaryBlobSha)add('IMAGE_MANIFEST_MISMATCH',`${m.manifestId} processedPrimaryBlobSha missing`);
+    if(!m.processedPrimarySha256)add('IMAGE_MANIFEST_MISMATCH',`${m.manifestId} processedPrimarySha256 missing`);
+    if(!(Number.isInteger(m.width)&&m.width>0&&Number.isInteger(m.height)&&m.height>0))add('INVALID_IMAGE_DIMENSIONS',`${m.manifestId} processed dimensions missing or invalid`);
+    const fp=path.join(ROOT,m.expectedPrimaryPath||'');
+    if(!exists(fp))add('IMAGE_FILE_MISSING',`${m.manifestId} primary file missing`);else{const b=fs.readFileSync(fp);if(b.length<12||b.subarray(0,4).toString()!=='RIFF'||b.subarray(8,12).toString()!=='WEBP')add('INVALID_WEBP_SIGNATURE',`${m.manifestId} primary is not RIFF/WEBP`);if(m.processedPrimarySha256&&sha256File(fp)!==m.processedPrimarySha256)add('IMAGE_DIGEST_MISMATCH',`${m.manifestId} processed digest mismatch`)}
+  }
+  if(policy.primaryLinkageRequired&&prim.length===1&&m){
+    if(prim[0].src!==m.expectedPrimaryPath)add('VISUAL_METADATA_MISMATCH',`${s.id} primary src differs from manifest`);
+    for(const k of ['alt','rights','scope','aiGenerated','sourceType'])if(prim[0][k]!==m.visualMetadataSnapshot?.[k])add('VISUAL_METADATA_MISMATCH',`${s.id} visual ${k} differs from manifest`);
+  }
 }
 const inbox=path.join(ROOT,'uploads/images');const inboxFiles=exists(inbox)?fs.readdirSync(inbox).filter(n=>n!=='.gitkeep'&&!n.startsWith('.')):[];if(inboxFiles.length)add('FAILED_INBOX_PENDING',`uploads/images contains ${inboxFiles.join(', ')}`);
 let candidate=null,current=null,runtimeDiff={cultivarIds:[],cultivars:false,visuals:false,sources:false,entities:false,currentOnlySourceIds:[],candidateOnlySourceIds:[],sourcePayloadMismatches:[]};
