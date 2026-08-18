@@ -1,0 +1,235 @@
+{
+  "test": "AI_HORDE_POC_TEST_2",
+  "imageGenerationTest2Result": "PASS",
+  "generationPipeline": "PASS",
+  "failureCode": null,
+  "existingProductionAuditResult": "failure",
+  "provider": "AI Horde",
+  "runId": "content-production-20260818T060700Z-01",
+  "strainId": "kali-mist",
+  "revision": 1,
+  "attempt": 1,
+  "manifestSha256": "9a43eca63ca02bb5c3a24748c24021b69120bb70e62b6ec6d03bc2923f07221c",
+  "visualPreparationHash": "0c038a0ae42544a1137574a7635255424937c06684cd6240931ac1d8ce27011d",
+  "promptSnapshotSha256": "2cf6b148e115d1e7db84f53041e831610eeaff6ce4318d385fafdc575f276dca",
+  "evidenceSnapshotSha256": "c7e5733e7c27d474c6fe5e9a12d2384b0a5fb750c9f3deb278d1728dab173c54",
+  "generationProfileVersion": "csw-generation-profile-test2-v1",
+  "generationProfileSha256": "776295a7274c6934d993204bbd6a93421e0126315f70e0ec43d0b3b77ad25fa3",
+  "negativePromptSha256": "066dfb1d7fd7206ca5e91159d960dbb2b5c3fac672ba44c8f10a3fbf6711384a",
+  "finalProviderPromptSha256": "66acb8021a5ab5c68fe200da08cae69af51e712afb5284449bfc5b1753e524be",
+  "model": "ICBINP - I Can't Believe It's Not Photography",
+  "sampler": "k_euler_a",
+  "steps": 24,
+  "seed": "3097695898",
+  "providerGenerationId": "6227ae79-d4a2-47a7-8611-9f2f50592fbd",
+  "jobId": "3b4ce419-a237-4df8-9a47-4f73c3bd9689",
+  "workerId": "1d8f2e28-665b-4bbd-b087-640f1532ef7f",
+  "workerName": "squeeko",
+  "generationElapsedSeconds": 123.7,
+  "actualImageByteLength": 60774,
+  "actualImageSha256": "c005683baeb141435dd265b805f152015188765fa4a064d842c4bcf192379ee5",
+  "decodedDimensions": {
+    "width": 512,
+    "height": 768
+  },
+  "http": [
+    {
+      "label": "heartbeat",
+      "method": "GET",
+      "status": 200,
+      "contentType": "application/json; charset=utf-8"
+    },
+    {
+      "label": "modes",
+      "method": "GET",
+      "status": 200,
+      "contentType": "application/json; charset=utf-8"
+    },
+    {
+      "label": "models",
+      "method": "GET",
+      "status": 200,
+      "contentType": "application/json; charset=utf-8"
+    },
+    {
+      "label": "generate-async",
+      "method": "POST",
+      "status": 202,
+      "contentType": "application/json; charset=utf-8"
+    },
+    {
+      "label": "generate-check",
+      "method": "GET",
+      "status": 200,
+      "contentType": "application/json; charset=utf-8"
+    },
+    {
+      "label": "generate-check",
+      "method": "GET",
+      "status": 200,
+      "contentType": "application/json; charset=utf-8"
+    },
+    {
+      "label": "generate-check",
+      "method": "GET",
+      "status": 200,
+      "contentType": "application/json; charset=utf-8"
+    },
+    {
+      "label": "generate-check",
+      "method": "GET",
+      "status": 200,
+      "contentType": "application/json; charset=utf-8"
+    },
+    {
+      "label": "generate-check",
+      "method": "GET",
+      "status": 200,
+      "contentType": "application/json; charset=utf-8"
+    },
+    {
+      "label": "generate-check",
+      "method": "GET",
+      "status": 200,
+      "contentType": "application/json; charset=utf-8"
+    },
+    {
+      "label": "generate-check",
+      "method": "GET",
+      "status": 200,
+      "contentType": "application/json; charset=utf-8"
+    },
+    {
+      "label": "generate-check",
+      "method": "GET",
+      "status": 200,
+      "contentType": "application/json; charset=utf-8"
+    },
+    {
+      "label": "generate-check",
+      "method": "GET",
+      "status": 200,
+      "contentType": "application/json; charset=utf-8"
+    },
+    {
+      "label": "generate-check",
+      "method": "GET",
+      "status": 200,
+      "contentType": "application/json; charset=utf-8"
+    },
+    {
+      "label": "generate-check",
+      "method": "GET",
+      "status": 200,
+      "contentType": "application/json; charset=utf-8"
+    },
+    {
+      "label": "generate-check",
+      "method": "GET",
+      "status": 200,
+      "contentType": "application/json; charset=utf-8"
+    },
+    {
+      "label": "generate-check",
+      "method": "GET",
+      "status": 200,
+      "contentType": "application/json; charset=utf-8"
+    },
+    {
+      "label": "generate-check",
+      "method": "GET",
+      "status": 200,
+      "contentType": "application/json; charset=utf-8"
+    },
+    {
+      "label": "generate-check",
+      "method": "GET",
+      "status": 200,
+      "contentType": "application/json; charset=utf-8"
+    },
+    {
+      "label": "generate-check",
+      "method": "GET",
+      "status": 200,
+      "contentType": "application/json; charset=utf-8"
+    },
+    {
+      "label": "generate-check",
+      "method": "GET",
+      "status": 200,
+      "contentType": "application/json; charset=utf-8"
+    },
+    {
+      "label": "generate-check",
+      "method": "GET",
+      "status": 200,
+      "contentType": "application/json; charset=utf-8"
+    },
+    {
+      "label": "generate-check",
+      "method": "GET",
+      "status": 200,
+      "contentType": "application/json; charset=utf-8"
+    },
+    {
+      "label": "generate-check",
+      "method": "GET",
+      "status": 200,
+      "contentType": "application/json; charset=utf-8"
+    },
+    {
+      "label": "generate-check",
+      "method": "GET",
+      "status": 200,
+      "contentType": "application/json; charset=utf-8"
+    },
+    {
+      "label": "generate-check",
+      "method": "GET",
+      "status": 200,
+      "contentType": "application/json; charset=utf-8"
+    },
+    {
+      "label": "generate-check",
+      "method": "GET",
+      "status": 200,
+      "contentType": "application/json; charset=utf-8"
+    },
+    {
+      "label": "generate-check",
+      "method": "GET",
+      "status": 200,
+      "contentType": "application/json; charset=utf-8"
+    },
+    {
+      "label": "generate-status",
+      "method": "GET",
+      "status": 200,
+      "contentType": "application/json; charset=utf-8"
+    }
+  ],
+  "artifactName": "image-poc-test2-kali-mist-r1-a1-run32175245066-try1",
+  "artifactId": 9338828769,
+  "artifactUrl": "https://github.com/Blazea-x/strain-atlas/actions/runs/32175245066/artifacts/9338828769",
+  "artifactDigest": "372ba87683b02b382279b2fd65b925bcce7e74f54d984b5deae3dc900f41db8c",
+  "artifactRetentionDays": 14,
+  "productionMutationCount": 0,
+  "mainMutationCount": 0,
+  "visualAssessment": "HUMAN_VISUAL_REVIEW_REQUIRED",
+  "productionPromotion": "NOT_PERFORMED",
+  "stepOutcomes": {
+    "generation": "success",
+    "contentProductionAudit": "failure",
+    "masterValidator": "success",
+    "protectedCheck": "success",
+    "artifactUpload": "success"
+  },
+  "workflowRun": {
+    "id": 32175245066,
+    "attempt": 1,
+    "number": 1,
+    "sha": "64028d2cbff697257a56893898d7058c7325e2d1",
+    "ref": "refs/heads/master-migration"
+  },
+  "recordedAt": "2026-08-18T19:14:02Z"
+}
