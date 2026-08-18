@@ -360,19 +360,6 @@ window.SOURCES={
       "lineage"
     ]
   },
-  "leafly-og-kush": {
-    "name": "Leafly — OG Kush",
-    "url": "https://www.leafly.com/strains/og-kush",
-    "type": "specialist",
-    "typeLabel": "専門資料",
-    "checked": "2026-08-14",
-    "supports": [
-      "aliases",
-      "lineage",
-      "aromas",
-      "terpenes"
-    ]
-  },
   "leafly-strawberry-banana": {
     "name": "Leafly — Strawberry Banana",
     "url": "https://www.leafly.com/strains/strawberry-banana",
@@ -399,17 +386,6 @@ window.SOURCES={
       "history",
       "aliases",
       "aromas"
-    ]
-  },
-  "leafly-wedding-cake-history": {
-    "name": "Leafly — Top Wedding Cake strains",
-    "url": "https://www.leafly.com/news/strains-products/top-wedding-cake-strains-all-time",
-    "type": "specialistArticle",
-    "typeLabel": "資料",
-    "checked": "2026-08-14",
-    "supports": [
-      "breeder",
-      "history"
     ]
   },
   "leafly-wedding-cake": {

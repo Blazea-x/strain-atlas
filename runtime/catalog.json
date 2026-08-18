@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-18T00:22:01.916Z",
+  "generatedAt": "2026-08-18T04:29:28.986Z",
   "sourceOfTruth": {
     "cultivars": "strains/<id>/strain.json",
     "sources": "sources/*.json",
@@ -8,7 +8,7 @@
   },
   "counts": {
     "cultivars": 16,
-    "sources": 38,
+    "sources": 36,
     "entities": 11
   },
   "explore": {
@@ -2186,23 +2186,6 @@
       "checkedAt": "2026-08-14",
       "note": "Migrated from legacy sources.js without adding new claims."
     },
-    "leafly-og-kush": {
-      "schemaVersion": 1,
-      "id": "leafly-og-kush",
-      "publisher": "Leafly",
-      "title": "OG Kush",
-      "url": "https://www.leafly.com/strains/og-kush",
-      "sourceType": "specialistDatabase",
-      "supports": [
-        "aliases",
-        "lineage",
-        "aromas",
-        "terpenes"
-      ],
-      "publishedAt": null,
-      "checkedAt": "2026-08-14",
-      "note": "Migrated from legacy sources.js without adding new claims."
-    },
     "leafly-strawberry-banana": {
       "schemaVersion": 1,
       "id": "leafly-strawberry-banana",
@@ -2238,21 +2221,6 @@
       "publishedAt": "2019-12-13",
       "checkedAt": "2026-08-16",
       "note": "Leafly reports that breeder J Beezy of Seed Junky Genetics listed Wedding Cake as a phenotype of Triangle Mints, while noting the older GSC x Cherry Pie belief. Secondary specialist source; breeder's original Instagram post was not directly archived here."
-    },
-    "leafly-wedding-cake-history": {
-      "schemaVersion": 1,
-      "id": "leafly-wedding-cake-history",
-      "publisher": "Leafly",
-      "title": "Top Wedding Cake strains",
-      "url": "https://www.leafly.com/news/strains-products/top-wedding-cake-strains-all-time",
-      "sourceType": "specialistArticle",
-      "supports": [
-        "breeder",
-        "history"
-      ],
-      "publishedAt": null,
-      "checkedAt": "2026-08-14",
-      "note": "Migrated from legacy sources.js without adding new claims."
     },
     "leafly-wedding-cake": {
       "schemaVersion": 1,
