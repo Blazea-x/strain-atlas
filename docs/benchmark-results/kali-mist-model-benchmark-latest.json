@@ -1,0 +1,221 @@
+{
+  "benchmarkStatus": "COMPLETE",
+  "humanModelSelection": "REQUIRED",
+  "productionPromotion": "NOT PERFORMED",
+  "productionMutationCount": 0,
+  "mainMutationCount": 0,
+  "runId": 32177872658,
+  "artifactName": "kali-mist-model-benchmark-32177872658",
+  "models": [
+    "ICBINP - I Can't Believe It's Not Photography",
+    "Photon",
+    "majicMIX realistic",
+    "ICBINP XL",
+    "Woop-Woop Photo"
+  ],
+  "manifestRevision": 1,
+  "attempt": 1,
+  "visualPreparationHash": "0c038a0ae42544a1137574a7635255424937c06684cd6240931ac1d8ce27011d",
+  "results": [
+    {
+      "model": "ICBINP - I Can't Believe It's Not Photography",
+      "modelIndex": 1,
+      "seedIndex": 1,
+      "seedRequested": 104729,
+      "gid": "2b692a14-6c1e-46ac-b180-54c85df35d9a",
+      "status": "success",
+      "file": "model-01__ICBINP_-_I_Can_t_Believe_It_s_Not_Photography__seed-1__104729.webp",
+      "modelReturned": "ICBINP - I Can't Believe It's Not Photography",
+      "seedReturned": "104729",
+      "providerGenerationId": "2b692a14-6c1e-46ac-b180-54c85df35d9a",
+      "jobId": "34db169e-4b0d-4713-b73f-3c7d1645a8b5",
+      "elapsedSeconds": 47.5,
+      "byteLength": 71380,
+      "sha256": "d0f022c96203b4a35384871de4090431bb10b5beb0de5a05ef3b01b010ca3ed8",
+      "dimensions": {
+        "width": 512,
+        "height": 768
+      }
+    },
+    {
+      "model": "ICBINP - I Can't Believe It's Not Photography",
+      "modelIndex": 1,
+      "seedIndex": 2,
+      "seedRequested": 130363,
+      "gid": "da2bfe70-ab6b-44dc-b3d4-3230c8419c0c",
+      "status": "success",
+      "file": "model-01__ICBINP_-_I_Can_t_Believe_It_s_Not_Photography__seed-2__130363.webp",
+      "modelReturned": "ICBINP - I Can't Believe It's Not Photography",
+      "seedReturned": "130363",
+      "providerGenerationId": "da2bfe70-ab6b-44dc-b3d4-3230c8419c0c",
+      "jobId": "dd4eb0a1-e23f-4869-8dfa-63a78e485015",
+      "elapsedSeconds": 46.1,
+      "byteLength": 72418,
+      "sha256": "98dff960ba4223996e59be3d6b105bb4ee819857d4528e153842526a3deb0dee",
+      "dimensions": {
+        "width": 512,
+        "height": 768
+      }
+    },
+    {
+      "model": "Photon",
+      "modelIndex": 2,
+      "seedIndex": 1,
+      "seedRequested": 105729,
+      "gid": "2f94fbb6-47ef-4f63-9ede-74513e10ddef",
+      "status": "success",
+      "file": "model-02__Photon__seed-1__105729.webp",
+      "modelReturned": "Photon",
+      "seedReturned": "105729",
+      "providerGenerationId": "2f94fbb6-47ef-4f63-9ede-74513e10ddef",
+      "jobId": "47b9c1a1-e1d4-40b0-8709-21bae4d194c4",
+      "elapsedSeconds": 62.6,
+      "byteLength": 78470,
+      "sha256": "7ca78401cce6023f041d69bac18420ba9207d5387fea93019de2bb4c94933755",
+      "dimensions": {
+        "width": 512,
+        "height": 768
+      }
+    },
+    {
+      "model": "Photon",
+      "modelIndex": 2,
+      "seedIndex": 2,
+      "seedRequested": 131363,
+      "gid": "7456589c-45f3-4d3c-a5cd-860225b00ef9",
+      "status": "success",
+      "file": "model-02__Photon__seed-2__131363.webp",
+      "modelReturned": "Photon",
+      "seedReturned": "131363",
+      "providerGenerationId": "7456589c-45f3-4d3c-a5cd-860225b00ef9",
+      "jobId": "e3b1a4ec-5a4b-476e-afc0-74b6c9c34350",
+      "elapsedSeconds": 65.9,
+      "byteLength": 78542,
+      "sha256": "f33d6eee34355ca62706540521402b14cee433bfe23f2702aa1fa36bdb9288ab",
+      "dimensions": {
+        "width": 512,
+        "height": 768
+      }
+    },
+    {
+      "model": "majicMIX realistic",
+      "modelIndex": 3,
+      "seedIndex": 1,
+      "seedRequested": 106729,
+      "gid": "39547190-552f-4e34-bb5e-08466ee7e94c",
+      "status": "success",
+      "file": "model-03__majicMIX_realistic__seed-1__106729.webp",
+      "modelReturned": "majicMIX realistic",
+      "seedReturned": "106729",
+      "providerGenerationId": "39547190-552f-4e34-bb5e-08466ee7e94c",
+      "jobId": "3aad59bd-6bcb-4638-8f2b-f0aa73cddc4c",
+      "elapsedSeconds": 86.0,
+      "byteLength": 97656,
+      "sha256": "6948348fa190245e3db7bb5ebcdfe16e2e03a9881a2cb84cb41649724d4eea0c",
+      "dimensions": {
+        "width": 512,
+        "height": 768
+      }
+    },
+    {
+      "model": "majicMIX realistic",
+      "modelIndex": 3,
+      "seedIndex": 2,
+      "seedRequested": 132363,
+      "gid": "034be9b8-e4b6-4027-a448-d985b08147f6",
+      "status": "success",
+      "file": "model-03__majicMIX_realistic__seed-2__132363.webp",
+      "modelReturned": "majicMIX realistic",
+      "seedReturned": "132363",
+      "providerGenerationId": "034be9b8-e4b6-4027-a448-d985b08147f6",
+      "jobId": "ad2fb702-eacd-4320-bfa9-848dc0902c19",
+      "elapsedSeconds": 96.7,
+      "byteLength": 88552,
+      "sha256": "719afc2dcc6ab1b5e00cf377b9334d58f8cf787607164bfab03867e90d2aa745",
+      "dimensions": {
+        "width": 512,
+        "height": 768
+      }
+    },
+    {
+      "model": "ICBINP XL",
+      "modelIndex": 4,
+      "seedIndex": 1,
+      "seedRequested": 107729,
+      "gid": "133aaabf-80ff-47c9-9626-aa54f3d94cc6",
+      "status": "success",
+      "file": "model-04__ICBINP_XL__seed-1__107729.webp",
+      "modelReturned": "ICBINP XL",
+      "seedReturned": "107729",
+      "providerGenerationId": "133aaabf-80ff-47c9-9626-aa54f3d94cc6",
+      "jobId": "50c49932-fd0e-4dbc-9479-cff5ec2bba96",
+      "elapsedSeconds": 106.0,
+      "byteLength": 23092,
+      "sha256": "d2a0946aab7c4454ebf3df331e2278c9548cf2eaaffaa2d57126ae4a28864f9d",
+      "dimensions": {
+        "width": 512,
+        "height": 512
+      }
+    },
+    {
+      "model": "ICBINP XL",
+      "modelIndex": 4,
+      "seedIndex": 2,
+      "seedRequested": 133363,
+      "gid": "4658e6c3-e33c-4ce7-a13a-8c6c1a85b2f0",
+      "status": "success",
+      "file": "model-04__ICBINP_XL__seed-2__133363.webp",
+      "modelReturned": "ICBINP XL",
+      "seedReturned": "133363",
+      "providerGenerationId": "4658e6c3-e33c-4ce7-a13a-8c6c1a85b2f0",
+      "jobId": "68b20f65-e564-42e1-b234-3d276ed951a3",
+      "elapsedSeconds": 115.0,
+      "byteLength": 23092,
+      "sha256": "d2a0946aab7c4454ebf3df331e2278c9548cf2eaaffaa2d57126ae4a28864f9d",
+      "dimensions": {
+        "width": 512,
+        "height": 512
+      }
+    },
+    {
+      "model": "Woop-Woop Photo",
+      "modelIndex": 5,
+      "seedIndex": 1,
+      "seedRequested": 108729,
+      "gid": "031f4f0f-4d7e-4343-8b1b-b91cf997f4fa",
+      "status": "success",
+      "file": "model-05__Woop-Woop_Photo__seed-1__108729.webp",
+      "modelReturned": "Woop-Woop Photo",
+      "seedReturned": "108729",
+      "providerGenerationId": "031f4f0f-4d7e-4343-8b1b-b91cf997f4fa",
+      "jobId": "caf8a1f9-af7c-46dd-9068-aa2ca009da12",
+      "elapsedSeconds": 121.5,
+      "byteLength": 70610,
+      "sha256": "de3de584a09697a6a5302cd913fae71b10e8f40dd36b0e905042e587cd3a12c3",
+      "dimensions": {
+        "width": 512,
+        "height": 768
+      }
+    },
+    {
+      "model": "Woop-Woop Photo",
+      "modelIndex": 5,
+      "seedIndex": 2,
+      "seedRequested": 134363,
+      "gid": "83538573-d71f-464c-b935-5fca358ef38f",
+      "status": "success",
+      "file": "model-05__Woop-Woop_Photo__seed-2__134363.webp",
+      "modelReturned": "Woop-Woop Photo",
+      "seedReturned": "134363",
+      "providerGenerationId": "83538573-d71f-464c-b935-5fca358ef38f",
+      "jobId": "d2e73f1a-e7aa-4e0a-ab9f-a09e2ef98f36",
+      "elapsedSeconds": 124.2,
+      "byteLength": 22676,
+      "sha256": "d51cb559252859c98f89bf80a2b9fcfd5ee5a5192bc14077a9af15299939bff5",
+      "dimensions": {
+        "width": 512,
+        "height": 512
+      }
+    }
+  ]
+}
