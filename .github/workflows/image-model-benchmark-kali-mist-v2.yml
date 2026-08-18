@@ -1,0 +1,121 @@
+name: IMAGE V2 Kali Mist Model Benchmark Observable
+
+on:
+  push:
+    branches: [master-migration]
+    paths: ['.github/workflows/image-model-benchmark-kali-mist-v2.yml']
+
+permissions:
+  contents: write
+
+env:
+  OUT: benchmark-artifact
+
+jobs:
+  benchmark:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+        with: {ref: master-migration, fetch-depth: 1, persist-credentials: true}
+      - run: python -m pip install --disable-pip-version-check --no-cache-dir 'requests>=2.31,<3' 'Pillow>=10,<12'
+      - name: Generate 10 candidates concurrently
+        shell: bash
+        run: |
+          python - <<'PY'
+          import requests,json,time,hashlib,io,base64,os,re
+          from pathlib import Path
+          from PIL import Image
+          from concurrent.futures import ThreadPoolExecutor,as_completed
+          B='https://aihorde.net/api/v2'; K='0000000000'; O=Path(os.environ['OUT']); O.mkdir()
+          mp=Path('production/manifests/kali-mist.json'); mb=mp.read_bytes(); m=json.loads(mb)
+          assert (m['strainId'],m['revision'],m['attempt'],m['approvalStatus'])==('kali-mist',1,1,'pending')
+          assert m['visualPreparationHash']=='0c038a0ae42544a1137574a7635255424937c06684cd6240931ac1d8ce27011d'
+          common='photorealistic botanical reference photograph, single mature living female cannabis plant, botanically plausible morphology, cultivar-specific plant architecture clearly visible, mature female flowers clearly visible, natural branching, internodes and leaf arrangement, realistic cannabis inflorescences, single continuous photographic frame, neutral non-distracting background'
+          neg='illustration, painting, anime, cartoon, collage, split panel, text, watermark, logo, packaging, people, smoke, artificial plastic flowers, cotton-like flowers, brush-like flowers, repeated identical cone flowers'
+          final=m['promptSnapshot']+'\n\n'+common+' ### '+neg
+          headers={'apikey':K,'Client-Agent':'CannabisStrainsWisdom-ModelBenchmark:2.0:github.com/Blazea-x/strain-atlas','Accept':'application/json'}
+          s=requests.Session(); s.headers.update(headers)
+          for ep in ('/status/heartbeat','/status/modes'):
+            r=s.get(B+ep,timeout=30); r.raise_for_status()
+          if s.get(B+'/status/modes',timeout=30).json().get('maintenance_mode'): raise SystemExit('maintenance')
+          r=s.get(B+'/status/models?type=image',timeout=30); r.raise_for_status(); live=[x for x in r.json() if int(x.get('count') or 0)>0]
+          pos={'icbinp':15,'photo':12,'photograph':12,'realistic':11,'realism':11,'epicrealism':12,'juggernaut':8,'photon':8,'analog':7,'cyberrealistic':10,'majicmix':7,'deliberate':6,'dreamshaper':5,'albedo':6}
+          bad=['anime','pony','furry','hentai','cartoon','comic','pixel','logo','waifu','illustration','disney','manga','nsfw']
+          def sc(x):
+            n=x['name'].lower(); z=sum(v for k,v in pos.items() if k in n)+min(int(x.get('count') or 0),10)*.1
+            return z-100 if any(k in n for k in bad) else z
+          ranked=sorted(live,key=lambda x:(sc(x),int(x.get('count') or 0)),reverse=True)
+          sel=[x for x in ranked if sc(x)>0][:5]
+          for x in ranked:
+            if len(sel)>=5: break
+            if x not in sel and not any(k in x['name'].lower() for k in bad): sel.append(x)
+          if len(sel)<5: raise SystemExit('fewer than five suitable live models')
+          models=[x['name'] for x in sel]
+          (O/'model-selection.json').write_text(json.dumps({'selected':sel,'liveCount':len(live)},indent=2,ensure_ascii=False))
+          seeds=[104729,130363]; tasks=[]
+          for mi,model in enumerate(models):
+            for si,bseed in enumerate(seeds):
+              seed=bseed+mi*1000; params={'cfg_scale':7,'sampler_name':'k_euler_a','height':768,'width':512,'steps':24,'n':1,'seed':str(seed)}
+              payload={'prompt':final,'params':params,'models':[model],'nsfw':False,'censor_nsfw':True,'r2':True,'shared':False,'slow_workers':True,'dry_run':False}
+              t0=time.monotonic(); q=s.post(B+'/generate/async',json=payload,timeout=30); q.raise_for_status(); gid=q.json().get('id');
+              if not gid: raise RuntimeError('no generation id')
+              tasks.append({'model':model,'modelIndex':mi+1,'seedIndex':si+1,'seedRequested':seed,'gid':gid,'start':t0})
+              time.sleep(.4)
+          def run(t):
+            ss=requests.Session(); ss.headers.update(headers); start=t['start']; seen=False
+            while time.monotonic()-start<1500:
+              c=ss.get(B+'/generate/check/'+t['gid'],timeout=30); c.raise_for_status(); j=c.json()
+              if j.get('faulted'): raise RuntimeError('faulted')
+              if int(j.get('processing') or 0)>0 or int(j.get('finished') or 0)>0: seen=True
+              if j.get('done'): break
+              if not seen and time.monotonic()-start>900: raise TimeoutError('queue timeout')
+              time.sleep(5)
+            else: raise TimeoutError('generation timeout')
+            st=ss.get(B+'/generate/status/'+t['gid'],timeout=30); st.raise_for_status(); gs=st.json().get('generations') or []
+            if len(gs)!=1: raise RuntimeError(f'generation count {len(gs)}')
+            g=gs[0]; ref=g.get('img');
+            if ref.startswith(('http://','https://')):
+              rr=ss.get(ref,timeout=60); rr.raise_for_status(); data=rr.content
+            else: data=base64.b64decode(ref,validate=True)
+            with Image.open(io.BytesIO(data)) as im: im.verify()
+            with Image.open(io.BytesIO(data)) as im: w,h,fmt=im.width,im.height,im.format
+            ext={'JPEG':'jpg','PNG':'png','WEBP':'webp'}.get(fmt.upper(),'img'); safe=re.sub(r'[^A-Za-z0-9._-]+','_',t['model'])[:64]
+            fn=f"model-{t['modelIndex']:02d}__{safe}__seed-{t['seedIndex']}__{g.get('seed')}.{ext}"; (O/fn).write_bytes(data)
+            return {**{k:v for k,v in t.items() if k!='start'},'status':'success','file':fn,'modelReturned':g.get('model'),'seedReturned':g.get('seed'),'providerGenerationId':t['gid'],'jobId':g.get('id'),'elapsedSeconds':round(time.monotonic()-start,1),'byteLength':len(data),'sha256':hashlib.sha256(data).hexdigest(),'dimensions':{'width':w,'height':h}}
+          results=[]
+          with ThreadPoolExecutor(max_workers=10) as ex:
+            fs={ex.submit(run,t):t for t in tasks}
+            for f in as_completed(fs):
+              t=fs[f]
+              try: results.append(f.result())
+              except Exception as e: results.append({**{k:v for k,v in t.items() if k!='start'},'status':'failed','error':repr(e),'elapsedSeconds':round(time.monotonic()-t['start'],1)})
+          results.sort(key=lambda x:(x['modelIndex'],x['seedIndex']))
+          assert hashlib.sha256(mp.read_bytes()).hexdigest()==hashlib.sha256(mb).hexdigest()
+          assert not os.popen("git status --porcelain -- strains production runtime UPLOAD_IMAGES_HERE").read().strip()
+          summary={'benchmarkStatus':'COMPLETE' if sum(x['status']=='success' for x in results)==10 else 'INCOMPLETE','humanModelSelection':'REQUIRED','productionPromotion':'NOT PERFORMED','productionMutationCount':0,'mainMutationCount':0,'runId':int(os.environ['GITHUB_RUN_ID']),'artifactName':'kali-mist-model-benchmark-'+os.environ['GITHUB_RUN_ID'],'models':models,'manifestRevision':1,'attempt':1,'visualPreparationHash':m['visualPreparationHash'],'results':results}
+          (O/'benchmark-summary.json').write_text(json.dumps(summary,indent=2,ensure_ascii=False)+'\n')
+          print(json.dumps(summary,ensure_ascii=False))
+          PY
+      - name: Upload 10-image artifact
+        id: art
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: kali-mist-model-benchmark-${{ github.run_id }}
+          path: benchmark-artifact/
+          if-no-files-found: error
+          retention-days: 14
+      - name: Commit benchmark receipt only
+        if: always()
+        shell: bash
+        run: |
+          test -f benchmark-artifact/benchmark-summary.json
+          mkdir -p docs/benchmark-results
+          cp benchmark-artifact/benchmark-summary.json docs/benchmark-results/kali-mist-model-benchmark-latest.json
+          git config user.name 'strain-atlas-image-benchmark-bot'
+          git config user.email 'actions@users.noreply.github.com'
+          git add docs/benchmark-results/kali-mist-model-benchmark-latest.json
+          test -z "$(git status --porcelain -- strains production runtime UPLOAD_IMAGES_HERE)"
+          git commit -m '[IMAGE V2] Record Kali Mist model benchmark result'
+          git push origin HEAD:master-migration
