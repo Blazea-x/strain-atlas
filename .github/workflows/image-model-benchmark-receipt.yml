@@ -1,0 +1,47 @@
+name: IMAGE V2 Model Benchmark Receipt
+
+on:
+  workflow_run:
+    workflows: ['IMAGE V2 Kali Mist AI Horde Model Benchmark']
+    types: [completed]
+
+permissions:
+  actions: read
+  contents: write
+
+jobs:
+  receipt:
+    if: ${{ github.event.workflow_run.head_branch == 'master-migration' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: master-migration
+          fetch-depth: 1
+      - uses: actions/download-artifact@v4
+        with:
+          name: kali-mist-model-benchmark-${{ github.event.workflow_run.id }}
+          path: benchmark-artifact
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          run-id: ${{ github.event.workflow_run.id }}
+      - name: Record non-production benchmark receipt
+        shell: bash
+        run: |
+          mkdir -p docs/benchmark-results
+          python - <<'PY'
+          import json,os
+          from pathlib import Path
+          p=Path('benchmark-artifact/benchmark-summary.json')
+          s=json.loads(p.read_text())
+          receipt={'workflowRunId':int(os.environ['RUN_ID']),'workflowUrl':os.environ['RUN_URL'],'artifactName':'kali-mist-model-benchmark-'+os.environ['RUN_ID'],**s}
+          Path('docs/benchmark-results/kali-mist-model-benchmark-latest.json').write_text(json.dumps(receipt,indent=2,ensure_ascii=False)+'\n')
+          PY
+          git config user.name 'strain-atlas-image-benchmark-bot'
+          git config user.email 'actions@users.noreply.github.com'
+          git add docs/benchmark-results/kali-mist-model-benchmark-latest.json
+          test -z "$(git status --porcelain -- strains production runtime UPLOAD_IMAGES_HERE)"
+          git commit -m '[IMAGE V2] Record Kali Mist model benchmark receipt'
+          git push origin HEAD:master-migration
+        env:
+          RUN_ID: ${{ github.event.workflow_run.id }}
+          RUN_URL: ${{ github.event.workflow_run.html_url }}
