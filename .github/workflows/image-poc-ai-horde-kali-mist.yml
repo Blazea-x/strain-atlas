@@ -22,6 +22,7 @@ jobs:
     timeout-minutes: 20
     steps:
       - name: Checkout master-migration commit
+        id: checkout
         uses: actions/checkout@v4
         with:
           ref: master-migration
@@ -29,6 +30,7 @@ jobs:
           fetch-depth: 1
 
       - name: Assert branch and protected production baseline
+        id: baseline
         shell: bash
         run: |
           set -euo pipefail
@@ -36,7 +38,6 @@ jobs:
           python - <<'PY'
           import hashlib, json
           from pathlib import Path
-
           protected = [Path('strains'), Path('production'), Path('runtime'), Path('UPLOAD_IMAGES_HERE')]
           snapshot = {}
           for root in protected:
@@ -45,22 +46,21 @@ jobs:
               for path in sorted(p for p in root.rglob('*') if p.is_file()):
                   snapshot[str(path)] = hashlib.sha256(path.read_bytes()).hexdigest()
           Path('/tmp/protected-before.json').write_text(json.dumps(snapshot, sort_keys=True), encoding='utf-8')
-
-          ids = []
-          for path in sorted(Path('strains').glob('*/strain.json')):
-              ids.append(json.loads(path.read_text(encoding='utf-8'))['id'])
+          ids = [json.loads(p.read_text(encoding='utf-8'))['id'] for p in sorted(Path('strains').glob('*/strain.json'))]
           Path('/tmp/public-ids-before.json').write_text(json.dumps(ids, sort_keys=True), encoding='utf-8')
           print(f'protectedFiles={len(snapshot)} publicIds={len(ids)}')
           PY
 
       - name: Verify Kali Mist formal manifest state
+        id: manifest_meta
         shell: bash
         run: |
           set -euo pipefail
           python - <<'PY'
-          import json
+          import hashlib, json, os
           from pathlib import Path
-          manifest = json.loads(Path('production/manifests/kali-mist.json').read_text(encoding='utf-8'))
+          manifest_path = Path('production/manifests/kali-mist.json')
+          manifest = json.loads(manifest_path.read_text(encoding='utf-8'))
           run = json.loads(Path('production/runs/content-production-20260818T060700Z-01.json').read_text(encoding='utf-8'))
           publication = json.loads(Path('production/publication.json').read_text(encoding='utf-8'))
           strain = json.loads(Path('strains/kali-mist/strain.json').read_text(encoding='utf-8'))
@@ -72,14 +72,21 @@ jobs:
           assert item['productionPhase'] == 'IMAGE_PENDING'
           assert pub['state'] == 'pending'
           assert strain['visuals'] == []
+          with open(os.environ['GITHUB_OUTPUT'], 'a', encoding='utf-8') as f:
+              f.write(f"revision={manifest['revision']}\n")
+              f.write(f"attempt={manifest['attempt']}\n")
+              f.write(f"manifest_version={manifest['manifestVersion']}\n")
+              f.write(f"manifest_sha256={hashlib.sha256(manifest_path.read_bytes()).hexdigest()}\n")
           print(f"manifestVersion={manifest['manifestVersion']} revision={manifest['revision']} attempt={manifest['attempt']} phase={item['productionPhase']} publication={pub['state']} visuals={len(strain['visuals'])}")
           PY
 
       - name: Install PoC-only Python dependencies
+        id: dependencies
         run: python -m pip install --disable-pip-version-check --no-cache-dir 'requests>=2.31,<3' 'Pillow>=10,<12'
 
       - name: Generate one Kali Mist image through free anonymous AI Horde
         id: generate
+        continue-on-error: true
         env:
           AI_HORDE_QUEUE_TIMEOUT_SECONDS: '600'
           AI_HORDE_GENERATION_TIMEOUT_SECONDS: '900'
@@ -88,12 +95,21 @@ jobs:
         run: python scripts/image-poc-ai-horde-kali-mist.py
 
       - name: Run CONTENT PRODUCTION V1 audit
+        id: cp_audit
+        if: ${{ always() }}
+        continue-on-error: true
         run: node scripts/audit-content-production.mjs
 
       - name: Run MASTER validator
+        id: master_validator
+        if: ${{ always() }}
+        continue-on-error: true
         run: node scripts/validate-master-data.mjs
 
       - name: Assert no protected production or runtime mutation
+        id: protected_check
+        if: ${{ always() }}
+        continue-on-error: true
         shell: bash
         run: |
           set -euo pipefail
@@ -115,33 +131,66 @@ jobs:
           PY
           test -z "$(git status --porcelain -- strains production runtime UPLOAD_IMAGES_HERE)"
 
+      - name: Ensure failure envelope exists when generation did not produce one
+        id: envelope
+        if: ${{ always() }}
+        env:
+          GENERATE_OUTCOME: ${{ steps.generate.outcome }}
+          CP_AUDIT_OUTCOME: ${{ steps.cp_audit.outcome }}
+          MASTER_VALIDATOR_OUTCOME: ${{ steps.master_validator.outcome }}
+          PROTECTED_CHECK_OUTCOME: ${{ steps.protected_check.outcome }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p poc-artifact
+          if [ ! -f poc-artifact/generation-provenance.json ] && [ ! -f poc-artifact/failure.json ]; then
+            python - <<'PY'
+          import json, os
+          from datetime import datetime, timezone
+          from pathlib import Path
+          failure = {
+              'pocStatus': 'FAIL',
+              'failureCode': 'WORKFLOW_STEP_FAILED',
+              'message': 'Generation step did not produce a success or classified provider failure envelope.',
+              'strainId': 'kali-mist',
+              'runId': 'content-production-20260818T060700Z-01',
+              'failedAt': datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace('+00:00', 'Z'),
+              'stepOutcomes': {
+                  'generate': os.environ.get('GENERATE_OUTCOME'),
+                  'contentProductionAudit': os.environ.get('CP_AUDIT_OUTCOME'),
+                  'masterValidator': os.environ.get('MASTER_VALIDATOR_OUTCOME'),
+                  'protectedCheck': os.environ.get('PROTECTED_CHECK_OUTCOME'),
+              },
+          }
+          Path('poc-artifact/failure.json').write_text(json.dumps(failure, indent=2) + '\n', encoding='utf-8')
+          PY
+          fi
+
       - name: Upload Kali Mist PoC artifact
         id: artifact
+        if: ${{ always() }}
+        continue-on-error: true
         uses: actions/upload-artifact@v4
         with:
-          name: image-poc-kali-mist-r${{ steps.generate.outputs.revision }}-a${{ steps.generate.outputs.attempt }}-run${{ github.run_id }}-try${{ github.run_attempt }}
+          name: image-poc-kali-mist-r${{ steps.manifest_meta.outputs.revision }}-a${{ steps.manifest_meta.outputs.attempt }}-run${{ github.run_id }}-try${{ github.run_attempt }}
           path: poc-artifact/
           if-no-files-found: error
           retention-days: 14
 
-      - name: Report artifact upload failure code
-        if: ${{ failure() && steps.generate.outcome == 'success' && steps.artifact.outcome == 'failure' }}
-        run: |
-          echo 'POC_FAILURE code=ARTIFACT_UPLOAD_FAILED message=actions/upload-artifact failed' >&2
-          exit 1
-
       - name: Write observable PoC receipt documentation
-        if: ${{ success() }}
+        id: receipt
+        if: ${{ always() }}
+        continue-on-error: true
         env:
-          POC_REVISION: ${{ steps.generate.outputs.revision }}
-          POC_ATTEMPT: ${{ steps.generate.outputs.attempt }}
-          POC_GENERATION_ID: ${{ steps.generate.outputs.generation_id }}
-          POC_MODEL: ${{ steps.generate.outputs.model }}
-          POC_DURATION_SECONDS: ${{ steps.generate.outputs.duration_seconds }}
-          POC_BYTE_LENGTH: ${{ steps.generate.outputs.byte_length }}
-          POC_SHA256: ${{ steps.generate.outputs.sha256 }}
-          POC_WIDTH: ${{ steps.generate.outputs.width }}
-          POC_HEIGHT: ${{ steps.generate.outputs.height }}
+          MANIFEST_REVISION: ${{ steps.manifest_meta.outputs.revision }}
+          MANIFEST_ATTEMPT: ${{ steps.manifest_meta.outputs.attempt }}
+          MANIFEST_VERSION: ${{ steps.manifest_meta.outputs.manifest_version }}
+          MANIFEST_SHA256: ${{ steps.manifest_meta.outputs.manifest_sha256 }}
+          GENERATE_OUTCOME: ${{ steps.generate.outcome }}
+          CP_AUDIT_OUTCOME: ${{ steps.cp_audit.outcome }}
+          MASTER_VALIDATOR_OUTCOME: ${{ steps.master_validator.outcome }}
+          PROTECTED_CHECK_OUTCOME: ${{ steps.protected_check.outcome }}
+          ARTIFACT_OUTCOME: ${{ steps.artifact.outcome }}
           POC_ARTIFACT_ID: ${{ steps.artifact.outputs.artifact-id }}
           POC_ARTIFACT_URL: ${{ steps.artifact.outputs.artifact-url }}
           POC_ARTIFACT_DIGEST: ${{ steps.artifact.outputs.artifact-digest }}
@@ -153,36 +202,70 @@ jobs:
           import json, os
           from datetime import datetime, timezone
           from pathlib import Path
-          artifact_name = f"image-poc-kali-mist-r{os.environ['POC_REVISION']}-a{os.environ['POC_ATTEMPT']}-run{os.environ['GITHUB_RUN_ID']}-try{os.environ['GITHUB_RUN_ATTEMPT']}"
+          success_path = Path('poc-artifact/generation-provenance.json')
+          failure_path = Path('poc-artifact/failure.json')
+          provider = {}
+          if success_path.exists():
+              provider = json.loads(success_path.read_text(encoding='utf-8'))
+          elif failure_path.exists():
+              provider = json.loads(failure_path.read_text(encoding='utf-8'))
+          step_outcomes = {
+              'generation': os.environ.get('GENERATE_OUTCOME'),
+              'contentProductionAudit': os.environ.get('CP_AUDIT_OUTCOME'),
+              'masterValidator': os.environ.get('MASTER_VALIDATOR_OUTCOME'),
+              'protectedCheck': os.environ.get('PROTECTED_CHECK_OUTCOME'),
+              'artifactUpload': os.environ.get('ARTIFACT_OUTCOME'),
+          }
+          all_ok = all(v == 'success' for v in step_outcomes.values()) and success_path.exists()
+          artifact_name = f"image-poc-kali-mist-r{os.environ.get('MANIFEST_REVISION')}-a{os.environ.get('MANIFEST_ATTEMPT')}-run{os.environ['GITHUB_RUN_ID']}-try{os.environ['GITHUB_RUN_ATTEMPT']}"
+          failure_code = None
+          if not all_ok:
+              if os.environ.get('ARTIFACT_OUTCOME') != 'success':
+                  failure_code = 'ARTIFACT_UPLOAD_FAILED'
+              elif provider.get('failureCode'):
+                  failure_code = provider.get('failureCode')
+              elif os.environ.get('CP_AUDIT_OUTCOME') != 'success':
+                  failure_code = 'CONTENT_PRODUCTION_AUDIT_FAILED'
+              elif os.environ.get('MASTER_VALIDATOR_OUTCOME') != 'success':
+                  failure_code = 'MASTER_VALIDATOR_FAILED'
+              elif os.environ.get('PROTECTED_CHECK_OUTCOME') != 'success':
+                  failure_code = 'PROTECTED_STATE_CHANGED'
+              else:
+                  failure_code = 'WORKFLOW_STEP_FAILED'
+          artifact_id = os.environ.get('POC_ARTIFACT_ID') or None
           receipt = {
-              "pocStatus": "PASS",
-              "provider": "AI Horde",
-              "runId": "content-production-20260818T060700Z-01",
-              "strainId": "kali-mist",
-              "revision": int(os.environ["POC_REVISION"]),
-              "attempt": int(os.environ["POC_ATTEMPT"]),
-              "providerGenerationId": os.environ["POC_GENERATION_ID"],
-              "model": os.environ["POC_MODEL"],
-              "generationDurationSeconds": float(os.environ["POC_DURATION_SECONDS"]),
-              "sourceImageByteLength": int(os.environ["POC_BYTE_LENGTH"]),
-              "sourceImageSha256": os.environ["POC_SHA256"],
-              "width": int(os.environ["POC_WIDTH"]),
-              "height": int(os.environ["POC_HEIGHT"]),
-              "artifactName": artifact_name,
-              "artifactId": int(os.environ["POC_ARTIFACT_ID"]),
-              "artifactUrl": os.environ.get("POC_ARTIFACT_URL"),
-              "artifactDigest": os.environ.get("POC_ARTIFACT_DIGEST"),
-              "workflowRun": {
-                  "id": int(os.environ["GITHUB_RUN_ID"]),
-                  "attempt": int(os.environ["GITHUB_RUN_ATTEMPT"]),
-                  "number": int(os.environ["GITHUB_RUN_NUMBER"]),
-                  "sha": os.environ["GITHUB_SHA"],
-                  "ref": os.environ["GITHUB_REF"],
+              'pocStatus': 'PASS' if all_ok else 'FAIL',
+              'failureCode': failure_code,
+              'provider': 'AI Horde',
+              'runId': 'content-production-20260818T060700Z-01',
+              'strainId': 'kali-mist',
+              'manifestVersion': int(os.environ['MANIFEST_VERSION']) if os.environ.get('MANIFEST_VERSION') else None,
+              'revision': int(os.environ['MANIFEST_REVISION']) if os.environ.get('MANIFEST_REVISION') else None,
+              'attempt': int(os.environ['MANIFEST_ATTEMPT']) if os.environ.get('MANIFEST_ATTEMPT') else None,
+              'manifestSha256': os.environ.get('MANIFEST_SHA256') or None,
+              'providerGenerationId': provider.get('providerGenerationId'),
+              'model': provider.get('model'),
+              'generationDurationSeconds': provider.get('generationDurationSeconds'),
+              'sourceImageByteLength': provider.get('sourceImageByteLength'),
+              'sourceImageSha256': provider.get('sourceImageSha256'),
+              'width': provider.get('width'),
+              'height': provider.get('height'),
+              'artifactName': artifact_name,
+              'artifactId': int(artifact_id) if artifact_id else None,
+              'artifactUrl': os.environ.get('POC_ARTIFACT_URL') or None,
+              'artifactDigest': os.environ.get('POC_ARTIFACT_DIGEST') or None,
+              'stepOutcomes': step_outcomes,
+              'workflowRun': {
+                  'id': int(os.environ['GITHUB_RUN_ID']),
+                  'attempt': int(os.environ['GITHUB_RUN_ATTEMPT']),
+                  'number': int(os.environ['GITHUB_RUN_NUMBER']),
+                  'sha': os.environ['GITHUB_SHA'],
+                  'ref': os.environ['GITHUB_REF'],
               },
-              "productionMutationCount": 0,
-              "mainMutationCount": 0,
-              "visualGate": "HUMAN_REVIEW_REQUIRED",
-              "recordedAt": datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z"),
+              'productionMutationCount': 0 if os.environ.get('PROTECTED_CHECK_OUTCOME') == 'success' else None,
+              'mainMutationCount': 0,
+              'visualGate': 'HUMAN_REVIEW_REQUIRED',
+              'recordedAt': datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace('+00:00', 'Z'),
           }
           Path('docs/poc-results/kali-mist-latest.json').write_text(json.dumps(receipt, indent=2) + '\n', encoding='utf-8')
           PY
@@ -193,19 +276,24 @@ jobs:
           git commit -m '[IMAGE POC] Record Kali Mist AI Horde result'
           git push origin HEAD:master-migration
 
-      - name: Summarize successful PoC
-        if: ${{ success() }}
+      - name: Summarize PoC outcome
+        if: ${{ always() }}
+        shell: bash
         run: |
-          {
-            echo '### FREE IMAGE GENERATION POC: PASS'
-            echo ''
-            echo "- providerGenerationId: ${{ steps.generate.outputs.generation_id }}"
-            echo "- model: ${{ steps.generate.outputs.model }}"
-            echo "- durationSeconds: ${{ steps.generate.outputs.duration_seconds }}"
-            echo "- byteLength: ${{ steps.generate.outputs.byte_length }}"
-            echo "- sha256: ${{ steps.generate.outputs.sha256 }}"
-            echo "- dimensions: ${{ steps.generate.outputs.width }}x${{ steps.generate.outputs.height }}"
-            echo "- artifact: image-poc-kali-mist-r${{ steps.generate.outputs.revision }}-a${{ steps.generate.outputs.attempt }}-run${{ github.run_id }}-try${{ github.run_attempt }}"
-            echo '- production mutation: 0'
-            echo '- visual gate: human review only; no manifest approval performed'
-          } >> "$GITHUB_STEP_SUMMARY"
+          if [ -f docs/poc-results/kali-mist-latest.json ]; then
+            cat docs/poc-results/kali-mist-latest.json >> "$GITHUB_STEP_SUMMARY"
+          fi
+
+      - name: Enforce PoC result
+        if: ${{ always() }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          receipt = json.loads(Path('docs/poc-results/kali-mist-latest.json').read_text(encoding='utf-8'))
+          if receipt['pocStatus'] != 'PASS':
+              raise SystemExit(f"FREE IMAGE GENERATION POC: FAIL ({receipt.get('failureCode')})")
+          print('FREE IMAGE GENERATION POC: PASS')
+          PY
