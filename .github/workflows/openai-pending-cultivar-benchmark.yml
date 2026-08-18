@@ -1,0 +1,327 @@
+name: OpenAI Pending Cultivar Benchmark
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [master-migration]
+    paths:
+      - .github/workflows/openai-pending-cultivar-benchmark.yml
+
+permissions:
+  contents: read
+
+jobs:
+  benchmark:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    env:
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+      OUT: openai-pending-cultivar-benchmark-artifact
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: master-migration
+          persist-credentials: false
+
+      - name: Install dependencies
+        run: python -m pip install --disable-pip-version-check --no-cache-dir 'openai>=1.100,<3' 'Pillow>=10,<12'
+
+      - name: Generate pending cultivar candidates
+        shell: bash
+        run: |
+          python - <<'PY'
+          import os, io, json, base64, hashlib, time
+          from pathlib import Path
+          from PIL import Image, ImageOps, ImageDraw
+
+          out = Path(os.environ['OUT'])
+          out.mkdir(parents=True, exist_ok=True)
+
+          model = 'gpt-image-2'
+          size = '1024x1536'
+          quality = 'high'
+          output_format = 'jpeg'
+          text_input_cost_per_million = 5.0
+          image_output_cost_per_million = 30.0
+          fallback_output_cost_per_image = 0.165
+
+          def sha_text(text):
+              return hashlib.sha256(text.encode('utf-8')).hexdigest()
+
+          def canonical_json(value):
+              return json.dumps(value, ensure_ascii=False, sort_keys=True, separators=(',', ':'))
+
+          def read_json(path):
+              return json.loads(Path(path).read_text(encoding='utf-8'))
+
+          configured = bool(os.environ.get('OPENAI_API_KEY', '').strip())
+          print('OPENAI_API_KEY: CONFIGURED' if configured else 'OPENAI_API_KEY: NOT CONFIGURED')
+
+          publication = read_json('production/publication.json')
+          publication_state = {e['strainId']: e['state'] for e in publication.get('entries', [])}
+
+          run_files = sorted(Path('production/runs').glob('*.json'))
+          active_runs = []
+          for path in run_files:
+              data = read_json(path)
+              if data.get('status') == 'ACTIVE':
+                  active_runs.append((data.get('startedAt') or '', path, data))
+          if not active_runs:
+              raise RuntimeError('No ACTIVE production run found')
+          active_runs.sort(key=lambda x: x[0], reverse=True)
+          _, active_run_path, run = active_runs[0]
+
+          formal_matches = []
+          for item in run.get('items', []):
+              strain_id = item.get('strainId')
+              if item.get('productionPhase') != 'IMAGE_PENDING':
+                  continue
+              if publication_state.get(strain_id) != 'pending':
+                  continue
+              strain_path = Path('strains') / strain_id / 'strain.json'
+              manifest_path = Path('production/manifests') / f'{strain_id}.json'
+              if not strain_path.is_file() or not manifest_path.is_file():
+                  continue
+              strain = read_json(strain_path)
+              if strain.get('visuals') != []:
+                  continue
+              manifest = read_json(manifest_path)
+              if manifest.get('strainId') != strain_id:
+                  continue
+              if not isinstance(manifest.get('promptSnapshot'), str) or not manifest.get('promptSnapshot'):
+                  continue
+              if not isinstance(manifest.get('evidenceSnapshot'), list) or not manifest.get('evidenceSnapshot'):
+                  continue
+              formal_matches.append({
+                  'strainId': strain_id,
+                  'name': strain.get('name') or strain_id,
+                  'manifestPath': str(manifest_path),
+                  'manifest': manifest,
+                  'manifestApprovalStatus': manifest.get('approvalStatus'),
+              })
+
+          unapproved = [x for x in formal_matches if x['manifestApprovalStatus'] == 'pending']
+          already_approved = [x for x in formal_matches if x['manifestApprovalStatus'] != 'pending']
+          selected = (unapproved + already_approved)[:2]
+
+          if not selected:
+              raise RuntimeError('No cultivar matched IMAGE_PENDING + publication pending + visuals=[] + formal image manifest')
+
+          per_cultivar = 4 if len(selected) == 1 else 2
+          maximum_requests = 4
+          results = []
+
+          if configured:
+              from openai import OpenAI
+              client = OpenAI()
+              request_count = 0
+              for target in selected:
+                  manifest = target['manifest']
+                  prompt_snapshot = manifest['promptSnapshot']
+                  evidence_snapshot = manifest['evidenceSnapshot']
+                  evidence_descriptions = [e.get('description', '') for e in evidence_snapshot]
+                  if not all(isinstance(x, str) and x for x in evidence_descriptions):
+                      raise RuntimeError(f"Invalid evidenceSnapshot description for {target['strainId']}")
+
+                  request_prompt = prompt_snapshot + '\n\n' + '\n'.join(evidence_descriptions)
+                  prompt_sha = sha_text(prompt_snapshot)
+                  evidence_sha = sha_text(canonical_json(evidence_snapshot))
+                  request_spec_sha = sha_text(request_prompt)
+
+                  for index in range(1, per_cultivar + 1):
+                      if request_count >= maximum_requests:
+                          break
+                      request_count += 1
+                      started = time.monotonic()
+                      try:
+                          response = client.images.generate(
+                              model=model,
+                              prompt=request_prompt,
+                              size=size,
+                              quality=quality,
+                              output_format=output_format,
+                              n=1,
+                          )
+                          if len(response.data) != 1 or not response.data[0].b64_json:
+                              raise RuntimeError('OpenAI response did not contain exactly one base64 image')
+                          raw = base64.b64decode(response.data[0].b64_json)
+                          with Image.open(io.BytesIO(raw)) as im:
+                              im.verify()
+                          with Image.open(io.BytesIO(raw)) as im:
+                              width, height, fmt = im.width, im.height, im.format
+                          ext = {'JPEG':'jpg','PNG':'png','WEBP':'webp'}.get(str(fmt).upper(), 'img')
+                          filename = f"{target['strainId']}__candidate-{index}.{ext}"
+                          (out / filename).write_bytes(raw)
+
+                          usage = response.usage.model_dump() if getattr(response, 'usage', None) else {}
+                          input_tokens = usage.get('input_tokens') if isinstance(usage, dict) else None
+                          output_tokens = usage.get('output_tokens') if isinstance(usage, dict) else None
+                          input_cost = (input_tokens * text_input_cost_per_million / 1_000_000
+                                        if isinstance(input_tokens, (int, float)) else 0.0)
+                          output_cost = (output_tokens * image_output_cost_per_million / 1_000_000
+                                         if isinstance(output_tokens, (int, float)) else fallback_output_cost_per_image)
+                          estimated_cost = input_cost + output_cost
+
+                          results.append({
+                              'cultivar': target['name'],
+                              'strainId': target['strainId'],
+                              'index': index,
+                              'status': 'success',
+                              'model': model,
+                              'quality': quality,
+                              'requestedSize': size,
+                              'dimensions': {'width': width, 'height': height},
+                              'format': fmt,
+                              'file': filename,
+                              'byteLength': len(raw),
+                              'sha256': hashlib.sha256(raw).hexdigest(),
+                              'elapsedSeconds': round(time.monotonic() - started, 3),
+                              'usage': usage,
+                              'estimatedInputCostUsd': round(input_cost, 8),
+                              'estimatedOutputCostUsd': round(output_cost, 8),
+                              'estimatedCostUsd': round(estimated_cost, 8),
+                              'promptSha256': prompt_sha,
+                              'evidenceSha256': evidence_sha,
+                              'requestSpecSha256': request_spec_sha,
+                              'manifestRevision': manifest.get('revision'),
+                              'manifestAttempt': manifest.get('attempt'),
+                              'manifestId': manifest.get('manifestId'),
+                              'workflowRunId': int(os.environ['GITHUB_RUN_ID']),
+                              'seed': None,
+                              'seedSupported': False,
+                          })
+                      except Exception as exc:
+                          results.append({
+                              'cultivar': target['name'],
+                              'strainId': target['strainId'],
+                              'index': index,
+                              'status': 'failed',
+                              'model': model,
+                              'quality': quality,
+                              'requestedSize': size,
+                              'error': str(exc)[:1200],
+                              'promptSha256': prompt_sha,
+                              'evidenceSha256': evidence_sha,
+                              'requestSpecSha256': request_spec_sha,
+                              'manifestRevision': manifest.get('revision'),
+                              'manifestAttempt': manifest.get('attempt'),
+                              'manifestId': manifest.get('manifestId'),
+                              'workflowRunId': int(os.environ['GITHUB_RUN_ID']),
+                              'seed': None,
+                              'seedSupported': False,
+                          })
+
+          success_rows = [r for r in results if r.get('status') == 'success']
+          if len(selected) == 2:
+              cols, rows_n = 2, 2
+          else:
+              cols, rows_n = min(4, per_cultivar), 1
+          tile_w, tile_h, label_h = 420, 630, 74
+          sheet = Image.new('RGB', (tile_w * cols, (tile_h + label_h) * rows_n), 'white')
+          draw = ImageDraw.Draw(sheet)
+          for ri, target in enumerate(selected):
+              cultivar_rows = sorted(
+                  [r for r in success_rows if r['strainId'] == target['strainId']],
+                  key=lambda r: r['index']
+              )
+              if len(selected) == 1:
+                  positions = [(0, ci) for ci in range(cols)]
+              else:
+                  positions = [(ri, ci) for ci in range(cols)]
+              for pos_i, (row_i, col_i) in enumerate(positions):
+                  x0 = col_i * tile_w
+                  y0 = row_i * (tile_h + label_h)
+                  if pos_i < len(cultivar_rows):
+                      row = cultivar_rows[pos_i]
+                      with Image.open(out / row['file']) as im:
+                          tile = ImageOps.contain(im.convert('RGB'), (tile_w, tile_h), method=Image.Resampling.LANCZOS)
+                          sheet.paste(tile, (x0 + (tile_w - tile.width)//2, y0 + (tile_h - tile.height)//2))
+                      label = f"{row['cultivar']} | candidate {row['index']}\n{model} | {quality} | {row['dimensions']['width']}x{row['dimensions']['height']}"
+                  else:
+                      label = f"{target['name']} | no image"
+                  draw.text((x0 + 8, y0 + tile_h + 8), label, fill='black')
+          contact_path = out / 'openai-pending-cultivar-contact-sheet.jpg'
+          sheet.save(contact_path, quality=94, optimize=True)
+
+          success_count = len(success_rows)
+          expected_count = min(maximum_requests, len(selected) * per_cultivar)
+          estimated_cost_total = round(sum(r.get('estimatedCostUsd', 0) for r in success_rows), 8)
+          selected_public = [{
+              'strainId': x['strainId'],
+              'cultivar': x['name'],
+              'manifestPath': x['manifestPath'],
+              'manifestApprovalStatusAtSelection': x['manifestApprovalStatus'],
+              'manifestRevision': x['manifest'].get('revision'),
+              'manifestAttempt': x['manifest'].get('attempt'),
+              'promptSha256': sha_text(x['manifest']['promptSnapshot']),
+              'evidenceSha256': sha_text(canonical_json(x['manifest']['evidenceSnapshot'])),
+          } for x in selected]
+
+          summary = {
+              'benchmark': 'OPENAI PENDING-CULTIVAR BENCHMARK',
+              'runId': int(os.environ['GITHUB_RUN_ID']),
+              'sourceCommit': os.environ.get('GITHUB_SHA'),
+              'sourceBranch': os.environ.get('GITHUB_REF_NAME'),
+              'activeProductionRun': run.get('runId'),
+              'activeProductionRunPath': str(active_run_path),
+              'secretStatus': 'CONFIGURED' if configured else 'NOT CONFIGURED',
+              'selectionCriteria': {
+                  'productionPhase': 'IMAGE_PENDING',
+                  'publicationState': 'pending',
+                  'visuals': [],
+                  'formalImageManifestRequired': True,
+              },
+              'formalMatchIds': [x['strainId'] for x in formal_matches],
+              'selectionRationale': 'Prefer formal matches whose manifest approvalStatus is pending; preserve ACTIVE run item order; maximum 2 cultivars.',
+              'selectedCultivars': selected_public,
+              'model': model,
+              'quality': quality,
+              'size': size,
+              'outputFormat': output_format,
+              'seedSupported': False,
+              'seedComparisonNote': 'seed unsupported by the public Image API generation parameters used here; no seed value was fabricated.',
+              'requestRule': '1 generation = 1 cultivar = 1 image; request prompt contains only promptSnapshot plus evidenceSnapshot descriptions from that same cultivar manifest.',
+              'successCount': success_count,
+              'expectedCount': expected_count,
+              'maximumRequests': maximum_requests,
+              'results': results,
+              'openAiApiUsage': [r.get('usage', {}) for r in success_rows],
+              'pricingBasis': {
+                  'textInputUsdPerMillionTokens': text_input_cost_per_million,
+                  'imageOutputUsdPerMillionTokens': image_output_cost_per_million,
+                  'fallbackHigh1024x1536OutputUsdPerImage': fallback_output_cost_per_image,
+              },
+              'estimatedGenerationCostUsd': estimated_cost_total,
+              'contactSheet': contact_path.name,
+              'contactSheetSha256': hashlib.sha256(contact_path.read_bytes()).hexdigest(),
+              'productionMutationCount': 0,
+              'mainMutationCount': 0,
+              'humanVisualReview': 'REQUIRED',
+              'productionPromotion': 'NOT PERFORMED',
+              'benchmarkStatus': 'COMPLETE' if configured and success_count == expected_count else 'INCOMPLETE',
+          }
+          (out / 'benchmark-summary.json').write_text(json.dumps(summary, indent=2, ensure_ascii=False) + '\n', encoding='utf-8')
+          print(json.dumps({
+              'benchmarkStatus': summary['benchmarkStatus'],
+              'secretStatus': summary['secretStatus'],
+              'selected': [x['strainId'] for x in selected],
+              'successCount': success_count,
+              'expectedCount': expected_count,
+              'estimatedGenerationCostUsd': estimated_cost_total,
+          }, ensure_ascii=False))
+          PY
+
+      - name: Verify production safety
+        shell: bash
+        run: |
+          test -z "$(git status --porcelain -- strains production runtime UPLOAD_IMAGES_HERE uploads/images)"
+          test "$(git branch --show-current)" = "master-migration"
+
+      - name: Upload benchmark artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: openai-pending-cultivar-benchmark-${{ github.run_id }}
+          path: openai-pending-cultivar-benchmark-artifact/
+          if-no-files-found: error
+          retention-days: 14
