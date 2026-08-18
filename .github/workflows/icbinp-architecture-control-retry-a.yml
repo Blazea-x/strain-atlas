@@ -1,0 +1,112 @@
+name: ICBINP Architecture Control Retry A
+
+on:
+  push:
+    branches: [master-migration]
+    paths: ['.github/workflows/icbinp-architecture-control-retry-a.yml']
+
+permissions:
+  contents: read
+
+env:
+  OUT: icbinp-architecture-control-retry-a-artifact
+
+jobs:
+  retry-a:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+        with: {ref: master-migration, fetch-depth: 1, persist-credentials: false}
+      - run: python -m pip install --disable-pip-version-check --no-cache-dir 'requests>=2.31,<3' 'Pillow>=10,<12'
+      - name: Retry missing Control A seeds with identical parameters
+        shell: bash
+        run: |
+          python - <<'PY'
+          import requests,json,time,hashlib,io,base64,os
+          from pathlib import Path
+          from PIL import Image
+          from concurrent.futures import ThreadPoolExecutor,as_completed
+
+          B='https://aihorde.net/api/v2'; K='0000000000'; O=Path(os.environ['OUT']); O.mkdir()
+          model="ICBINP - I Can't Believe It's Not Photography"
+          seeds=[104729,130363]
+          common=(
+            'photorealistic botanical reference photograph, mature living female cannabis plant, realistic cannabis leaves, '
+            'realistic mature female cannabis flowers, complete plant architecture visible, neutral non-distracting studio/background environment, '
+            'natural photographic lighting, single continuous photographic frame, single plant, complete plant visible, '
+            'no human, no additional plants, no collage, no text, no watermark, no illustration, no painting'
+          )
+          control=(
+            'very tall and narrow mature female cannabis plant, strong vertical growth, long internodal spacing, '
+            'minimal lateral spread, few side branches, open sparse architecture'
+          )
+          neg=(
+            'human, person, multiple plants, duplicated trunk, duplicated branches, fused leaves, impossible anatomy, '
+            'male pollen sacs, non-cannabis flowers, fantasy plant, CGI, illustration, painting, collage, text, watermark'
+          )
+          final=control+'\n\n'+common+' ### '+neg
+          final_sha=hashlib.sha256(final.encode()).hexdigest(); neg_sha=hashlib.sha256(neg.encode()).hexdigest()
+          params_base={'cfg_scale':7,'sampler_name':'k_euler_a','height':768,'width':512,'steps':24,'n':1}
+          payload_common={'nsfw':False,'censor_nsfw':True,'r2':True,'shared':False,'slow_workers':True,'dry_run':False}
+          headers={'apikey':K,'Client-Agent':'CannabisStrainsWisdom-ArchitectureControlRetryA:1.0:github.com/Blazea-x/strain-atlas','Accept':'application/json'}
+          s=requests.Session(); s.headers.update(headers)
+          r=s.get(B+'/status/models?type=image',timeout=30); r.raise_for_status(); live=r.json()
+          if model not in {x.get('name') for x in live if int(x.get('count') or 0)>0}: raise SystemExit('ICBINP unavailable')
+
+          def one(seed):
+            attempts=[]
+            for attempt in range(1,4):
+              ss=requests.Session(); ss.headers.update(headers)
+              params={**params_base,'seed':str(seed)}
+              payload={'prompt':final,'params':params,'models':[model],**payload_common}
+              start=time.monotonic(); q=ss.post(B+'/generate/async',json=payload,timeout=30); q.raise_for_status(); gid=q.json().get('id')
+              rec={'attempt':attempt,'providerGenerationId':gid,'seedRequested':seed,'startMonotonic':start}
+              try:
+                seen=False
+                while time.monotonic()-start<900:
+                  c=ss.get(B+'/generate/check/'+gid,timeout=30); c.raise_for_status(); j=c.json()
+                  if j.get('faulted'): raise RuntimeError('faulted')
+                  if int(j.get('processing') or 0)>0 or int(j.get('finished') or 0)>0: seen=True
+                  if j.get('done'): break
+                  if not seen and time.monotonic()-start>600: raise TimeoutError('queue timeout')
+                  time.sleep(5)
+                st=ss.get(B+'/generate/status/'+gid,timeout=30); st.raise_for_status(); gs=st.json().get('generations') or []
+                if len(gs)!=1: raise RuntimeError(f'generation count {len(gs)}')
+                g=gs[0]; ref=g.get('img')
+                if not ref: raise RuntimeError('missing image reference')
+                if ref.startswith(('http://','https://')):
+                  rr=ss.get(ref,timeout=60); rr.raise_for_status(); data=rr.content
+                else: data=base64.b64decode(ref,validate=True)
+                with Image.open(io.BytesIO(data)) as im: im.verify()
+                with Image.open(io.BytesIO(data)) as im: w,h,fmt=im.width,im.height,im.format
+                ext={'JPEG':'jpg','PNG':'png','WEBP':'webp'}.get(fmt.upper(),'img')
+                fn=f'control-A__ICBINP__seed-{seed}.{ext}'; (O/fn).write_bytes(data)
+                rec.update({'status':'success','elapsedSeconds':round(time.monotonic()-start,1),'providerJobId':g.get('id'),'modelReturned':g.get('model'),'seedReturned':g.get('seed')})
+                attempts.append(rec)
+                return {'control':'A','status':'success','file':fn,'model':model,'seedRequested':seed,'seedReturned':g.get('seed'),'providerGenerationId':gid,'providerJobId':g.get('id'),'elapsedSeconds':rec['elapsedSeconds'],'dimensions':{'width':w,'height':h},'byteLength':len(data),'sha256':hashlib.sha256(data).hexdigest(),'generationParameters':params,'finalPromptSha256':final_sha,'negativePromptSha256':neg_sha,'attempts':attempts}
+              except Exception as e:
+                rec.update({'status':'failed','elapsedSeconds':round(time.monotonic()-start,1),'error':repr(e)}); attempts.append(rec)
+                time.sleep(2)
+            return {'control':'A','status':'failed','model':model,'seedRequested':seed,'generationParameters':{**params_base,'seed':str(seed)},'finalPromptSha256':final_sha,'negativePromptSha256':neg_sha,'attempts':attempts}
+
+          results=[]
+          with ThreadPoolExecutor(max_workers=2) as ex:
+            fs={ex.submit(one,seed):seed for seed in seeds}
+            for f in as_completed(fs): results.append(f.result())
+          results.sort(key=lambda x:seeds.index(x['seedRequested']))
+          out={'test':'ICBINP ARCHITECTURE CONTROL RETRY A','model':model,'successCount':sum(x['status']=='success' for x in results),'total':2,'results':results,'productionMutationCount':0,'mainMutationCount':0,'runId':int(os.environ['GITHUB_RUN_ID']),'artifactName':'icbinp-architecture-control-retry-a-'+os.environ['GITHUB_RUN_ID']}
+          (O/'retry-a-summary.json').write_text(json.dumps(out,indent=2,ensure_ascii=False)+'\n')
+          print(json.dumps(out,ensure_ascii=False))
+          if out['successCount']!=2: raise SystemExit('Retry did not recover both missing images')
+          PY
+      - name: Verify production safety
+        run: test -z "$(git status --porcelain -- strains production runtime UPLOAD_IMAGES_HERE)"
+      - name: Upload retry artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: icbinp-architecture-control-retry-a-${{ github.run_id }}
+          path: icbinp-architecture-control-retry-a-artifact/
+          if-no-files-found: error
+          retention-days: 14
