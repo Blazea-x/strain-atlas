@@ -1,0 +1,178 @@
+name: IMAGE V2 Cultivar Differentiation V2
+
+on:
+  push:
+    branches: [master-migration]
+    paths: ['.github/workflows/image-cultivar-differentiation-v2.yml']
+
+permissions:
+  contents: read
+
+env:
+  OUT: cultivar-differentiation-v2-artifact
+
+jobs:
+  differentiation-v2:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+        with: {ref: master-migration, fetch-depth: 1, persist-credentials: false}
+      - run: python -m pip install --disable-pip-version-check --no-cache-dir 'requests>=2.31,<3' 'Pillow>=10,<12'
+      - name: Generate Kali Mist and Warlock with cultivar-evidence-priority profile V2
+        shell: bash
+        run: |
+          python - <<'PY'
+          import requests,json,time,hashlib,io,base64,os
+          from pathlib import Path
+          from PIL import Image,ImageOps,ImageDraw
+          from concurrent.futures import ThreadPoolExecutor,as_completed
+
+          B='https://aihorde.net/api/v2'; K='0000000000'; O=Path(os.environ['OUT']); O.mkdir()
+          model="ICBINP - I Can't Believe It's Not Photography"
+          seeds=[104729,105729,130363,131363,156997]
+          specs={
+            'kali-mist': {
+              'name':'Kali Mist',
+              'path':Path('production/manifests/kali-mist.json'),
+              'visualPreparationHash':'0c038a0ae42544a1137574a7635255424937c06684cd6240931ac1d8ce27011d'
+            },
+            'warlock': {
+              'name':'Warlock',
+              'path':Path('production/manifests/warlock.json'),
+              'visualPreparationHash':'e190edb8fc45bd1907759c32338e8a246d8e2ebad94d794bcf839c5d39a9f24e'
+            }
+          }
+
+          common=(
+            'photorealistic botanical reference photography, single mature living female cannabis plant, '
+            'complete plant architecture visible in frame, realistic botanical morphology, neutral non-distracting background, '
+            'natural photographic lighting, single continuous photographic frame'
+          )
+          neg=(
+            'impossible anatomy, duplicated branches, fused leaves, non-cannabis flowers, male pollen sacs, '
+            'fantasy plant, CGI, illustration, painting, anime, cartoon, collage, split panel, text, watermark, logo, packaging, people, smoke'
+          )
+          profile={
+            'version':'CSW-AIHORDE-CULTIVAR-DIFFERENTIATION-PROFILE-V2',
+            'strategy':'cultivar evidence first; promptSnapshot second; photography-only common profile last; anomaly-only negative constraints',
+            'promptConstruction':"evidencePriorityBlock + '\\n\\n' + promptSnapshot + '\\n\\n' + commonPhotographicRepresentation + ' ### ' + negativePrompt",
+            'commonPhotographicRepresentation':common,
+            'negativePrompt':neg,
+            'params':{'cfg_scale':7,'sampler_name':'k_euler_a','height':768,'width':512,'steps':24,'n':1},
+            'payload':{'nsfw':False,'censor_nsfw':True,'r2':True,'shared':False,'slow_workers':True,'dry_run':False}
+          }
+          profile_bytes=json.dumps(profile,ensure_ascii=False,sort_keys=True,separators=(',',':')).encode()
+          profile_sha=hashlib.sha256(profile_bytes).hexdigest()
+          neg_sha=hashlib.sha256(neg.encode()).hexdigest()
+          (O/'generation-profile-v2.json').write_text(json.dumps({**profile,'sha256':profile_sha,'negativePromptSha256':neg_sha},indent=2,ensure_ascii=False)+'\n')
+
+          manifests={}; original_bytes={}; finals={}; meta={}
+          for slug,spec in specs.items():
+            mb=spec['path'].read_bytes(); m=json.loads(mb); original_bytes[slug]=mb; manifests[slug]=m
+            assert (m['strainId'],m['revision'],m['attempt'],m['approvalStatus'])==(slug,1,1,'pending')
+            assert m['visualPreparationHash']==spec['visualPreparationHash']
+            evidence=' '.join(x['description'].strip() for x in m.get('evidenceSnapshot',[]) if x.get('description'))
+            evidence_block=(
+              'PRIMARY CULTIVAR VISUAL EVIDENCE. Let this evidence control plant architecture, branching pattern, internode structure, '
+              'overall silhouette, flower distribution, flower structure, and leaf morphology wherever the evidence specifies them. '
+              'Do not replace cultivar-specific structure with a generic cannabis silhouette. Evidence: '+evidence
+            )
+            final=evidence_block+'\n\n'+m['promptSnapshot']+'\n\n'+common+' ### '+neg
+            finals[slug]=final
+            meta[slug]={
+              'manifestRevision':m['revision'],'attempt':m['attempt'],'visualPreparationHash':m['visualPreparationHash'],
+              'manifestSha256':hashlib.sha256(mb).hexdigest(),
+              'promptSnapshotSha256':hashlib.sha256(m['promptSnapshot'].encode()).hexdigest(),
+              'evidenceSnapshotSha256':hashlib.sha256(json.dumps(m['evidenceSnapshot'],ensure_ascii=False,sort_keys=True,separators=(',',':')).encode()).hexdigest(),
+              'finalPromptSha256':hashlib.sha256(final.encode()).hexdigest()
+            }
+
+          headers={'apikey':K,'Client-Agent':'CannabisStrainsWisdom-CultivarDifferentiationV2:1.0:github.com/Blazea-x/strain-atlas','Accept':'application/json'}
+          s=requests.Session(); s.headers.update(headers)
+          for ep in ('/status/heartbeat','/status/modes'):
+            r=s.get(B+ep,timeout=30); r.raise_for_status()
+          modes=s.get(B+'/status/modes',timeout=30).json()
+          if modes.get('maintenance_mode'): raise SystemExit('AI Horde maintenance mode')
+          r=s.get(B+'/status/models?type=image',timeout=30); r.raise_for_status(); live=r.json()
+          live_names={x.get('name') for x in live if int(x.get('count') or 0)>0}
+          if model not in live_names: raise SystemExit('ICBINP unavailable')
+
+          tasks=[]
+          for slug,spec in specs.items():
+            for si,seed in enumerate(seeds,1):
+              params={**profile['params'],'seed':str(seed)}
+              payload={'prompt':finals[slug],'params':params,'models':[model],**profile['payload']}
+              t0=time.monotonic(); q=s.post(B+'/generate/async',json=payload,timeout=30); q.raise_for_status(); gid=q.json().get('id')
+              if not gid: raise RuntimeError('no generation id')
+              tasks.append({'cultivar':spec['name'],'slug':slug,'modelId':model,'modelName':model,'seedIndex':si,'seedRequested':seed,'providerGenerationId':gid,'start':t0})
+              time.sleep(.45)
+
+          def run(t):
+            ss=requests.Session(); ss.headers.update(headers); start=t['start']; seen=False
+            while time.monotonic()-start<1800:
+              c=ss.get(B+'/generate/check/'+t['providerGenerationId'],timeout=30); c.raise_for_status(); j=c.json()
+              if j.get('faulted'): raise RuntimeError('faulted')
+              if int(j.get('processing') or 0)>0 or int(j.get('finished') or 0)>0: seen=True
+              if j.get('done'): break
+              if not seen and time.monotonic()-start>1100: raise TimeoutError('queue timeout')
+              time.sleep(5)
+            else: raise TimeoutError('generation timeout')
+            st=ss.get(B+'/generate/status/'+t['providerGenerationId'],timeout=30); st.raise_for_status(); gs=st.json().get('generations') or []
+            if len(gs)!=1: raise RuntimeError(f'generation count {len(gs)}')
+            g=gs[0]; ref=g.get('img')
+            if not ref: raise RuntimeError('missing image reference')
+            if ref.startswith(('http://','https://')):
+              rr=ss.get(ref,timeout=60); rr.raise_for_status(); data=rr.content
+            else: data=base64.b64decode(ref,validate=True)
+            with Image.open(io.BytesIO(data)) as im: im.verify()
+            with Image.open(io.BytesIO(data)) as im: w,h,fmt=im.width,im.height,im.format
+            ext={'JPEG':'jpg','PNG':'png','WEBP':'webp'}.get(fmt.upper(),'img')
+            fn=f"{t['slug']}__ICBINP__seed-{t['seedIndex']}__{g.get('seed')}.{ext}"; (O/fn).write_bytes(data)
+            return {**{k:v for k,v in t.items() if k not in ('start','slug')},'status':'success','file':fn,'modelReturned':g.get('model'),'seedReturned':g.get('seed'),'providerJobId':g.get('id'),'elapsedSeconds':round(time.monotonic()-start,1),'byteLength':len(data),'sha256':hashlib.sha256(data).hexdigest(),'dimensions':{'width':w,'height':h},**meta[t['slug']]}
+
+          results=[]
+          with ThreadPoolExecutor(max_workers=10) as ex:
+            fs={ex.submit(run,t):t for t in tasks}
+            for f in as_completed(fs):
+              t=fs[f]
+              try: results.append(f.result())
+              except Exception as e: results.append({**{k:v for k,v in t.items() if k not in ('start','slug')},'status':'failed','error':repr(e),'elapsedSeconds':round(time.monotonic()-t['start'],1),**meta[t['slug']]})
+          order={'Kali Mist':0,'Warlock':1}; results.sort(key=lambda x:(order[x['cultivar']],x['seedIndex']))
+
+          by={(x['cultivar'],x['seedIndex']):x for x in results if x['status']=='success'}
+          tw,th,lh=300,450,56; sheet=Image.new('RGB',(5*tw,2*(th+lh)),'white'); draw=ImageDraw.Draw(sheet)
+          for row,cultivar in enumerate(('Kali Mist','Warlock')):
+            for si,seed in enumerate(seeds,1):
+              x=by.get((cultivar,si)); x0=(si-1)*tw; y0=row*(th+lh)
+              if x:
+                with Image.open(O/x['file']) as im: tile=ImageOps.fit(im.convert('RGB'),(tw,th),method=Image.Resampling.LANCZOS)
+                sheet.paste(tile,(x0,y0))
+              draw.text((x0+8,y0+th+7),f"{cultivar} | seed {seed}\nICBINP | Profile V2",fill='black')
+          sheet.save(O/'kali-mist-vs-warlock-v2-contact-sheet.jpg',quality=92,optimize=True)
+
+          for slug,spec in specs.items():
+            assert hashlib.sha256(spec['path'].read_bytes()).hexdigest()==hashlib.sha256(original_bytes[slug]).hexdigest()
+          assert not os.popen("git status --porcelain -- strains production runtime UPLOAD_IMAGES_HERE").read().strip()
+          success=sum(x['status']=='success' for x in results)
+          summary={
+            'cultivarDifferentiationV2':'HUMAN REVIEW REQUIRED' if success==10 else 'INCOMPLETE',
+            'v1ToV2Differentiation':'HUMAN REVIEW REQUIRED','imageQuality':'HUMAN REVIEW REQUIRED',
+            'icbinpCultivarResponsiveness':'HUMAN REVIEW REQUIRED','humanVisualReview':'REQUIRED','productionPromotion':'NOT PERFORMED',
+            'productionMutationCount':0,'mainMutationCount':0,'runId':int(os.environ['GITHUB_RUN_ID']),
+            'artifactName':'cultivar-differentiation-v2-'+os.environ['GITHUB_RUN_ID'],'model':model,'sharedSeeds':seeds,
+            'generationProfileVersion':profile['version'],'generationProfileSha256':profile_sha,'negativePromptSha256':neg_sha,
+            'successCount':success,'cultivars':meta,'results':results
+          }
+          (O/'differentiation-v2-summary.json').write_text(json.dumps(summary,indent=2,ensure_ascii=False)+'\n')
+          print(json.dumps(summary,ensure_ascii=False))
+          if success!=10: raise SystemExit(f'Only {success}/10 generations succeeded')
+          PY
+      - name: Upload differentiation V2 artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cultivar-differentiation-v2-${{ github.run_id }}
+          path: cultivar-differentiation-v2-artifact/
+          if-no-files-found: error
+          retention-days: 14
