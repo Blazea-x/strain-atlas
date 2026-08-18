@@ -16,36 +16,54 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with: {ref: master-migration, fetch-depth: 1, persist-credentials: true}
-      - name: Wait for architecture control test and record run id
+      - name: Discover target run, expose status, then wait for completion
         env:
           GH_TOKEN: ${{ github.token }}
           REPO: ${{ github.repository }}
           TARGET_SHA: a923ebc29c6d837c349c6f09e3289ec35b569028
+          OBSERVER_RUN_ID: ${{ github.run_id }}
         shell: bash
         run: |
+          git config user.name 'strain-atlas-image-benchmark-observer'
+          git config user.email 'actions@users.noreply.github.com'
           python - <<'PY'
-          import json,os,time,urllib.request
+          import json,os,time,urllib.request,subprocess
           repo=os.environ['REPO']; token=os.environ['GH_TOKEN']; target=os.environ['TARGET_SHA']
           url=f'https://api.github.com/repos/{repo}/actions/workflows/icbinp-architecture-control-test.yml/runs?branch=master-migration&event=push&per_page=20'
           headers={'Authorization':f'Bearer {token}','Accept':'application/vnd.github+json','X-GitHub-Api-Version':'2022-11-28'}
-          found=None
-          for _ in range(280):
+          def fetch():
             req=urllib.request.Request(url,headers=headers)
-            with urllib.request.urlopen(req,timeout=30) as r: data=json.load(r)
-            matches=[x for x in data.get('workflow_runs',[]) if x.get('head_sha')==target]
+            with urllib.request.urlopen(req,timeout=30) as r: return json.load(r)
+          data=fetch(); runs=data.get('workflow_runs',[]); matches=[x for x in runs if x.get('head_sha')==target]
+          found=max(matches,key=lambda x:x['id']) if matches else None
+          os.makedirs('docs/benchmark-results',exist_ok=True)
+          discovery={
+            'observerRunId':int(os.environ['OBSERVER_RUN_ID']),
+            'targetHeadSha':target,
+            'targetRunFound':bool(found),
+            'targetRun':None if not found else {
+              'runId':found['id'],'name':found.get('name'),'headSha':found.get('head_sha'),'status':found.get('status'),
+              'conclusion':found.get('conclusion'),'htmlUrl':found.get('html_url'),'createdAt':found.get('created_at'),'updatedAt':found.get('updated_at')
+            },
+            'recentTargetWorkflowRuns':[{'runId':x['id'],'headSha':x.get('head_sha'),'status':x.get('status'),'conclusion':x.get('conclusion')} for x in runs[:8]]
+          }
+          open('docs/benchmark-results/icbinp-architecture-control-discovery.json','w').write(json.dumps(discovery,indent=2)+'\n')
+          subprocess.run(['git','add','docs/benchmark-results/icbinp-architecture-control-discovery.json'],check=True)
+          subprocess.run(['git','commit','-m','[IMAGE V2] Expose architecture control run discovery'],check=True)
+          subprocess.run(['git','push','origin','HEAD:master-migration'],check=True)
+          if not found: raise SystemExit('architecture control run not found for target sha')
+          for _ in range(280):
+            data=fetch(); matches=[x for x in data.get('workflow_runs',[]) if x.get('head_sha')==target]
             if matches:
               found=max(matches,key=lambda x:x['id'])
               if found.get('status')=='completed': break
             time.sleep(8)
-          if not found: raise SystemExit('architecture control run not found')
+          if not found or found.get('status')!='completed': raise SystemExit('architecture control run did not complete')
           out={'runId':found['id'],'name':found.get('name'),'headSha':found.get('head_sha'),'status':found.get('status'),'conclusion':found.get('conclusion'),'htmlUrl':found.get('html_url'),'createdAt':found.get('created_at'),'updatedAt':found.get('updated_at')}
-          os.makedirs('docs/benchmark-results',exist_ok=True)
           open('docs/benchmark-results/icbinp-architecture-control-run-latest.json','w').write(json.dumps(out,indent=2)+'\n')
+          subprocess.run(['git','add','docs/benchmark-results/icbinp-architecture-control-run-latest.json'],check=True)
+          subprocess.run(['git','commit','-m','[IMAGE V2] Record ICBINP architecture control run id'],check=True)
+          subprocess.run(['git','push','origin','HEAD:master-migration'],check=True)
           print(json.dumps(out))
           PY
-          git config user.name 'strain-atlas-image-benchmark-observer'
-          git config user.email 'actions@users.noreply.github.com'
-          git add docs/benchmark-results/icbinp-architecture-control-run-latest.json
           test -z "$(git status --porcelain -- strains production runtime UPLOAD_IMAGES_HERE)"
-          git commit -m '[IMAGE V2] Record ICBINP architecture control run id'
-          git push origin HEAD:master-migration
