@@ -1,0 +1,117 @@
+name: IMAGE V2 Cultivar Differentiation Warlock
+
+on:
+  push:
+    branches: [master-migration]
+    paths: ['.github/workflows/image-cultivar-differentiation-warlock-v1.yml']
+
+permissions:
+  contents: read
+
+env:
+  OUT: cultivar-differentiation-artifact
+
+jobs:
+  differentiation:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+        with: {ref: master-migration, fetch-depth: 1, persist-credentials: false}
+      - run: python -m pip install --disable-pip-version-check --no-cache-dir 'requests>=2.31,<3' 'Pillow>=10,<12'
+      - name: Generate Warlock x 5 shared seeds with fixed ICBINP profile
+        shell: bash
+        run: |
+          python - <<'PY'
+          import requests,json,time,hashlib,io,base64,os,re
+          from pathlib import Path
+          from PIL import Image,ImageOps,ImageDraw
+          from concurrent.futures import ThreadPoolExecutor,as_completed
+
+          B='https://aihorde.net/api/v2'; K='0000000000'; O=Path(os.environ['OUT']); O.mkdir()
+          mp=Path('production/manifests/warlock.json'); mb=mp.read_bytes(); m=json.loads(mb)
+          assert (m['strainId'],m['revision'],m['attempt'],m['approvalStatus'])==('warlock',1,1,'pending')
+          assert m['visualPreparationHash']=='e190edb8fc45bd1907759c32338e8a246d8e2ebad94d794bcf839c5d39a9f24e'
+
+          model="ICBINP - I Can't Believe It's Not Photography"
+          seeds=[104729,105729,130363,131363,156997]
+          common='photorealistic botanical reference photograph, single mature living female cannabis plant, botanically plausible morphology, cultivar-specific plant architecture clearly visible, mature female flowers clearly visible, natural branching, internodes and leaf arrangement, realistic cannabis inflorescences, single continuous photographic frame, neutral non-distracting background'
+          neg='illustration, painting, anime, cartoon, collage, split panel, text, watermark, logo, packaging, people, smoke, artificial plastic flowers, cotton-like flowers, brush-like flowers, repeated identical cone flowers'
+          final=m['promptSnapshot']+'\n\n'+common+' ### '+neg
+          profile={'version':'CSW-AIHORDE-MODEL-BENCHMARK-PROFILE-V1','promptConstruction':"promptSnapshot + '\\n\\n' + commonPrompt + ' ### ' + negativePrompt",'commonPrompt':common,'negativePrompt':neg,'params':{'cfg_scale':7,'sampler_name':'k_euler_a','height':768,'width':512,'steps':24,'n':1},'payload':{'nsfw':False,'censor_nsfw':True,'r2':True,'shared':False,'slow_workers':True,'dry_run':False}}
+          pcb=json.dumps(profile,ensure_ascii=False,sort_keys=True,separators=(',',':')).encode(); profile_sha=hashlib.sha256(pcb).hexdigest()
+          assert profile_sha=='860b7d03e0011dfe8968cfb710f4c31ad1067d8415656de67efb0d63f605a533'
+          (O/'generation-profile.json').write_text(json.dumps({**profile,'sha256':profile_sha},indent=2,ensure_ascii=False)+'\n')
+          (O/'selection.json').write_text(json.dumps({'cultivar':'Warlock','reason':'Official evidence describes low, thick vegetative growth with large compact flower heads, providing a low/thick architecture contrast to Kali Mist without adding unsupported traits.','manifestRevision':m['revision'],'visualPreparationHash':m['visualPreparationHash']},indent=2,ensure_ascii=False)+'\n')
+
+          headers={'apikey':K,'Client-Agent':'CannabisStrainsWisdom-CultivarDifferentiation:1.0:github.com/Blazea-x/strain-atlas','Accept':'application/json'}
+          s=requests.Session(); s.headers.update(headers)
+          for ep in ('/status/heartbeat','/status/modes'):
+            r=s.get(B+ep,timeout=30); r.raise_for_status()
+          modes=s.get(B+'/status/modes',timeout=30).json()
+          if modes.get('maintenance_mode'): raise SystemExit('AI Horde maintenance mode')
+          r=s.get(B+'/status/models?type=image',timeout=30); r.raise_for_status(); live=r.json()
+          live_names={x.get('name') for x in live if int(x.get('count') or 0)>0}
+          if model not in live_names: raise SystemExit('ICBINP unavailable')
+
+          tasks=[]
+          for si,seed in enumerate(seeds,1):
+            params={**profile['params'],'seed':str(seed)}
+            payload={'prompt':final,'params':params,'models':[model],**profile['payload']}
+            t0=time.monotonic(); q=s.post(B+'/generate/async',json=payload,timeout=30); q.raise_for_status(); gid=q.json().get('id')
+            if not gid: raise RuntimeError('no generation id')
+            tasks.append({'cultivar':'Warlock','modelId':model,'modelName':model,'seedIndex':si,'seedRequested':seed,'providerGenerationId':gid,'start':t0})
+            time.sleep(.45)
+
+          def run(t):
+            ss=requests.Session(); ss.headers.update(headers); start=t['start']; seen=False
+            while time.monotonic()-start<1500:
+              c=ss.get(B+'/generate/check/'+t['providerGenerationId'],timeout=30); c.raise_for_status(); j=c.json()
+              if j.get('faulted'): raise RuntimeError('faulted')
+              if int(j.get('processing') or 0)>0 or int(j.get('finished') or 0)>0: seen=True
+              if j.get('done'): break
+              if not seen and time.monotonic()-start>900: raise TimeoutError('queue timeout')
+              time.sleep(5)
+            else: raise TimeoutError('generation timeout')
+            st=ss.get(B+'/generate/status/'+t['providerGenerationId'],timeout=30); st.raise_for_status(); gs=st.json().get('generations') or []
+            if len(gs)!=1: raise RuntimeError(f'generation count {len(gs)}')
+            g=gs[0]; ref=g.get('img')
+            if not ref: raise RuntimeError('missing image reference')
+            if ref.startswith(('http://','https://')):
+              rr=ss.get(ref,timeout=60); rr.raise_for_status(); data=rr.content
+            else: data=base64.b64decode(ref,validate=True)
+            with Image.open(io.BytesIO(data)) as im: im.verify()
+            with Image.open(io.BytesIO(data)) as im: w,h,fmt=im.width,im.height,im.format
+            ext={'JPEG':'jpg','PNG':'png','WEBP':'webp'}.get(fmt.upper(),'img')
+            fn=f"warlock__ICBINP__seed-{t['seedIndex']}__{g.get('seed')}.{ext}"; (O/fn).write_bytes(data)
+            return {**{k:v for k,v in t.items() if k!='start'},'status':'success','file':fn,'modelReturned':g.get('model'),'seedReturned':g.get('seed'),'providerJobId':g.get('id'),'elapsedSeconds':round(time.monotonic()-start,1),'byteLength':len(data),'sha256':hashlib.sha256(data).hexdigest(),'dimensions':{'width':w,'height':h}}
+
+          results=[]
+          with ThreadPoolExecutor(max_workers=5) as ex:
+            fs={ex.submit(run,t):t for t in tasks}
+            for f in as_completed(fs):
+              t=fs[f]
+              try: results.append(f.result())
+              except Exception as e: results.append({**{k:v for k,v in t.items() if k!='start'},'status':'failed','error':repr(e),'elapsedSeconds':round(time.monotonic()-t['start'],1)})
+          results.sort(key=lambda x:x['seedIndex'])
+          good=[x for x in results if x['status']=='success']
+          if good:
+            tw,th,lh=320,480,52; sheet=Image.new('RGB',(5*tw,th+lh),'white'); draw=ImageDraw.Draw(sheet)
+            for x in good:
+              with Image.open(O/x['file']) as im: tile=ImageOps.fit(im.convert('RGB'),(tw,th),method=Image.Resampling.LANCZOS)
+              x0=(x['seedIndex']-1)*tw; sheet.paste(tile,(x0,0)); draw.text((x0+8,th+7),f"Warlock / {x['seedRequested']} / ICBINP",fill='black')
+            sheet.save(O/'warlock-contact-sheet.jpg',quality=92,optimize=True)
+          assert hashlib.sha256(mp.read_bytes()).hexdigest()==hashlib.sha256(mb).hexdigest()
+          assert not os.popen("git status --porcelain -- strains production runtime UPLOAD_IMAGES_HERE").read().strip()
+          success=sum(x['status']=='success' for x in results)
+          summary={'cultivarDifferentiation':'AWAITING HUMAN VISUAL REVIEW' if success==5 else 'INCOMPLETE','icbinpCultivarResponsiveness':'AWAITING HUMAN VISUAL REVIEW','humanVisualReview':'REQUIRED','productionPromotion':'NOT PERFORMED','productionMutationCount':0,'mainMutationCount':0,'runId':int(os.environ['GITHUB_RUN_ID']),'artifactName':'cultivar-differentiation-warlock-'+os.environ['GITHUB_RUN_ID'],'cultivar':'Warlock','model':model,'sharedSeeds':seeds,'generationProfileVersion':profile['version'],'generationProfileSha256':profile_sha,'manifestRevision':m['revision'],'attempt':m['attempt'],'visualPreparationHash':m['visualPreparationHash'],'successCount':success,'results':results}
+          (O/'differentiation-summary.json').write_text(json.dumps(summary,indent=2,ensure_ascii=False)+'\n'); print(json.dumps(summary,ensure_ascii=False))
+          PY
+      - name: Upload differentiation artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cultivar-differentiation-warlock-${{ github.run_id }}
+          path: cultivar-differentiation-artifact/
+          if-no-files-found: error
+          retention-days: 14
