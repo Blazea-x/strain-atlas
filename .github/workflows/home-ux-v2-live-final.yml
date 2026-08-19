@@ -4,7 +4,7 @@ on:
     branches: [main]
     paths: [".github/workflows/home-ux-v2-live-final.yml"]
 permissions:
-  contents: read
+  contents: write
 jobs:
   verify:
     runs-on: ubuntu-latest
@@ -95,3 +95,17 @@ jobs:
         with:
           name: home-ux-v2-live-final-${{ github.run_id }}
           path: live-final/
+      - name: Persist result for inspection
+        if: always()
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -f live-final/result.json
+          mkdir -p .github/home-ux-v2-live-final
+          cp live-final/result.json .github/home-ux-v2-live-final/result.json
+          git config user.name 'home-ux-v2-live-final'
+          git config user.email 'actions@users.noreply.github.com'
+          git pull --rebase origin main
+          git add .github/home-ux-v2-live-final/result.json
+          git commit -m 'Record final live HOME UX V2 verification [skip ci]'
+          git push origin HEAD:main
