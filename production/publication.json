@@ -161,6 +161,46 @@
       "introducedByRun": "content-production-start-32223471114",
       "publishedAt": "2026-08-19T07:01:10Z",
       "bootstrapMasterSha": null
+    },
+    {
+      "strainId": "bubba-kush-s1",
+      "state": "pending",
+      "origin": "content-production",
+      "introducedByRun": "content-production-start-32231155417",
+      "publishedAt": null,
+      "bootstrapMasterSha": null
+    },
+    {
+      "strainId": "california-orange-s1",
+      "state": "pending",
+      "origin": "content-production",
+      "introducedByRun": "content-production-start-32231155417",
+      "publishedAt": null,
+      "bootstrapMasterSha": null
+    },
+    {
+      "strainId": "chemdog-91-s1",
+      "state": "pending",
+      "origin": "content-production",
+      "introducedByRun": "content-production-start-32231155417",
+      "publishedAt": null,
+      "bootstrapMasterSha": null
+    },
+    {
+      "strainId": "gorilla-glue-4-s1",
+      "state": "pending",
+      "origin": "content-production",
+      "introducedByRun": "content-production-start-32231155417",
+      "publishedAt": null,
+      "bootstrapMasterSha": null
+    },
+    {
+      "strainId": "jager-s1",
+      "state": "pending",
+      "origin": "content-production",
+      "introducedByRun": "content-production-start-32231155417",
+      "publishedAt": null,
+      "bootstrapMasterSha": null
     }
   ]
 }

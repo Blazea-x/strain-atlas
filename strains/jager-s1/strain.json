@@ -1,0 +1,71 @@
+{
+  "schemaVersion": 1,
+  "id": "jager-s1",
+  "status": "review",
+  "name": "Jager S1",
+  "jp": null,
+  "aliases": [],
+  "classification": {
+    "type": "unknown"
+  },
+  "breeding": {
+    "generation": "S1",
+    "method": "selfed"
+  },
+  "lineage": {
+    "status": "confirmed",
+    "confidence": "A",
+    "basis": "breederOfficial",
+    "sourceRefs": [
+      "humboldt-csi-jager-s1"
+    ],
+    "display": "Jager × Jager",
+    "parents": [
+      "Jager"
+    ],
+    "note": "Humboldt CSI's official Jager S1 page lists the cultivar as Jager × Jager. Together with the official S1 designation, this is treated as a selfed S1 line. No unstated ancestry is copied from the parent cultivar."
+  },
+  "relations": [
+    {
+      "entityId": "humboldt-csi",
+      "roles": [
+        "breeder",
+        "seedCompany"
+      ],
+      "status": "confirmed",
+      "confidence": "A",
+      "basis": "breederOfficial",
+      "sourceRefs": [
+        "humboldt-csi-jager-s1"
+      ]
+    }
+  ],
+  "aromas": {
+    "status": "unknown",
+    "items": [],
+    "note": "The official Jager S1 product page does not provide cultivar-level aroma descriptors; parent-cultivar or customer-review aromas are not generalized to this S1 line."
+  },
+  "terpenes": {
+    "status": "unknown",
+    "items": [],
+    "note": "The official Jager S1 product page does not provide a cultivar-specific terpene profile or lot COA."
+  },
+  "origin": {
+    "status": "unknown",
+    "text": "",
+    "note": "The official Jager S1 product page does not state the S1 line's exact creation location; no inferred location is added."
+  },
+  "history": {
+    "status": "confirmed",
+    "confidence": "A",
+    "basis": "breederOfficial",
+    "sourceRefs": [
+      "humboldt-csi-jager-s1"
+    ],
+    "text": "Humboldt CSI describes the Jager source cut as a very popular Southern Oregon outdoor cut that originated at Millerville Farms and spread widely.",
+    "note": "Retained only as parent-cut background from the official Jager S1 page; the page does not state the S1 line's exact creation date or production location."
+  },
+  "visuals": [],
+  "checkedAt": "2026-08-19",
+  "updatedAt": "2026-08-19"
+}

@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "id": "humboldt-csi-california-orange-s1",
+  "publisher": "Humboldt CSI",
+  "title": "California Orange S1",
+  "url": "https://humboldtcsi.com/product/california-orange-s1/",
+  "sourceType": "breederOfficial",
+  "supports": [
+    "lineage",
+    "breeder",
+    "generation",
+    "breeding"
+  ],
+  "publishedAt": null,
+  "checkedAt": "2026-08-19",
+  "note": "Official Humboldt CSI product page used to confirm the California Orange S1 identity, S1 designation, same-cultivar cross (California Orange (AE77 cut) × California Orange (AE77 cut)), feminized seed listing, and Humboldt CSI association. No unsupported aroma, terpene, classification, or cultivar-wide morphology claims are imported."
+}

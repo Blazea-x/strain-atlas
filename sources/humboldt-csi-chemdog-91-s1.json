@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "id": "humboldt-csi-chemdog-91-s1",
+  "publisher": "Humboldt CSI",
+  "title": "Chemdog ’91 S1",
+  "url": "https://humboldtcsi.com/product/chemdog-91-s1/",
+  "sourceType": "breederOfficial",
+  "supports": [
+    "lineage",
+    "breeder",
+    "generation",
+    "breeding"
+  ],
+  "publishedAt": null,
+  "checkedAt": "2026-08-19",
+  "note": "Official Humboldt CSI product page used to confirm the Chemdog ’91 S1 identity, S1 designation, same-cultivar cross (Chemdog ’91 × Chemdog ’91), feminized seed listing, and Humboldt CSI association. No unsupported aroma, terpene, classification, or cultivar-wide morphology claims are imported."
+}

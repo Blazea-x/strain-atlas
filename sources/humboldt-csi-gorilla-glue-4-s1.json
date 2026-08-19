@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "id": "humboldt-csi-gorilla-glue-4-s1",
+  "publisher": "Humboldt CSI",
+  "title": "Gorilla Glue 4 S1",
+  "url": "https://humboldtcsi.com/product/gorilla-glue-4-s1/",
+  "sourceType": "breederOfficial",
+  "supports": [
+    "lineage",
+    "breeder",
+    "generation",
+    "breeding"
+  ],
+  "publishedAt": null,
+  "checkedAt": "2026-08-19",
+  "note": "Official Humboldt CSI product page used to confirm the Gorilla Glue 4 S1 identity, S1 designation, same-cultivar cross (Gorilla Glue 4 × Gorilla Glue 4), feminized seed listing, and Humboldt CSI association. No unsupported aroma, terpene, classification, or cultivar-wide morphology claims are imported."
+}

@@ -1,0 +1,252 @@
+{
+  "schemaVersion": 1,
+  "runVersion": 1,
+  "runId": "content-production-start-32231155417",
+  "mode": "new-publication",
+  "publicationPolicy": "cultivar",
+  "status": "ACTIVE",
+  "startedAt": "2026-08-19T08:08:56Z",
+  "updatedAt": "2026-08-19T08:08:56Z",
+  "finishedAt": null,
+  "cancelledAt": null,
+  "baseSha": "8dc9d45dfcdff6c06e0996e092090cdcc28bc395",
+  "currentBaseSha": "8dc9d45dfcdff6c06e0996e092090cdcc28bc395",
+  "attempt": 1,
+  "previousAttempts": [],
+  "mainHeadAtStart": "aaadb18e2a8320f48082fa31cb653a3b0e6c2604",
+  "mainHeadAtEnd": null,
+  "publishedIdsAtStart": [
+    "bangi-haze",
+    "bubble-gum",
+    "california-octane",
+    "cataract-kush",
+    "chocolope-256",
+    "dr-grinspoon",
+    "durban-poison",
+    "frisian-duck",
+    "kali-mist",
+    "malawi",
+    "og-kush",
+    "panama",
+    "shaman",
+    "strawberry-banana-s1",
+    "super-lemon-haze",
+    "the-og-18",
+    "warlock",
+    "wedding-cake",
+    "wedding-cake-s1",
+    "zamaldelica"
+  ],
+  "targetStrainIds": [
+    "bubba-kush-s1",
+    "california-orange-s1",
+    "chemdog-91-s1",
+    "gorilla-glue-4-s1",
+    "jager-s1"
+  ],
+  "expectedPublicationDelta": [
+    "bubba-kush-s1",
+    "california-orange-s1",
+    "chemdog-91-s1",
+    "gorilla-glue-4-s1",
+    "jager-s1"
+  ],
+  "items": [
+    {
+      "strainId": "bubba-kush-s1",
+      "sourceStockPath": "stock/items/bubba-kush-s1.json",
+      "sourceStockBlobSha": "edec7ecdfe613118474ee04e7539643bb3badcfc",
+      "productionStrainPath": "strains/bubba-kush-s1/strain.json",
+      "publicationEntryId": "bubba-kush-s1",
+      "productionPhase": "IMAGE_PENDING",
+      "previousStablePhase": "IMAGE_PENDING",
+      "manifestId": "content-production-start-32231155417-bubba-kush-s1-image",
+      "manifestRevision": 1,
+      "promotedAt": "2026-08-19T08:08:56Z",
+      "promotionCommit": null,
+      "approval": null,
+      "commits": {
+        "dataCommit": null,
+        "imageInboxCommit": null,
+        "imageProcessingCommit": null,
+        "visualsCommit": null,
+        "publicationCommit": null,
+        "buildCommit": null
+      },
+      "audit": [
+        {
+          "severity": "INFO",
+          "code": "PHASE_TRANSITION",
+          "fromPhase": "STOCKED",
+          "toPhase": "DATA_READY",
+          "at": "2026-08-19T08:08:56Z"
+        },
+        {
+          "severity": "INFO",
+          "code": "PHASE_TRANSITION",
+          "fromPhase": "DATA_READY",
+          "toPhase": "IMAGE_PENDING",
+          "at": "2026-08-19T08:08:56Z"
+        }
+      ]
+    },
+    {
+      "strainId": "california-orange-s1",
+      "sourceStockPath": "stock/items/california-orange-s1.json",
+      "sourceStockBlobSha": "a268afd870c1336495813c214426dcad3cb3f843",
+      "productionStrainPath": "strains/california-orange-s1/strain.json",
+      "publicationEntryId": "california-orange-s1",
+      "productionPhase": "IMAGE_PENDING",
+      "previousStablePhase": "IMAGE_PENDING",
+      "manifestId": "content-production-start-32231155417-california-orange-s1-image",
+      "manifestRevision": 1,
+      "promotedAt": "2026-08-19T08:08:56Z",
+      "promotionCommit": null,
+      "approval": null,
+      "commits": {
+        "dataCommit": null,
+        "imageInboxCommit": null,
+        "imageProcessingCommit": null,
+        "visualsCommit": null,
+        "publicationCommit": null,
+        "buildCommit": null
+      },
+      "audit": [
+        {
+          "severity": "INFO",
+          "code": "PHASE_TRANSITION",
+          "fromPhase": "STOCKED",
+          "toPhase": "DATA_READY",
+          "at": "2026-08-19T08:08:56Z"
+        },
+        {
+          "severity": "INFO",
+          "code": "PHASE_TRANSITION",
+          "fromPhase": "DATA_READY",
+          "toPhase": "IMAGE_PENDING",
+          "at": "2026-08-19T08:08:56Z"
+        }
+      ]
+    },
+    {
+      "strainId": "chemdog-91-s1",
+      "sourceStockPath": "stock/items/chemdog-91-s1.json",
+      "sourceStockBlobSha": "b5087a2b19fe7243c22ea8db90d4799be2a49dad",
+      "productionStrainPath": "strains/chemdog-91-s1/strain.json",
+      "publicationEntryId": "chemdog-91-s1",
+      "productionPhase": "IMAGE_PENDING",
+      "previousStablePhase": "IMAGE_PENDING",
+      "manifestId": "content-production-start-32231155417-chemdog-91-s1-image",
+      "manifestRevision": 1,
+      "promotedAt": "2026-08-19T08:08:56Z",
+      "promotionCommit": null,
+      "approval": null,
+      "commits": {
+        "dataCommit": null,
+        "imageInboxCommit": null,
+        "imageProcessingCommit": null,
+        "visualsCommit": null,
+        "publicationCommit": null,
+        "buildCommit": null
+      },
+      "audit": [
+        {
+          "severity": "INFO",
+          "code": "PHASE_TRANSITION",
+          "fromPhase": "STOCKED",
+          "toPhase": "DATA_READY",
+          "at": "2026-08-19T08:08:56Z"
+        },
+        {
+          "severity": "INFO",
+          "code": "PHASE_TRANSITION",
+          "fromPhase": "DATA_READY",
+          "toPhase": "IMAGE_PENDING",
+          "at": "2026-08-19T08:08:56Z"
+        }
+      ]
+    },
+    {
+      "strainId": "gorilla-glue-4-s1",
+      "sourceStockPath": "stock/items/gorilla-glue-4-s1.json",
+      "sourceStockBlobSha": "40a3955c91fc3df75dfb06728f797e98c588187d",
+      "productionStrainPath": "strains/gorilla-glue-4-s1/strain.json",
+      "publicationEntryId": "gorilla-glue-4-s1",
+      "productionPhase": "IMAGE_PENDING",
+      "previousStablePhase": "IMAGE_PENDING",
+      "manifestId": "content-production-start-32231155417-gorilla-glue-4-s1-image",
+      "manifestRevision": 1,
+      "promotedAt": "2026-08-19T08:08:56Z",
+      "promotionCommit": null,
+      "approval": null,
+      "commits": {
+        "dataCommit": null,
+        "imageInboxCommit": null,
+        "imageProcessingCommit": null,
+        "visualsCommit": null,
+        "publicationCommit": null,
+        "buildCommit": null
+      },
+      "audit": [
+        {
+          "severity": "INFO",
+          "code": "PHASE_TRANSITION",
+          "fromPhase": "STOCKED",
+          "toPhase": "DATA_READY",
+          "at": "2026-08-19T08:08:56Z"
+        },
+        {
+          "severity": "INFO",
+          "code": "PHASE_TRANSITION",
+          "fromPhase": "DATA_READY",
+          "toPhase": "IMAGE_PENDING",
+          "at": "2026-08-19T08:08:56Z"
+        }
+      ]
+    },
+    {
+      "strainId": "jager-s1",
+      "sourceStockPath": "stock/items/jager-s1.json",
+      "sourceStockBlobSha": "de574b8db78ff95b9c9344412dce116dcb2b089a",
+      "productionStrainPath": "strains/jager-s1/strain.json",
+      "publicationEntryId": "jager-s1",
+      "productionPhase": "IMAGE_PENDING",
+      "previousStablePhase": "IMAGE_PENDING",
+      "manifestId": "content-production-start-32231155417-jager-s1-image",
+      "manifestRevision": 1,
+      "promotedAt": "2026-08-19T08:08:56Z",
+      "promotionCommit": null,
+      "approval": null,
+      "commits": {
+        "dataCommit": null,
+        "imageInboxCommit": null,
+        "imageProcessingCommit": null,
+        "visualsCommit": null,
+        "publicationCommit": null,
+        "buildCommit": null
+      },
+      "audit": [
+        {
+          "severity": "INFO",
+          "code": "PHASE_TRANSITION",
+          "fromPhase": "STOCKED",
+          "toPhase": "DATA_READY",
+          "at": "2026-08-19T08:08:56Z"
+        },
+        {
+          "severity": "INFO",
+          "code": "PHASE_TRANSITION",
+          "fromPhase": "DATA_READY",
+          "toPhase": "IMAGE_PENDING",
+          "at": "2026-08-19T08:08:56Z"
+        }
+      ]
+    }
+  ],
+  "pagesDeploymentRunId": null,
+  "pagesDeploymentUrl": null,
+  "displayVerifiedAt": null,
+  "publicationSetAtEnd": null,
+  "recovery": null,
+  "auditSummary": null
+}

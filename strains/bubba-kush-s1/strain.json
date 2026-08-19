@@ -1,0 +1,66 @@
+{
+  "schemaVersion": 1,
+  "id": "bubba-kush-s1",
+  "status": "review",
+  "name": "Bubba Kush S1",
+  "jp": null,
+  "aliases": [],
+  "classification": {
+    "type": "unknown"
+  },
+  "breeding": {
+    "generation": "S1",
+    "method": "selfed"
+  },
+  "lineage": {
+    "status": "confirmed",
+    "confidence": "A",
+    "basis": "breederOfficial",
+    "sourceRefs": [
+      "humboldt-csi-bubba-kush-s1"
+    ],
+    "display": "Bubba Kush × Bubba Kush",
+    "parents": [
+      "Bubba Kush"
+    ],
+    "note": "Humboldt CSI's official Bubba Kush S1 page lists the cultivar as Bubba Kush × Bubba Kush. Together with the official S1 designation, this is treated as a selfed S1 line. No unstated ancestry is copied from the parent cultivar."
+  },
+  "relations": [
+    {
+      "entityId": "humboldt-csi",
+      "roles": [
+        "breeder",
+        "seedCompany"
+      ],
+      "status": "confirmed",
+      "confidence": "A",
+      "basis": "breederOfficial",
+      "sourceRefs": [
+        "humboldt-csi-bubba-kush-s1"
+      ]
+    }
+  ],
+  "aromas": {
+    "status": "unknown",
+    "items": [],
+    "note": "The official Bubba Kush S1 product page does not provide cultivar-level aroma descriptors; parent-cultivar or customer-review aromas are not generalized to this S1 line."
+  },
+  "terpenes": {
+    "status": "unknown",
+    "items": [],
+    "note": "The official Bubba Kush S1 product page does not provide a cultivar-specific terpene profile or lot COA."
+  },
+  "origin": {
+    "status": "unknown",
+    "text": "",
+    "note": "The official Bubba Kush S1 product page does not state the S1 line's exact creation location; no inferred location is added."
+  },
+  "history": {
+    "status": "unknown",
+    "text": "",
+    "note": "The official Bubba Kush S1 product page does not state a cultivar-specific release date or development history; no secondary history is imported."
+  },
+  "visuals": [],
+  "checkedAt": "2026-08-19",
+  "updatedAt": "2026-08-19"
+}

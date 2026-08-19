@@ -1,0 +1,53 @@
+{
+  "schemaVersion": 1,
+  "manifestVersion": 1,
+  "manifestId": "content-production-start-32231155417-chemdog-91-s1-image",
+  "runId": "content-production-start-32231155417",
+  "strainId": "chemdog-91-s1",
+  "revision": 1,
+  "attempt": 1,
+  "sourceStockPath": "stock/items/chemdog-91-s1.json",
+  "sourceStockBlobSha": "b5087a2b19fe7243c22ea8db90d4799be2a49dad",
+  "visualPreparationHash": "e0b08b2d87e48e3dc049e560add6847761879dc184e145d40d12ecb62b051fa9",
+  "generatedFromManifestVersion": null,
+  "promptSnapshot": "Photorealistic botanical reference image of one mature flowering cannabis plant representing Chemdog ’91 S1, complete plant visible, neutral natural light, realistic botany. Do not assert cultivar-specific architecture, branching pattern, internode spacing, leaf width, flower shape, flower density, coloration, or resin/trichome intensity beyond ordinary natural cannabis morphology because the official cultivar page does not provide verified morphology evidence. No labels, logos, packaging, people, smoke, consumption context, text, or invented signature coloration.",
+  "evidenceSnapshot": [
+    {
+      "description": "Humboldt CSI's official Chemdog ’91 S1 page confirms cultivar identity and S1/selfed parentage but provides no verified cultivar-wide architecture, branching, internode, leaf-width, flower-density, color, or resin morphology descriptors. The generation prompt therefore intentionally avoids cultivar-specific morphology claims.",
+      "sourceIds": [
+        "humboldt-csi-chemdog-91-s1"
+      ]
+    }
+  ],
+  "visualMetadataSnapshot": {
+    "alt": "Chemdog ’91 S1の公式S1同定情報を基礎に、未確認の品種固有形態を付加せず作成するAI生成の植物学的参考ビジュアル",
+    "rights": "AI-generated project asset for Cannabis Strain Wisdom. No third-party image is copied; the prompt is constrained to claims supported by the cited official cultivar page.",
+    "scope": "cultivar",
+    "aiGenerated": true,
+    "sourceType": "aiGenerated"
+  },
+  "expectedInboxFilename": "chemdog-91-s1.jpg",
+  "expectedPrimaryPath": "strains/chemdog-91-s1/images/generated/primary.webp",
+  "generatedAt": null,
+  "approvalStatus": "pending",
+  "approvedAt": null,
+  "approvalType": "human-visual-review",
+  "approvedManifestRevision": null,
+  "approvedAttempt": null,
+  "approvedSourceSha256": null,
+  "imageInboxCommit": null,
+  "imageProcessingCommit": null,
+  "processedPrimaryBlobSha": null,
+  "processedPrimarySha256": null,
+  "width": null,
+  "height": null,
+  "audit": [
+    {
+      "severity": "INFO",
+      "code": "MANIFEST_CREATED",
+      "at": "2026-08-19T08:08:56Z",
+      "productionPhase": "IMAGE_PENDING",
+      "note": "Created by PRODUCTION START V1. Candidate output is review-only and cannot publish."
+    }
+  ]
+}

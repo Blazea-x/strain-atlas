@@ -1,0 +1,18 @@
+{
+  "schemaVersion": 1,
+  "id": "humboldt-csi-jager-s1",
+  "publisher": "Humboldt CSI",
+  "title": "Jager S1",
+  "url": "https://humboldtcsi.com/product/jager-s1/",
+  "sourceType": "breederOfficial",
+  "supports": [
+    "lineage",
+    "breeder",
+    "generation",
+    "breeding",
+    "history"
+  ],
+  "publishedAt": null,
+  "checkedAt": "2026-08-19",
+  "note": "Official Humboldt CSI product page used to confirm the Jager S1 identity, S1 designation, same-cultivar cross (Jager × Jager), feminized seed listing, and Humboldt CSI association. No unsupported aroma, terpene, classification, or cultivar-wide morphology claims are imported."
+}
