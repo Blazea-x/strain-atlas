@@ -5,7 +5,6 @@ import json
 import os
 import subprocess
 import urllib.request
-import zipfile
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -15,6 +14,7 @@ ROOT = Path.cwd()
 REPO = os.environ['GITHUB_REPOSITORY']
 TOKEN = os.environ['GH_TOKEN']
 ARTIFACT_ID = int(os.environ['ARTIFACT_ID'])
+ARTIFACT_DIR = Path(os.environ['ARTIFACT_DIR'])
 GENERATION_RUN_ID = int(os.environ['GENERATION_RUN_ID'])
 EXPECTED_CANDIDATE_SHA256 = os.environ['EXPECTED_CANDIDATE_SHA256']
 REPORT_PATH = Path(os.environ.get('PROMOTION_REPORT', '/tmp/dr-grinspoon-promotion-report.json'))
@@ -33,7 +33,7 @@ def write_json(path: Path, value):
     path.write_text(json.dumps(value, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
 
 
-def gh_request(url: str, binary=False):
+def gh_json(url: str):
     headers = {
         'Authorization': f'Bearer {TOKEN}',
         'Accept': 'application/vnd.github+json',
@@ -41,8 +41,8 @@ def gh_request(url: str, binary=False):
         'User-Agent': 'strain-atlas-image-production-v2-promotion',
     }
     request = urllib.request.Request(url, headers=headers)
-    with urllib.request.urlopen(request, timeout=90) as response:
-        return response.read() if binary else json.load(response)
+    with urllib.request.urlopen(request, timeout=30) as response:
+        return json.load(response)
 
 
 def canonical(value):
@@ -59,13 +59,12 @@ def visual_hash(prompt, evidence, metadata):
     return sha256_bytes(raw)
 
 
-archive_bytes = gh_request(f'https://api.github.com/repos/{REPO}/actions/artifacts/{ARTIFACT_ID}/zip', binary=True)
-with zipfile.ZipFile(io.BytesIO(archive_bytes)) as archive:
-    names = set(archive.namelist())
-    if 'preflight-generation-summary.json' not in names or 'dr-grinspoon__one-shot.jpg' not in names:
-        raise SystemExit('SAFE-STOP: expected generation artifact files are missing')
-    summary = json.loads(archive.read('preflight-generation-summary.json').decode('utf-8'))
-    candidate = archive.read('dr-grinspoon__one-shot.jpg')
+summary_path = ARTIFACT_DIR / 'preflight-generation-summary.json'
+candidate_path = ARTIFACT_DIR / 'dr-grinspoon__one-shot.jpg'
+if not summary_path.is_file() or not candidate_path.is_file():
+    raise SystemExit('SAFE-STOP: expected downloaded generation artifact files are missing')
+summary = read_json(summary_path)
+candidate = candidate_path.read_bytes()
 
 if int(summary.get('workflowRunId', -1)) != GENERATION_RUN_ID:
     raise SystemExit('SAFE-STOP: generation workflowRunId mismatch')
@@ -119,11 +118,7 @@ visual_metadata = {
     'aiGenerated': True,
     'sourceType': 'aiGenerated',
 }
-visual = {
-    'role': 'primary',
-    'src': str(primary_rel),
-    **visual_metadata,
-}
+visual = {'role': 'primary', 'src': str(primary_rel), **visual_metadata}
 
 strain_path = ROOT / 'strains/dr-grinspoon/strain.json'
 strain = read_json(strain_path)
@@ -152,7 +147,7 @@ evidence = [
     },
 ]
 now = datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace('+00:00', 'Z')
-run_meta = gh_request(f'https://api.github.com/repos/{REPO}/actions/runs/{GENERATION_RUN_ID}')
+run_meta = gh_json(f'https://api.github.com/repos/{REPO}/actions/runs/{GENERATION_RUN_ID}')
 generated_at = run_meta.get('created_at') or now
 
 manifest = {
@@ -199,11 +194,7 @@ manifest = {
         'artifactId': ARTIFACT_ID,
         'candidateSha256': candidate_sha,
         'candidateBytes': len(candidate),
-        'candidateDimensions': {
-            'width': 1024,
-            'height': 1024,
-            'format': 'JPEG',
-        },
+        'candidateDimensions': {'width': 1024, 'height': 1024, 'format': 'JPEG'},
         'usage': dr_result.get('usage'),
         'estimatedInputCostUsd': dr_result.get('estimatedInputCostUsd'),
         'estimatedOutputCostUsd': dr_result.get('estimatedOutputCostUsd'),
@@ -243,26 +234,9 @@ write_json(manifest_path, manifest)
 report = {
     'strainId': 'dr-grinspoon',
     'reviewDecision': 'PASS',
-    'candidate': {
-        'sha256': candidate_sha,
-        'bytes': len(candidate),
-        'width': 1024,
-        'height': 1024,
-        'estimatedCostUsd': dr_result.get('estimatedCostUsd'),
-    },
-    'primary': {
-        'path': str(primary_rel),
-        'sha256': final_sha256,
-        'gitBlobSha': blob_sha,
-        'bytes': len(final_bytes),
-        'width': 1024,
-        'height': 1024,
-    },
-    'malawi': {
-        'generationStatus': mw_result.get('status'),
-        'errorClass': mw_result.get('errorClass'),
-        'reflected': False,
-    },
+    'candidate': {'sha256': candidate_sha, 'bytes': len(candidate), 'width': 1024, 'height': 1024, 'estimatedCostUsd': dr_result.get('estimatedCostUsd')},
+    'primary': {'path': str(primary_rel), 'sha256': final_sha256, 'gitBlobSha': blob_sha, 'bytes': len(final_bytes), 'width': 1024, 'height': 1024},
+    'malawi': {'generationStatus': mw_result.get('status'), 'errorClass': mw_result.get('errorClass'), 'reflected': False},
 }
 write_json(REPORT_PATH, report)
 print(json.dumps(report, ensure_ascii=False))
