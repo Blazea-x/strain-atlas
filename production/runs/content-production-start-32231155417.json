@@ -6,15 +6,15 @@
   "publicationPolicy": "cultivar",
   "status": "SUCCESS",
   "startedAt": "2026-08-19T08:08:56Z",
-  "updatedAt": "2026-08-19T08:11:03Z",
-  "finishedAt": "2026-08-19T08:11:03Z",
+  "updatedAt": "2026-08-19T09:30:35Z",
+  "finishedAt": "2026-08-19T09:30:35Z",
   "cancelledAt": null,
   "baseSha": "8dc9d45dfcdff6c06e0996e092090cdcc28bc395",
-  "currentBaseSha": "79969864c9e7d278972be4d798ce07545cf58aa9",
+  "currentBaseSha": "c882234297f8c3f3386f8d44a76841920876c482",
   "attempt": 1,
   "previousAttempts": [],
   "mainHeadAtStart": "aaadb18e2a8320f48082fa31cb653a3b0e6c2604",
-  "mainHeadAtEnd": "d40f1f5b68e2b938999c47898ea2202ac5e3c0e5",
+  "mainHeadAtEnd": "67d1be91db6aba8051eb28f3af4ad03f139e5e6e",
   "publishedIdsAtStart": [
     "bangi-haze",
     "bubble-gum",
@@ -46,8 +46,6 @@
   ],
   "expectedPublicationDelta": [
     "bubba-kush-s1",
-    "california-orange-s1",
-    "chemdog-91-s1",
     "gorilla-glue-4-s1",
     "jager-s1"
   ],
@@ -58,13 +56,23 @@
       "sourceStockBlobSha": "edec7ecdfe613118474ee04e7539643bb3badcfc",
       "productionStrainPath": "strains/bubba-kush-s1/strain.json",
       "publicationEntryId": "bubba-kush-s1",
-      "productionPhase": "NEEDS_REVIEW",
-      "previousStablePhase": "IMAGE_PENDING",
+      "productionPhase": "PUBLISHED",
+      "previousStablePhase": "PUBLISHED",
       "manifestId": "content-production-start-32231155417-bubba-kush-s1-image",
       "manifestRevision": 1,
       "promotedAt": "2026-08-19T08:08:56Z",
       "promotionCommit": null,
-      "approval": null,
+      "approval": {
+        "status": "auto-approved",
+        "approvalType": "ai-visual-qa",
+        "approvedAt": "2026-08-19T09:30:35Z",
+        "candidateSha256": "645a13c1b942f544b72501dfc36df2e564947dd5175942a8f2d0cbd335b80b20",
+        "aiVisualQa": {
+          "status": "PASS",
+          "engine": "local-clip-semantic-v1",
+          "model": "openai/clip-vit-base-patch32"
+        }
+      },
       "commits": {
         "dataCommit": null,
         "imageInboxCommit": null,
@@ -100,6 +108,35 @@
           "code": "AI_VISUAL_QA_FAILED",
           "at": "2026-08-19T08:11:03Z",
           "reason": "AI_QA_MODEL_ERROR"
+        },
+        {
+          "severity": "INFO",
+          "code": "PHASE_TRANSITION",
+          "fromPhase": "NEEDS_REVIEW",
+          "toPhase": "IMAGE_PENDING",
+          "previousStablePhase": "IMAGE_PENDING",
+          "at": "2026-08-19T09:30:35Z"
+        },
+        {
+          "severity": "INFO",
+          "code": "PHASE_TRANSITION",
+          "fromPhase": "IMAGE_PENDING",
+          "toPhase": "IMAGE_READY",
+          "at": "2026-08-19T09:30:35Z"
+        },
+        {
+          "severity": "INFO",
+          "code": "PHASE_TRANSITION",
+          "fromPhase": "IMAGE_READY",
+          "toPhase": "VISUAL_LINKED",
+          "at": "2026-08-19T09:30:35Z"
+        },
+        {
+          "severity": "INFO",
+          "code": "PHASE_TRANSITION",
+          "fromPhase": "VISUAL_LINKED",
+          "toPhase": "PUBLISHED",
+          "at": "2026-08-19T09:30:35Z"
         }
       ]
     },
@@ -151,6 +188,12 @@
           "code": "AI_VISUAL_QA_FAILED",
           "at": "2026-08-19T08:11:03Z",
           "reason": "AI_QA_MODEL_ERROR"
+        },
+        {
+          "severity": "WARNING",
+          "code": "AI_VISUAL_QA_FAILED",
+          "at": "2026-08-19T09:30:35Z",
+          "reason": "AI_VISUAL_QA_FAIL"
         }
       ]
     },
@@ -202,6 +245,12 @@
           "code": "AI_VISUAL_QA_FAILED",
           "at": "2026-08-19T08:11:03Z",
           "reason": "AI_QA_MODEL_ERROR"
+        },
+        {
+          "severity": "WARNING",
+          "code": "AI_VISUAL_QA_FAILED",
+          "at": "2026-08-19T09:30:35Z",
+          "reason": "AI_VISUAL_QA_FAIL"
         }
       ]
     },
@@ -211,13 +260,23 @@
       "sourceStockBlobSha": "40a3955c91fc3df75dfb06728f797e98c588187d",
       "productionStrainPath": "strains/gorilla-glue-4-s1/strain.json",
       "publicationEntryId": "gorilla-glue-4-s1",
-      "productionPhase": "NEEDS_REVIEW",
-      "previousStablePhase": "IMAGE_PENDING",
+      "productionPhase": "PUBLISHED",
+      "previousStablePhase": "PUBLISHED",
       "manifestId": "content-production-start-32231155417-gorilla-glue-4-s1-image",
       "manifestRevision": 1,
       "promotedAt": "2026-08-19T08:08:56Z",
       "promotionCommit": null,
-      "approval": null,
+      "approval": {
+        "status": "auto-approved",
+        "approvalType": "ai-visual-qa",
+        "approvedAt": "2026-08-19T09:30:35Z",
+        "candidateSha256": "7f02f3cf3bada03cf3dedce33c55c18c8d33f41d76fc8b7973e36854cd2086c7",
+        "aiVisualQa": {
+          "status": "PASS",
+          "engine": "local-clip-semantic-v1",
+          "model": "openai/clip-vit-base-patch32"
+        }
+      },
       "commits": {
         "dataCommit": null,
         "imageInboxCommit": null,
@@ -253,6 +312,35 @@
           "code": "AI_VISUAL_QA_FAILED",
           "at": "2026-08-19T08:11:03Z",
           "reason": "AI_QA_MODEL_ERROR"
+        },
+        {
+          "severity": "INFO",
+          "code": "PHASE_TRANSITION",
+          "fromPhase": "NEEDS_REVIEW",
+          "toPhase": "IMAGE_PENDING",
+          "previousStablePhase": "IMAGE_PENDING",
+          "at": "2026-08-19T09:30:35Z"
+        },
+        {
+          "severity": "INFO",
+          "code": "PHASE_TRANSITION",
+          "fromPhase": "IMAGE_PENDING",
+          "toPhase": "IMAGE_READY",
+          "at": "2026-08-19T09:30:35Z"
+        },
+        {
+          "severity": "INFO",
+          "code": "PHASE_TRANSITION",
+          "fromPhase": "IMAGE_READY",
+          "toPhase": "VISUAL_LINKED",
+          "at": "2026-08-19T09:30:35Z"
+        },
+        {
+          "severity": "INFO",
+          "code": "PHASE_TRANSITION",
+          "fromPhase": "VISUAL_LINKED",
+          "toPhase": "PUBLISHED",
+          "at": "2026-08-19T09:30:35Z"
         }
       ]
     },
@@ -262,13 +350,23 @@
       "sourceStockBlobSha": "de574b8db78ff95b9c9344412dce116dcb2b089a",
       "productionStrainPath": "strains/jager-s1/strain.json",
       "publicationEntryId": "jager-s1",
-      "productionPhase": "NEEDS_REVIEW",
-      "previousStablePhase": "IMAGE_PENDING",
+      "productionPhase": "PUBLISHED",
+      "previousStablePhase": "PUBLISHED",
       "manifestId": "content-production-start-32231155417-jager-s1-image",
       "manifestRevision": 1,
       "promotedAt": "2026-08-19T08:08:56Z",
       "promotionCommit": null,
-      "approval": null,
+      "approval": {
+        "status": "auto-approved",
+        "approvalType": "ai-visual-qa",
+        "approvedAt": "2026-08-19T09:30:35Z",
+        "candidateSha256": "9eb8809259001d4f794fdcd4a29cc744136ee965ea887072a3dc79aa55169415",
+        "aiVisualQa": {
+          "status": "PASS",
+          "engine": "local-clip-semantic-v1",
+          "model": "openai/clip-vit-base-patch32"
+        }
+      },
       "commits": {
         "dataCommit": null,
         "imageInboxCommit": null,
@@ -304,6 +402,35 @@
           "code": "AI_VISUAL_QA_FAILED",
           "at": "2026-08-19T08:11:03Z",
           "reason": "AI_QA_MODEL_ERROR"
+        },
+        {
+          "severity": "INFO",
+          "code": "PHASE_TRANSITION",
+          "fromPhase": "NEEDS_REVIEW",
+          "toPhase": "IMAGE_PENDING",
+          "previousStablePhase": "IMAGE_PENDING",
+          "at": "2026-08-19T09:30:35Z"
+        },
+        {
+          "severity": "INFO",
+          "code": "PHASE_TRANSITION",
+          "fromPhase": "IMAGE_PENDING",
+          "toPhase": "IMAGE_READY",
+          "at": "2026-08-19T09:30:35Z"
+        },
+        {
+          "severity": "INFO",
+          "code": "PHASE_TRANSITION",
+          "fromPhase": "IMAGE_READY",
+          "toPhase": "VISUAL_LINKED",
+          "at": "2026-08-19T09:30:35Z"
+        },
+        {
+          "severity": "INFO",
+          "code": "PHASE_TRANSITION",
+          "fromPhase": "VISUAL_LINKED",
+          "toPhase": "PUBLISHED",
+          "at": "2026-08-19T09:30:35Z"
         }
       ]
     }
@@ -316,9 +443,7 @@
     "bubba-kush-s1",
     "bubble-gum",
     "california-octane",
-    "california-orange-s1",
     "cataract-kush",
-    "chemdog-91-s1",
     "chocolope-256",
     "dr-grinspoon",
     "durban-poison",
@@ -341,23 +466,36 @@
   "recovery": null,
   "auditSummary": {
     "mode": "auto",
-    "autoPublishedWithImage": [],
-    "dataFirstPublishedWithoutImage": [
+    "autoPublishedWithImage": [
       "bubba-kush-s1",
-      "california-orange-s1",
-      "chemdog-91-s1",
       "gorilla-glue-4-s1",
       "jager-s1"
     ],
-    "backlogRetained": [
-      "bubba-kush-s1",
+    "dataFirstRetainedUnpublished": [
       "california-orange-s1",
-      "chemdog-91-s1",
-      "gorilla-glue-4-s1",
-      "jager-s1"
+      "chemdog-91-s1"
+    ],
+    "backlogRetained": [
+      {
+        "strainId": "california-orange-s1",
+        "reason": "AI_VISUAL_QA_FAIL",
+        "productionPhase": "NEEDS_REVIEW",
+        "publicationState": "pending",
+        "manifestRevision": 1,
+        "attempt": 1
+      },
+      {
+        "strainId": "chemdog-91-s1",
+        "reason": "AI_VISUAL_QA_FAIL",
+        "productionPhase": "NEEDS_REVIEW",
+        "publicationState": "pending",
+        "manifestRevision": 1,
+        "attempt": 1
+      }
     ],
     "failedTargets": [],
     "aiVisualQaApprovalType": "ai-visual-qa",
-    "finalValidationRequired": true
+    "finalValidationRequired": true,
+    "imageGatedPublicVisibility": true
   }
 }

@@ -66,6 +66,55 @@ window.STRAINS=[
     "reviews": []
   },
   {
+    "id": "bubba-kush-s1",
+    "name": "Bubba Kush S1",
+    "jp": "",
+    "type": {
+      "key": "unknown",
+      "label": "未分類"
+    },
+    "aliases": [],
+    "identity": {
+      "scope": "cultivar",
+      "note": "品種一般の情報。特定ロット・製品・フェノタイプを示すものではありません。"
+    },
+    "lineage": {
+      "display": "Bubba Kush × Bubba Kush",
+      "parents": [
+        "Bubba Kush"
+      ],
+      "note": "Humboldt CSI's official Bubba Kush S1 page lists the cultivar as Bubba Kush × Bubba Kush. Together with the official S1 designation, this is treated as a selfed S1 line. No unstated ancestry is copied from the parent cultivar."
+    },
+    "aromas": [],
+    "breeder": {
+      "name": "Humboldt CSI",
+      "era": ""
+    },
+    "terpenes": [],
+    "originHistory": "",
+    "history": "",
+    "confidence": {
+      "display": "LINEAGE A",
+      "note": "正本データの項目別confidenceを表示"
+    },
+    "visuals": [
+      {
+        "role": "primary",
+        "src": "strains/bubba-kush-s1/images/generated/primary.webp",
+        "alt": "Bubba Kush S1の公式S1同定情報を基礎に、未確認の品種固有形態を付加せず作成するAI生成の植物学的参考ビジュアル",
+        "rights": "AI-generated project asset for Cannabis Strain Wisdom. No third-party image is copied; the prompt is constrained to claims supported by the cited official cultivar page.",
+        "scope": "cultivar",
+        "aiGenerated": true,
+        "sourceType": "aiGenerated",
+        "label": "VISUAL REFERENCE"
+      }
+    ],
+    "sourceIds": [
+      "humboldt-csi-bubba-kush-s1"
+    ],
+    "reviews": []
+  },
+  {
     "id": "bubble-gum",
     "name": "Bubble Gum",
     "jp": "",
@@ -472,6 +521,104 @@ window.STRAINS=[
     ],
     "sourceIds": [
       "dutch-passion-frisian-duck"
+    ],
+    "reviews": []
+  },
+  {
+    "id": "gorilla-glue-4-s1",
+    "name": "Gorilla Glue 4 S1",
+    "jp": "",
+    "type": {
+      "key": "unknown",
+      "label": "未分類"
+    },
+    "aliases": [],
+    "identity": {
+      "scope": "cultivar",
+      "note": "品種一般の情報。特定ロット・製品・フェノタイプを示すものではありません。"
+    },
+    "lineage": {
+      "display": "Gorilla Glue 4 × Gorilla Glue 4",
+      "parents": [
+        "Gorilla Glue 4"
+      ],
+      "note": "Humboldt CSI's official Gorilla Glue 4 S1 page lists the cultivar as Gorilla Glue 4 × Gorilla Glue 4. Together with the official S1 designation, this is treated as a selfed S1 line. No unstated ancestry is copied from the parent cultivar."
+    },
+    "aromas": [],
+    "breeder": {
+      "name": "Humboldt CSI",
+      "era": ""
+    },
+    "terpenes": [],
+    "originHistory": "",
+    "history": "",
+    "confidence": {
+      "display": "LINEAGE A",
+      "note": "正本データの項目別confidenceを表示"
+    },
+    "visuals": [
+      {
+        "role": "primary",
+        "src": "strains/gorilla-glue-4-s1/images/generated/primary.webp",
+        "alt": "Gorilla Glue 4 S1の公式S1同定情報を基礎に、未確認の品種固有形態を付加せず作成するAI生成の植物学的参考ビジュアル",
+        "rights": "AI-generated project asset for Cannabis Strain Wisdom. No third-party image is copied; the prompt is constrained to claims supported by the cited official cultivar page.",
+        "scope": "cultivar",
+        "aiGenerated": true,
+        "sourceType": "aiGenerated",
+        "label": "VISUAL REFERENCE"
+      }
+    ],
+    "sourceIds": [
+      "humboldt-csi-gorilla-glue-4-s1"
+    ],
+    "reviews": []
+  },
+  {
+    "id": "jager-s1",
+    "name": "Jager S1",
+    "jp": "",
+    "type": {
+      "key": "unknown",
+      "label": "未分類"
+    },
+    "aliases": [],
+    "identity": {
+      "scope": "cultivar",
+      "note": "品種一般の情報。特定ロット・製品・フェノタイプを示すものではありません。"
+    },
+    "lineage": {
+      "display": "Jager × Jager",
+      "parents": [
+        "Jager"
+      ],
+      "note": "Humboldt CSI's official Jager S1 page lists the cultivar as Jager × Jager. Together with the official S1 designation, this is treated as a selfed S1 line. No unstated ancestry is copied from the parent cultivar."
+    },
+    "aromas": [],
+    "breeder": {
+      "name": "Humboldt CSI",
+      "era": ""
+    },
+    "terpenes": [],
+    "originHistory": "",
+    "history": "Humboldt CSI describes the Jager source cut as a very popular Southern Oregon outdoor cut that originated at Millerville Farms and spread widely.",
+    "confidence": {
+      "display": "LINEAGE A / HISTORY A",
+      "note": "正本データの項目別confidenceを表示"
+    },
+    "visuals": [
+      {
+        "role": "primary",
+        "src": "strains/jager-s1/images/generated/primary.webp",
+        "alt": "Jager S1の公式S1同定情報を基礎に、未確認の品種固有形態を付加せず作成するAI生成の植物学的参考ビジュアル",
+        "rights": "AI-generated project asset for Cannabis Strain Wisdom. No third-party image is copied; the prompt is constrained to claims supported by the cited official cultivar page.",
+        "scope": "cultivar",
+        "aiGenerated": true,
+        "sourceType": "aiGenerated",
+        "label": "VISUAL REFERENCE"
+      }
+    ],
+    "sourceIds": [
+      "humboldt-csi-jager-s1"
     ],
     "reviews": []
   },

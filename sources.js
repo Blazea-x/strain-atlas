@@ -299,6 +299,46 @@ window.SOURCES={
       "aromas"
     ]
   },
+  "humboldt-csi-bubba-kush-s1": {
+    "name": "Humboldt CSI — Bubba Kush S1",
+    "url": "https://humboldtcsi.com/product/bubba-kush-s1/",
+    "type": "primary",
+    "typeLabel": "一次情報",
+    "checked": "2026-08-19",
+    "supports": [
+      "lineage",
+      "breeder",
+      "generation",
+      "breeding"
+    ]
+  },
+  "humboldt-csi-gorilla-glue-4-s1": {
+    "name": "Humboldt CSI — Gorilla Glue 4 S1",
+    "url": "https://humboldtcsi.com/product/gorilla-glue-4-s1/",
+    "type": "primary",
+    "typeLabel": "一次情報",
+    "checked": "2026-08-19",
+    "supports": [
+      "lineage",
+      "breeder",
+      "generation",
+      "breeding"
+    ]
+  },
+  "humboldt-csi-jager-s1": {
+    "name": "Humboldt CSI — Jager S1",
+    "url": "https://humboldtcsi.com/product/jager-s1/",
+    "type": "primary",
+    "typeLabel": "一次情報",
+    "checked": "2026-08-19",
+    "supports": [
+      "lineage",
+      "breeder",
+      "generation",
+      "breeding",
+      "history"
+    ]
+  },
   "humboldt-csi-wedding-cake-s1": {
     "name": "Humboldt CSI — Wedding Cake S1",
     "url": "https://humboldtcsi.com/product/wedding-cake-s1/",

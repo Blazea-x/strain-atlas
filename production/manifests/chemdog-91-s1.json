@@ -56,6 +56,21 @@
       "qaEngine": "local-clip-semantic-v1",
       "qaModel": "openai/clip-vit-base-patch32",
       "reason": "AI_QA_MODEL_ERROR"
+    },
+    {
+      "severity": "INFO",
+      "code": "AI_QA_MODEL_ERROR_RECOVERY_PREPARED",
+      "at": "2026-08-19T09:30:20Z",
+      "sourceWorkflowRunId": "32231155417",
+      "note": "Known semantic QA implementation error cleared for existing-candidate re-evaluation; prompt, evidence and candidate bytes unchanged."
+    },
+    {
+      "severity": "WARNING",
+      "code": "AI_VISUAL_QA_FAILED",
+      "at": "2026-08-19T09:30:35Z",
+      "qaEngine": "local-clip-semantic-v1",
+      "qaModel": "openai/clip-vit-base-patch32",
+      "reason": "AI_VISUAL_QA_FAIL"
     }
   ],
   "aiVisualQa": {
@@ -63,7 +78,6 @@
     "status": "FAIL",
     "engine": "local-clip-semantic-v1",
     "model": "openai/clip-vit-base-patch32",
-    "reason": "AI_QA_MODEL_ERROR",
     "checks": [
       {
         "id": "image_decode",
@@ -74,9 +88,52 @@
         "meanLuma": 59.83
       },
       {
-        "id": "semantic_model",
+        "id": "cannabis_natural",
+        "pass": true,
+        "positive": 0.33151,
+        "negative": 0.25623,
+        "margin": 0.07528,
+        "requiredMargin": 0.004
+      },
+      {
+        "id": "plant_structure",
+        "pass": true,
+        "positive": 0.26743,
+        "negative": 0.23913,
+        "margin": 0.0283,
+        "requiredMargin": 0.002
+      },
+      {
+        "id": "no_fruit_or_berries",
+        "pass": true,
+        "positive": 0.31158,
+        "negative": 0.23851,
+        "margin": 0.07307,
+        "requiredMargin": 0.002
+      },
+      {
+        "id": "no_unwanted_objects",
+        "pass": true,
+        "positive": 0.30496,
+        "negative": 0.2564,
+        "margin": 0.04856,
+        "requiredMargin": 0.002
+      },
+      {
+        "id": "primary_visual_usable",
+        "pass": true,
+        "positive": 0.30935,
+        "negative": 0.16882,
+        "margin": 0.14054,
+        "requiredMargin": 0.001
+      },
+      {
+        "id": "evidence_alignment",
         "pass": false,
-        "detail": "'BaseModelOutputWithPooling' object has no attribute 'norm'"
+        "evidenceScore": 0.31063,
+        "genericScore": 0.32644,
+        "margin": -0.01581,
+        "evidenceText": "Humboldt CSI's official Chemdog ’91 S1 page confirms cultivar identity and S1/selfed parentage but provides no verified cultivar-wide architecture, branching, internode, leaf-width, flower-density, color, or resin morphology descriptors. The generation prompt therefore intentionally avoids cultivar-specific morphology claims."
       }
     ],
     "evidenceText": "Humboldt CSI's official Chemdog ’91 S1 page confirms cultivar identity and S1/selfed parentage but provides no verified cultivar-wide architecture, branching, internode, leaf-width, flower-density, color, or resin morphology descriptors. The generation prompt therefore intentionally avoids cultivar-specific morphology claims.",

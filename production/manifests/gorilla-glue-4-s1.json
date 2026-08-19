@@ -29,18 +29,18 @@
   "expectedInboxFilename": "gorilla-glue-4-s1.jpg",
   "expectedPrimaryPath": "strains/gorilla-glue-4-s1/images/generated/primary.webp",
   "generatedAt": null,
-  "approvalStatus": "rejected",
-  "approvedAt": null,
+  "approvalStatus": "auto-approved",
+  "approvedAt": "2026-08-19T09:30:35Z",
   "approvalType": "ai-visual-qa",
-  "approvedManifestRevision": null,
-  "approvedAttempt": null,
-  "approvedSourceSha256": null,
-  "imageInboxCommit": null,
-  "imageProcessingCommit": null,
-  "processedPrimaryBlobSha": null,
-  "processedPrimarySha256": null,
-  "width": null,
-  "height": null,
+  "approvedManifestRevision": 1,
+  "approvedAttempt": 1,
+  "approvedSourceSha256": "7f02f3cf3bada03cf3dedce33c55c18c8d33f41d76fc8b7973e36854cd2086c7",
+  "imageInboxCommit": "not-applicable:production-auto-publish-v1-direct",
+  "imageProcessingCommit": "c882234297f8c3f3386f8d44a76841920876c482",
+  "processedPrimaryBlobSha": "7fb223c5efa99f054122cd27663b37ad8774a21a",
+  "processedPrimarySha256": "243de268a9cdb2c5a3999cf59f719451cc948a2c86bf4cd940939c363ac0f3e8",
+  "width": 1024,
+  "height": 1536,
   "audit": [
     {
       "severity": "INFO",
@@ -56,14 +56,40 @@
       "qaEngine": "local-clip-semantic-v1",
       "qaModel": "openai/clip-vit-base-patch32",
       "reason": "AI_QA_MODEL_ERROR"
+    },
+    {
+      "severity": "INFO",
+      "code": "AI_QA_MODEL_ERROR_RECOVERY_PREPARED",
+      "at": "2026-08-19T09:30:20Z",
+      "sourceWorkflowRunId": "32231155417",
+      "note": "Known semantic QA implementation error cleared for existing-candidate re-evaluation; prompt, evidence and candidate bytes unchanged."
+    },
+    {
+      "severity": "INFO",
+      "code": "AI_VISUAL_QA_PASS_AUTO_APPROVAL",
+      "at": "2026-08-19T09:30:35Z",
+      "approvalType": "ai-visual-qa",
+      "qaEngine": "local-clip-semantic-v1",
+      "qaModel": "openai/clip-vit-base-patch32",
+      "candidateSha256": "7f02f3cf3bada03cf3dedce33c55c18c8d33f41d76fc8b7973e36854cd2086c7"
+    },
+    {
+      "severity": "INFO",
+      "code": "PRIMARY_PROCESSED_INTERNAL",
+      "at": "2026-08-19T09:30:35Z",
+      "processingRoute": "production-auto-publish-v1-direct",
+      "processedPrimarySha256": "243de268a9cdb2c5a3999cf59f719451cc948a2c86bf4cd940939c363ac0f3e8",
+      "width": 1024,
+      "height": 1536
     }
   ],
+  "processingRoute": "production-auto-publish-v1-direct",
+  "processingSourceArtifact": "review",
   "aiVisualQa": {
     "strainId": "gorilla-glue-4-s1",
-    "status": "FAIL",
+    "status": "PASS",
     "engine": "local-clip-semantic-v1",
     "model": "openai/clip-vit-base-patch32",
-    "reason": "AI_QA_MODEL_ERROR",
     "checks": [
       {
         "id": "image_decode",
@@ -74,9 +100,52 @@
         "meanLuma": 60.215
       },
       {
-        "id": "semantic_model",
-        "pass": false,
-        "detail": "'BaseModelOutputWithPooling' object has no attribute 'norm'"
+        "id": "cannabis_natural",
+        "pass": true,
+        "positive": 0.3271,
+        "negative": 0.24624,
+        "margin": 0.08085,
+        "requiredMargin": 0.004
+      },
+      {
+        "id": "plant_structure",
+        "pass": true,
+        "positive": 0.2653,
+        "negative": 0.23332,
+        "margin": 0.03198,
+        "requiredMargin": 0.002
+      },
+      {
+        "id": "no_fruit_or_berries",
+        "pass": true,
+        "positive": 0.31095,
+        "negative": 0.23426,
+        "margin": 0.07669,
+        "requiredMargin": 0.002
+      },
+      {
+        "id": "no_unwanted_objects",
+        "pass": true,
+        "positive": 0.2871,
+        "negative": 0.24465,
+        "margin": 0.04245,
+        "requiredMargin": 0.002
+      },
+      {
+        "id": "primary_visual_usable",
+        "pass": true,
+        "positive": 0.2931,
+        "negative": 0.1716,
+        "margin": 0.1215,
+        "requiredMargin": 0.001
+      },
+      {
+        "id": "evidence_alignment",
+        "pass": true,
+        "evidenceScore": 0.30247,
+        "genericScore": 0.31431,
+        "margin": -0.01184,
+        "evidenceText": "Humboldt CSI's official Gorilla Glue 4 S1 page confirms cultivar identity and S1/selfed parentage but provides no verified cultivar-wide architecture, branching, internode, leaf-width, flower-density, color, or resin morphology descriptors. The generation prompt therefore intentionally avoids cultivar-specific morphology claims."
       }
     ],
     "evidenceText": "Humboldt CSI's official Gorilla Glue 4 S1 page confirms cultivar identity and S1/selfed parentage but provides no verified cultivar-wide architecture, branching, internode, leaf-width, flower-density, color, or resin morphology descriptors. The generation prompt therefore intentionally avoids cultivar-specific morphology claims.",

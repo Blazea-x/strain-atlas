@@ -29,18 +29,18 @@
   "expectedInboxFilename": "jager-s1.jpg",
   "expectedPrimaryPath": "strains/jager-s1/images/generated/primary.webp",
   "generatedAt": null,
-  "approvalStatus": "rejected",
-  "approvedAt": null,
+  "approvalStatus": "auto-approved",
+  "approvedAt": "2026-08-19T09:30:35Z",
   "approvalType": "ai-visual-qa",
-  "approvedManifestRevision": null,
-  "approvedAttempt": null,
-  "approvedSourceSha256": null,
-  "imageInboxCommit": null,
-  "imageProcessingCommit": null,
-  "processedPrimaryBlobSha": null,
-  "processedPrimarySha256": null,
-  "width": null,
-  "height": null,
+  "approvedManifestRevision": 1,
+  "approvedAttempt": 1,
+  "approvedSourceSha256": "9eb8809259001d4f794fdcd4a29cc744136ee965ea887072a3dc79aa55169415",
+  "imageInboxCommit": "not-applicable:production-auto-publish-v1-direct",
+  "imageProcessingCommit": "c882234297f8c3f3386f8d44a76841920876c482",
+  "processedPrimaryBlobSha": "8f1be7ba1262ae7ca2e0ad6ec66922a32531b78a",
+  "processedPrimarySha256": "b96cf88504fe5ccca459d6a6ef7b530e62782c5525590783d558c521bc563b82",
+  "width": 1024,
+  "height": 1536,
   "audit": [
     {
       "severity": "INFO",
@@ -56,14 +56,40 @@
       "qaEngine": "local-clip-semantic-v1",
       "qaModel": "openai/clip-vit-base-patch32",
       "reason": "AI_QA_MODEL_ERROR"
+    },
+    {
+      "severity": "INFO",
+      "code": "AI_QA_MODEL_ERROR_RECOVERY_PREPARED",
+      "at": "2026-08-19T09:30:20Z",
+      "sourceWorkflowRunId": "32231155417",
+      "note": "Known semantic QA implementation error cleared for existing-candidate re-evaluation; prompt, evidence and candidate bytes unchanged."
+    },
+    {
+      "severity": "INFO",
+      "code": "AI_VISUAL_QA_PASS_AUTO_APPROVAL",
+      "at": "2026-08-19T09:30:35Z",
+      "approvalType": "ai-visual-qa",
+      "qaEngine": "local-clip-semantic-v1",
+      "qaModel": "openai/clip-vit-base-patch32",
+      "candidateSha256": "9eb8809259001d4f794fdcd4a29cc744136ee965ea887072a3dc79aa55169415"
+    },
+    {
+      "severity": "INFO",
+      "code": "PRIMARY_PROCESSED_INTERNAL",
+      "at": "2026-08-19T09:30:35Z",
+      "processingRoute": "production-auto-publish-v1-direct",
+      "processedPrimarySha256": "b96cf88504fe5ccca459d6a6ef7b530e62782c5525590783d558c521bc563b82",
+      "width": 1024,
+      "height": 1536
     }
   ],
+  "processingRoute": "production-auto-publish-v1-direct",
+  "processingSourceArtifact": "review",
   "aiVisualQa": {
     "strainId": "jager-s1",
-    "status": "FAIL",
+    "status": "PASS",
     "engine": "local-clip-semantic-v1",
     "model": "openai/clip-vit-base-patch32",
-    "reason": "AI_QA_MODEL_ERROR",
     "checks": [
       {
         "id": "image_decode",
@@ -74,9 +100,52 @@
         "meanLuma": 138.549
       },
       {
-        "id": "semantic_model",
-        "pass": false,
-        "detail": "'BaseModelOutputWithPooling' object has no attribute 'norm'"
+        "id": "cannabis_natural",
+        "pass": true,
+        "positive": 0.337,
+        "negative": 0.25755,
+        "margin": 0.07945,
+        "requiredMargin": 0.004
+      },
+      {
+        "id": "plant_structure",
+        "pass": true,
+        "positive": 0.27356,
+        "negative": 0.24247,
+        "margin": 0.03109,
+        "requiredMargin": 0.002
+      },
+      {
+        "id": "no_fruit_or_berries",
+        "pass": true,
+        "positive": 0.31163,
+        "negative": 0.22541,
+        "margin": 0.08622,
+        "requiredMargin": 0.002
+      },
+      {
+        "id": "no_unwanted_objects",
+        "pass": true,
+        "positive": 0.31206,
+        "negative": 0.24904,
+        "margin": 0.06302,
+        "requiredMargin": 0.002
+      },
+      {
+        "id": "primary_visual_usable",
+        "pass": true,
+        "positive": 0.31204,
+        "negative": 0.1796,
+        "margin": 0.13244,
+        "requiredMargin": 0.001
+      },
+      {
+        "id": "evidence_alignment",
+        "pass": true,
+        "evidenceScore": 0.31189,
+        "genericScore": 0.32522,
+        "margin": -0.01333,
+        "evidenceText": "Humboldt CSI's official Jager S1 page confirms cultivar identity and S1/selfed parentage but provides no verified cultivar-wide architecture, branching, internode, leaf-width, flower-density, color, or resin morphology descriptors. The generation prompt therefore intentionally avoids cultivar-specific morphology claims."
       }
     ],
     "evidenceText": "Humboldt CSI's official Jager S1 page confirms cultivar identity and S1/selfed parentage but provides no verified cultivar-wide architecture, branching, internode, leaf-width, flower-density, color, or resin morphology descriptors. The generation prompt therefore intentionally avoids cultivar-specific morphology claims.",
