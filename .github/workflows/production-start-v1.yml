@@ -19,6 +19,16 @@ on:
         required: true
         default: true
         type: boolean
+  workflow_call:
+    inputs:
+      batch_size:
+        description: Maximum cultivars to promote in this START batch
+        required: true
+        type: string
+      generate_images:
+        description: Generate one medium-quality candidate per selected cultivar
+        required: true
+        type: boolean
 
 concurrency:
   group: production-start-v1
