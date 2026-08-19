@@ -1,0 +1,386 @@
+name: FILTER UX V1 Implement Once
+"on":
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/filter-ux-v1-implement-once.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  implement:
+    runs-on: ubuntu-latest
+    env:
+      EXPECTED_BASE: ef863374e7e7f544c9898e40b124efd0963e931d
+      EXPECTED_MASTER: 910ae4c794193f75bb588fec0ca80941546bf8f7
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Guard remote state
+        shell: bash
+        run: |
+          set -euo pipefail
+          git fetch origin main master-migration
+          test "$(git rev-parse HEAD^)" = "$EXPECTED_BASE"
+          test "$(git diff --name-only "$EXPECTED_BASE"..HEAD)" = ".github/workflows/filter-ux-v1-implement-once.yml"
+          test "$(git rev-parse origin/main)" = "$(git rev-parse HEAD)"
+          test "$(git rev-parse origin/master-migration)" = "$EXPECTED_MASTER"
+      - name: Apply FILTER UX V1
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          from pathlib import Path
+
+          def replace_once(text, old, new, label):
+              if old not in text:
+                  raise SystemExit(f"missing expected block: {label}")
+              return text.replace(old, new, 1)
+
+          index = Path("index.html")
+          s = index.read_text()
+          old = '''      <section class="home-search" aria-labelledby="search-title">
+            <div class="home-search-heading"><span>SEARCH</span><h2 id="search-title">品種を検索</h2></div>
+            <div class="search-wrap"><label class="sr-only" for="search">品種を検索</label><input id="search" type="search" autocomplete="off" placeholder="例：Bubble Gum、Kush、Humboldt CSI"></div>
+            <p class="home-search-help">品種名・別名・ブリーダー／関連組織・generation・系譜・香り・テルペンから探せます</p>
+          </section>
+          '''
+          new = '''      <section class="home-search" aria-labelledby="search-title">
+            <div class="explore home-type-filters" id="explore" aria-label="タイプで絞り込む"><button type="button" class="explore-chip is-active" data-explore="all" aria-pressed="true">すべて</button><button type="button" class="explore-chip" data-explore="sativa" aria-pressed="false">SATIVA系 <b id="count-sativa">0</b></button><button type="button" class="explore-chip" data-explore="indica" aria-pressed="false">INDICA系 <b id="count-indica">0</b></button><button type="button" class="explore-chip" data-explore="hybrid" aria-pressed="false">HYBRID <b id="count-hybrid">0</b></button></div>
+            <div class="home-search-heading"><span>SEARCH</span><h2 id="search-title">品種を検索</h2></div>
+            <div class="search-wrap"><label class="sr-only" for="search">品種を検索</label><input id="search" type="search" autocomplete="off" placeholder="例：Bubble Gum、Kush、Humboldt CSI"></div>
+            <p class="home-search-help">品種名・別名・ブリーダー／関連組織・generation・系譜・香り・テルペンから探せます</p>
+            <details class="filter-disclosure" id="filter-disclosure">
+              <summary><span class="filter-summary-label">絞り込み</span><span class="filter-summary-count" id="filter-summary-count" hidden>0</span><span class="filter-chevron" aria-hidden="true">⌄</span></summary>
+              <div class="filter-panel">
+                <section class="filter-group" id="generation-filter-group">
+                  <div class="filter-group-heading"><span>GENERATION</span><h3>育種世代</h3></div>
+                  <div class="generation-options" id="generation-options" aria-label="育種世代で絞り込む"></div>
+                </section>
+                <section class="filter-group" id="breeder-filter-group">
+                  <div class="filter-group-heading"><span>BREEDER</span><h3>Breeder</h3></div>
+                  <label class="sr-only" for="breeder-filter">Breederで絞り込む</label>
+                  <select class="breeder-select" id="breeder-filter"><option value="">すべてのBreeder</option></select>
+                </section>
+                <button class="filter-clear" id="clear-filters" type="button" disabled>条件をクリア</button>
+              </div>
+            </details>
+          </section>
+          '''
+          s = replace_once(s, old, new, "home search")
+          old = '''          <div class="section-head"><div><span class="section-kicker">CATALOG</span><h2 id="all-cultivars-title">すべての品種</h2><p class="catalog-total" id="catalog-total">収録数を読み込み中</p></div><span class="result-label" id="result-label">読み込み中</span></div>
+            <div class="explore" id="explore" aria-label="タイプで絞り込む"><button type="button" class="explore-chip is-active" data-explore="all">すべて</button><button type="button" class="explore-chip" data-explore="sativa">SATIVA系 <b id="count-sativa">0</b></button><button type="button" class="explore-chip" data-explore="indica">INDICA系 <b id="count-indica">0</b></button><button type="button" class="explore-chip" data-explore="hybrid">HYBRID <b id="count-hybrid">0</b></button><button type="button" class="explore-chip" data-explore="unclassified">未分類</button></div>
+          '''
+          new = '''          <div class="section-head"><div><span class="section-kicker">CATALOG</span><h2 id="all-cultivars-title">すべての品種</h2><p class="catalog-total" id="catalog-total">収録数を読み込み中</p></div><span class="result-label" id="result-label">読み込み中</span></div>
+          '''
+          s = replace_once(s, old, new, "lower duplicate filter")
+          s = replace_once(s, 'preview/home-entrance-v1.css?v=4', 'preview/home-entrance-v1.css?v=5', "css cache")
+          s = replace_once(s, 'preview/app.js?v=5', 'preview/app.js?v=6', "app cache")
+          s = replace_once(s, 'preview/home-ux-v2.js?v=3', 'preview/home-ux-v2.js?v=4', "home ux cache")
+          index.write_text(s)
+
+          app = Path("preview/app.js")
+          s = app.read_text()
+          old = '''  const homeContent = document.getElementById("home-content");
+            const contentPanels = [...document.querySelectorAll("[data-content-panel]")];
+            const homeEntries = [...document.querySelectorAll("[data-home-target]")];
+
+            let catalog = null;
+            let activeExplore = "all";
+            let activeHomePanel = null;
+          '''
+          new = '''  const homeContent = document.getElementById("home-content");
+            const contentPanels = [...document.querySelectorAll("[data-content-panel]")];
+            const homeEntries = [...document.querySelectorAll("[data-home-target]")];
+            const catalogTotal = document.getElementById("catalog-total");
+            const generationOptions = document.getElementById("generation-options");
+            const generationFilterGroup = document.getElementById("generation-filter-group");
+            const breederFilter = document.getElementById("breeder-filter");
+            const breederFilterGroup = document.getElementById("breeder-filter-group");
+            const filterSummaryCount = document.getElementById("filter-summary-count");
+            const clearFilters = document.getElementById("clear-filters");
+
+            let catalog = null;
+            let activeExplore = "all";
+            const activeGenerations = new Set();
+            let activeBreeder = "";
+            let activeHomePanel = null;
+          '''
+          s = replace_once(s, old, new, "filter state")
+          old = '''  const inExplore = cultivar => activeExplore === "all" || (catalog?.explore?.[activeExplore] || []).includes(cultivar.id);
+
+            function showHomePanel(target, scroll = false) {
+          '''
+          new = '''  const inExplore = cultivar => activeExplore === "all" || (catalog?.explore?.[activeExplore] || []).includes(cultivar.id);
+            const inGeneration = cultivar => !activeGenerations.size || activeGenerations.has(String(cultivar.breeding?.generation || "").trim());
+            const inBreeder = cultivar => !activeBreeder || (cultivar.relations || []).some(relation =>
+              relation.entityId === activeBreeder && (relation.roles || []).includes("breeder")
+            );
+            const matchesFilters = (cultivar, query) =>
+              inExplore(cultivar) &&
+              inGeneration(cultivar) &&
+              inBreeder(cultivar) &&
+              (!query || searchBlob(cultivar).includes(query));
+
+            function generationSortKey(value) {
+              const text = String(value || "").trim();
+              if (text === "S1") return [0, 1, text];
+              const f = text.match(/^F([1-9][0-9]*)$/);
+              if (f) return [1, Number(f[1]), text];
+              const bx = text.match(/^BX([1-9][0-9]*)$/);
+              if (bx) return [2, Number(bx[1]), text];
+              if (text === "IBL") return [3, 0, text];
+              return [4, 0, text.toLowerCase()];
+            }
+
+            function compareGeneration(a, b) {
+              const aa = generationSortKey(a);
+              const bb = generationSortKey(b);
+              return aa[0] - bb[0] || aa[1] - bb[1] || String(aa[2]).localeCompare(String(bb[2]), "en");
+            }
+
+            function syncFilterUi() {
+              document.querySelectorAll("[data-explore]").forEach(item => {
+                const active = item.dataset.explore === activeExplore;
+                item.classList.toggle("is-active", active);
+                item.setAttribute("aria-pressed", active ? "true" : "false");
+              });
+              generationOptions?.querySelectorAll("[data-generation]").forEach(item => {
+                const active = activeGenerations.has(item.dataset.generation || "");
+                item.classList.toggle("is-active", active);
+                item.setAttribute("aria-pressed", active ? "true" : "false");
+              });
+              if (breederFilter && breederFilter.value !== activeBreeder) breederFilter.value = activeBreeder;
+              const detailCount = activeGenerations.size + (activeBreeder ? 1 : 0);
+              if (filterSummaryCount) {
+                filterSummaryCount.textContent = String(detailCount);
+                filterSummaryCount.hidden = detailCount === 0;
+              }
+              if (clearFilters) clearFilters.disabled = activeExplore === "all" && detailCount === 0;
+            }
+
+            function setupDetailedFilters() {
+              const generations = [...new Set(catalog.cultivars
+                .map(cultivar => String(cultivar.breeding?.generation || "").trim())
+                .filter(value => value && value.toLowerCase() !== "unknown"))]
+                .sort(compareGeneration);
+              if (generationOptions) {
+                generationOptions.innerHTML = generations.map(value =>
+                  `<button type="button" class="generation-chip" data-generation="${esc(value)}" aria-pressed="false">${esc(value)}</button>`
+                ).join("");
+              }
+              if (generationFilterGroup) generationFilterGroup.hidden = generations.length === 0;
+
+              const breeders = new Map();
+              for (const cultivar of catalog.cultivars) {
+                for (const relation of cultivar.relations || []) {
+                  if (!(relation.roles || []).includes("breeder")) continue;
+                  const entity = catalog.entities?.[relation.entityId];
+                  const name = String(entity?.name || "").trim();
+                  if (name) breeders.set(relation.entityId, name);
+                }
+              }
+              const breederEntries = [...breeders.entries()].sort((a, b) => a[1].localeCompare(b[1], "ja"));
+              if (breederFilter) {
+                breederFilter.innerHTML = `<option value="">すべてのBreeder</option>${breederEntries.map(([id, name]) =>
+                  `<option value="${esc(id)}">${esc(name)}</option>`
+                ).join("")}`;
+              }
+              if (breederFilterGroup) breederFilterGroup.hidden = breederEntries.length === 0;
+              syncFilterUi();
+            }
+
+            function showHomePanel(target, scroll = false) {
+          '''
+          s = replace_once(s, old, new, "unified predicate")
+          old = '''  function renderGrid() {
+              if (!catalog) return;
+              const query = (search?.value || "").trim().toLowerCase();
+              const visible = catalog.cultivars.filter(cultivar => inExplore(cultivar) && (!query || searchBlob(cultivar).includes(query)));
+
+              grid.innerHTML = visible.map(cultivar => {
+          '''
+          new = '''  function renderGrid() {
+              if (!catalog) return;
+              const query = (search?.value || "").trim().toLowerCase();
+              const visible = catalog.cultivars.filter(cultivar => matchesFilters(cultivar, query));
+
+              grid.innerHTML = visible.map(cultivar => {
+          '''
+          s = replace_once(s, old, new, "render predicate")
+          old = '''    resultLabel.textContent = `${visible.length} / ${catalog.cultivars.length}`;
+              empty.hidden = visible.length !== 0;
+            }
+
+            function setExplore(key) {
+              activeExplore = key || "all";
+              document.querySelectorAll("[data-explore]").forEach(item => item.classList.toggle("is-active", item.dataset.explore === activeExplore));
+              renderGrid();
+            }
+          '''
+          new = '''    resultLabel.textContent = `${visible.length} / ${catalog.cultivars.length}`;
+              if (catalogTotal) {
+                const filtered = activeExplore !== "all" || activeGenerations.size > 0 || Boolean(activeBreeder) || Boolean(query);
+                catalogTotal.textContent = filtered ? `${visible.length}件表示` : `${catalog.cultivars.length}品種を収録`;
+              }
+              empty.hidden = visible.length !== 0;
+            }
+
+            function setExplore(key) {
+              activeExplore = ["all", "sativa", "indica", "hybrid"].includes(key) ? key : "all";
+              syncFilterUi();
+              renderGrid();
+            }
+          '''
+          s = replace_once(s, old, new, "set explore")
+          old = '''  document.getElementById("explore")?.addEventListener("click", event => {
+              const button = event.target.closest("[data-explore]");
+              if (button) setExplore(button.dataset.explore || "all");
+            });
+
+            document.querySelector(".home-entries")?.addEventListener("click", event => {
+          '''
+          new = '''  document.getElementById("explore")?.addEventListener("click", event => {
+              const button = event.target.closest("[data-explore]");
+              if (button) setExplore(button.dataset.explore || "all");
+            });
+
+            generationOptions?.addEventListener("click", event => {
+              const button = event.target.closest("[data-generation]");
+              if (!button) return;
+              const generation = button.dataset.generation || "";
+              if (!generation) return;
+              if (activeGenerations.has(generation)) activeGenerations.delete(generation);
+              else activeGenerations.add(generation);
+              syncFilterUi();
+              renderGrid();
+            });
+
+            breederFilter?.addEventListener("change", () => {
+              activeBreeder = breederFilter.value || "";
+              syncFilterUi();
+              renderGrid();
+            });
+
+            clearFilters?.addEventListener("click", () => {
+              activeExplore = "all";
+              activeGenerations.clear();
+              activeBreeder = "";
+              syncFilterUi();
+              renderGrid();
+            });
+
+            document.querySelector(".home-entries")?.addEventListener("click", event => {
+          '''
+          s = replace_once(s, old, new, "filter events")
+          old = '''      for (const key of ["sativa", "indica", "hybrid", "unclassified"]) {
+                  const count = catalog.explore?.[key]?.length || 0;
+                  setCount(`count-${key}`, count);
+                  setCount(`overview-${key}`, count);
+                }
+                renderGrid();
+          '''
+          new = '''      for (const key of ["sativa", "indica", "hybrid", "unclassified"]) {
+                  const count = catalog.explore?.[key]?.length || 0;
+                  setCount(`count-${key}`, count);
+                  setCount(`overview-${key}`, count);
+                }
+                setupDetailedFilters();
+                renderGrid();
+          '''
+          s = replace_once(s, old, new, "filter setup boot")
+          app.write_text(s)
+
+          homeux = Path("preview/home-ux-v2.js")
+          s = homeux.read_text()
+          block = '''  if (search) {
+              search.addEventListener("input", () => {
+                if (!(search.value || "").trim()) return;
+                const all = document.querySelector('[data-explore="all"]');
+                if (all && !all.classList.contains("is-active")) all.click();
+              });
+            }
+
+          '''
+          s = replace_once(s, block, "", "search reset")
+          homeux.write_text(s)
+
+          css = Path("preview/home-entrance-v1.css")
+          s = css.read_text()
+          marker = "/* FILTER UX V1 */"
+          if marker in s:
+              raise SystemExit("FILTER UX V1 CSS already present")
+          s += r'''
+
+          /* FILTER UX V1 */
+          .home-search .home-type-filters{display:flex;flex-wrap:wrap;gap:6px;margin:0 3px 12px;overflow:visible;padding:0;border:0;scroll-margin-top:0}
+          .home-search .home-type-filters .explore-chip{flex:0 0 auto;min-height:40px;padding:0 11px}
+          .filter-disclosure{margin:10px 3px 0;border-top:1px solid rgba(217,182,93,.14)}
+          .filter-disclosure summary{display:flex;min-height:44px;align-items:center;gap:7px;padding:7px 1px 0;list-style:none;color:#d9c985;font-size:9px;font-weight:900;letter-spacing:.035em;cursor:pointer}
+          .filter-disclosure summary::-webkit-details-marker{display:none}
+          .filter-summary-label{min-width:0}
+          .filter-summary-count{display:inline-grid;min-width:20px;height:20px;place-items:center;padding:0 6px;border:1px solid rgba(217,182,93,.24);border-radius:999px;background:rgba(217,182,93,.09);color:#efd886;font-size:7px}
+          .filter-summary-count[hidden]{display:none}
+          .filter-chevron{margin-left:auto;color:#9f8d5b;font-size:15px;line-height:1;transition:transform .16s ease}
+          .filter-disclosure[open] .filter-chevron{transform:rotate(180deg)}
+          .filter-panel{display:grid;gap:9px;padding:8px 0 2px}
+          .filter-group{padding:10px;border:1px solid rgba(217,182,93,.12);border-radius:12px;background:linear-gradient(145deg,rgba(15,34,24,.56),rgba(4,13,8,.72))}
+          .filter-group[hidden]{display:none}
+          .filter-group-heading{display:flex;align-items:baseline;gap:8px}
+          .filter-group-heading span{color:#8f8057;font-size:6px;font-weight:950;letter-spacing:.14em}
+          .filter-group-heading h3{margin:0;color:#e9e0c6;font-size:10px;line-height:1.2}
+          .generation-options{display:flex;flex-wrap:wrap;gap:6px;margin-top:9px}
+          .generation-chip{min-width:48px;min-height:40px;padding:0 10px;border:1px solid rgba(255,255,255,.09);border-radius:999px;background:rgba(255,255,255,.03);color:#9eada4;font-size:8px;font-weight:900}
+          .generation-chip.is-active{border-color:rgba(217,182,93,.4);background:rgba(217,182,93,.11);color:#efd886;box-shadow:inset 0 0 0 1px rgba(217,182,93,.04)}
+          .breeder-select{width:100%;min-height:42px;margin-top:9px;padding:0 34px 0 11px;border:1px solid rgba(217,182,93,.18);border-radius:10px;outline:none;background-color:#0b1b12;color:#e7e2d2;font-size:10px}
+          .breeder-select:focus{border-color:rgba(231,201,112,.5);box-shadow:0 0 0 2px rgba(217,182,93,.06)}
+          .filter-clear{min-height:42px;padding:0 11px;border:1px solid rgba(217,182,93,.17);border-radius:10px;background:rgba(217,182,93,.045);color:#c9b976;font-size:8px;font-weight:900;text-align:center}
+          .filter-clear:disabled{opacity:.34;cursor:default}
+          @media(min-width:700px){
+            .home-search .home-type-filters{gap:8px;margin-bottom:14px}
+            .home-search .home-type-filters .explore-chip{min-height:40px;padding:0 13px}
+            .filter-panel{grid-template-columns:1fr 1fr;align-items:start;gap:11px}
+            .filter-clear{grid-column:1/-1}
+          }
+          '''
+          css.write_text(s)
+          PY
+      - name: Verify and publish UI commit
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --check preview/app.js
+          node --check preview/home-ux-v2.js
+          grep -q 'id="filter-disclosure"' index.html
+          grep -q 'preview/app.js?v=6' index.html
+          grep -q 'preview/home-ux-v2.js?v=4' index.html
+          grep -q 'preview/home-entrance-v1.css?v=5' index.html
+          test "$(grep -o 'id="explore"' index.html | wc -l)" -eq 1
+          ! grep -q 'data-explore="unclassified"' index.html
+          grep -q 'const matchesFilters' preview/app.js
+          grep -q 'roles || \[\]).includes("breeder")' preview/app.js
+          grep -q 'FILTER UX V1' preview/home-entrance-v1.css
+          test "$(git diff --name-only | sort | tr '\n' ' ')" = "index.html preview/app.js preview/home-entrance-v1.css preview/home-ux-v2.js "
+          git config user.name filter-ux-v1-bot
+          git config user.email actions@users.noreply.github.com
+          git add index.html preview/app.js preview/home-ux-v2.js preview/home-entrance-v1.css
+          git commit -m "Implement FILTER UX V1"
+          git pull --rebase origin main
+          git push origin HEAD:main
+      - name: Remove one-shot workflow
+        if: always()
+        shell: bash
+        run: |
+          set -euo pipefail
+          git fetch origin main
+          git checkout main
+          git reset --hard origin/main
+          if [ -f .github/workflows/filter-ux-v1-implement-once.yml ]; then
+            git rm .github/workflows/filter-ux-v1-implement-once.yml
+            git config user.name filter-ux-v1-bot
+            git config user.email actions@users.noreply.github.com
+            git commit -m "Remove FILTER UX V1 implementation helper [skip ci]"
+            git push origin HEAD:main
+          fi
