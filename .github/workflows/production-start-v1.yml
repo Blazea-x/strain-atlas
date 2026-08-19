@@ -288,6 +288,14 @@ jobs:
           REVIEW="$RUNNER_TEMP/production-review-${GITHUB_RUN_ID}"
           node scripts/one-click-production-v1.mjs aggregate --phase-b="$RUNNER_TEMP/phase-b/phase-b-checkpoint.json" --candidates-root="$RUNNER_TEMP/candidates" --failures-root="$RUNNER_TEMP/failures" --out="$REVIEW" >/dev/null
           test -f "$REVIEW/review-package.json"
+      - name: Upload immutable review package for manual APPROVE compatibility
+        uses: actions/upload-artifact@v4
+        with:
+          name: production-review-${{ github.run_id }}
+          path: ${{ runner.temp }}/production-review-${{ github.run_id }}/
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 30
       - name: Resolve production mode
         id: mode
         shell: bash
