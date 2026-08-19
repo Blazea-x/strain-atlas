@@ -23,7 +23,7 @@ const lastImageReviewResult=manifest=>{if(!manifest)return'NONE';const review=la
 
 export function buildImageBacklogRows({root=ROOT}={}){
   const publication=readJson(path.join(root,'production/publication.json'));
-  const pubById=new Map(publication.entries||[]).map(entry=>[entry.strainId,entry]));
+  const pubById=new Map((publication.entries||[]).map(entry=>[entry.strainId,entry]));
   const manifests=listJson(path.join(root,'production/manifests')).map(readJson);
   const manifestById=new Map(manifests.map(manifest=>[manifest.manifestId,manifest]));
   const latestManifestFor=id=>manifests.filter(manifest=>manifest.strainId===id).sort((a,b)=>(b.revision||0)-(a.revision||0)||(b.attempt||0)-(a.attempt||0))[0]||null;
@@ -37,7 +37,7 @@ export function buildImageBacklogRows({root=ROOT}={}){
     const runItem=entry.introducedByRun?runItems.get(`${entry.introducedByRun}\u0000${strain.id}`):null;
     const manifest=runItem?.manifestId?manifestById.get(runItem.manifestId)||null:latestManifestFor(strain.id);
     const primary=(strain.visuals||[]).filter(v=>v.role==='primary');
-    const expectedPrimary=manifest?.expectedPrimaryPath||primary[0]?.src|p`strains/${strain.id}/images/generated/primary.webp`;
+    const expectedPrimary=manifest?.expectedPrimaryPath||primary[0]?.src||`strains/${strain.id}/images/generated/primary.webp`;
     const primaryExists=localExists(root,expectedPrimary);
     const inferred=inferStablePhase({strain,publicationEntry:entry,manifest,primaryExists});
     const phase=runItem?.productionPhase||inferred;
