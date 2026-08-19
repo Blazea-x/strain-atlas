@@ -8,7 +8,6 @@
   const latestCount = document.getElementById("latest-count");
   const allGrid = document.getElementById("cultivar-grid");
   const search = document.getElementById("search");
-  const catalogTotal = document.getElementById("catalog-total");
   const catalogMeta = document.getElementById("catalog-meta");
   const detailShell = document.getElementById("detail-shell");
 
@@ -190,7 +189,6 @@
       catalog = await response.json();
       if (!Array.isArray(catalog.cultivars)) throw new Error("cultivars array is missing");
       cultivarById = new Map(catalog.cultivars.map(cultivar => [cultivar.id, cultivar]));
-      if (catalogTotal) catalogTotal.textContent = `${catalog.cultivars.length}品種を収録`;
       renderFooter();
       captureCanonicalCards();
       localizeCurrentDetail();
