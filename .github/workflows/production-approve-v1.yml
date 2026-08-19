@@ -11,6 +11,14 @@ on:
         description: "Human-approved candidates: strainId:approvalBindingSha256, comma/newline separated"
         required: true
         type: string
+  workflow_call:
+    inputs:
+      production_run_id:
+        required: true
+        type: string
+      approved_candidates:
+        required: true
+        type: string
 
 concurrency:
   group: production-approve-v1
@@ -44,6 +52,20 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: "22"
+
+      - name: Verify human workflow_dispatch provenance
+        shell: bash
+        env:
+          APPROVAL_EVENT_NAME: ${{ github.event_name }}
+          APPROVAL_ACTOR: ${{ github.actor }}
+          APPROVAL_WORKFLOW_RUN_ID: ${{ github.run_id }}
+        run: |
+          set -euo pipefail
+          test "$APPROVAL_EVENT_NAME" = "workflow_dispatch" || { echo "Human approval requires workflow_dispatch provenance; got: $APPROVAL_EVENT_NAME"; exit 1; }
+          test -n "$APPROVAL_ACTOR" || { echo "Missing workflow_dispatch actor"; exit 1; }
+          case "$APPROVAL_WORKFLOW_RUN_ID" in
+            ''|*[!0-9]*) echo "Invalid caller workflow run id"; exit 1 ;;
+          esac
 
       - name: Fix BASE_SHA and resolve START review artifact
         id: resolve
@@ -165,8 +187,10 @@ jobs:
           ORIGINAL_BASE_SHA: ${{ needs.resolve.outputs.base_sha }}
           ORIGINAL_MAIN_HEAD: ${{ needs.resolve.outputs.main_head }}
           PRODUCTION_RUN_ID: ${{ needs.resolve.outputs.production_run_id }}
+          HUMAN_DISPATCH: ${{ github.event_name == 'workflow_dispatch' }}
         run: |
           set -euo pipefail
+          test "$HUMAN_DISPATCH" = "true" || { echo "Human approval provenance lost before apply"; exit 1; }
           git config user.name "strain-atlas-approve-bot"
           git config user.email "actions@users.noreply.github.com"
           EXPECTED_BASE="$ORIGINAL_BASE_SHA"
@@ -194,7 +218,7 @@ jobs:
               --production-run-id="$PRODUCTION_RUN_ID" \
               --approval-workflow-run-id="$GITHUB_RUN_ID" \
               --approval-actor="$GITHUB_ACTOR" \
-              --human-dispatch=true \
+              --human-dispatch="$HUMAN_DISPATCH" \
               --base-sha="$REMOTE_HEAD" \
               --main-head="$MAIN_HEAD" \
               --stage-root="$RUNNER_TEMP/approve-stage" \
