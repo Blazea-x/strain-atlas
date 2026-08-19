@@ -289,18 +289,7 @@ window.STRAINS=[
       "display": "AROMA A / TERPENE B / HISTORY A",
       "note": "正本データの項目別confidenceを表示"
     },
-    "visuals": [
-      {
-        "role": "primary",
-        "src": "strains/dr-grinspoon/images/generated/primary.webp",
-        "alt": "Dr Grinspoonの細長いサティバ株姿と、細い茎・節に沿って疎に分かれたビーズ状の花姿を公式形態情報に基づいて表現したAI生成参考ビジュアル",
-        "rights": "AI-generated project asset for Cannabis Strain Wisdom; prompt derived from cited breeder-official morphology evidence.",
-        "scope": "cultivar",
-        "aiGenerated": true,
-        "sourceType": "aiGenerated",
-        "label": "VISUAL REFERENCE"
-      }
-    ],
+    "visuals": [],
     "sourceIds": [
       "barneys-farm-dr-grinspoon",
       "leafly-dr-grinspoon"
