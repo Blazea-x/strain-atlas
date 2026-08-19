@@ -1,0 +1,119 @@
+name: PRODUCTION IMAGE REJECT V1
+
+on:
+  workflow_dispatch:
+    inputs:
+      strain_id:
+        description: Cultivar strain id whose current primary image should be rejected
+        required: true
+        type: string
+      expected_primary_sha256:
+        description: Optional safety pin for the currently displayed primary image SHA-256
+        required: false
+        default: ""
+        type: string
+  workflow_call:
+    inputs:
+      strain_id:
+        required: true
+        type: string
+      expected_primary_sha256:
+        required: false
+        default: ""
+        type: string
+
+concurrency:
+  group: production-image-reject-v1
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  reject:
+    name: Reject current primary only / retain cultivar data
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: master-migration
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: IMAGE REJECT BASE_SHA guard, one retry maximum
+        id: reject
+        shell: bash
+        env:
+          STRAIN_ID: ${{ inputs.strain_id }}
+          EXPECTED_PRIMARY_SHA256: ${{ inputs.expected_primary_sha256 }}
+        run: |
+          set -euo pipefail
+          git config user.name "strain-atlas-image-reject-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git fetch --no-tags origin master-migration:refs/remotes/origin/master-migration main:refs/remotes/origin/main
+          EXPECTED_BASE="$(git rev-parse origin/master-migration)"
+          CHECKPOINT="$RUNNER_TEMP/image-reject-result.json"
+          FINAL_COMMIT=""
+          for ATTEMPT in 1 2; do
+            git fetch --no-tags origin master-migration:refs/remotes/origin/master-migration main:refs/remotes/origin/main
+            REMOTE_HEAD="$(git rev-parse origin/master-migration)"
+            MAIN_HEAD="$(git rev-parse origin/main)"
+            if [ "$REMOTE_HEAD" != "$EXPECTED_BASE" ]; then
+              if [ "$ATTEMPT" -ge 2 ]; then echo "BASE_SHA changed twice. Safe stop; force is forbidden."; exit 75; fi
+              EXPECTED_BASE="$REMOTE_HEAD"
+            fi
+            git reset --hard "$REMOTE_HEAD"
+            git clean -fdx
+            node scripts/production-image-reject-v1.mjs apply \
+              --strain-id="$STRAIN_ID" \
+              --expected-primary-sha256="$EXPECTED_PRIMARY_SHA256" \
+              --reject-workflow-run-id="$GITHUB_RUN_ID" \
+              --reject-actor="$GITHUB_ACTOR" \
+              --out="$CHECKPOINT" >/dev/null
+            CHANGED="$(node -e "const x=require(process.argv[1]);process.stdout.write(String(x.changed))" "$CHECKPOINT")"
+            if [ "$CHANGED" = "false" ]; then
+              echo "idempotent=true" >> "$GITHUB_OUTPUT"
+              break
+            fi
+            node scripts/build-runtime-data.mjs
+            rm -rf "$RUNNER_TEMP/main-audit"
+            git worktree add --detach "$RUNNER_TEMP/main-audit" origin/main
+            node scripts/validate-master-data.mjs
+            node scripts/validate-cultivar-publication.mjs
+            node scripts/audit-content-production.mjs --main-dir="$RUNNER_TEMP/main-audit"
+            git worktree remove "$RUNNER_TEMP/main-audit" --force
+            git add -- strains production runtime data.js sources.js
+            BAD="$(git diff --cached --name-only | grep -Ev '^(strains/[^/]+/strain\.json|strains/[^/]+/images/generated/primary\.webp|production/manifests/[^/]+\.json|production/runs/[^/]+\.json|runtime/catalog\.json|data\.js|sources\.js)$' || true)"
+            test -z "$BAD" || { echo "Forbidden IMAGE REJECT path(s):"; echo "$BAD"; exit 1; }
+            git fetch --no-tags origin master-migration:refs/remotes/origin/master-migration
+            HEAD_BEFORE_PUSH="$(git rev-parse origin/master-migration)"
+            if [ "$HEAD_BEFORE_PUSH" != "$REMOTE_HEAD" ]; then
+              if [ "$ATTEMPT" -ge 2 ]; then echo "BASE_SHA changed twice before push. Safe stop; force is forbidden."; exit 75; fi
+              EXPECTED_BASE="$HEAD_BEFORE_PUSH"
+              continue
+            fi
+            git commit -m "PRODUCTION IMAGE REJECT V1 $STRAIN_ID $GITHUB_RUN_ID [skip ci]"
+            git push origin HEAD:master-migration
+            FINAL_COMMIT="$(git rev-parse HEAD)"
+            echo "final_commit=$FINAL_COMMIT" >> "$GITHUB_OUTPUT"
+            break
+          done
+      - uses: actions/upload-artifact@v4
+        with:
+          name: production-image-reject-${{ github.run_id }}
+          path: ${{ runner.temp }}/image-reject-result.json
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 30
+      - name: Result summary
+        shell: bash
+        run: |
+          {
+            echo "## PRODUCTION IMAGE REJECT V1"
+            echo ""
+            echo "Cultivar data/publication is retained. Only the current primary linkage/file is removed and the image returns to backlog."
+            echo ""
+            echo "OpenAI requests: 0"
+          } >> "$GITHUB_STEP_SUMMARY"
