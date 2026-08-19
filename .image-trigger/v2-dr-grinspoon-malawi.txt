@@ -1,0 +1,5 @@
+IMAGE PRODUCTION PIPELINE V2 one-shot review trigger
+Targets only: dr-grinspoon, malawi
+Provider: OpenAI only
+Maximum generation: one image per cultivar, two images total
+Retry: prohibited
