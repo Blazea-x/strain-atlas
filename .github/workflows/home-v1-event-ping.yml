@@ -13,14 +13,16 @@ jobs:
     if: github.event.issue.number == 13
     runs-on: ubuntu-latest
     steps:
-      - name: Mark verifier event start and list issue-event runs
+      - name: Mark verifier event start and inspect Actions registration
         env:
           GH_TOKEN: ${{ github.token }}
         shell: bash
         run: |
           set -euo pipefail
           sleep 3
-          runs="$(gh api "repos/$GITHUB_REPOSITORY/actions/runs?event=issues&per_page=20")"
-          summary="$(jq -r --arg sha "$GITHUB_SHA" '[.workflow_runs[] | select(.head_sha == $sha) | {id,name,status,conclusion,head_sha,event}]' <<<"$runs")"
-          body="$(printf 'HOME V1 VERIFY STARTED | run=%s | sha=%s\n\n```json\n%s\n```' "$GITHUB_RUN_ID" "$GITHUB_SHA" "$summary")"
+          runs="$(gh api "repos/$GITHUB_REPOSITORY/actions/runs?event=issues&per_page=30")"
+          run_summary="$(jq -r --arg sha "$GITHUB_SHA" '[.workflow_runs[] | select(.head_sha == $sha) | {id,name,status,conclusion,head_sha,event,path}]' <<<"$runs")"
+          workflows="$(gh api "repos/$GITHUB_REPOSITORY/actions/workflows?per_page=100")"
+          workflow_summary="$(jq -r '[.workflows[] | select((.path // "") | contains("home-entrance-v1") or contains("home-v1-event-ping")) | {id,name,path,state}]' <<<"$workflows")"
+          body="$(printf 'HOME V1 VERIFY STARTED | run=%s | sha=%s\n\nIssue-event runs:\n```json\n%s\n```\n\nRegistered HOME workflows:\n```json\n%s\n```' "$GITHUB_RUN_ID" "$GITHUB_SHA" "$run_summary" "$workflow_summary")"
           gh api -X POST "repos/$GITHUB_REPOSITORY/issues/13/comments" -f body="$body" >/dev/null
