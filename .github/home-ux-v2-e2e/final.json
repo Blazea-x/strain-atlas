@@ -1,0 +1,121 @@
+{
+  "runId": "32289270612",
+  "site": "https://blazea-x.github.io/strain-atlas/",
+  "checks": {
+    "latest-six": {
+      "pass": true,
+      "detail": [
+        "mazar",
+        "jack-herer",
+        "golden-tiger",
+        "ak-47",
+        "acapulco-gold",
+        "f1-durb-s1"
+      ]
+    },
+    "all-count": {
+      "pass": true,
+      "detail": 38
+    },
+    "filter": {
+      "pass": true,
+      "detail": {
+        "sativa": 13,
+        "all": 38
+      }
+    },
+    "search-five-and-clear": {
+      "pass": true,
+      "detail": {
+        "Bubble Gum": {
+          "count": 2,
+          "target": "bubble-gum"
+        },
+        "Wedding Cake": {
+          "count": 2,
+          "target": "wedding-cake-s1"
+        },
+        "Humboldt CSI": {
+          "count": 12,
+          "target": "wedding-cake-s1"
+        },
+        "S1": {
+          "count": 14,
+          "target": "f1-durb-s1"
+        },
+        "Kush": {
+          "count": 7,
+          "target": "bubba-kush-s1"
+        }
+      }
+    },
+    "search-resets-filter": {
+      "pass": true,
+      "detail": [
+        "wedding-cake-s1"
+      ]
+    },
+    "Wedding Cake S1": {
+      "pass": true,
+      "detail": {
+        "name": "Wedding Cake",
+        "generation": "S1"
+      }
+    },
+    "Bubba Kush S1": {
+      "pass": true,
+      "detail": {
+        "name": "Bubba Kush",
+        "generation": "S1"
+      }
+    },
+    "F1 Durb S1": {
+      "pass": true,
+      "detail": {
+        "name": "F1 Durb",
+        "generation": "S1"
+      }
+    },
+    "AK-47 F1": {
+      "pass": true,
+      "detail": {
+        "name": "AK-47",
+        "generation": "F1"
+      }
+    },
+    "detail-and-scroll": {
+      "pass": false,
+      "detail": "AssertionError: "
+    },
+    "direct-deep-link": {
+      "pass": false,
+      "detail": "TimeoutException: Message: \nStacktrace:\n#0 0x55a20d77936a <unknown>\n#1 0x55a20d0ecf49 <unknown>\n#2 0x55a20d1427e2 <unknown>\n#3 0x55a20d142a31 <unknown>\n#4 0x55a20d18ded4 <unknown>\n#5 0x55a20d18b0c3 <unknown>\n#6 0x55a20d135c92 <unknown>\n#7 0x55a20d136b11 <unknown>\n#8 0x55a20d73e8d0 <unknown>\n#9 0x55a20d73cf3a <unknown>\n#10 0x55a20d7279b5 <unknown>\n#11 0x55a20d73dc0a <unknown>\n#12 0x55a20d70f740 <unknown>\n#13 0x55a20d7649a8 <unknown>\n#14 0x55a20d764b45 <unknown>\n#15 0x55a20d777f1e <unknown>\n#16 0x7ff6cf89cb84 <unknown>\n#17 0x7ff6cf929d6c <unknown>\n"
+    },
+    "footer": {
+      "pass": true,
+      "detail": "Cannabis Strain Wisdom\n38 品種 · 58 出典 · 12 関連組織・ブリーダー\nこのサイトについて\n品種一覧\n重要なお知らせ"
+    },
+    "publication-failure-fail-closed": {
+      "pass": true,
+      "detail": "新着情報を取得できません"
+    }
+  },
+  "errors": [
+    "detail-and-scroll",
+    "direct-deep-link"
+  ],
+  "counts": {
+    "cultivars": 38,
+    "sources": 58,
+    "entities": 12
+  },
+  "expectedLatest": [
+    "mazar",
+    "jack-herer",
+    "golden-tiger",
+    "ak-47",
+    "acapulco-gold",
+    "f1-durb-s1"
+  ],
+  "pass": false
+}
