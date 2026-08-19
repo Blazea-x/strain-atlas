@@ -48,6 +48,9 @@ jobs:
       - name: Fix BASE_SHA and resolve START review artifact
         id: resolve
         shell: bash
+        env:
+          PRODUCTION_RUN_INPUT: ${{ inputs.production_run_id }}
+          APPROVED_CANDIDATES_INPUT: ${{ inputs.approved_candidates }}
         run: |
           set -euo pipefail
           git fetch --no-tags origin master-migration:refs/remotes/origin/master-migration main:refs/remotes/origin/main
@@ -56,8 +59,8 @@ jobs:
           git reset --hard "$BASE_SHA"
           OUT="$RUNNER_TEMP/approve-resolve.json"
           node scripts/one-click-production-approve-v1.mjs resolve \
-            --production-run-id="${{ inputs.production_run_id }}" \
-            --approved-candidates="${{ inputs.approved_candidates }}" \
+            --production-run-id="$PRODUCTION_RUN_INPUT" \
+            --approved-candidates="$APPROVED_CANDIDATES_INPUT" \
             --out="$OUT" >/dev/null
           echo "production_run_id=$(node -e "const x=require(process.argv[1]);process.stdout.write(x.productionRunId)" "$OUT")" >> "$GITHUB_OUTPUT"
           echo "start_workflow_run_id=$(node -e "const x=require(process.argv[1]);process.stdout.write(String(x.startWorkflowRunId))" "$OUT")" >> "$GITHUB_OUTPUT"
