@@ -35,18 +35,18 @@
   "expectedInboxFilename": "golden-tiger.jpg",
   "expectedPrimaryPath": "strains/golden-tiger/images/generated/primary.webp",
   "generatedAt": null,
-  "approvalStatus": "pending",
-  "approvedAt": null,
-  "approvalType": "human-visual-review",
-  "approvedManifestRevision": null,
-  "approvedAttempt": null,
-  "approvedSourceSha256": null,
-  "imageInboxCommit": null,
-  "imageProcessingCommit": null,
-  "processedPrimaryBlobSha": null,
-  "processedPrimarySha256": null,
-  "width": null,
-  "height": null,
+  "approvalStatus": "auto-approved",
+  "approvedAt": "2026-08-19T13:06:47Z",
+  "approvalType": "ai-visual-qa",
+  "approvedManifestRevision": 1,
+  "approvedAttempt": 1,
+  "approvedSourceSha256": "373b727720eeeac5ccbb670866784ac60ee3f8b69feb4c4cb5d4a8d764b68037",
+  "imageInboxCommit": "not-applicable:production-auto-publish-v1-direct",
+  "imageProcessingCommit": "980c1097a9e525fc58f53d3a960a9fb6666d3fd8",
+  "processedPrimaryBlobSha": "ca5ac57420e8a789828e533a6acb3b0d7f88fa84",
+  "processedPrimarySha256": "7167c34672323632bcee8ad86dc3f5638351599727ddd73f71a313a42b019910",
+  "width": 1024,
+  "height": 1536,
   "audit": [
     {
       "severity": "INFO",
@@ -54,6 +54,102 @@
       "at": "2026-08-19T13:04:19Z",
       "productionPhase": "IMAGE_PENDING",
       "note": "Created by PRODUCTION START V1. Candidate output is review-only and cannot publish."
+    },
+    {
+      "severity": "INFO",
+      "code": "AI_VISUAL_QA_PASS_AUTO_APPROVAL",
+      "at": "2026-08-19T13:06:47Z",
+      "approvalType": "ai-visual-qa",
+      "qaEngine": "local-clip-semantic-v1",
+      "qaModel": "openai/clip-vit-base-patch32",
+      "candidateSha256": "373b727720eeeac5ccbb670866784ac60ee3f8b69feb4c4cb5d4a8d764b68037"
+    },
+    {
+      "severity": "INFO",
+      "code": "PRIMARY_PROCESSED_INTERNAL",
+      "at": "2026-08-19T13:06:47Z",
+      "processingRoute": "production-auto-publish-v1-direct",
+      "processedPrimarySha256": "7167c34672323632bcee8ad86dc3f5638351599727ddd73f71a313a42b019910",
+      "width": 1024,
+      "height": 1536
     }
-  ]
+  ],
+  "processingRoute": "production-auto-publish-v1-direct",
+  "processingSourceArtifact": "production-review-32255989337",
+  "aiVisualQa": {
+    "strainId": "golden-tiger",
+    "status": "PASS",
+    "engine": "local-clip-semantic-v1",
+    "model": "openai/clip-vit-base-patch32",
+    "reason": null,
+    "checks": [
+      {
+        "id": "image_decode",
+        "pass": true,
+        "width": 1024,
+        "height": 1536,
+        "variance": 1775.271,
+        "meanLuma": 155.251
+      },
+      {
+        "id": "cannabis_natural",
+        "pass": true,
+        "positive": 0.31434,
+        "negative": 0.24115,
+        "margin": 0.07319,
+        "requiredMargin": 0.004
+      },
+      {
+        "id": "plant_structure",
+        "pass": true,
+        "positive": 0.26188,
+        "negative": 0.22995,
+        "margin": 0.03194,
+        "requiredMargin": 0.002
+      },
+      {
+        "id": "general_botanical_plausibility",
+        "pass": true,
+        "positive": 0.28435,
+        "negative": 0.23375,
+        "margin": 0.05061,
+        "requiredMargin": 0.001
+      },
+      {
+        "id": "no_fruit_or_berries",
+        "pass": true,
+        "positive": 0.297,
+        "negative": 0.22326,
+        "margin": 0.07374,
+        "requiredMargin": 0.002
+      },
+      {
+        "id": "no_unwanted_objects",
+        "pass": true,
+        "positive": 0.2843,
+        "negative": 0.22952,
+        "margin": 0.05479,
+        "requiredMargin": 0.002
+      },
+      {
+        "id": "primary_visual_usable",
+        "pass": true,
+        "positive": 0.29495,
+        "negative": 0.19602,
+        "margin": 0.09893,
+        "requiredMargin": 0.001
+      },
+      {
+        "id": "evidence_alignment",
+        "pass": true,
+        "mode": "NOT_APPLICABLE",
+        "status": "NOT_APPLICABLE",
+        "reason": "OFFICIAL_VISUAL_REFERENCE_UNAVAILABLE_OR_INSUFFICIENT"
+      }
+    ],
+    "evidenceAlignmentMode": "NOT_APPLICABLE",
+    "evidenceText": "",
+    "failedChecks": [],
+    "failClosed": true
+  }
 }

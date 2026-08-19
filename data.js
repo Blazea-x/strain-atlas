@@ -1,5 +1,114 @@
 window.STRAINS=[
   {
+    "id": "acapulco-gold",
+    "name": "Acapulco Gold",
+    "jp": "",
+    "type": {
+      "key": "sativa",
+      "label": "サティバ"
+    },
+    "aliases": [],
+    "identity": {
+      "scope": "cultivar",
+      "note": "品種一般の情報。特定ロット・製品・フェノタイプを示すものではありません。"
+    },
+    "lineage": {
+      "display": "Central American",
+      "parents": [
+        "Central American"
+      ],
+      "note": "Barney's Farm lists Acapulco Gold Regular as Central American genetics and 70% sativa / 30% indica; no narrower hidden pedigree is inferred."
+    },
+    "aromas": [
+      "earthy",
+      "pine",
+      "pungent",
+      "sweet"
+    ],
+    "breeder": {
+      "name": "Barney's Farm",
+      "era": ""
+    },
+    "terpenes": [],
+    "originHistory": "Barney's Farm describes this Acapulco Gold line as derived from Central American/Mexican landrace heritage.",
+    "history": "The official page presents Acapulco Gold as a legacy Mexican/Acapulco cultivar line; no precise creation date is asserted.",
+    "confidence": {
+      "display": "LINEAGE A / AROMA A / ORIGIN A / HISTORY B",
+      "note": "正本データの項目別confidenceを表示"
+    },
+    "visuals": [
+      {
+        "role": "primary",
+        "src": "strains/acapulco-gold/images/generated/primary.webp",
+        "alt": "Acapulco GoldのBarney's Farm公式テキスト形態情報を基礎に、未確認の画像由来形態を付加せず作成するAI生成参考ビジュアル",
+        "rights": "AI-generated project asset for Cannabis Strain Wisdom. No official or third-party image is copied or stored; prompt uses official text evidence only because visual retrieval was insufficient for image-derived morphology.",
+        "scope": "cultivar",
+        "aiGenerated": true,
+        "sourceType": "aiGenerated",
+        "label": "VISUAL REFERENCE"
+      }
+    ],
+    "sourceIds": [
+      "barneys-farm-acapulco-gold"
+    ],
+    "reviews": []
+  },
+  {
+    "id": "ak-47",
+    "name": "AK-47",
+    "jp": "",
+    "type": {
+      "key": "hybrid",
+      "label": "ハイブリッド"
+    },
+    "aliases": [],
+    "identity": {
+      "scope": "cultivar",
+      "note": "品種一般の情報。特定ロット・製品・フェノタイプを示すものではありません。"
+    },
+    "lineage": {
+      "display": "Colombian × Mexican × Thai × Afghan",
+      "parents": [
+        "Colombian",
+        "Mexican",
+        "Thai",
+        "Afghan"
+      ],
+      "note": "Serious Seeds identifies AK-47 as an F1 hybrid developed from Colombian, Mexican, Thai and Afghan seed stock, with mostly-sativa expression."
+    },
+    "aromas": [
+      "spicy",
+      "sweet citrus"
+    ],
+    "breeder": {
+      "name": "Serious Seeds",
+      "era": ""
+    },
+    "terpenes": [],
+    "originHistory": "Created by Serious Seeds from Colombian, Mexican, Thai and Afghan seed stock.",
+    "history": "Serious Seeds states AK-47 was created in 1992 after selection work across multiple lines.",
+    "confidence": {
+      "display": "LINEAGE A / AROMA A / ORIGIN A / HISTORY B",
+      "note": "正本データの項目別confidenceを表示"
+    },
+    "visuals": [
+      {
+        "role": "primary",
+        "src": "strains/ak-47/images/generated/primary.webp",
+        "alt": "AK-47のSerious Seeds公式テキスト形態情報を基礎に、未確認の画像由来形態を付加せず作成するAI生成参考ビジュアル",
+        "rights": "AI-generated project asset for Cannabis Strain Wisdom. No official or third-party image is copied or stored; prompt uses official text evidence only because visual retrieval was insufficient for image-derived morphology.",
+        "scope": "cultivar",
+        "aiGenerated": true,
+        "sourceType": "aiGenerated",
+        "label": "VISUAL REFERENCE"
+      }
+    ],
+    "sourceIds": [
+      "serious-seeds-ak-47"
+    ],
+    "reviews": []
+  },
+  {
     "id": "bangi-haze",
     "name": "Bangi Haze",
     "jp": "",
@@ -770,6 +879,58 @@ window.STRAINS=[
     "reviews": []
   },
   {
+    "id": "golden-tiger",
+    "name": "Golden Tiger",
+    "jp": "",
+    "type": {
+      "key": "sativa",
+      "label": "サティバ"
+    },
+    "aliases": [],
+    "identity": {
+      "scope": "cultivar",
+      "note": "品種一般の情報。特定ロット・製品・フェノタイプを示すものではありません。"
+    },
+    "lineage": {
+      "display": "Old Malawi Killer × Koh Chang Thai × Hmong Thai × 3rd-generation Malawi male",
+      "parents": [
+        "Old Malawi Killer",
+        "Koh Chang Thai",
+        "Hmong Thai",
+        "3rd-generation Malawi male"
+      ],
+      "note": "ACE Seeds identifies the current Golden Tiger as an F3 semi-stabilized 100% sativa hybrid combining two Thai lines and two Malawi parental plants."
+    },
+    "aromas": [],
+    "breeder": {
+      "name": "ACE Seeds",
+      "era": ""
+    },
+    "terpenes": [],
+    "originHistory": "Developed by ACE Seeds from Malawi and Thai parental lines.",
+    "history": "ACE Seeds describes the current version as a stronger-Thai-influence refinement of Golden Tiger and labels it F3 semi-stabilized.",
+    "confidence": {
+      "display": "LINEAGE A / ORIGIN A / HISTORY B",
+      "note": "正本データの項目別confidenceを表示"
+    },
+    "visuals": [
+      {
+        "role": "primary",
+        "src": "strains/golden-tiger/images/generated/primary.webp",
+        "alt": "Golden TigerのACE Seeds公式テキスト形態情報を基礎に、未確認の画像由来形態を付加せず作成するAI生成参考ビジュアル",
+        "rights": "AI-generated project asset for Cannabis Strain Wisdom. No official or third-party image is copied or stored; prompt uses official text evidence only because visual retrieval was insufficient for image-derived morphology.",
+        "scope": "cultivar",
+        "aiGenerated": true,
+        "sourceType": "aiGenerated",
+        "label": "VISUAL REFERENCE"
+      }
+    ],
+    "sourceIds": [
+      "ace-seeds-golden-tiger"
+    ],
+    "reviews": []
+  },
+  {
     "id": "gorilla-glue-4-s1",
     "name": "Gorilla Glue 4 S1",
     "jp": "",
@@ -815,6 +976,57 @@ window.STRAINS=[
     ],
     "sourceIds": [
       "humboldt-csi-gorilla-glue-4-s1"
+    ],
+    "reviews": []
+  },
+  {
+    "id": "jack-herer",
+    "name": "Jack Herer",
+    "jp": "",
+    "type": {
+      "key": "hybrid",
+      "label": "ハイブリッド"
+    },
+    "aliases": [],
+    "identity": {
+      "scope": "cultivar",
+      "note": "品種一般の情報。特定ロット・製品・フェノタイプを示すものではありません。"
+    },
+    "lineage": {
+      "display": "Undisclosed Sensi Seeds hybrid",
+      "parents": [],
+      "note": "Sensi Seeds identifies Jack Herer as a 50/50 sativa/indica hybrid but does not disclose a parent list on the checked official product page; no hidden pedigree is inferred."
+    },
+    "aromas": [
+      "sharp",
+      "savoury",
+      "earthy"
+    ],
+    "breeder": {
+      "name": "Sensi Seeds",
+      "era": ""
+    },
+    "terpenes": [],
+    "originHistory": "Developed by Sensi Seeds and named for cannabis activist Jack Herer.",
+    "history": "Sensi Seeds presents Jack Herer as a flagship award-winning cultivar; no precise release year is imported from the checked product page.",
+    "confidence": {
+      "display": "LINEAGE A / AROMA A / ORIGIN A / HISTORY B",
+      "note": "正本データの項目別confidenceを表示"
+    },
+    "visuals": [
+      {
+        "role": "primary",
+        "src": "strains/jack-herer/images/generated/primary.webp",
+        "alt": "Jack HererのSensi Seeds公式テキスト形態情報を基礎に、表現型差を固定化せず作成するAI生成参考ビジュアル",
+        "rights": "AI-generated project asset for Cannabis Strain Wisdom. No official or third-party image is copied or stored; prompt uses official text evidence only because visual retrieval was insufficient for image-derived morphology.",
+        "scope": "cultivar",
+        "aiGenerated": true,
+        "sourceType": "aiGenerated",
+        "label": "VISUAL REFERENCE"
+      }
+    ],
+    "sourceIds": [
+      "sensi-seeds-jack-herer"
     ],
     "reviews": []
   },
@@ -1044,6 +1256,61 @@ window.STRAINS=[
       "ace-seeds-malawi",
       "seedfinder-malawi",
       "ace-seeds-about"
+    ],
+    "reviews": []
+  },
+  {
+    "id": "mazar",
+    "name": "Mazar",
+    "jp": "",
+    "type": {
+      "key": "indica",
+      "label": "インディカ"
+    },
+    "aliases": [],
+    "identity": {
+      "scope": "cultivar",
+      "note": "品種一般の情報。特定ロット・製品・フェノタイプを示すものではありません。"
+    },
+    "lineage": {
+      "display": "Skunk #1 × Afghani",
+      "parents": [
+        "Skunk #1",
+        "Afghani"
+      ],
+      "note": "Dutch Passion identifies Mazar as Skunk #1 × Afghani and an indica-dominant Afghan hash-plant line."
+    },
+    "aromas": [
+      "earthy hash",
+      "pine",
+      "incense",
+      "citrus"
+    ],
+    "breeder": {
+      "name": "Dutch Passion",
+      "era": ""
+    },
+    "terpenes": [],
+    "originHistory": "Developed by Dutch Passion from a selected Skunk #1 crossed with Afghan genetics.",
+    "history": "Dutch Passion describes Mazar as an 1980s/1990s classic and states the genetic mix was improved in 1997.",
+    "confidence": {
+      "display": "LINEAGE A / AROMA A / ORIGIN A / HISTORY B",
+      "note": "正本データの項目別confidenceを表示"
+    },
+    "visuals": [
+      {
+        "role": "primary",
+        "src": "strains/mazar/images/generated/primary.webp",
+        "alt": "MazarのDutch Passion公式テキスト形態情報を基礎に、未確認の画像由来形態を付加せず作成するAI生成参考ビジュアル",
+        "rights": "AI-generated project asset for Cannabis Strain Wisdom. No official or third-party image is copied or stored; prompt uses official text evidence only because visual retrieval was insufficient for image-derived morphology.",
+        "scope": "cultivar",
+        "aiGenerated": true,
+        "sourceType": "aiGenerated",
+        "label": "VISUAL REFERENCE"
+      }
+    ],
+    "sourceIds": [
+      "dutch-passion-mazar"
     ],
     "reviews": []
   },

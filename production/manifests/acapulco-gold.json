@@ -35,18 +35,18 @@
   "expectedInboxFilename": "acapulco-gold.jpg",
   "expectedPrimaryPath": "strains/acapulco-gold/images/generated/primary.webp",
   "generatedAt": null,
-  "approvalStatus": "pending",
-  "approvedAt": null,
-  "approvalType": "human-visual-review",
-  "approvedManifestRevision": null,
-  "approvedAttempt": null,
-  "approvedSourceSha256": null,
-  "imageInboxCommit": null,
-  "imageProcessingCommit": null,
-  "processedPrimaryBlobSha": null,
-  "processedPrimarySha256": null,
-  "width": null,
-  "height": null,
+  "approvalStatus": "auto-approved",
+  "approvedAt": "2026-08-19T13:06:47Z",
+  "approvalType": "ai-visual-qa",
+  "approvedManifestRevision": 1,
+  "approvedAttempt": 1,
+  "approvedSourceSha256": "f77256347f5064e5960857ec9885d15ec76a8699c7bd8184d80d29daa8aecf00",
+  "imageInboxCommit": "not-applicable:production-auto-publish-v1-direct",
+  "imageProcessingCommit": "980c1097a9e525fc58f53d3a960a9fb6666d3fd8",
+  "processedPrimaryBlobSha": "5482b340d2acbd164f9e8a850c987d9de5d0e849",
+  "processedPrimarySha256": "e02b1d233c444dbf8391c7c87994fb6ff9b11e48f25a2dda2b05fd9b7a5d2c1b",
+  "width": 1024,
+  "height": 1536,
   "audit": [
     {
       "severity": "INFO",
@@ -54,6 +54,102 @@
       "at": "2026-08-19T13:04:19Z",
       "productionPhase": "IMAGE_PENDING",
       "note": "Created by PRODUCTION START V1. Candidate output is review-only and cannot publish."
+    },
+    {
+      "severity": "INFO",
+      "code": "AI_VISUAL_QA_PASS_AUTO_APPROVAL",
+      "at": "2026-08-19T13:06:47Z",
+      "approvalType": "ai-visual-qa",
+      "qaEngine": "local-clip-semantic-v1",
+      "qaModel": "openai/clip-vit-base-patch32",
+      "candidateSha256": "f77256347f5064e5960857ec9885d15ec76a8699c7bd8184d80d29daa8aecf00"
+    },
+    {
+      "severity": "INFO",
+      "code": "PRIMARY_PROCESSED_INTERNAL",
+      "at": "2026-08-19T13:06:47Z",
+      "processingRoute": "production-auto-publish-v1-direct",
+      "processedPrimarySha256": "e02b1d233c444dbf8391c7c87994fb6ff9b11e48f25a2dda2b05fd9b7a5d2c1b",
+      "width": 1024,
+      "height": 1536
     }
-  ]
+  ],
+  "processingRoute": "production-auto-publish-v1-direct",
+  "processingSourceArtifact": "production-review-32255989337",
+  "aiVisualQa": {
+    "strainId": "acapulco-gold",
+    "status": "PASS",
+    "engine": "local-clip-semantic-v1",
+    "model": "openai/clip-vit-base-patch32",
+    "reason": null,
+    "checks": [
+      {
+        "id": "image_decode",
+        "pass": true,
+        "width": 1024,
+        "height": 1536,
+        "variance": 3378.72,
+        "meanLuma": 129.908
+      },
+      {
+        "id": "cannabis_natural",
+        "pass": true,
+        "positive": 0.32671,
+        "negative": 0.25695,
+        "margin": 0.06976,
+        "requiredMargin": 0.004
+      },
+      {
+        "id": "plant_structure",
+        "pass": true,
+        "positive": 0.27419,
+        "negative": 0.25321,
+        "margin": 0.02097,
+        "requiredMargin": 0.002
+      },
+      {
+        "id": "general_botanical_plausibility",
+        "pass": true,
+        "positive": 0.30463,
+        "negative": 0.24801,
+        "margin": 0.05662,
+        "requiredMargin": 0.001
+      },
+      {
+        "id": "no_fruit_or_berries",
+        "pass": true,
+        "positive": 0.31636,
+        "negative": 0.23766,
+        "margin": 0.0787,
+        "requiredMargin": 0.002
+      },
+      {
+        "id": "no_unwanted_objects",
+        "pass": true,
+        "positive": 0.29792,
+        "negative": 0.25562,
+        "margin": 0.0423,
+        "requiredMargin": 0.002
+      },
+      {
+        "id": "primary_visual_usable",
+        "pass": true,
+        "positive": 0.31181,
+        "negative": 0.19868,
+        "margin": 0.11312,
+        "requiredMargin": 0.001
+      },
+      {
+        "id": "evidence_alignment",
+        "pass": true,
+        "mode": "NOT_APPLICABLE",
+        "status": "NOT_APPLICABLE",
+        "reason": "OFFICIAL_VISUAL_REFERENCE_UNAVAILABLE_OR_INSUFFICIENT"
+      }
+    ],
+    "evidenceAlignmentMode": "NOT_APPLICABLE",
+    "evidenceText": "",
+    "failedChecks": [],
+    "failClosed": true
+  }
 }

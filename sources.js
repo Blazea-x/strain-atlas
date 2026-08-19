@@ -39,6 +39,23 @@ window.SOURCES={
       "visualMorphology"
     ]
   },
+  "ace-seeds-golden-tiger": {
+    "name": "ACE Seeds — Golden Tiger",
+    "url": "https://www.aceseeds.org/en/seeds/golden-tiger-regular-seeds/",
+    "type": "primary",
+    "typeLabel": "一次情報",
+    "checked": "2026-08-19",
+    "supports": [
+      "lineage",
+      "breeder",
+      "classification",
+      "breeding",
+      "aromas",
+      "origin",
+      "history",
+      "visualMorphology"
+    ]
+  },
   "ace-seeds-malawi": {
     "name": "ACE Seeds — Malawi",
     "url": "https://www.aceseeds.org/en/seeds/malawi-standard/",
@@ -97,6 +114,23 @@ window.SOURCES={
     "supports": [
       "aromas",
       "terpenes"
+    ]
+  },
+  "barneys-farm-acapulco-gold": {
+    "name": "Barney's Farm — Acapulco Gold",
+    "url": "https://www.barneysfarm.us/acapulco-gold-_-regular-seeds-845",
+    "type": "primary",
+    "typeLabel": "一次情報",
+    "checked": "2026-08-19",
+    "supports": [
+      "lineage",
+      "breeder",
+      "classification",
+      "breeding",
+      "aromas",
+      "origin",
+      "history",
+      "visualMorphology"
     ]
   },
   "barneys-farm-dr-grinspoon": {
@@ -233,6 +267,23 @@ window.SOURCES={
       "classification",
       "history",
       "aromas"
+    ]
+  },
+  "dutch-passion-mazar": {
+    "name": "Dutch Passion — Mazar",
+    "url": "https://dutch-passion.com/en/cannabis-seeds/mazar",
+    "type": "primary",
+    "typeLabel": "一次情報",
+    "checked": "2026-08-19",
+    "supports": [
+      "lineage",
+      "breeder",
+      "classification",
+      "breeding",
+      "aromas",
+      "origin",
+      "history",
+      "visualMorphology"
     ]
   },
   "dutch-passion-shaman-story": {
@@ -650,6 +701,23 @@ window.SOURCES={
       "awards"
     ]
   },
+  "sensi-seeds-jack-herer": {
+    "name": "Sensi Seeds — Jack Herer",
+    "url": "https://sensiseeds.com/en/cannabis-seeds/sensi-seeds/jack-herer",
+    "type": "primary",
+    "typeLabel": "一次情報",
+    "checked": "2026-08-19",
+    "supports": [
+      "lineage",
+      "breeder",
+      "classification",
+      "breeding",
+      "aromas",
+      "origin",
+      "history",
+      "visualMorphology"
+    ]
+  },
   "sensi-seeds-shiva-skunk": {
     "name": "Sensi Seeds — Shiva Skunk Regular Seeds",
     "url": "https://sensiseeds.com/en/cannabis-seeds/sensi-seeds/shiva-skunk",
@@ -663,6 +731,23 @@ window.SOURCES={
       "breeding",
       "aromas",
       "terpenes",
+      "origin",
+      "history",
+      "visualMorphology"
+    ]
+  },
+  "serious-seeds-ak-47": {
+    "name": "Serious Seeds — AK-47",
+    "url": "https://www.seriousseeds.com/cannabis-seeds/ak-47",
+    "type": "primary",
+    "typeLabel": "一次情報",
+    "checked": "2026-08-19",
+    "supports": [
+      "lineage",
+      "breeder",
+      "classification",
+      "breeding",
+      "aromas",
       "origin",
       "history",
       "visualMorphology"

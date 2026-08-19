@@ -35,18 +35,18 @@
   "expectedInboxFilename": "jack-herer.jpg",
   "expectedPrimaryPath": "strains/jack-herer/images/generated/primary.webp",
   "generatedAt": null,
-  "approvalStatus": "pending",
-  "approvedAt": null,
-  "approvalType": "human-visual-review",
-  "approvedManifestRevision": null,
-  "approvedAttempt": null,
-  "approvedSourceSha256": null,
-  "imageInboxCommit": null,
-  "imageProcessingCommit": null,
-  "processedPrimaryBlobSha": null,
-  "processedPrimarySha256": null,
-  "width": null,
-  "height": null,
+  "approvalStatus": "auto-approved",
+  "approvedAt": "2026-08-19T13:06:47Z",
+  "approvalType": "ai-visual-qa",
+  "approvedManifestRevision": 1,
+  "approvedAttempt": 1,
+  "approvedSourceSha256": "05ed9563ccc3ee62d655c9f1308482267d83dbf1b351e7bd920be2af872cc9c8",
+  "imageInboxCommit": "not-applicable:production-auto-publish-v1-direct",
+  "imageProcessingCommit": "980c1097a9e525fc58f53d3a960a9fb6666d3fd8",
+  "processedPrimaryBlobSha": "0a5acc8cc22019e521cc6ad49a3f110abac6d1e5",
+  "processedPrimarySha256": "1c03ade1ccf1732344573d500c94bf23ca9f17d96b7329f88fb24465e886bfe2",
+  "width": 1024,
+  "height": 1536,
   "audit": [
     {
       "severity": "INFO",
@@ -54,6 +54,102 @@
       "at": "2026-08-19T13:04:19Z",
       "productionPhase": "IMAGE_PENDING",
       "note": "Created by PRODUCTION START V1. Candidate output is review-only and cannot publish."
+    },
+    {
+      "severity": "INFO",
+      "code": "AI_VISUAL_QA_PASS_AUTO_APPROVAL",
+      "at": "2026-08-19T13:06:47Z",
+      "approvalType": "ai-visual-qa",
+      "qaEngine": "local-clip-semantic-v1",
+      "qaModel": "openai/clip-vit-base-patch32",
+      "candidateSha256": "05ed9563ccc3ee62d655c9f1308482267d83dbf1b351e7bd920be2af872cc9c8"
+    },
+    {
+      "severity": "INFO",
+      "code": "PRIMARY_PROCESSED_INTERNAL",
+      "at": "2026-08-19T13:06:47Z",
+      "processingRoute": "production-auto-publish-v1-direct",
+      "processedPrimarySha256": "1c03ade1ccf1732344573d500c94bf23ca9f17d96b7329f88fb24465e886bfe2",
+      "width": 1024,
+      "height": 1536
     }
-  ]
+  ],
+  "processingRoute": "production-auto-publish-v1-direct",
+  "processingSourceArtifact": "production-review-32255989337",
+  "aiVisualQa": {
+    "strainId": "jack-herer",
+    "status": "PASS",
+    "engine": "local-clip-semantic-v1",
+    "model": "openai/clip-vit-base-patch32",
+    "reason": null,
+    "checks": [
+      {
+        "id": "image_decode",
+        "pass": true,
+        "width": 1024,
+        "height": 1536,
+        "variance": 1723.247,
+        "meanLuma": 139.402
+      },
+      {
+        "id": "cannabis_natural",
+        "pass": true,
+        "positive": 0.32713,
+        "negative": 0.24847,
+        "margin": 0.07865,
+        "requiredMargin": 0.004
+      },
+      {
+        "id": "plant_structure",
+        "pass": true,
+        "positive": 0.27835,
+        "negative": 0.2363,
+        "margin": 0.04204,
+        "requiredMargin": 0.002
+      },
+      {
+        "id": "general_botanical_plausibility",
+        "pass": true,
+        "positive": 0.29772,
+        "negative": 0.24266,
+        "margin": 0.05506,
+        "requiredMargin": 0.001
+      },
+      {
+        "id": "no_fruit_or_berries",
+        "pass": true,
+        "positive": 0.30806,
+        "negative": 0.22594,
+        "margin": 0.08211,
+        "requiredMargin": 0.002
+      },
+      {
+        "id": "no_unwanted_objects",
+        "pass": true,
+        "positive": 0.29677,
+        "negative": 0.24058,
+        "margin": 0.05619,
+        "requiredMargin": 0.002
+      },
+      {
+        "id": "primary_visual_usable",
+        "pass": true,
+        "positive": 0.30951,
+        "negative": 0.19721,
+        "margin": 0.11231,
+        "requiredMargin": 0.001
+      },
+      {
+        "id": "evidence_alignment",
+        "pass": true,
+        "mode": "NOT_APPLICABLE",
+        "status": "NOT_APPLICABLE",
+        "reason": "OFFICIAL_VISUAL_REFERENCE_UNAVAILABLE_OR_INSUFFICIENT"
+      }
+    ],
+    "evidenceAlignmentMode": "NOT_APPLICABLE",
+    "evidenceText": "",
+    "failedChecks": [],
+    "failClosed": true
+  }
 }

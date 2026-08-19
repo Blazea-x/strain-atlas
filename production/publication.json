@@ -364,43 +364,53 @@
     },
     {
       "strainId": "acapulco-gold",
-      "state": "pending",
+      "state": "published",
       "origin": "content-production",
       "introducedByRun": "content-production-start-32255989337",
-      "publishedAt": null,
-      "bootstrapMasterSha": null
+      "publishedAt": "2026-08-19T13:06:47Z",
+      "bootstrapMasterSha": null,
+      "unpublishedAt": null,
+      "unpublicationReason": null
     },
     {
       "strainId": "ak-47",
-      "state": "pending",
+      "state": "published",
       "origin": "content-production",
       "introducedByRun": "content-production-start-32255989337",
-      "publishedAt": null,
-      "bootstrapMasterSha": null
+      "publishedAt": "2026-08-19T13:06:47Z",
+      "bootstrapMasterSha": null,
+      "unpublishedAt": null,
+      "unpublicationReason": null
     },
     {
       "strainId": "golden-tiger",
-      "state": "pending",
+      "state": "published",
       "origin": "content-production",
       "introducedByRun": "content-production-start-32255989337",
-      "publishedAt": null,
-      "bootstrapMasterSha": null
+      "publishedAt": "2026-08-19T13:06:47Z",
+      "bootstrapMasterSha": null,
+      "unpublishedAt": null,
+      "unpublicationReason": null
     },
     {
       "strainId": "jack-herer",
-      "state": "pending",
+      "state": "published",
       "origin": "content-production",
       "introducedByRun": "content-production-start-32255989337",
-      "publishedAt": null,
-      "bootstrapMasterSha": null
+      "publishedAt": "2026-08-19T13:06:47Z",
+      "bootstrapMasterSha": null,
+      "unpublishedAt": null,
+      "unpublicationReason": null
     },
     {
       "strainId": "mazar",
-      "state": "pending",
+      "state": "published",
       "origin": "content-production",
       "introducedByRun": "content-production-start-32255989337",
-      "publishedAt": null,
-      "bootstrapMasterSha": null
+      "publishedAt": "2026-08-19T13:06:47Z",
+      "bootstrapMasterSha": null,
+      "unpublishedAt": null,
+      "unpublicationReason": null
     }
   ]
 }

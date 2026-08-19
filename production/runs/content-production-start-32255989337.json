@@ -4,17 +4,17 @@
   "runId": "content-production-start-32255989337",
   "mode": "new-publication",
   "publicationPolicy": "cultivar",
-  "status": "ACTIVE",
+  "status": "SUCCESS",
   "startedAt": "2026-08-19T13:04:19Z",
-  "updatedAt": "2026-08-19T13:04:19Z",
-  "finishedAt": null,
+  "updatedAt": "2026-08-19T13:06:47Z",
+  "finishedAt": "2026-08-19T13:06:47Z",
   "cancelledAt": null,
   "baseSha": "ef05960b203f1980ebf1e17edb22b70b7c934536",
-  "currentBaseSha": "ef05960b203f1980ebf1e17edb22b70b7c934536",
+  "currentBaseSha": "980c1097a9e525fc58f53d3a960a9fb6666d3fd8",
   "attempt": 1,
   "previousAttempts": [],
   "mainHeadAtStart": "49cb6341df22f3551ffb1f9e7b3e041c18209564",
-  "mainHeadAtEnd": null,
+  "mainHeadAtEnd": "49cb6341df22f3551ffb1f9e7b3e041c18209564",
   "publishedIdsAtStart": [
     "bangi-haze",
     "bubba-kush-s1",
@@ -71,13 +71,23 @@
       "sourceStockBlobSha": "c7db149651a4afcb7a70a4e86fd18629c8fdfd36",
       "productionStrainPath": "strains/acapulco-gold/strain.json",
       "publicationEntryId": "acapulco-gold",
-      "productionPhase": "IMAGE_PENDING",
-      "previousStablePhase": "IMAGE_PENDING",
+      "productionPhase": "PUBLISHED",
+      "previousStablePhase": "PUBLISHED",
       "manifestId": "content-production-start-32255989337-acapulco-gold-image",
       "manifestRevision": 1,
       "promotedAt": "2026-08-19T13:04:19Z",
       "promotionCommit": null,
-      "approval": null,
+      "approval": {
+        "status": "auto-approved",
+        "approvalType": "ai-visual-qa",
+        "approvedAt": "2026-08-19T13:06:47Z",
+        "candidateSha256": "f77256347f5064e5960857ec9885d15ec76a8699c7bd8184d80d29daa8aecf00",
+        "aiVisualQa": {
+          "status": "PASS",
+          "engine": "local-clip-semantic-v1",
+          "model": "openai/clip-vit-base-patch32"
+        }
+      },
       "commits": {
         "dataCommit": null,
         "imageInboxCommit": null,
@@ -100,6 +110,27 @@
           "fromPhase": "DATA_READY",
           "toPhase": "IMAGE_PENDING",
           "at": "2026-08-19T13:04:19Z"
+        },
+        {
+          "severity": "INFO",
+          "code": "PHASE_TRANSITION",
+          "fromPhase": "IMAGE_PENDING",
+          "toPhase": "IMAGE_READY",
+          "at": "2026-08-19T13:06:47Z"
+        },
+        {
+          "severity": "INFO",
+          "code": "PHASE_TRANSITION",
+          "fromPhase": "IMAGE_READY",
+          "toPhase": "VISUAL_LINKED",
+          "at": "2026-08-19T13:06:47Z"
+        },
+        {
+          "severity": "INFO",
+          "code": "PHASE_TRANSITION",
+          "fromPhase": "VISUAL_LINKED",
+          "toPhase": "PUBLISHED",
+          "at": "2026-08-19T13:06:47Z"
         }
       ]
     },
@@ -109,13 +140,23 @@
       "sourceStockBlobSha": "3ba6b5621854dbd768fe46cc23dd0f45603f28b0",
       "productionStrainPath": "strains/ak-47/strain.json",
       "publicationEntryId": "ak-47",
-      "productionPhase": "IMAGE_PENDING",
-      "previousStablePhase": "IMAGE_PENDING",
+      "productionPhase": "PUBLISHED",
+      "previousStablePhase": "PUBLISHED",
       "manifestId": "content-production-start-32255989337-ak-47-image",
       "manifestRevision": 1,
       "promotedAt": "2026-08-19T13:04:19Z",
       "promotionCommit": null,
-      "approval": null,
+      "approval": {
+        "status": "auto-approved",
+        "approvalType": "ai-visual-qa",
+        "approvedAt": "2026-08-19T13:06:47Z",
+        "candidateSha256": "cb270864089bd4b1ff7aef9171f10d3cec602b10cc96566ff8dbdb6d7ecb4f91",
+        "aiVisualQa": {
+          "status": "PASS",
+          "engine": "local-clip-semantic-v1",
+          "model": "openai/clip-vit-base-patch32"
+        }
+      },
       "commits": {
         "dataCommit": null,
         "imageInboxCommit": null,
@@ -138,6 +179,27 @@
           "fromPhase": "DATA_READY",
           "toPhase": "IMAGE_PENDING",
           "at": "2026-08-19T13:04:19Z"
+        },
+        {
+          "severity": "INFO",
+          "code": "PHASE_TRANSITION",
+          "fromPhase": "IMAGE_PENDING",
+          "toPhase": "IMAGE_READY",
+          "at": "2026-08-19T13:06:47Z"
+        },
+        {
+          "severity": "INFO",
+          "code": "PHASE_TRANSITION",
+          "fromPhase": "IMAGE_READY",
+          "toPhase": "VISUAL_LINKED",
+          "at": "2026-08-19T13:06:47Z"
+        },
+        {
+          "severity": "INFO",
+          "code": "PHASE_TRANSITION",
+          "fromPhase": "VISUAL_LINKED",
+          "toPhase": "PUBLISHED",
+          "at": "2026-08-19T13:06:47Z"
         }
       ]
     },
@@ -147,13 +209,23 @@
       "sourceStockBlobSha": "148a4c34e943b65c57a265bc216316031ea37d82",
       "productionStrainPath": "strains/golden-tiger/strain.json",
       "publicationEntryId": "golden-tiger",
-      "productionPhase": "IMAGE_PENDING",
-      "previousStablePhase": "IMAGE_PENDING",
+      "productionPhase": "PUBLISHED",
+      "previousStablePhase": "PUBLISHED",
       "manifestId": "content-production-start-32255989337-golden-tiger-image",
       "manifestRevision": 1,
       "promotedAt": "2026-08-19T13:04:19Z",
       "promotionCommit": null,
-      "approval": null,
+      "approval": {
+        "status": "auto-approved",
+        "approvalType": "ai-visual-qa",
+        "approvedAt": "2026-08-19T13:06:47Z",
+        "candidateSha256": "373b727720eeeac5ccbb670866784ac60ee3f8b69feb4c4cb5d4a8d764b68037",
+        "aiVisualQa": {
+          "status": "PASS",
+          "engine": "local-clip-semantic-v1",
+          "model": "openai/clip-vit-base-patch32"
+        }
+      },
       "commits": {
         "dataCommit": null,
         "imageInboxCommit": null,
@@ -176,6 +248,27 @@
           "fromPhase": "DATA_READY",
           "toPhase": "IMAGE_PENDING",
           "at": "2026-08-19T13:04:19Z"
+        },
+        {
+          "severity": "INFO",
+          "code": "PHASE_TRANSITION",
+          "fromPhase": "IMAGE_PENDING",
+          "toPhase": "IMAGE_READY",
+          "at": "2026-08-19T13:06:47Z"
+        },
+        {
+          "severity": "INFO",
+          "code": "PHASE_TRANSITION",
+          "fromPhase": "IMAGE_READY",
+          "toPhase": "VISUAL_LINKED",
+          "at": "2026-08-19T13:06:47Z"
+        },
+        {
+          "severity": "INFO",
+          "code": "PHASE_TRANSITION",
+          "fromPhase": "VISUAL_LINKED",
+          "toPhase": "PUBLISHED",
+          "at": "2026-08-19T13:06:47Z"
         }
       ]
     },
@@ -185,13 +278,23 @@
       "sourceStockBlobSha": "c157e627b2acfe726ea138e6422dddd5b25da634",
       "productionStrainPath": "strains/jack-herer/strain.json",
       "publicationEntryId": "jack-herer",
-      "productionPhase": "IMAGE_PENDING",
-      "previousStablePhase": "IMAGE_PENDING",
+      "productionPhase": "PUBLISHED",
+      "previousStablePhase": "PUBLISHED",
       "manifestId": "content-production-start-32255989337-jack-herer-image",
       "manifestRevision": 1,
       "promotedAt": "2026-08-19T13:04:19Z",
       "promotionCommit": null,
-      "approval": null,
+      "approval": {
+        "status": "auto-approved",
+        "approvalType": "ai-visual-qa",
+        "approvedAt": "2026-08-19T13:06:47Z",
+        "candidateSha256": "05ed9563ccc3ee62d655c9f1308482267d83dbf1b351e7bd920be2af872cc9c8",
+        "aiVisualQa": {
+          "status": "PASS",
+          "engine": "local-clip-semantic-v1",
+          "model": "openai/clip-vit-base-patch32"
+        }
+      },
       "commits": {
         "dataCommit": null,
         "imageInboxCommit": null,
@@ -214,6 +317,27 @@
           "fromPhase": "DATA_READY",
           "toPhase": "IMAGE_PENDING",
           "at": "2026-08-19T13:04:19Z"
+        },
+        {
+          "severity": "INFO",
+          "code": "PHASE_TRANSITION",
+          "fromPhase": "IMAGE_PENDING",
+          "toPhase": "IMAGE_READY",
+          "at": "2026-08-19T13:06:47Z"
+        },
+        {
+          "severity": "INFO",
+          "code": "PHASE_TRANSITION",
+          "fromPhase": "IMAGE_READY",
+          "toPhase": "VISUAL_LINKED",
+          "at": "2026-08-19T13:06:47Z"
+        },
+        {
+          "severity": "INFO",
+          "code": "PHASE_TRANSITION",
+          "fromPhase": "VISUAL_LINKED",
+          "toPhase": "PUBLISHED",
+          "at": "2026-08-19T13:06:47Z"
         }
       ]
     },
@@ -223,13 +347,23 @@
       "sourceStockBlobSha": "b636019893cfa14973f85d7c4aef8f07b9ff2044",
       "productionStrainPath": "strains/mazar/strain.json",
       "publicationEntryId": "mazar",
-      "productionPhase": "IMAGE_PENDING",
-      "previousStablePhase": "IMAGE_PENDING",
+      "productionPhase": "PUBLISHED",
+      "previousStablePhase": "PUBLISHED",
       "manifestId": "content-production-start-32255989337-mazar-image",
       "manifestRevision": 1,
       "promotedAt": "2026-08-19T13:04:19Z",
       "promotionCommit": null,
-      "approval": null,
+      "approval": {
+        "status": "auto-approved",
+        "approvalType": "ai-visual-qa",
+        "approvedAt": "2026-08-19T13:06:47Z",
+        "candidateSha256": "1bacab75671253a53cdf25ce9d34c990cf45cec5cbd7aabfd368f784c2b2a1b6",
+        "aiVisualQa": {
+          "status": "PASS",
+          "engine": "local-clip-semantic-v1",
+          "model": "openai/clip-vit-base-patch32"
+        }
+      },
       "commits": {
         "dataCommit": null,
         "imageInboxCommit": null,
@@ -252,6 +386,27 @@
           "fromPhase": "DATA_READY",
           "toPhase": "IMAGE_PENDING",
           "at": "2026-08-19T13:04:19Z"
+        },
+        {
+          "severity": "INFO",
+          "code": "PHASE_TRANSITION",
+          "fromPhase": "IMAGE_PENDING",
+          "toPhase": "IMAGE_READY",
+          "at": "2026-08-19T13:06:47Z"
+        },
+        {
+          "severity": "INFO",
+          "code": "PHASE_TRANSITION",
+          "fromPhase": "IMAGE_READY",
+          "toPhase": "VISUAL_LINKED",
+          "at": "2026-08-19T13:06:47Z"
+        },
+        {
+          "severity": "INFO",
+          "code": "PHASE_TRANSITION",
+          "fromPhase": "VISUAL_LINKED",
+          "toPhase": "PUBLISHED",
+          "at": "2026-08-19T13:06:47Z"
         }
       ]
     }
@@ -259,7 +414,61 @@
   "pagesDeploymentRunId": null,
   "pagesDeploymentUrl": null,
   "displayVerifiedAt": null,
-  "publicationSetAtEnd": null,
+  "publicationSetAtEnd": [
+    "acapulco-gold",
+    "ak-47",
+    "bangi-haze",
+    "bubba-kush-s1",
+    "bubble-gum",
+    "bubblegum-s1",
+    "california-octane",
+    "cataract-kush",
+    "chemdog-d-s1",
+    "cherry-pie-s1",
+    "chocolope-256",
+    "dr-grinspoon",
+    "durban-poison",
+    "durban-poison-s1",
+    "f1-durb-s1",
+    "frisian-duck",
+    "golden-tiger",
+    "gorilla-glue-4-s1",
+    "jack-herer",
+    "jager-s1",
+    "kali-mist",
+    "laughing-buddha",
+    "malawi",
+    "mazar",
+    "og-kush",
+    "panama",
+    "shaman",
+    "shiva-skunk",
+    "strawberry-banana-s1",
+    "super-lemon-haze",
+    "t-1000-s1",
+    "the-og-18",
+    "trainwreck-s1",
+    "triangle-kush-s1",
+    "warlock",
+    "wedding-cake",
+    "wedding-cake-s1",
+    "zamaldelica"
+  ],
   "recovery": null,
-  "auditSummary": null
+  "auditSummary": {
+    "mode": "auto",
+    "autoPublishedWithImage": [
+      "acapulco-gold",
+      "ak-47",
+      "golden-tiger",
+      "jack-herer",
+      "mazar"
+    ],
+    "dataFirstRetainedUnpublished": [],
+    "backlogRetained": [],
+    "failedTargets": [],
+    "aiVisualQaApprovalType": "ai-visual-qa",
+    "finalValidationRequired": true,
+    "imageGatedPublicVisibility": true
+  }
 }

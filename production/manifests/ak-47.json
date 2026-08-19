@@ -35,18 +35,18 @@
   "expectedInboxFilename": "ak-47.jpg",
   "expectedPrimaryPath": "strains/ak-47/images/generated/primary.webp",
   "generatedAt": null,
-  "approvalStatus": "pending",
-  "approvedAt": null,
-  "approvalType": "human-visual-review",
-  "approvedManifestRevision": null,
-  "approvedAttempt": null,
-  "approvedSourceSha256": null,
-  "imageInboxCommit": null,
-  "imageProcessingCommit": null,
-  "processedPrimaryBlobSha": null,
-  "processedPrimarySha256": null,
-  "width": null,
-  "height": null,
+  "approvalStatus": "auto-approved",
+  "approvedAt": "2026-08-19T13:06:47Z",
+  "approvalType": "ai-visual-qa",
+  "approvedManifestRevision": 1,
+  "approvedAttempt": 1,
+  "approvedSourceSha256": "cb270864089bd4b1ff7aef9171f10d3cec602b10cc96566ff8dbdb6d7ecb4f91",
+  "imageInboxCommit": "not-applicable:production-auto-publish-v1-direct",
+  "imageProcessingCommit": "980c1097a9e525fc58f53d3a960a9fb6666d3fd8",
+  "processedPrimaryBlobSha": "fe4620ec6051c9aa05cbf1e8756ea0e0ed22292e",
+  "processedPrimarySha256": "efb741d4fc462aefa277851b529a39c447c8f6608a7acc7676ae12580d47eab5",
+  "width": 1024,
+  "height": 1536,
   "audit": [
     {
       "severity": "INFO",
@@ -54,6 +54,102 @@
       "at": "2026-08-19T13:04:19Z",
       "productionPhase": "IMAGE_PENDING",
       "note": "Created by PRODUCTION START V1. Candidate output is review-only and cannot publish."
+    },
+    {
+      "severity": "INFO",
+      "code": "AI_VISUAL_QA_PASS_AUTO_APPROVAL",
+      "at": "2026-08-19T13:06:47Z",
+      "approvalType": "ai-visual-qa",
+      "qaEngine": "local-clip-semantic-v1",
+      "qaModel": "openai/clip-vit-base-patch32",
+      "candidateSha256": "cb270864089bd4b1ff7aef9171f10d3cec602b10cc96566ff8dbdb6d7ecb4f91"
+    },
+    {
+      "severity": "INFO",
+      "code": "PRIMARY_PROCESSED_INTERNAL",
+      "at": "2026-08-19T13:06:47Z",
+      "processingRoute": "production-auto-publish-v1-direct",
+      "processedPrimarySha256": "efb741d4fc462aefa277851b529a39c447c8f6608a7acc7676ae12580d47eab5",
+      "width": 1024,
+      "height": 1536
     }
-  ]
+  ],
+  "processingRoute": "production-auto-publish-v1-direct",
+  "processingSourceArtifact": "production-review-32255989337",
+  "aiVisualQa": {
+    "strainId": "ak-47",
+    "status": "PASS",
+    "engine": "local-clip-semantic-v1",
+    "model": "openai/clip-vit-base-patch32",
+    "reason": null,
+    "checks": [
+      {
+        "id": "image_decode",
+        "pass": true,
+        "width": 1024,
+        "height": 1536,
+        "variance": 3424.564,
+        "meanLuma": 131.595
+      },
+      {
+        "id": "cannabis_natural",
+        "pass": true,
+        "positive": 0.32283,
+        "negative": 0.24518,
+        "margin": 0.07765,
+        "requiredMargin": 0.004
+      },
+      {
+        "id": "plant_structure",
+        "pass": true,
+        "positive": 0.26662,
+        "negative": 0.2331,
+        "margin": 0.03352,
+        "requiredMargin": 0.002
+      },
+      {
+        "id": "general_botanical_plausibility",
+        "pass": true,
+        "positive": 0.28641,
+        "negative": 0.23811,
+        "margin": 0.0483,
+        "requiredMargin": 0.001
+      },
+      {
+        "id": "no_fruit_or_berries",
+        "pass": true,
+        "positive": 0.30388,
+        "negative": 0.22914,
+        "margin": 0.07474,
+        "requiredMargin": 0.002
+      },
+      {
+        "id": "no_unwanted_objects",
+        "pass": true,
+        "positive": 0.28944,
+        "negative": 0.24121,
+        "margin": 0.04823,
+        "requiredMargin": 0.002
+      },
+      {
+        "id": "primary_visual_usable",
+        "pass": true,
+        "positive": 0.29986,
+        "negative": 0.19218,
+        "margin": 0.10768,
+        "requiredMargin": 0.001
+      },
+      {
+        "id": "evidence_alignment",
+        "pass": true,
+        "mode": "NOT_APPLICABLE",
+        "status": "NOT_APPLICABLE",
+        "reason": "OFFICIAL_VISUAL_REFERENCE_UNAVAILABLE_OR_INSUFFICIENT"
+      }
+    ],
+    "evidenceAlignmentMode": "NOT_APPLICABLE",
+    "evidenceText": "",
+    "failedChecks": [],
+    "failClosed": true
+  }
 }
