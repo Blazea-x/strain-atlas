@@ -1,8 +1,8 @@
 name: PRODUCTION START V1 PR TRIGGER
 
 on:
-  pull_request:
-    types: [opened]
+  pull_request_target:
+    types: [opened, reopened]
     paths:
       - .github/production-triggers/s1-five-pr-v1
 
