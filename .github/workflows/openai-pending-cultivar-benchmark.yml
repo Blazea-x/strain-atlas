@@ -2,10 +2,15 @@ name: OpenAI Pending Cultivar Benchmark
 
 on:
   workflow_dispatch:
-  push:
-    branches: [master-migration]
-    paths:
-      - .github/workflows/openai-pending-cultivar-benchmark.yml
+    inputs:
+      quality:
+        description: Image quality. Use high only when a human explicitly requested high for this run.
+        required: true
+        default: medium
+        type: choice
+        options:
+          - medium
+          - high
 
 permissions:
   contents: read
@@ -17,6 +22,7 @@ jobs:
     env:
       OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
       OUT: openai-pending-cultivar-benchmark-artifact
+      REQUESTED_QUALITY: ${{ inputs.quality }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -39,11 +45,9 @@ jobs:
 
           model = 'gpt-image-2'
           size = '1024x1536'
-          quality = 'high'
           output_format = 'jpeg'
           text_input_cost_per_million = 5.0
           image_output_cost_per_million = 30.0
-          fallback_output_cost_per_image = 0.165
 
           def sha_text(text):
               return hashlib.sha256(text.encode('utf-8')).hexdigest()
@@ -54,8 +58,21 @@ jobs:
           def read_json(path):
               return json.loads(Path(path).read_text(encoding='utf-8'))
 
+          policy = read_json('production/_system/config.json').get('imageGenerationPolicy', {})
+          default_quality = policy.get('defaultQuality', 'medium')
+          requested_quality = (os.environ.get('REQUESTED_QUALITY') or '').strip()
+          quality = requested_quality or default_quality
+          if quality not in {'medium', 'high'}:
+              raise RuntimeError(f'Unsupported OpenAI image quality: {quality}')
+          if quality == 'high' and os.environ.get('GITHUB_EVENT_NAME') != 'workflow_dispatch':
+              raise RuntimeError('quality=high requires an explicit human workflow_dispatch selection')
+          if default_quality != 'medium':
+              raise RuntimeError(f'IMAGE PRODUCTION PIPELINE V2 defaultQuality must be medium, got {default_quality}')
+          fallback_output_cost_per_image = 0.165 if quality == 'high' else 0.041
+
           configured = bool(os.environ.get('OPENAI_API_KEY', '').strip())
           print('OPENAI_API_KEY: CONFIGURED' if configured else 'OPENAI_API_KEY: NOT CONFIGURED')
+          print(f'IMAGE_QUALITY: {quality}')
 
           publication = read_json('production/publication.json')
           publication_state = {e['strainId']: e['state'] for e in publication.get('entries', [])}
@@ -276,6 +293,10 @@ jobs:
               'selectedCultivars': selected_public,
               'model': model,
               'quality': quality,
+              'qualityPolicy': {
+                  'default': default_quality,
+                  'highRequiresExplicitHumanWorkflowDispatchSelection': True,
+              },
               'size': size,
               'outputFormat': output_format,
               'seedSupported': False,
@@ -289,14 +310,17 @@ jobs:
               'pricingBasis': {
                   'textInputUsdPerMillionTokens': text_input_cost_per_million,
                   'imageOutputUsdPerMillionTokens': image_output_cost_per_million,
-                  'fallbackHigh1024x1536OutputUsdPerImage': fallback_output_cost_per_image,
+                  'fallbackOutputUsdPerImage': fallback_output_cost_per_image,
+                  'fallbackQuality': quality,
               },
               'estimatedGenerationCostUsd': estimated_cost_total,
               'contactSheet': contact_path.name,
               'contactSheetSha256': hashlib.sha256(contact_path.read_bytes()).hexdigest(),
               'productionMutationCount': 0,
               'mainMutationCount': 0,
-              'humanVisualReview': 'REQUIRED',
+              'aiVisualQaPromotionAuthority': False,
+              'humanVisualReview': 'REQUIRED BEFORE PRODUCTION PROMOTION',
+              'candidateDispositionBeforeHumanApproval': 'ARTIFACT ONLY',
               'productionPromotion': 'NOT PERFORMED',
               'benchmarkStatus': 'COMPLETE' if configured and success_count == expected_count else 'INCOMPLETE',
           }
@@ -305,6 +329,7 @@ jobs:
               'benchmarkStatus': summary['benchmarkStatus'],
               'secretStatus': summary['secretStatus'],
               'selected': [x['strainId'] for x in selected],
+              'quality': quality,
               'successCount': success_count,
               'expectedCount': expected_count,
               'estimatedGenerationCostUsd': estimated_cost_total,

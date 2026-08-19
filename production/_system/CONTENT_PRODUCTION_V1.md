@@ -26,6 +26,18 @@ If `approvedSourceSha256` exists, the Inbox source digest must match it. Otherwi
 
 The formal human upload entry for IMAGE UPLOAD INBOX V1 is the repository-root `UPLOAD_IMAGES_HERE/` directory on `master-migration`. IMAGE UPLOAD INBOX V1 keeps its atomic conversion behavior. Production targets add the manifest allowlist/approval guard. `IMAGE_READY` requires valid RIFF/WEBP, successful decode, positive dimensions, strain/path match, current approved revision/attempt, and traceable inbox/processing commits. `VISUAL_LINKED` requires one primary for CONTENT PRODUCTION-managed strains, correct path/file, and exact visual metadata snapshot. A standard `primary.webp` that exists but is not referenced is `ORPHAN_PRIMARY`.
 
+## IMAGE PRODUCTION PIPELINE V2 generation and approval policy
+
+The standard image-generation quality is `medium`. `quality = high` is not a default or automatic setting. High quality may be used only for a run where a human explicitly requested high quality. Reused configuration, AI selection, workflow defaults, retries, or automatic escalation must not silently select high quality.
+
+Image generation and production publication are separate operations. The formal gate is: generation complete -> AI visual QA -> human approval -> primary / visuals / runtime reflection. AI visual QA may record PASS, FAIL, scores, or notes, but AI visual QA alone must never set a production-usable approval or advance an item to `IMAGE_READY`, `VISUAL_LINKED`, or `PUBLISHED`.
+
+Until human approval is recorded, generated outputs are candidate artifacts only. They may be retained for comparison and review, but they must not be placed into the production Inbox for processing, promoted to `primary.webp`, linked into `strain.json` visuals, reflected into runtime, or used to open publication.
+
+Production approval requires the current manifest revision and attempt to have `approvalStatus: approved` and `approvalType: human-visual-review`. The source digest remains pinned when available. Both the state helper and IMAGE UPLOAD INBOX V1 production guard enforce this human approval requirement. An AI PASS with no human approval therefore remains `IMAGE_PENDING` and artifact-only.
+
+Automatic generation is permitted only as candidate generation. Automatic publication is not coupled to generation. Any future generator, retry worker, benchmark, or batch workflow must preserve this boundary and default to `medium` unless an explicit human request selects `high` for that run.
+
 ## Recovery, main protection, and write safety
 
 GitHub tree/commit/file reality wins over a stale RUN record. Resume reconstructs the stable phase and records `RECOVERED_FROM_GITHUB_STATE`. Default recovery retains pending publication and completed MASTER/image work, repairs the failed item, re-audits, then publishes. Physical rollback is not the default. Cancelled runs likewise keep artifacts unless they are run-exclusive, unpublished, unreferenced, and clearly erroneous.

@@ -30,7 +30,8 @@ export function nextManifestVersion(current, nextVisualPreparation) {
   return {revision:current.revision+1,attempt:1,visualPreparationHash:hash};
 }
 export function approvalMatches(manifest) {
-  return manifest.approvalStatus === 'approved' && manifest.approvedManifestRevision === manifest.revision && manifest.approvedAttempt === manifest.attempt;
+  const requiredType = CONFIG.imageGenerationPolicy?.requiredProductionApprovalType || 'human-visual-review';
+  return manifest.approvalStatus === 'approved' && manifest.approvalType === requiredType && manifest.approvedManifestRevision === manifest.revision && manifest.approvedAttempt === manifest.attempt;
 }
 export function inferStablePhase({strain, publicationEntry, manifest, primaryExists}) {
   if (!strain) return 'STOCKED';

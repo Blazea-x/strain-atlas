@@ -6,6 +6,8 @@ from PIL import Image
 ROOT=Path(__file__).resolve().parents[1]; INBOX=ROOT/'UPLOAD_IMAGES_HERE'; ALLOWED_EXTENSIONS={'.jpg','.jpeg','.png','.webp'}; MAX_BATCH=50; ACTIVE_STATUSES={'ACTIVE','WAITING_REPAIR','PUBLISHING'}; INBOX_CONTROL_FILES={'.gitkeep','README.md','REPROCESS_REQUEST.txt'}
 def fail(code,message): print(f'IMAGE UPLOAD INBOX V1 FAIL [{code}]: {message}',file=sys.stderr); raise SystemExit(1)
 def load_json(p): return json.loads(p.read_text(encoding='utf-8'))
+POLICY=load_json(ROOT/'production'/'_system'/'config.json').get('imageGenerationPolicy',{})
+REQUIRED_PRODUCTION_APPROVAL_TYPE=POLICY.get('requiredProductionApprovalType','human-visual-review')
 def sha256(p):
  h=hashlib.sha256()
  with p.open('rb') as f:
@@ -30,7 +32,8 @@ def validate_production_guard(strain_id,source,ctx):
  run,manifest=ctx[strain_id]
  if not manifest: fail('IMAGE_MANIFEST_MISMATCH',f'active production target {strain_id} has no manifest')
  if manifest.get('schemaVersion')!=1 or manifest.get('manifestVersion')!=1: fail('UNSUPPORTED_SCHEMA_VERSION',f'unsupported manifest version for {strain_id}')
- if manifest.get('approvalStatus')!='approved': fail('IMAGE_MANIFEST_MISMATCH',f'manifest for {strain_id} is not approved')
+ if manifest.get('approvalStatus')!='approved': fail('HUMAN_APPROVAL_REQUIRED',f'manifest for {strain_id} is not human-approved')
+ if manifest.get('approvalType')!=REQUIRED_PRODUCTION_APPROVAL_TYPE: fail('HUMAN_APPROVAL_REQUIRED',f"manifest for {strain_id} approvalType must be {REQUIRED_PRODUCTION_APPROVAL_TYPE}; AI visual QA alone cannot promote")
  if manifest.get('approvedManifestRevision')!=manifest.get('revision') or manifest.get('approvedAttempt')!=manifest.get('attempt'): fail('STALE_IMAGE_ATTEMPT',f'approval for {strain_id} is stale')
  if source.name!=manifest.get('expectedInboxFilename'): fail('INBOX_WRONG_FILENAME',f"expected {manifest.get('expectedInboxFilename')} for {strain_id}, got {source.name}")
  expected=f'strains/{strain_id}/images/generated/primary.webp'

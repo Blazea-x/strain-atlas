@@ -3,6 +3,14 @@
   "systemVersion": "CONTENT_PRODUCTION_V1",
   "publicationPolicyDefault": "batch",
   "maxConcurrentRetry": 1,
+  "imageGenerationPolicy": {
+    "defaultQuality": "medium",
+    "highQualityRequiresExplicitHumanRequest": true,
+    "requiredProductionApprovalType": "human-visual-review",
+    "aiVisualQaCanApproveProduction": false,
+    "unapprovedOutputDisposition": "candidate-artifact-only",
+    "automaticGenerationMayPublish": false
+  },
   "modes": ["new-publication", "image-replacement"],
   "activeRunStatuses": ["ACTIVE", "WAITING_REPAIR", "PUBLISHING"],
   "terminalRunStatuses": ["SUCCESS", "CANCELLED", "ABORTED_CONCURRENT_UPDATE", "FAILED_AUDIT"],
