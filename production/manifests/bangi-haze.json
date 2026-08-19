@@ -1,0 +1,53 @@
+{
+  "schemaVersion": 1,
+  "manifestVersion": 1,
+  "manifestId": "content-production-start-32223471114-bangi-haze-image",
+  "runId": "content-production-start-32223471114",
+  "strainId": "bangi-haze",
+  "revision": 1,
+  "attempt": 1,
+  "sourceStockPath": "stock/items/bangi-haze.json",
+  "sourceStockBlobSha": "b81c542ddd3bf2f04a6f1dce76888a304db0d8d5",
+  "visualPreparationHash": "16b61e0f76f6a8a59949e75aae71692a2c252414dbf6a317a3356656abcdfecc",
+  "generatedFromManifestVersion": null,
+  "promptSnapshot": "Photorealistic botanical reference image of mature flowering Bangi Haze: medium-sized sativa structure, good branching, moderate internode length, dense resinous flowers with abundant visible trichomes, narrow-to-medium green leaflets, natural neutral light. No labels, logos, packaging, people, smoke, consumption context, or invented purple coloration.",
+  "evidenceSnapshot": [
+    {
+      "description": "ACE Seeds describes a medium-sized sativa with good branching and moderate node length, producing dense flowers with generous trichomes.",
+      "sourceIds": [
+        "ace-seeds-bangi-haze"
+      ]
+    }
+  ],
+  "visualMetadataSnapshot": {
+    "alt": "Bangi Hazeの中型サティバ構造、枝分かれ、密度のある樹脂質な花を公式形態情報に基づいて表現したAI生成参考ビジュアル",
+    "rights": "AI-generated project asset planned for Cannabis Strain Wisdom; no third-party image will be copied. Visual prompt is derived from cited official morphology evidence.",
+    "scope": "cultivar",
+    "aiGenerated": true,
+    "sourceType": "aiGenerated"
+  },
+  "expectedInboxFilename": "bangi-haze.jpg",
+  "expectedPrimaryPath": "strains/bangi-haze/images/generated/primary.webp",
+  "generatedAt": null,
+  "approvalStatus": "pending",
+  "approvedAt": null,
+  "approvalType": "human-visual-review",
+  "approvedManifestRevision": null,
+  "approvedAttempt": null,
+  "approvedSourceSha256": null,
+  "imageInboxCommit": null,
+  "imageProcessingCommit": null,
+  "processedPrimaryBlobSha": null,
+  "processedPrimarySha256": null,
+  "width": null,
+  "height": null,
+  "audit": [
+    {
+      "severity": "INFO",
+      "code": "MANIFEST_CREATED",
+      "at": "2026-08-19T06:27:40Z",
+      "productionPhase": "IMAGE_PENDING",
+      "note": "Created by PRODUCTION START V1. Candidate output is review-only and cannot publish."
+    }
+  ]
+}

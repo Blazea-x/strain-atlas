@@ -1,0 +1,103 @@
+{
+  "schemaVersion": 1,
+  "id": "bangi-haze",
+  "status": "review",
+  "name": "Bangi Haze",
+  "jp": null,
+  "aliases": [],
+  "classification": {
+    "type": "sativa"
+  },
+  "breeding": {
+    "generation": "F8",
+    "method": "stabilized hybrid"
+  },
+  "lineage": {
+    "status": "confirmed",
+    "confidence": "A",
+    "basis": "breederOfficial",
+    "display": "F8 stabilized Congolese/Nepalese hybrid",
+    "parents": [
+      "Congolese",
+      "Nepalese"
+    ],
+    "note": "ACE Seeds explicitly identifies Bangi Haze as an F8 stabilized Congolese/Nepalese hybrid.",
+    "sourceRefs": [
+      "ace-seeds-bangi-haze"
+    ]
+  },
+  "relations": [
+    {
+      "entityId": "ace-seeds",
+      "roles": [
+        "breeder",
+        "seedCompany"
+      ],
+      "status": "confirmed",
+      "confidence": "A",
+      "basis": "breederOfficial",
+      "sourceRefs": [
+        "ace-seeds-bangi-haze"
+      ]
+    }
+  ],
+  "aromas": {
+    "status": "confirmed",
+    "confidence": "A",
+    "basis": "breederOfficial",
+    "sourceRefs": [
+      "ace-seeds-bangi-haze"
+    ],
+    "items": [
+      "sweet",
+      "floral",
+      "musky",
+      "lemon",
+      "anisette"
+    ],
+    "note": "Official cultivar-specific aroma descriptors; wording normalized without adding unsupported notes."
+  },
+  "terpenes": {
+    "status": "confirmed",
+    "confidence": "B",
+    "basis": "breederOfficial",
+    "sourceRefs": [
+      "ace-seeds-bangi-haze"
+    ],
+    "items": [
+      "alpha-pinene",
+      "beta-myrcene",
+      "terpinolene",
+      "beta-pinene",
+      "limonene",
+      "trans-ocimene",
+      "linalool",
+      "beta-caryophyllene",
+      "guaiol"
+    ],
+    "note": "Official breeder publishes a named cultivar-specific terpene profile; confidence remains below A without a separately retrieved independent lab report."
+  },
+  "origin": {
+    "status": "confirmed",
+    "confidence": "A",
+    "basis": "breederOfficial",
+    "sourceRefs": [
+      "ace-seeds-bangi-haze"
+    ],
+    "text": "Developed and stabilized in Galicia, Spain from Congolese and Nepalese genetics.",
+    "note": "Limited to breeder-published origin context; undisclosed details remain undisclosed."
+  },
+  "history": {
+    "status": "confirmed",
+    "confidence": "B",
+    "basis": "breederOfficial",
+    "sourceRefs": [
+      "ace-seeds-bangi-haze"
+    ],
+    "text": "ACE Seeds describes Bangi Haze as a classic strain that has been in its catalogue for almost 20 years; an exact first-release year is not stated on the current page.",
+    "note": "Only dated or descriptive history stated on the current official page is retained."
+  },
+  "visuals": [],
+  "checkedAt": "2026-08-17",
+  "updatedAt": "2026-08-17"
+}

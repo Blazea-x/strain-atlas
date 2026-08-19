@@ -1,0 +1,22 @@
+{
+  "schemaVersion": 1,
+  "id": "ace-seeds-bangi-haze",
+  "publisher": "ACE Seeds",
+  "title": "Bangi Haze Regular",
+  "url": "https://www.aceseeds.org/en/seeds/bangi-haze-regular-seeds/",
+  "sourceType": "breederOfficial",
+  "supports": [
+    "lineage",
+    "breeder",
+    "classification",
+    "breeding",
+    "aromas",
+    "terpenes",
+    "origin",
+    "history",
+    "visualMorphology"
+  ],
+  "publishedAt": null,
+  "checkedAt": "2026-08-17",
+  "note": "ACE Seeds official cultivar page used for classification, F8 genetics, structure, bouquet, terpene profile and development context."
+}
