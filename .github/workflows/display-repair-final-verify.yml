@@ -1,0 +1,97 @@
+name: Display Repair Final Verification
+
+on:
+  push:
+    branches: [master-migration]
+    paths:
+      - .github/workflows/display-repair-final-verify.yml
+
+permissions:
+  contents: write
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: master-migration
+          fetch-depth: 0
+
+      - name: MASTER validation
+        run: node scripts/validate-master-data.mjs
+
+      - name: CONTENT PRODUCTION audit
+        run: node scripts/audit-content-production.mjs
+
+      - name: Runtime build verification without unrelated persistence
+        shell: bash
+        run: |
+          set -euo pipefail
+          cp runtime/catalog.json /tmp/catalog.before.json
+          cp data.js /tmp/data.before.js
+          cp sources.js /tmp/sources.before.js
+          node scripts/build-runtime-data.mjs
+          node --input-type=module <<'NODE'
+          import fs from 'node:fs';
+          const before=JSON.parse(fs.readFileSync('/tmp/catalog.before.json','utf8'));
+          const after=JSON.parse(fs.readFileSync('runtime/catalog.json','utf8'));
+          const byId=x=>new Map(x.cultivars.map(c=>[c.id,c]));
+          const b=byId(before), a=byId(after);
+          for(const id of ['dr-grinspoon','malawi']){
+            if(JSON.stringify(b.get(id))!==JSON.stringify(a.get(id))) throw new Error(`Target runtime drift for ${id}`);
+          }
+          console.log(`RUNTIME_BUILD_PASS=${after.counts.cultivars}/${after.counts.sources}/${after.counts.entities}`);
+          console.log('TARGET_RUNTIME_PAYLOAD_UNCHANGED=true');
+          NODE
+          echo 'RUNTIME_GENERATED_DIFF:'
+          git diff --name-only -- runtime/catalog.json data.js sources.js || true
+          cp /tmp/catalog.before.json runtime/catalog.json
+          cp /tmp/data.before.js data.js
+          cp /tmp/sources.before.js sources.js
+
+      - name: Assert target display state and exact persistent scope
+        shell: bash
+        run: |
+          set -euo pipefail
+          INITIAL=8ec7354bde6f2c97874dfa97d0dd5e3c6c55498e
+          MAIN=f9001f70bf938f3931634bd2c42c3875658c1012
+          test "$(git rev-parse origin/main)" = "$MAIN"
+          node --input-type=module <<'NODE'
+          import fs from 'node:fs';
+          const dr=JSON.parse(fs.readFileSync('strains/dr-grinspoon/strain.json','utf8'));
+          const mw=JSON.parse(fs.readFileSync('strains/malawi/strain.json','utf8'));
+          const cat=JSON.parse(fs.readFileSync('runtime/catalog.json','utf8'));
+          const byId=new Map(cat.cultivars.map(c=>[c.id,c]));
+          const manifest=JSON.parse(fs.readFileSync('production/manifests/dr-grinspoon.json','utf8'));
+          if((dr.visuals||[]).length!==0) throw new Error('Dr visuals changed');
+          if((byId.get('dr-grinspoon')?.visuals||[]).length!==0) throw new Error('Dr runtime visuals changed');
+          if(fs.existsSync('strains/dr-grinspoon/images/generated/primary.webp')) throw new Error('Rejected Dr candidate was promoted');
+          if(manifest.reviewStatus!=='NEEDS_REVIEW'||manifest.approvalStatus!=='pending') throw new Error('Dr manifest review status invalid');
+          const mwPrimary=(mw.visuals||[]).filter(v=>v.role==='primary');
+          if(mwPrimary.length!==1||mwPrimary[0].src!=='strains/malawi/images/generated/primary.webp') throw new Error('Malawi visual link changed');
+          if(JSON.stringify(byId.get('malawi')?.visuals)!==JSON.stringify(mw.visuals)) throw new Error('Malawi runtime link mismatch');
+          const raw=fs.readFileSync('strains/malawi/images/generated/primary.webp');
+          const valid=raw.length>=12&&raw.subarray(0,4).toString()==='RIFF'&&raw.subarray(8,12).toString()==='WEBP';
+          if(valid) throw new Error('Malawi corruption unexpectedly changed; recovery status must be re-evaluated');
+          console.log('DR_CARD_EXPECTED=FAIL'); console.log('DR_DETAIL_EXPECTED=FAIL');
+          console.log('MALAWI_CARD_EXPECTED=FAIL'); console.log('MALAWI_DETAIL_EXPECTED=FAIL');
+          NODE
+          rm -f .github/workflows/display-repair-final-verify.yml
+          mapfile -t changed < <(git diff --name-only "$INITIAL")
+          printf 'FINAL_PERSISTENT_DIFF=%s\n' "${changed[*]}"
+          test "${#changed[@]}" -eq 1
+          test "${changed[0]}" = 'production/manifests/dr-grinspoon.json'
+          echo 'MAIN_CHANGED=NO'
+
+      - name: Remove verification workflow
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name strain-atlas-display-repair
+          git config user.email actions@users.noreply.github.com
+          git add -A
+          git commit -m "[DISPLAY REPAIR] Complete final verification"
+          git pull --rebase origin master-migration
+          git push origin HEAD:master-migration
