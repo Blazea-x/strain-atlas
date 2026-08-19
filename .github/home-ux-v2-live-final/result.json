@@ -1,0 +1,41 @@
+{
+  "runId": "32291706462",
+  "checks": {
+    "home-latest": {
+      "pass": true,
+      "detail": [
+        "mazar",
+        "jack-herer",
+        "golden-tiger",
+        "ak-47",
+        "acapulco-gold",
+        "f1-durb-s1"
+      ]
+    },
+    "notice": {
+      "pass": true
+    },
+    "search": {
+      "pass": true
+    },
+    "generation": {
+      "pass": true
+    },
+    "detail-scroll": {
+      "pass": true,
+      "detail": {
+        "before": 5837,
+        "after": 5837
+      }
+    }
+  },
+  "latest": [
+    "mazar",
+    "jack-herer",
+    "golden-tiger",
+    "ak-47",
+    "acapulco-gold",
+    "f1-durb-s1"
+  ],
+  "pass": true
+}
