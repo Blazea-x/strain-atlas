@@ -74,9 +74,9 @@
     },
     {
       "at": "2026-08-19T01:49:00Z",
-      "action": "HUMAN_VISUAL_REVIEW",
+      "action": "VISUAL_QA_REVIEW",
       "status": "NEEDS_REVIEW",
-      "note": "Candidate not promoted to primary.webp or visuals because its hanging fruit-like clusters were not botanically credible cannabis flowers."
+      "note": "Assistant visual inspection rejected the candidate; it was not promoted to primary.webp or visuals because its hanging fruit-like clusters were not botanically credible cannabis flowers."
     }
   ]
 }
