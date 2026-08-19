@@ -1,0 +1,77 @@
+name: TEMP IMAGE PRODUCTION V2 Review Trigger
+
+on:
+  pull_request_target:
+    branches: [master-migration]
+    types: [ready_for_review]
+
+permissions:
+  actions: read
+  contents: write
+  pull-requests: read
+
+jobs:
+  one-shot:
+    if: >-
+      github.event.pull_request.head.repo.full_name == github.repository &&
+      github.event.pull_request.head.ref == 'image-production-v2-review-dr-malawi-20260819'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+      GH_TOKEN: ${{ github.token }}
+      ORIGINAL_PUSH_SHA: 639f6087c796ac61787682aff377850165fb1e55
+      WORKFLOW_FILE: image-production-v2-dr-grinspoon-malawi-preflight.yml
+
+    steps:
+      - name: Checkout formal master-migration source
+        uses: actions/checkout@v4
+        with:
+          ref: master-migration
+          path: master
+          persist-credentials: false
+
+      - name: Checkout temporary review branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
+          path: review
+          persist-credentials: true
+
+      - name: Install generation dependencies
+        run: python -m pip install --disable-pip-version-check --no-cache-dir 'openai>=1.100,<3' 'Pillow>=10,<12'
+
+      - name: Formal preflight and strict one-shot generation
+        working-directory: master
+        env:
+          OUT: ${{ github.workspace }}/review/.image-transfer/review/image-production-v2-dr-grinspoon-malawi
+        shell: bash
+        run: |
+          MASTER_SOURCE_SHA="$(git rev-parse HEAD)" python scripts/image-production-v2-dr-malawi-one-shot.py
+
+      - name: Prove formal source remained read-only during generation
+        run: |
+          test -z "$(git -C master status --porcelain -- strains production runtime sources entities uploads UPLOAD_IMAGES_HERE)"
+          test "$(git -C master branch --show-current)" = "master-migration"
+
+      - name: Commit review-only candidates to temporary branch
+        shell: bash
+        run: |
+          git -C review config user.name strain-atlas-bot
+          git -C review config user.email actions@users.noreply.github.com
+          git -C review add .image-transfer/review/image-production-v2-dr-grinspoon-malawi
+          if git -C review diff --cached --quiet; then
+            echo 'No review files changed.'
+          else
+            git -C review commit -m 'Store one-shot Dr Grinspoon and Malawi candidates for review'
+            git -C review push origin HEAD:${{ github.event.pull_request.head.ref }}
+          fi
+
+      - name: Upload review artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: image-production-v2-dr-grinspoon-malawi-${{ github.run_id }}
+          path: review/.image-transfer/review/image-production-v2-dr-grinspoon-malawi/
+          if-no-files-found: error
+          retention-days: 14
