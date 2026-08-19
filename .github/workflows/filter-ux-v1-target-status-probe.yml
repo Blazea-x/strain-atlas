@@ -1,0 +1,31 @@
+name: FILTER UX V1 Target Status Probe
+"on":
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/filter-ux-v1-target-status-probe.yml"
+permissions:
+  contents: write
+  actions: read
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+        with: {fetch-depth: 0}
+      - name: Probe and self-remove
+        shell: bash
+        run: |
+          set -euo pipefail
+          j="$(gh run list --workflow filter-ux-v1-regression-rerun-once.yml --limit 1 --json databaseId,status,conclusion,headSha --jq '.[0]')"
+          id="$(printf '%s' "$j"|jq -r '.databaseId // "none"')"
+          st="$(printf '%s' "$j"|jq -r '.status // "none"')"
+          co="$(printf '%s' "$j"|jq -r '.conclusion // "none"')"
+          git fetch origin main; git checkout main; git reset --hard origin/main
+          git rm .github/workflows/filter-ux-v1-target-status-probe.yml
+          git config user.name filter-ux-v1-probe-bot
+          git config user.email actions@users.noreply.github.com
+          git commit -m "FILTER UX V1 rerun status ${id} ${st} ${co} [skip ci]"
+          git push origin HEAD:main
