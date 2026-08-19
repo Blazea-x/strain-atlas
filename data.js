@@ -297,6 +297,63 @@ window.STRAINS=[
     "reviews": []
   },
   {
+    "id": "durban-poison",
+    "name": "Durban Poison",
+    "jp": "",
+    "type": {
+      "key": "sativa",
+      "label": "サティバ"
+    },
+    "aliases": [],
+    "identity": {
+      "scope": "cultivar",
+      "note": "品種一般の情報。特定ロット・製品・フェノタイプを示すものではありません。"
+    },
+    "lineage": {
+      "display": "Durban × Unknown Indica",
+      "parents": [
+        "Durban",
+        "Unknown Indica"
+      ],
+      "note": "Dutch Passion's current official page explicitly lists 'Durban X Unknown Indica'. The unknown indica parent is not guessed."
+    },
+    "aromas": [
+      "spicy",
+      "hazy",
+      "aniseed",
+      "liquorice",
+      "lemon",
+      "cloves"
+    ],
+    "breeder": {
+      "name": "Dutch Passion",
+      "era": ""
+    },
+    "terpenes": [],
+    "originHistory": "Dutch Passion traces the line to Durban, South Africa, with later breeding involving an undisclosed indica parent.",
+    "history": "Dutch Passion describes Durban Poison as an old-school cornerstone variety and a long-standing Dutch Passion classic, available in regular and feminized form.",
+    "confidence": {
+      "display": "LINEAGE A / AROMA A / TERPENE unknown / ORIGIN A / HISTORY B",
+      "note": "正本データの項目別confidenceを表示"
+    },
+    "visuals": [
+      {
+        "role": "primary",
+        "src": "strains/durban-poison/images/generated/primary.webp",
+        "aiGenerated": true,
+        "sourceType": "aiGenerated",
+        "rights": "AI-generated project asset planned for Cannabis Strain Wisdom; no third-party image will be copied. Visual prompt is derived from cited official morphology evidence.",
+        "alt": "Durban Poisonの細身のサティバ株、側枝に連なる長く重い樹脂質な花を公式形態情報に基づいて表現したAI生成参考ビジュアル",
+        "scope": "cultivar",
+        "label": "VISUAL REFERENCE"
+      }
+    ],
+    "sourceIds": [
+      "dutch-passion-durban-poison"
+    ],
+    "reviews": []
+  },
+  {
     "id": "frisian-duck",
     "name": "Frisian Duck",
     "jp": "",
@@ -349,6 +406,66 @@ window.STRAINS=[
     ],
     "sourceIds": [
       "dutch-passion-frisian-duck"
+    ],
+    "reviews": []
+  },
+  {
+    "id": "kali-mist",
+    "name": "Kali Mist",
+    "jp": "",
+    "type": {
+      "key": "sativa",
+      "label": "サティバ"
+    },
+    "aliases": [],
+    "identity": {
+      "scope": "cultivar",
+      "note": "品種一般の情報。特定ロット・製品・フェノタイプを示すものではありません。"
+    },
+    "lineage": {
+      "display": "Undisclosed mainly-sativa crossbreed",
+      "parents": [],
+      "note": "Serious Seeds states the cross is undisclosed. The page discusses ancestry, but the exact pedigree is not fully revealed, so parentage is not inferred."
+    },
+    "aromas": [
+      "spicy",
+      "sweet-spicy"
+    ],
+    "breeder": {
+      "name": "Serious Seeds",
+      "era": ""
+    },
+    "terpenes": [],
+    "originHistory": "Serious Seeds notes ancestral stock had been cultivated in the United States and describes strong Southeast Asian/Cambodian background plus Afghani influence, while the complete pedigree remains undisclosed.",
+    "history": "Serious Seeds documents multiple breeding revisions; the modern line returned to a more sativa-dominant pattern in the late 1990s and won the 2000 High Times Cannabis Cup sativa category.",
+    "confidence": {
+      "display": "LINEAGE unknown / AROMA A / TERPENE unknown / ORIGIN B / HISTORY A",
+      "note": "正本データの項目別confidenceを表示"
+    },
+    "visuals": [
+      {
+        "role": "primary",
+        "src": "strains/kali-mist/images/generated/primary.webp",
+        "aiGenerated": true,
+        "sourceType": "aiGenerated",
+        "rights": "AI-generated project asset planned for Cannabis Strain Wisdom; no third-party image will be copied. Visual prompt is derived from cited official morphology evidence.",
+        "alt": "Kali Mistの背が高く葉の少ないサティバ構造と、螺旋状で樹脂質な花房を公式形態情報に基づいて表現したAI生成参考ビジュアル",
+        "scope": "cultivar",
+        "label": "VISUAL REFERENCE"
+      },
+      {
+        "role": "secondary",
+        "src": "strains/kali-mist/images/generated/secondary-1.webp",
+        "aiGenerated": true,
+        "sourceType": "aiGenerated",
+        "rights": "AI-generated project asset planned for Cannabis Strain Wisdom; no third-party image will be copied. Visual prompt is derived from cited official morphology evidence.",
+        "alt": "Kali Mistの背が高く葉の少ないサティバ構造と、螺旋状で樹脂質な花房を公式形態情報に基づいて表現したAI生成参考ビジュアル（別カット）",
+        "scope": "cultivar",
+        "label": "SECONDARY"
+      }
+    ],
+    "sourceIds": [
+      "serious-seeds-kali-mist"
     ],
     "reviews": []
   },
@@ -803,6 +920,71 @@ window.STRAINS=[
       "dna-eu-the-og-18",
       "seedfinder-the-og-18",
       "leafly-og-18"
+    ],
+    "reviews": []
+  },
+  {
+    "id": "warlock",
+    "name": "Warlock",
+    "jp": "",
+    "type": {
+      "key": "indica",
+      "label": "インディカ"
+    },
+    "aliases": [],
+    "identity": {
+      "scope": "cultivar",
+      "note": "品種一般の情報。特定ロット・製品・フェノタイプを示すものではありません。"
+    },
+    "lineage": {
+      "display": "Skunk × Afghani",
+      "parents": [
+        "Skunk",
+        "Afghani"
+      ],
+      "note": "Serious Seeds directly identifies Warlock as a cross between Skunk and a strain from Afghanistan."
+    },
+    "aromas": [
+      "strong",
+      "sweet",
+      "acidic",
+      "fresh fruit"
+    ],
+    "breeder": {
+      "name": "Serious Seeds",
+      "era": ""
+    },
+    "terpenes": [],
+    "originHistory": "Warlock originated as the flagship cultivar of Magus Genetics and is now maintained by Serious Seeds.",
+    "history": "Serious Seeds states Warlock debuted in 1997 and won two High Times Cannabis Cup awards at its debut.",
+    "confidence": {
+      "display": "LINEAGE A / AROMA A / TERPENE unknown / ORIGIN A / HISTORY A",
+      "note": "正本データの項目別confidenceを表示"
+    },
+    "visuals": [
+      {
+        "role": "primary",
+        "src": "strains/warlock/images/generated/primary.webp",
+        "aiGenerated": true,
+        "sourceType": "aiGenerated",
+        "rights": "AI-generated project asset planned for Cannabis Strain Wisdom; no third-party image will be copied. Visual prompt is derived from cited official morphology evidence.",
+        "alt": "Warlockの低く厚みのある株姿、大きなコンパクト花、成熟時に濃い桃色へ変化する雌しべを公式形態情報に基づいて表現したAI生成参考ビジュアル",
+        "scope": "cultivar",
+        "label": "VISUAL REFERENCE"
+      },
+      {
+        "role": "secondary",
+        "src": "strains/warlock/images/generated/secondary-1.webp",
+        "aiGenerated": true,
+        "sourceType": "aiGenerated",
+        "rights": "AI-generated project asset planned for Cannabis Strain Wisdom; no third-party image will be copied. Visual prompt is derived from cited official morphology evidence.",
+        "alt": "Warlockの低く厚みのある株姿、大きなコンパクト花、成熟時に濃い桃色へ変化する雌しべを公式形態情報に基づいて表現したAI生成参考ビジュアル（別カット）",
+        "scope": "cultivar",
+        "label": "SECONDARY"
+      }
+    ],
+    "sourceIds": [
+      "serious-seeds-warlock"
     ],
     "reviews": []
   },

@@ -166,6 +166,24 @@ window.SOURCES={
       "history"
     ]
   },
+  "dutch-passion-durban-poison": {
+    "name": "Dutch Passion — Durban Poison",
+    "url": "https://dutch-passion.com/en/cannabis-seeds/durban-poison",
+    "type": "primary",
+    "typeLabel": "一次情報",
+    "checked": "2026-08-17",
+    "supports": [
+      "lineage",
+      "breeder",
+      "classification",
+      "breeding",
+      "aromas",
+      "terpenes",
+      "origin",
+      "history",
+      "visualMorphology"
+    ]
+  },
   "dutch-passion-frisian-duck": {
     "name": "Dutch Passion — Frisian Duck®",
     "url": "https://dutch-passion.com/en/cannabis-seeds/frisian-duck",
@@ -458,6 +476,42 @@ window.SOURCES={
       "history",
       "lineage",
       "breeder"
+    ]
+  },
+  "serious-seeds-kali-mist": {
+    "name": "Serious Seeds — Kali Mist Strain",
+    "url": "https://www.seriousseeds.com/cannabis-seeds/kali-mist",
+    "type": "primary",
+    "typeLabel": "一次情報",
+    "checked": "2026-08-17",
+    "supports": [
+      "lineage",
+      "breeder",
+      "classification",
+      "breeding",
+      "aromas",
+      "terpenes",
+      "origin",
+      "history",
+      "visualMorphology"
+    ]
+  },
+  "serious-seeds-warlock": {
+    "name": "Serious Seeds — Warlock Strain",
+    "url": "https://www.seriousseeds.com/cannabis-seeds/warlock",
+    "type": "primary",
+    "typeLabel": "一次情報",
+    "checked": "2026-08-17",
+    "supports": [
+      "lineage",
+      "breeder",
+      "classification",
+      "breeding",
+      "aromas",
+      "terpenes",
+      "origin",
+      "history",
+      "visualMorphology"
     ]
   },
   "thseeds-bubblegum": {
