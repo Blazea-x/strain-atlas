@@ -1,0 +1,56 @@
+name: HOME UX V2 Scroll Restore E2E
+on:
+  push:
+    branches: [main]
+    paths: [".github/workflows/home-ux-v2-scroll-e2e.yml"]
+permissions:
+  contents: write
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    env:
+      SITE_URL: https://blazea-x.github.io/strain-atlas/
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify scroll restore on live Pages
+        env:
+          RUN_ID: ${{ github.run_id }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl -fsSL "${SITE_URL}?scroll-e2e=${RUN_ID}" -o /tmp/public-index.html
+          grep -q 'home-ux-v2.js?v=3' /tmp/public-index.html
+          python -m pip install --disable-pip-version-check --quiet selenium
+          python - <<'PY'
+          import json, os, time
+          from pathlib import Path
+          from selenium import webdriver
+          from selenium.webdriver.chrome.options import Options
+          from selenium.webdriver.chrome.service import Service
+          from selenium.webdriver.common.by import By
+          from selenium.webdriver.support.ui import WebDriverWait
+          SITE=os.environ['SITE_URL']; OUT=Path('home-ux-v2-scroll-e2e'); OUT.mkdir(exist_ok=True)
+          o=Options(); o.add_argument('--headless=new'); o.add_argument('--no-sandbox'); o.add_argument('--disable-dev-shm-usage'); o.add_argument('--window-size=390,844')
+          d=webdriver.Chrome(service=Service('/usr/bin/chromedriver'),options=o); w=WebDriverWait(d,25)
+          d.get(SITE); w.until(lambda x:len(x.find_elements(By.CSS_SELECTOR,'#cultivar-grid [data-strain-id]'))==38)
+          c=d.find_element(By.CSS_SELECTOR,'#cultivar-grid [data-strain-id="wedding-cake-s1"]'); d.execute_script('arguments[0].scrollIntoView({block:"center"})',c); time.sleep(.2); before=d.execute_script('return window.scrollY'); d.execute_script('arguments[0].click()',c); w.until(lambda x:x.find_element(By.ID,'detail-dialog').get_attribute('open') is not None); d.execute_script('arguments[0].click()',d.find_element(By.CSS_SELECTOR,'.close-detail')); w.until(lambda x:x.find_element(By.ID,'detail-dialog').get_attribute('open') is None)
+          end=time.time()+5; after=d.execute_script('return window.scrollY')
+          while time.time()<end:
+              after=d.execute_script('return window.scrollY')
+              if abs(after-before)<40: break
+              time.sleep(.1)
+          delta=abs(after-before); result={'runId':os.environ['RUN_ID'],'before':before,'after':after,'delta':delta,'pass':delta<40}; (OUT/'result.json').write_text(json.dumps(result,ensure_ascii=False,indent=2)); d.quit(); assert result['pass'], result
+          PY
+      - name: Persist result
+        if: always()
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p .github/home-ux-v2-e2e
+          cp home-ux-v2-scroll-e2e/result.json .github/home-ux-v2-e2e/scroll.json
+          git config user.name home-ux-v2-e2e-bot
+          git config user.email actions@users.noreply.github.com
+          git pull --rebase origin main
+          git add .github/home-ux-v2-e2e/scroll.json
+          git commit -m 'Record HOME UX V2 scroll E2E [skip ci]'
+          git push origin HEAD:main
