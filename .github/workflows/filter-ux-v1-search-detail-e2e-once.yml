@@ -1,0 +1,152 @@
+name: FILTER UX V1 Search Detail E2E Once
+"on":
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/filter-ux-v1-search-detail-e2e-once.yml"
+permissions:
+  contents: write
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    env:
+      PUBLIC_URL: https://blazea-x.github.io/strain-atlas/
+      CATALOG_URL: https://raw.githubusercontent.com/Blazea-x/strain-atlas/master-migration/runtime/catalog.json
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Record data head
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/filter-search-detail
+          git fetch origin master-migration
+          git rev-parse origin/master-migration > /tmp/filter-search-detail/master-start.txt
+      - name: Install Selenium
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m pip install --disable-pip-version-check -q selenium
+          command -v google-chrome
+          command -v chromedriver
+      - name: Run public search and detail E2E
+        shell: bash
+        run: |
+          set -euo pipefail
+          cat > /tmp/filter-search-detail/e2e.py <<'PY'
+          import json, os, time, traceback, urllib.request
+          from pathlib import Path
+          from selenium import webdriver
+          from selenium.webdriver.chrome.options import Options
+          from selenium.webdriver.chrome.service import Service
+          from selenium.webdriver.common.by import By
+          from selenium.webdriver.support.ui import WebDriverWait
+
+          OUT=Path('/tmp/filter-search-detail')
+          req=urllib.request.Request(os.environ['CATALOG_URL'],headers={'User-Agent':'filter-search-detail'})
+          with urllib.request.urlopen(req,timeout=30) as r: catalog=json.load(r)
+          cultivars=catalog['cultivars']; entities=catalog.get('entities',{}); all_ids={c['id'] for c in cultivars}
+          type_labels={'sativa':'SATIVA','indica':'INDICA','hybrid':'HYBRID','sativa-dominant-hybrid':'SATIVA系 HYBRID','indica-dominant-hybrid':'INDICA系 HYBRID','balanced-hybrid':'BALANCED HYBRID','unknown':'未分類'}
+          role_labels={'originator':'ORIGINATOR','breeder':'BREEDER','seedCompany':'SEED COMPANY','producer':'PRODUCER','brand':'BRAND','distributor':'DISTRIBUTOR'}
+          def txt(v): return '' if v is None else str(v)
+          def search_blob(c):
+              vals=[c.get('id'),c.get('name'),c.get('jp')]+(c.get('aliases') or [])
+              t=(c.get('classification') or {}).get('type'); vals += [t,type_labels.get(t,t),(c.get('breeding') or {}).get('generation')]
+              l=c.get('lineage') or {}; vals += [l.get('display')]+(l.get('parents') or [])+[l.get('note')]
+              vals += ((c.get('aromas') or {}).get('items') or [])+((c.get('terpenes') or {}).get('items') or [])
+              vals += [(c.get('origin') or {}).get('text'),(c.get('history') or {}).get('text')]
+              for rel in c.get('relations') or []:
+                  vals.append((entities.get(rel.get('entityId')) or {}).get('name',rel.get('entityId')))
+                  vals.extend(role_labels.get(role,role) for role in (rel.get('roles') or []))
+              return ' '.join(txt(v) for v in vals if txt(v).strip()).lower()
+          def expected_query(q): return sorted(c['id'] for c in cultivars if q.lower() in search_blob(c))
+
+          opts=Options(); opts.add_argument('--headless=new'); opts.add_argument('--no-sandbox'); opts.add_argument('--disable-dev-shm-usage'); opts.add_argument('--window-size=430,1800')
+          d=webdriver.Chrome(service=Service('/usr/bin/chromedriver'),options=opts); wait=WebDriverWait(d,35)
+          report={'status':'FAIL','catalog_count':len(cultivars),'search_counts':{},'type_counts':{},'regressions':{}}
+          def js(code,*args): return d.execute_script(code,*args)
+          def ready():
+              wait.until(lambda x:x.find_element(By.ID,'catalog-total').text.strip()!='収録数を読み込み中')
+              wait.until(lambda x:len(x.find_elements(By.CSS_SELECTOR,'#cultivar-grid [data-strain-id]'))>0)
+              wait.until(lambda x:len(x.find_elements(By.CSS_SELECTOR,'#latest-grid [data-strain-id]'))==6)
+          def ids(): return sorted(e.get_attribute('data-strain-id') for e in d.find_elements(By.CSS_SELECTOR,'#cultivar-grid [data-strain-id]'))
+          def query(q):
+              e=d.find_element(By.ID,'search'); js("arguments[0].value=arguments[1];arguments[0].dispatchEvent(new Event('input',{bubbles:true}));",e,q); time.sleep(.1)
+          try:
+              d.get(os.environ['PUBLIC_URL']+'?search-detail='+os.environ.get('GITHUB_RUN_ID','0')); ready()
+              assert ids()==sorted(all_ids)
+              for key in ['sativa','indica','hybrid']:
+                  b=d.find_element(By.CSS_SELECTOR,f'[data-explore="{key}"]'); js('arguments[0].click()',b); time.sleep(.1)
+                  exp=sorted((catalog.get('explore') or {}).get(key) or []); assert ids()==exp,(key,ids(),exp); report['type_counts'][key]=len(exp)
+              js('arguments[0].click()',d.find_element(By.CSS_SELECTOR,'[data-explore="all"]')); time.sleep(.1); assert ids()==sorted(all_ids)
+              report['type_counts']['all']=len(cultivars)
+
+              for q in ['Bubble Gum','Wedding Cake','Humboldt CSI','S1','Kush']:
+                  query(q); exp=expected_query(q); got=ids(); assert got==exp,(q,got,exp); report['search_counts'][q]=len(got); query('')
+              query('zzzz-no-cultivar-filter-ux-v1'); assert ids()==[]; assert d.find_element(By.ID,'empty').is_displayed(); assert '該当する品種はありません' in d.find_element(By.ID,'empty').text
+              query(''); assert ids()==sorted(all_ids); report['regressions']['search_zero_restore']=True
+
+              wait.until(lambda x:len(x.find_elements(By.CSS_SELECTOR,'#cultivar-grid .tile-display-name'))==len(cultivars))
+              for sid,display,g in [('wedding-cake-s1','Wedding Cake','S1'),('bubba-kush-s1','Bubba Kush','S1'),('f1-durb-s1','F1 Durb','S1'),('ak-47','AK-47','F1')]:
+                  if sid not in all_ids: continue
+                  card=d.find_element(By.CSS_SELECTOR,f'#cultivar-grid [data-strain-id="{sid}"]')
+                  assert card.find_element(By.CSS_SELECTOR,'.tile-display-name').text.strip()==display
+                  assert card.find_element(By.CSS_SELECTOR,'.generation-badge').text.strip()==g
+              report['regressions']['generation_presentation']=True
+
+              hero=d.find_element(By.ID,'home-hero-image'); wait.until(lambda x:bool(hero.get_attribute('src'))); assert 'Bubble Gum' in d.find_element(By.ID,'home-hero-caption').text
+              legal=d.find_element(By.ID,'legal-alert'); assert '重要なお知らせ' in legal.text; assert len(legal.find_elements(By.CSS_SELECTOR,'a[href]'))>=3
+              assert len(d.find_elements(By.CSS_SELECTOR,'#latest-grid [data-strain-id]'))==6
+              report['regressions']['hero_legal_latest']=True
+
+              card=d.find_element(By.CSS_SELECTOR,'#cultivar-grid [data-strain-id="wedding-cake"]'); js("window.scrollTo(0,arguments[0].getBoundingClientRect().top+window.scrollY-100)",card); time.sleep(.2); before=js('return window.scrollY'); js('arguments[0].click()',card)
+              wait.until(lambda x:x.find_element(By.ID,'detail-dialog').get_attribute('open') is not None)
+              detail=d.find_element(By.ID,'detail-shell'); labels={e.text.strip() for e in detail.find_elements(By.CSS_SELECTOR,'.status-label')}
+              for need in ['LINEAGE','AROMA','HISTORY','SOURCES']: assert need in labels,(need,labels)
+              assert 'TERPENE' not in labels
+              source_toggle=detail.find_element(By.CSS_SELECTOR,'.detail-sources [data-detail-toggle]'); js('arguments[0].click()',source_toggle); time.sleep(.1); assert detail.find_elements(By.CSS_SELECTOR,'.source-detail-link')
+              js('arguments[0].click()',detail.find_element(By.CSS_SELECTOR,'.close-detail')); wait.until(lambda x:x.find_element(By.ID,'detail-dialog').get_attribute('open') is None); time.sleep(.25); assert abs(js('return window.scrollY')-before)<35
+              report['regressions']['detail_sources_close_scroll']=True
+
+              terp=next(c for c in cultivars if ((c.get('terpenes') or {}).get('items') or []))
+              d.get(os.environ['PUBLIC_URL']+f'?strain={terp["id"]}&search-detail=terp'); wait.until(lambda x:x.find_element(By.ID,'detail-dialog').get_attribute('open') is not None); detail=d.find_element(By.ID,'detail-shell'); assert 'TERPENE' in {e.text.strip() for e in detail.find_elements(By.CSS_SELECTOR,'.status-label')}; report['regressions']['terpene_detail']=terp['id']
+
+              d.get(os.environ['PUBLIC_URL']+'?strain=wedding-cake&search-detail=deep'); wait.until(lambda x:x.find_element(By.ID,'detail-dialog').get_attribute('open') is not None); assert d.find_element(By.CSS_SELECTOR,'.detail-topbar strong').text.strip()=='Wedding Cake'; report['regressions']['deep_link']=True
+
+              d.get(os.environ['PUBLIC_URL']+'?search-detail=footer'); ready(); footer=d.find_element(By.CSS_SELECTOR,'#catalog-meta a[href="#cultivars"]'); assert footer.text.strip()=='品種一覧'; js('arguments[0].click()',footer); wait.until(lambda x:js('return location.hash')=='#cultivars'); assert d.find_element(By.ID,'cultivars'); report['regressions']['footer_anchor']=True
+              report['robots_meta']=d.find_element(By.CSS_SELECTOR,'meta[name="robots"]').get_attribute('content'); assert report['robots_meta']=='noindex,nofollow,noarchive'
+              report['status']='PASS'; OUT.joinpath('report.json').write_text(json.dumps(report,ensure_ascii=False,indent=2)+'\n'); OUT.joinpath('PASS').write_text('PASS\n')
+          except Exception:
+              OUT.joinpath('failure.txt').write_text(traceback.format_exc()); raise
+          finally: d.quit()
+          PY
+          python /tmp/filter-search-detail/e2e.py
+      - name: Confirm data unchanged
+        shell: bash
+        run: |
+          set -euo pipefail
+          git fetch origin master-migration
+          git rev-parse origin/master-migration > /tmp/filter-search-detail/master-end.txt
+          test "$(cat /tmp/filter-search-detail/master-start.txt)" = "$(cat /tmp/filter-search-detail/master-end.txt)"
+      - name: Upload artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: filter-ux-v1-search-detail-${{ github.run_id }}
+          path: /tmp/filter-search-detail
+          if-no-files-found: error
+      - name: Cleanup verifier
+        if: always()
+        shell: bash
+        run: |
+          set -euo pipefail
+          status=FAIL; test -f /tmp/filter-search-detail/PASS && status=PASS
+          git fetch origin main; git checkout main; git reset --hard origin/main
+          if [ -f .github/workflows/filter-ux-v1-search-detail-e2e-once.yml ]; then
+            git rm .github/workflows/filter-ux-v1-search-detail-e2e-once.yml
+            git config user.name filter-ux-v1-search-detail-bot
+            git config user.email actions@users.noreply.github.com
+            git commit -m "Remove FILTER UX V1 search detail E2E ${GITHUB_RUN_ID} ${status} [skip ci]"
+            git push origin HEAD:main
+          fi
