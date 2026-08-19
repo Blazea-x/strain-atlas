@@ -43,7 +43,11 @@ jobs:
           test -f _site/preview/app.js
           test -f _site/preview/home-entrance-v1.css
           test -f _site/preview/home-hero-v1.js
-          grep -q 'EDUCATIONAL ARCHIVE' _site/index.html
+          test -f _site/preview/home-ux-v2.js
+          grep -q 'Cannabis Strain Wisdom' _site/index.html
+          grep -q '新着の品種' _site/index.html
+          grep -q 'すべての品種' _site/index.html
+          ! grep -q 'COMING LATER' _site/index.html
           ! grep -q 'MASTER PREVIEW' _site/index.html
 
       - name: Upload Pages artifact
