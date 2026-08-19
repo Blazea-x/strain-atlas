@@ -1,0 +1,19 @@
+name: HOME V1 EVENT PING
+
+on:
+  issues:
+    types: [edited]
+
+permissions:
+  issues: write
+
+jobs:
+  ping:
+    if: github.event.issue.number == 13
+    runs-on: ubuntu-latest
+    steps:
+      - name: Mark verifier event start
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh api -X POST "repos/$GITHUB_REPOSITORY/issues/13/comments" -f body="HOME V1 VERIFY STARTED | run=$GITHUB_RUN_ID | sha=$GITHUB_SHA" >/dev/null
