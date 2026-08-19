@@ -19,11 +19,6 @@ on:
         required: true
         default: true
         type: boolean
-  push:
-    branches:
-      - main
-    paths:
-      - .github/production-triggers/s1-five-v1
 
 jobs:
   launch:
@@ -32,6 +27,6 @@ jobs:
       contents: write
     uses: Blazea-x/strain-atlas/.github/workflows/production-start-v1.yml@master-migration
     with:
-      batch_size: ${{ github.event_name == 'push' && '5' || inputs.batch_size }}
-      generate_images: ${{ github.event_name == 'push' && true || inputs.generate_images }}
+      batch_size: ${{ inputs.batch_size }}
+      generate_images: ${{ inputs.generate_images }}
     secrets: inherit
