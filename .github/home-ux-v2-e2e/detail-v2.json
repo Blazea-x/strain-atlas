@@ -1,0 +1,33 @@
+{
+  "runId": "32290526775",
+  "checks": {
+    "direct-ak47": {
+      "pass": true,
+      "detail": {
+        "formal": "正式登録名: AK-47",
+        "heading": "AK-47\nF1"
+      }
+    },
+    "wedding-cake-s1-detail": {
+      "pass": false,
+      "detail": "AssertionError: 2480"
+    },
+    "full-detail-fields": {
+      "pass": true,
+      "detail": {
+        "labels": [
+          "系譜 / LINEAGE",
+          "香り / AROMA",
+          "テルペン / TERPENE",
+          "歴史 / HISTORY",
+          "出典 / SOURCES"
+        ],
+        "sourceLinks": 1
+      }
+    }
+  },
+  "errors": [
+    "wedding-cake-s1-detail"
+  ],
+  "pass": false
+}
