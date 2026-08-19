@@ -1,1 +1,219 @@
-{"schemaVersion":"AUTO_STOCK_V1","stockId":"shiva-skunk","status":"IMAGE_PENDING","createdAt":"2026-08-17T18:54:00Z","candidate":{"id":"shiva-skunk","canonicalName":"Shiva Skunk","strainData":{"schemaVersion":1,"id":"shiva-skunk","status":"review","name":"Shiva Skunk","jp":null,"aliases":[],"classification":{"type":"indica"},"breeding":{"generation":"unknown","method":"85% indica hybrid"},"lineage":{"status":"confirmed","confidence":"A","basis":"breederOfficial","display":"Northern Lights #5 × Skunk #1","parents":["Northern Lights #5","Skunk #1"],"note":"Sensi Seeds directly states the cultivar is bred from Northern Lights #5 and Skunk #1.","sourceRefs":["sensi-seeds-shiva-skunk"]},"relations":[{"entityId":"sensi-seeds","roles":["breeder","seedCompany"],"status":"confirmed","confidence":"A","basis":"breederOfficial","sourceRefs":["sensi-seeds-shiva-skunk"]}],"aromas":{"status":"confirmed","confidence":"B","basis":"breederOfficial","sourceRefs":["sensi-seeds-shiva-skunk"],"items":["pungent","skunk"],"note":"Official cultivar-specific aroma descriptors; wording normalized without adding unsupported notes."},"terpenes":{"status":"unknown","confidence":"unknown","basis":"breederOfficial","sourceRefs":["sensi-seeds-shiva-skunk"],"items":[],"note":"No named cultivar-specific terpene compound panel was verified; no compounds are inferred from aroma words."},"origin":{"status":"confirmed","confidence":"A","basis":"breederOfficial","sourceRefs":["sensi-seeds-shiva-skunk"],"text":"Bred by Sensi Seeds from Northern Lights #5 and Skunk #1.","note":"Limited to breeder-published origin context; undisclosed details remain undisclosed."},"history":{"status":"confirmed","confidence":"A","basis":"breederOfficial","sourceRefs":["sensi-seeds-shiva-skunk"],"text":"Sensi Seeds states the strain was first released in 1987 as NL#5xSK#1 and was renamed Shiva Skunk shortly afterward.","note":"Only dated or descriptive history stated on the current official page is retained."},"visuals":[],"checkedAt":"2026-08-17","updatedAt":"2026-08-17"}},"confidence":{"lineage":{"grade":"A","basis":"Sensi Seeds directly identifies Northern Lights #5 and Skunk #1 as parents.","sourceIds":["sensi-seeds-shiva-skunk"]},"history":{"grade":"A","basis":"Sensi Seeds directly gives the 1987 first release and original name.","sourceIds":["sensi-seeds-shiva-skunk"]},"aroma":{"grade":"B","basis":"Sensi Seeds directly characterizes the cultivar as pungent/skunk, but the product page provides limited cultivar-specific aroma detail.","sourceIds":["sensi-seeds-shiva-skunk"]},"terpene":{"grade":"unknown","basis":"No named cultivar-specific terpene panel was verified on the official product page.","sourceIds":["sensi-seeds-shiva-skunk"]}},"sources":[{"id":"sensi-seeds-shiva-skunk","url":"https://sensiseeds.com/en/cannabis-seeds/sensi-seeds/shiva-skunk","payload":{"schemaVersion":1,"id":"sensi-seeds-shiva-skunk","publisher":"Sensi Seeds","title":"Shiva Skunk Regular Seeds","url":"https://sensiseeds.com/en/cannabis-seeds/sensi-seeds/shiva-skunk","sourceType":"breederOfficial","supports":["lineage","breeder","classification","breeding","aromas","terpenes","origin","history","visualMorphology"],"publishedAt":null,"checkedAt":"2026-08-17","note":"Sensi Seeds official cultivar page used for 85% indica classification, NL#5 × Skunk #1 lineage, release history and morphology."}}],"entities":[{"id":"sensi-seeds","canonicalName":"Sensi Seeds","payload":{"schemaVersion":1,"id":"sensi-seeds","name":"Sensi Seeds","roles":["breeder","seedCompany"],"status":"confirmed","checkedAt":"2026-08-17","updatedAt":"2026-08-17"}}],"duplicateCheck":{"productionChecked":true,"stockChecked":true,"strain":{"key":"id=shiva-skunk; canonicalName=Shiva Skunk","result":"UNIQUE","reason":"No matching production strain ID/canonical name and no existing STOCK item."},"sources":[{"key":"id=sensi-seeds-shiva-skunk; url=https://sensiseeds.com/en/cannabis-seeds/sensi-seeds/shiva-skunk","result":"UNIQUE","reason":"No production or existing STOCK source matches this ID or URL."}],"entities":[{"key":"id=sensi-seeds; canonicalName=Sensi Seeds","result":"UNIQUE","reason":"No production or existing STOCK entity matches this ID/canonical name."}]},"visualStatus":"IMAGE_PENDING","visualPreparation":{"prompt":"Photorealistic botanical reference image of mature flowering Shiva Skunk: vivid green compact sturdy bush, strong lateral branching, large heavy flowers densely covered in visible trichomes, broad indica-leaning foliage, neutral natural light. No labels, logos, packaging, people, smoke or invented purple coloration.","evidence":[{"description":"Sensi Seeds describes vivid-green compact bushes with strong lateral branching and heavy trichome-covered buds; plants are compact and sturdy.","sourceIds":["sensi-seeds-shiva-skunk"]}],"alt":"Shiva Skunkの鮮緑色でコンパクトな株、強い側枝、大きくトリコームに覆われた花を公式形態情報に基づいて表現したAI生成参考ビジュアル","rights":"AI-generated project asset planned for Cannabis Strain Wisdom; no third-party image will be copied. Visual prompt is derived from cited official morphology evidence.","scope":"cultivar","aiGenerated":true},"visuals":[],"notes":"AUTO STOCK V1 research-only candidate. No image generated and no production data changed."}
+{
+  "schemaVersion": "AUTO_STOCK_V1",
+  "stockId": "shiva-skunk",
+  "status": "IMAGE_PENDING",
+  "createdAt": "2026-08-17T18:54:00Z",
+  "updatedAt": "2026-08-19T10:32:00Z",
+  "candidate": {
+    "id": "shiva-skunk",
+    "canonicalName": "Shiva Skunk",
+    "strainData": {
+      "schemaVersion": 1,
+      "id": "shiva-skunk",
+      "status": "review",
+      "name": "Shiva Skunk",
+      "jp": null,
+      "aliases": [],
+      "classification": {
+        "type": "indica"
+      },
+      "breeding": {
+        "generation": "unknown",
+        "method": "85% indica hybrid"
+      },
+      "lineage": {
+        "status": "confirmed",
+        "confidence": "A",
+        "basis": "breederOfficial",
+        "display": "Northern Lights #5 × Skunk #1",
+        "parents": [
+          "Northern Lights #5",
+          "Skunk #1"
+        ],
+        "note": "Sensi Seeds directly states the cultivar is bred from Northern Lights #5 and Skunk #1.",
+        "sourceRefs": [
+          "sensi-seeds-shiva-skunk"
+        ]
+      },
+      "relations": [
+        {
+          "entityId": "sensi-seeds",
+          "roles": [
+            "breeder",
+            "seedCompany"
+          ],
+          "status": "confirmed",
+          "confidence": "A",
+          "basis": "breederOfficial",
+          "sourceRefs": [
+            "sensi-seeds-shiva-skunk"
+          ]
+        }
+      ],
+      "aromas": {
+        "status": "confirmed",
+        "confidence": "B",
+        "basis": "breederOfficial",
+        "sourceRefs": [
+          "sensi-seeds-shiva-skunk"
+        ],
+        "items": [
+          "pungent",
+          "skunk"
+        ],
+        "note": "Official cultivar-specific aroma descriptors; wording normalized without adding unsupported notes."
+      },
+      "terpenes": {
+        "status": "unknown",
+        "items": [],
+        "note": "No named cultivar-specific terpene compound panel was verified; no compounds are inferred from aroma words."
+      },
+      "origin": {
+        "status": "confirmed",
+        "confidence": "A",
+        "basis": "breederOfficial",
+        "sourceRefs": [
+          "sensi-seeds-shiva-skunk"
+        ],
+        "text": "Bred by Sensi Seeds from Northern Lights #5 and Skunk #1.",
+        "note": "Limited to breeder-published origin context; undisclosed details remain undisclosed."
+      },
+      "history": {
+        "status": "confirmed",
+        "confidence": "A",
+        "basis": "breederOfficial",
+        "sourceRefs": [
+          "sensi-seeds-shiva-skunk"
+        ],
+        "text": "Sensi Seeds states the strain was first released in 1987 as NL#5xSK#1 and was renamed Shiva Skunk shortly afterward.",
+        "note": "Only dated or descriptive history stated on the current official page is retained."
+      },
+      "visuals": [],
+      "checkedAt": "2026-08-17",
+      "updatedAt": "2026-08-19"
+    }
+  },
+  "confidence": {
+    "lineage": {
+      "grade": "A",
+      "basis": "Sensi Seeds directly identifies Northern Lights #5 and Skunk #1 as parents.",
+      "sourceIds": [
+        "sensi-seeds-shiva-skunk"
+      ]
+    },
+    "history": {
+      "grade": "A",
+      "basis": "Sensi Seeds directly gives the 1987 first release and original name.",
+      "sourceIds": [
+        "sensi-seeds-shiva-skunk"
+      ]
+    },
+    "aroma": {
+      "grade": "B",
+      "basis": "Sensi Seeds directly characterizes the cultivar as pungent/skunk, but the product page provides limited cultivar-specific aroma detail.",
+      "sourceIds": [
+        "sensi-seeds-shiva-skunk"
+      ]
+    },
+    "terpene": {
+      "grade": "unknown",
+      "basis": "No named cultivar-specific terpene panel was verified on the official product page.",
+      "sourceIds": [
+        "sensi-seeds-shiva-skunk"
+      ]
+    }
+  },
+  "sources": [
+    {
+      "id": "sensi-seeds-shiva-skunk",
+      "url": "https://sensiseeds.com/en/cannabis-seeds/sensi-seeds/shiva-skunk",
+      "payload": {
+        "schemaVersion": 1,
+        "id": "sensi-seeds-shiva-skunk",
+        "publisher": "Sensi Seeds",
+        "title": "Shiva Skunk Regular Seeds",
+        "url": "https://sensiseeds.com/en/cannabis-seeds/sensi-seeds/shiva-skunk",
+        "sourceType": "breederOfficial",
+        "supports": [
+          "lineage",
+          "breeder",
+          "classification",
+          "breeding",
+          "aromas",
+          "terpenes",
+          "origin",
+          "history",
+          "visualMorphology"
+        ],
+        "publishedAt": null,
+        "checkedAt": "2026-08-17",
+        "note": "Sensi Seeds official cultivar page used for 85% indica classification, NL#5 × Skunk #1 lineage, release history and written morphology."
+      }
+    }
+  ],
+  "entities": [
+    {
+      "id": "sensi-seeds",
+      "canonicalName": "Sensi Seeds",
+      "payload": {
+        "schemaVersion": 1,
+        "id": "sensi-seeds",
+        "name": "Sensi Seeds",
+        "roles": [
+          "breeder",
+          "seedCompany"
+        ],
+        "status": "confirmed",
+        "checkedAt": "2026-08-17",
+        "updatedAt": "2026-08-17"
+      }
+    }
+  ],
+  "duplicateCheck": {
+    "productionChecked": true,
+    "stockChecked": true,
+    "strain": {
+      "key": "id=shiva-skunk; canonicalName=Shiva Skunk",
+      "result": "UNIQUE",
+      "reason": "No matching production strain ID/canonical name or publication entry at the checked master-migration HEAD."
+    },
+    "sources": [
+      {
+        "key": "id=sensi-seeds-shiva-skunk; url=https://sensiseeds.com/en/cannabis-seeds/sensi-seeds/shiva-skunk",
+        "result": "UNIQUE",
+        "reason": "No production source uses this ID or exact URL."
+      }
+    ],
+    "entities": [
+      {
+        "key": "id=sensi-seeds; canonicalName=Sensi Seeds",
+        "result": "UNIQUE",
+        "reason": "No production entity used this ID/canonical name at the stock check."
+      }
+    ]
+  },
+  "visualStatus": "IMAGE_PENDING",
+  "visualPreparation": {
+    "prompt": "TEXT-EVIDENCE FALLBACK: the breeder-operated product page contains cultivar-specific image slots, but the retrievable visual representation in this run was insufficient for trustworthy image-derived morphology extraction. Use the breeder's written growth-pattern evidence only; do not treat it as image-derived evidence.\nCULTIVAR IDENTITY CONTEXT: Shiva Skunk by Sensi Seeds; Northern Lights #5 × Skunk #1; mostly-indica feminized cultivar.\nTEXT MORPHOLOGY EVIDENCE: the official page describes a compact plant around 110-120 cm with many branches and dense, heavy, extremely resinous flowers that swell during flowering.\nPHOTOGRAPHIC CONSTRAINTS: photorealistic botanical reference photography; single mature female cannabis plant; complete plant visible; natural light; neutral non-distracting background; no text; no collage; no packaging; no smoke.\nNEGATIVE CONSTRAINTS: no fruit or berries; no people; no labels or logos; no jars, bags, boxes or bottles; no smoke; no unrelated objects; no fantasy anatomy; do not add cultivar-specific morphology beyond the cited text evidence.",
+    "evidence": [
+      {
+        "description": "[EVIDENCE_ALIGNMENT=NOT_APPLICABLE] Official visual reference is present on the breeder-operated page but was insufficient for reliable image-derived morphology extraction in this run; all non-alignment AI visual QA gates remain required.",
+        "sourceIds": [
+          "sensi-seeds-shiva-skunk"
+        ]
+      },
+      {
+        "description": "Sensi Seeds text describes a compact plant with many branches and dense, heavy, extremely resinous flowers; the buds swell as flowering advances.",
+        "sourceIds": [
+          "sensi-seeds-shiva-skunk"
+        ]
+      }
+    ],
+    "alt": "Shiva Skunkの公式テキスト形態情報を基礎に、未確認の画像由来形態を付加せず作成するAI生成参考ビジュアル",
+    "rights": "AI-generated project asset for Cannabis Strain Wisdom. No official or third-party image is copied or stored; fallback uses official text evidence only.",
+    "scope": "cultivar",
+    "aiGenerated": true
+  },
+  "visuals": [],
+  "notes": "AUTO STOCK V1 candidate updated for OFFICIAL VISUAL EVIDENCE V1. Official page images were not copied; visual extraction was marked insufficient and fallback remains text-evidence grounded."
+}

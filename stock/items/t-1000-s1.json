@@ -1,0 +1,49 @@
+{
+  "schemaVersion": "AUTO_STOCK_V1",
+  "stockId": "t-1000-s1",
+  "status": "IMAGE_PENDING",
+  "createdAt": "2026-08-19T10:32:00Z",
+  "candidate": {
+    "id": "t-1000-s1",
+    "canonicalName": "T-1000 S1",
+    "strainData": {
+      "schemaVersion": 1,
+      "id": "t-1000-s1",
+      "status": "review",
+      "name": "T-1000 S1",
+      "jp": null,
+      "aliases": [],
+      "classification": {"type": "unknown"},
+      "breeding": {"generation": "S1", "method": "selfed"},
+      "lineage": {"status":"confirmed","confidence":"A","basis":"breederOfficial","sourceRefs":["humboldt-csi-t-1000-s1"],"display":"T-1000 × T-1000","parents":["T-1000"],"note":"Humboldt CSI's official product page identifies T-1000 S1 as T-1000 × T-1000; together with the S1 designation this is treated as a selfed S1 line."},
+      "relations": [{"entityId":"humboldt-csi","roles":["breeder","seedCompany"],"status":"confirmed","confidence":"A","basis":"breederOfficial","sourceRefs":["humboldt-csi-t-1000-s1"]}],
+      "aromas": {"status":"unknown","items":[],"note":"No cultivar-wide aroma claim is added beyond the official source."},
+      "terpenes": {"status":"unknown","items":[],"note":"No cultivar-specific lot terpene profile or COA is used for this S1 entry."},
+      "origin": {"status":"unknown","text":"","note":"The official page does not establish a sufficiently bounded creation location for this S1 line; no location is inferred."},
+      "history": {"status":"confirmed","confidence":"B","basis":"breederOfficial","sourceRefs":["humboldt-csi-t-1000-s1"],"text":"Humboldt CSI describes T-1000 as a selection from its Old Family Purple hybrid and states that the T-1000 cut is now available in S1 feminized seed form.","note":"The official page gives cultivar development context but not a precise dated release chronology."},
+      "visuals": [],
+      "checkedAt": "2026-08-19",
+      "updatedAt": "2026-08-19"
+    }
+  },
+  "confidence": {
+    "lineage": {"grade":"A","basis":"Humboldt CSI directly identifies T-1000 S1 as an S1 and lists T-1000 on both sides of the cross.","sourceIds":["humboldt-csi-t-1000-s1"]},
+    "history": {"grade":"B","basis":"The official page gives cultivar development context but not a precise dated release chronology.","sourceIds":["humboldt-csi-t-1000-s1"]},
+    "aroma": {"grade":"unknown","basis":"No cultivar-wide aroma claim is added from the official page."},
+    "terpene": {"grade":"unknown","basis":"No cultivar-specific lot terpene profile or COA is available for the S1 line."}
+  },
+  "sources": [{"id":"humboldt-csi-t-1000-s1","url":"https://humboldtcsi.com/product/t-1000-s1/","payload":{"schemaVersion":1,"id":"humboldt-csi-t-1000-s1","publisher":"Humboldt CSI","title":"T-1000 S1","url":"https://humboldtcsi.com/product/t-1000-s1/","sourceType":"breederOfficial","supports":["lineage","breeder","generation","breeding","history","visualMorphology"],"publishedAt":null,"checkedAt":"2026-08-19","note":"Official Humboldt CSI product page used for S1 identity, lineage context, and bounded flower-level visual morphology. The page credits the flower photograph to Resinated Lens; the project stores no copy of that image."}}],
+  "entities": [{"id":"humboldt-csi","canonicalName":"Humboldt CSI","payload":{"schemaVersion":1,"id":"humboldt-csi","name":"Humboldt CSI","roles":["breeder","seedCompany"],"status":"confirmed","checkedAt":"2026-08-16","updatedAt":"2026-08-16"}}],
+  "duplicateCheck": {"productionChecked":true,"stockChecked":true,"strain":{"key":"id=t-1000-s1; canonicalName=T-1000 S1","result":"UNIQUE","reason":"No matching production strain ID/canonical name, publication entry, or existing STOCK item at the checked master-migration HEAD."},"sources":[{"key":"id=humboldt-csi-t-1000-s1; url=https://humboldtcsi.com/product/t-1000-s1/","result":"UNIQUE","reason":"No existing production or STOCK source uses this source ID or exact official URL."}],"entities":[{"key":"id=humboldt-csi; canonicalName=Humboldt CSI","result":"MATCH","matchedPath":"entities/humboldt-csi.json","reason":"Existing production entity ID and canonical name match; the production entity payload is reused exactly."}]},
+  "visualStatus": "IMAGE_PENDING",
+  "visualPreparation": {
+    "prompt": "CULTIVAR-SPECIFIC VISUAL EVIDENCE (highest priority): the official T-1000 mother-cut flower reference shows dense stacked flowering clusters, narrow-to-medium serrated leaves, strong visible trichome coverage, pale-to-rust pistils, and a dark green to burgundy-purple leaf coloration tendency. Do not infer whole-plant silhouette, branching pattern, or internode spacing from the close-up reference.\nCULTIVAR IDENTITY CONTEXT: T-1000 S1 by Humboldt CSI; S1/selfed generation; T-1000 × T-1000. The reference is the mother cut and is used only as a bounded morphology tendency, not proof of uniformity across every S1 plant.\nPHOTOGRAPHIC CONSTRAINTS: photorealistic botanical reference photography; single mature female cannabis plant; complete plant visible; natural light; neutral non-distracting background; no text; no collage; no packaging; no smoke.\nNEGATIVE CONSTRAINTS: no fruit or berries; no people; no labels or logos; no jars, bags, boxes or bottles; no smoke; no unrelated objects; no fantasy anatomy; do not invent cultivar-specific whole-plant architecture where the reference does not show it.",
+    "evidence": [{"description":"[EVIDENCE_ALIGNMENT=REQUIRED] OFFICIAL_VISUAL_EVIDENCE: Close-up reference shows dense stacked flowering clusters, narrow-to-medium serrated sugar/fan leaves, strong visible trichome coverage, pale-to-rust pistils, and a dark green to burgundy-purple leaf coloration tendency. Whole-plant silhouette, branching pattern, and internode spacing are not observable.","sourceIds":["humboldt-csi-t-1000-s1"]},{"description":"The official page identifies the product as T-1000 × T-1000 and explicitly labels the pictured flower as the T-1000 mother cut; visual extraction is limited to traits visible in that reference.","sourceIds":["humboldt-csi-t-1000-s1"]}],
+    "alt": "T-1000 S1の根拠範囲を明示したAI生成の植物学的参考ビジュアル",
+    "rights": "AI-generated project asset for Cannabis Strain Wisdom. No official or third-party image is copied or stored; only bounded morphology evidence is used.",
+    "scope": "cultivar",
+    "aiGenerated": true
+  },
+  "visuals": [],
+  "notes": "AUTO STOCK V1 candidate prepared for OFFICIAL VISUAL EVIDENCE V1. No reference image bytes are stored in the repository."
+}

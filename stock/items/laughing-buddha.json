@@ -1,1 +1,222 @@
-{"schemaVersion":"AUTO_STOCK_V1","stockId":"laughing-buddha","status":"IMAGE_PENDING","createdAt":"2026-08-17T18:54:00Z","candidate":{"id":"laughing-buddha","canonicalName":"Laughing Buddha","strainData":{"schemaVersion":1,"id":"laughing-buddha","status":"review","name":"Laughing Buddha","jp":null,"aliases":[],"classification":{"type":"sativa"},"breeding":{"generation":"unknown","method":"sativa-dominant hybrid"},"lineage":{"status":"confirmed","confidence":"A","basis":"breederOfficial","display":"Thai × Jamaican","parents":["Thai","Jamaican"],"note":"Barney's Farm directly identifies Thai and Jamaican genetics and lists 80% sativa / 20% indica.","sourceRefs":["barneys-farm-laughing-buddha"]},"relations":[{"entityId":"barneys-farm","roles":["breeder","seedCompany"],"status":"confirmed","confidence":"A","basis":"breederOfficial","sourceRefs":["barneys-farm-laughing-buddha"]}],"aromas":{"status":"confirmed","confidence":"A","basis":"breederOfficial","sourceRefs":["barneys-farm-laughing-buddha"],"items":["fresh","sweet","exotic fruits","spicy"],"note":"Official cultivar-specific aroma descriptors; wording normalized without adding unsupported notes."},"terpenes":{"status":"unknown","confidence":"unknown","basis":"breederOfficial","sourceRefs":["barneys-farm-laughing-buddha"],"items":[],"note":"No named cultivar-specific terpene compound panel was verified; no compounds are inferred from aroma words."},"origin":{"status":"confirmed","confidence":"A","basis":"breederOfficial","sourceRefs":["barneys-farm-laughing-buddha"],"text":"Developed by Barney's Farm from Thai and Jamaican genetics.","note":"Limited to breeder-published origin context; undisclosed details remain undisclosed."},"history":{"status":"confirmed","confidence":"B","basis":"breederOfficial","sourceRefs":["barneys-farm-laughing-buddha"],"text":"The current Barney's Farm page identifies Laughing Buddha as a cup-winning cultivar, but does not provide a precise release year or development chronology.","note":"Only dated or descriptive history stated on the current official page is retained."},"visuals":[],"checkedAt":"2026-08-17","updatedAt":"2026-08-17"}},"confidence":{"lineage":{"grade":"A","basis":"Barney's Farm directly names Thai × Jamaican and provides the 80/20 sativa/indica ratio.","sourceIds":["barneys-farm-laughing-buddha"]},"history":{"grade":"B","basis":"The breeder confirms award status but the current page does not provide a precise dated release history.","sourceIds":["barneys-farm-laughing-buddha"]},"aroma":{"grade":"A","basis":"Barney's Farm directly describes fresh, sweet, exotic-fruit aroma and spicy notes.","sourceIds":["barneys-farm-laughing-buddha"]},"terpene":{"grade":"unknown","basis":"No named cultivar-specific terpene compound panel was verified on the official product page.","sourceIds":["barneys-farm-laughing-buddha"]}},"sources":[{"id":"barneys-farm-laughing-buddha","url":"https://www.barneysfarm.com/laughing-buddha-8","payload":{"schemaVersion":1,"id":"barneys-farm-laughing-buddha","publisher":"Barney's Farm","title":"Laughing Buddha Strain","url":"https://www.barneysfarm.com/laughing-buddha-8","sourceType":"breederOfficial","supports":["lineage","breeder","classification","breeding","aromas","terpenes","origin","history","visualMorphology"],"publishedAt":null,"checkedAt":"2026-08-17","note":"Barney's Farm official cultivar page used for 80% sativa classification, Thai × Jamaican lineage, aroma and morphology."}}],"entities":[{"id":"barneys-farm","canonicalName":"Barney's Farm","payload":{"schemaVersion":1,"id":"barneys-farm","name":"Barney's Farm","roles":["breeder","seedCompany"],"status":"confirmed","checkedAt":"2026-08-17","updatedAt":"2026-08-17"}}],"duplicateCheck":{"productionChecked":true,"stockChecked":true,"strain":{"key":"id=laughing-buddha; canonicalName=Laughing Buddha","result":"UNIQUE","reason":"No matching production strain ID/canonical name and no existing STOCK item."},"sources":[{"key":"id=barneys-farm-laughing-buddha; url=https://www.barneysfarm.com/laughing-buddha-8","result":"UNIQUE","reason":"No production or existing STOCK source matches this ID or URL."}],"entities":[{"key":"id=barneys-farm; canonicalName=Barney's Farm","result":"MATCH","matchedPath":"entities/barneys-farm.json","reason":"Existing production entity ID and canonical name match; the production payload is reused exactly and no entity file is proposed."}]},"visualStatus":"IMAGE_PENDING","visualPreparation":{"prompt":"Photorealistic botanical reference image of mature flowering Laughing Buddha: sativa-dominant plant around one meter in compact cultivated form, large tight heavy buds on supported branches, healthy green narrow-to-medium leaflets, visible resin, natural neutral light. No labels, logos, packaging, people or smoke.","evidence":[{"description":"Barney's Farm describes an approximately one-meter plant with large, tight, heavy buds that may need support late in flowering.","sourceIds":["barneys-farm-laughing-buddha"]}],"alt":"Laughing Buddhaのサティバ優勢の株姿と、支えが必要になるほど大きく締まった重い花を公式形態情報に基づいて表現したAI生成参考ビジュアル","rights":"AI-generated project asset planned for Cannabis Strain Wisdom; no third-party image will be copied. Visual prompt is derived from cited official morphology evidence.","scope":"cultivar","aiGenerated":true},"visuals":[],"notes":"AUTO STOCK V1 research-only candidate. No image generated and no production data changed."}
+{
+  "schemaVersion": "AUTO_STOCK_V1",
+  "stockId": "laughing-buddha",
+  "status": "IMAGE_PENDING",
+  "createdAt": "2026-08-17T18:54:00Z",
+  "updatedAt": "2026-08-19T10:32:00Z",
+  "candidate": {
+    "id": "laughing-buddha",
+    "canonicalName": "Laughing Buddha",
+    "strainData": {
+      "schemaVersion": 1,
+      "id": "laughing-buddha",
+      "status": "review",
+      "name": "Laughing Buddha",
+      "jp": null,
+      "aliases": [],
+      "classification": {
+        "type": "sativa"
+      },
+      "breeding": {
+        "generation": "unknown",
+        "method": "sativa-dominant hybrid"
+      },
+      "lineage": {
+        "status": "confirmed",
+        "confidence": "A",
+        "basis": "breederOfficial",
+        "display": "Thai × Jamaican",
+        "parents": [
+          "Thai",
+          "Jamaican"
+        ],
+        "note": "Barney's Farm directly identifies Thai and Jamaican genetics and lists 80% sativa / 20% indica.",
+        "sourceRefs": [
+          "barneys-farm-laughing-buddha"
+        ]
+      },
+      "relations": [
+        {
+          "entityId": "barneys-farm",
+          "roles": [
+            "breeder",
+            "seedCompany"
+          ],
+          "status": "confirmed",
+          "confidence": "A",
+          "basis": "breederOfficial",
+          "sourceRefs": [
+            "barneys-farm-laughing-buddha"
+          ]
+        }
+      ],
+      "aromas": {
+        "status": "confirmed",
+        "confidence": "A",
+        "basis": "breederOfficial",
+        "sourceRefs": [
+          "barneys-farm-laughing-buddha"
+        ],
+        "items": [
+          "fresh",
+          "sweet",
+          "exotic fruits",
+          "spicy"
+        ],
+        "note": "Official cultivar-specific aroma descriptors; wording normalized without adding unsupported notes."
+      },
+      "terpenes": {
+        "status": "unknown",
+        "items": [],
+        "note": "No named cultivar-specific terpene compound panel was verified; no compounds are inferred from aroma words."
+      },
+      "origin": {
+        "status": "confirmed",
+        "confidence": "A",
+        "basis": "breederOfficial",
+        "sourceRefs": [
+          "barneys-farm-laughing-buddha"
+        ],
+        "text": "Developed by Barney's Farm from Thai and Jamaican genetics.",
+        "note": "Limited to breeder-published origin context; undisclosed details remain undisclosed."
+      },
+      "history": {
+        "status": "confirmed",
+        "confidence": "B",
+        "basis": "breederOfficial",
+        "sourceRefs": [
+          "barneys-farm-laughing-buddha"
+        ],
+        "text": "The current Barney's Farm page identifies Laughing Buddha as a cup-winning cultivar, but does not provide a precise release year or development chronology.",
+        "note": "Only dated or descriptive history stated on the current official page is retained."
+      },
+      "visuals": [],
+      "checkedAt": "2026-08-17",
+      "updatedAt": "2026-08-19"
+    }
+  },
+  "confidence": {
+    "lineage": {
+      "grade": "A",
+      "basis": "Barney's Farm directly names Thai × Jamaican and provides the 80/20 sativa/indica ratio.",
+      "sourceIds": [
+        "barneys-farm-laughing-buddha"
+      ]
+    },
+    "history": {
+      "grade": "B",
+      "basis": "The breeder confirms award status but the current page does not provide a precise dated release history.",
+      "sourceIds": [
+        "barneys-farm-laughing-buddha"
+      ]
+    },
+    "aroma": {
+      "grade": "A",
+      "basis": "Barney's Farm directly describes fresh, sweet, exotic-fruit aroma and spicy notes.",
+      "sourceIds": [
+        "barneys-farm-laughing-buddha"
+      ]
+    },
+    "terpene": {
+      "grade": "unknown",
+      "basis": "No named cultivar-specific terpene compound panel was verified on the official product page.",
+      "sourceIds": [
+        "barneys-farm-laughing-buddha"
+      ]
+    }
+  },
+  "sources": [
+    {
+      "id": "barneys-farm-laughing-buddha",
+      "url": "https://www.barneysfarm.com/laughing-buddha-8",
+      "payload": {
+        "schemaVersion": 1,
+        "id": "barneys-farm-laughing-buddha",
+        "publisher": "Barney's Farm",
+        "title": "Laughing Buddha Strain",
+        "url": "https://www.barneysfarm.com/laughing-buddha-8",
+        "sourceType": "breederOfficial",
+        "supports": [
+          "lineage",
+          "breeder",
+          "classification",
+          "breeding",
+          "aromas",
+          "terpenes",
+          "origin",
+          "history",
+          "visualMorphology"
+        ],
+        "publishedAt": null,
+        "checkedAt": "2026-08-17",
+        "note": "Barney's Farm official cultivar page used for 80% sativa classification, Thai × Jamaican lineage, aroma and text morphology."
+      }
+    }
+  ],
+  "entities": [
+    {
+      "id": "barneys-farm",
+      "canonicalName": "Barney's Farm",
+      "payload": {
+        "schemaVersion": 1,
+        "id": "barneys-farm",
+        "name": "Barney's Farm",
+        "roles": [
+          "breeder",
+          "seedCompany"
+        ],
+        "status": "confirmed",
+        "checkedAt": "2026-08-17",
+        "updatedAt": "2026-08-17"
+      }
+    }
+  ],
+  "duplicateCheck": {
+    "productionChecked": true,
+    "stockChecked": true,
+    "strain": {
+      "key": "id=laughing-buddha; canonicalName=Laughing Buddha",
+      "result": "UNIQUE",
+      "reason": "No matching production strain ID/canonical name or publication entry at the checked master-migration HEAD."
+    },
+    "sources": [
+      {
+        "key": "id=barneys-farm-laughing-buddha; url=https://www.barneysfarm.com/laughing-buddha-8",
+        "result": "UNIQUE",
+        "reason": "No production source uses this ID or exact URL."
+      }
+    ],
+    "entities": [
+      {
+        "key": "id=barneys-farm; canonicalName=Barney's Farm",
+        "result": "MATCH",
+        "matchedPath": "entities/barneys-farm.json",
+        "reason": "Existing production entity ID and canonical name match; the production payload is reused exactly."
+      }
+    ]
+  },
+  "visualStatus": "IMAGE_PENDING",
+  "visualPreparation": {
+    "prompt": "TEXT-EVIDENCE FALLBACK: the breeder-operated page contains cultivar-specific image slots, but the retrievable visual representation in this run was insufficient for trustworthy image-derived morphology extraction. Use the breeder's text morphology evidence only; do not treat it as image-derived evidence.\nCULTIVAR IDENTITY CONTEXT: Laughing Buddha by Barney's Farm; Thai × Jamaican; sativa-dominant hybrid.\nTEXT MORPHOLOGY EVIDENCE: the official cultivar page describes a roughly one-meter cultivated plant with large, tight, heavy flowers that can require support, plus dense olive-green flowers, frosty trichomes and bright orange pistils.\nPHOTOGRAPHIC CONSTRAINTS: photorealistic botanical reference photography; single mature female cannabis plant; complete plant visible; natural light; neutral non-distracting background; no text; no collage; no packaging; no smoke.\nNEGATIVE CONSTRAINTS: no fruit or berries; no people; no labels or logos; no jars, bags, boxes or bottles; no smoke; no unrelated objects; no fantasy anatomy; do not add cultivar-specific morphology beyond the cited text evidence.",
+    "evidence": [
+      {
+        "description": "[EVIDENCE_ALIGNMENT=NOT_APPLICABLE] Official visual reference is present on the breeder-operated page but was insufficient for reliable image-derived morphology extraction in this run; all non-alignment AI visual QA gates remain required.",
+        "sourceIds": [
+          "barneys-farm-laughing-buddha"
+        ]
+      },
+      {
+        "description": "Barney's Farm text describes a compact cultivated height with large, tight, heavy flowers, olive-green flower coloration, visible frosty trichomes and bright orange pistils.",
+        "sourceIds": [
+          "barneys-farm-laughing-buddha"
+        ]
+      }
+    ],
+    "alt": "Laughing Buddhaの公式テキスト形態情報を基礎に、未確認の画像由来形態を付加せず作成するAI生成参考ビジュアル",
+    "rights": "AI-generated project asset for Cannabis Strain Wisdom. No official or third-party image is copied or stored; fallback uses official text evidence only.",
+    "scope": "cultivar",
+    "aiGenerated": true
+  },
+  "visuals": [],
+  "notes": "AUTO STOCK V1 candidate updated for OFFICIAL VISUAL EVIDENCE V1. Official page images were not copied; visual extraction was marked insufficient and fallback remains text-evidence grounded."
+}
