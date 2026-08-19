@@ -1,9 +1,12 @@
 {
   "conclusion": "success",
-  "databaseId": 32290181139,
-  "headSha": "293ebf3a0621124baf0b95a9670a304aea643c84",
+  "databaseId": 32290372280,
+  "headSha": "23c54955d63120bf39650a5096151b9907eee412",
   "status": "completed",
-  "url": "https://github.com/Blazea-x/strain-atlas/actions/runs/32290181139",
-  "dispatcherSha": "293ebf3a0621124baf0b95a9670a304aea643c84",
-  "watchExitStatus": 0
+  "url": "https://github.com/Blazea-x/strain-atlas/actions/runs/32290372280",
+  "dispatcherSha": "23c54955d63120bf39650a5096151b9907eee412",
+  "watchExitStatus": 0,
+  "detailRunId": "32290419008",
+  "detailConclusion": "failure",
+  "detailWatchExitStatus": 1
 }
