@@ -20,37 +20,54 @@ jobs:
       - name: Checkout main
         uses: actions/checkout@v4
 
-      - name: Dispatch the existing public Pages workflow
-        id: deploy
+      - name: Dispatch Pages and detail E2E
         shell: bash
         run: |
           set -euo pipefail
           gh workflow run deploy-public-ui-pages.yml --ref main
-          run_id=""
+          pages_id=""
           for attempt in $(seq 1 20); do
-            run_id="$(gh run list --workflow deploy-public-ui-pages.yml --branch main --event workflow_dispatch --limit 10 --json databaseId,headSha,createdAt --jq '.[] | select(.headSha == env.GITHUB_SHA) | .databaseId' | head -n1)"
-            if [ -n "$run_id" ]; then break; fi
+            pages_id="$(gh run list --workflow deploy-public-ui-pages.yml --branch main --event workflow_dispatch --limit 10 --json databaseId,headSha --jq '.[] | select(.headSha == env.GITHUB_SHA) | .databaseId' | head -n1)"
+            [ -n "$pages_id" ] && break
             sleep 2
           done
-          test -n "$run_id"
-          echo "run_id=$run_id" >> "$GITHUB_OUTPUT"
+          test -n "$pages_id"
           set +e
-          gh run watch "$run_id" --exit-status
-          watch_status=$?
+          gh run watch "$pages_id" --exit-status
+          pages_watch=$?
           set -e
-          gh run view "$run_id" --json databaseId,headSha,status,conclusion,url > /tmp/deploy.json
-          WATCH_STATUS="$watch_status" python - <<'PY'
+          gh run view "$pages_id" --json databaseId,headSha,status,conclusion,url > /tmp/deploy.json
+
+          detail_id=""
+          detail_watch=99
+          detail_conclusion="not-run"
+          if [ "$pages_watch" -eq 0 ]; then
+            gh workflow run home-ux-v2-detail-e2e.yml --ref main
+            for attempt in $(seq 1 20); do
+              detail_id="$(gh run list --workflow home-ux-v2-detail-e2e.yml --branch main --event workflow_dispatch --limit 10 --json databaseId,headSha --jq '.[] | select(.headSha == env.GITHUB_SHA) | .databaseId' | head -n1)"
+              [ -n "$detail_id" ] && break
+              sleep 2
+            done
+            test -n "$detail_id"
+            set +e
+            gh run watch "$detail_id" --exit-status
+            detail_watch=$?
+            set -e
+            detail_conclusion="$(gh run view "$detail_id" --json conclusion --jq '.conclusion')"
+          fi
+
+          PAGES_WATCH="$pages_watch" DETAIL_WATCH="$detail_watch" DETAIL_ID="$detail_id" DETAIL_CONCLUSION="$detail_conclusion" python - <<'PY'
           import json, os
-          p='/tmp/deploy.json'
-          d=json.load(open(p))
+          p='/tmp/deploy.json'; d=json.load(open(p))
           d['dispatcherSha']=os.environ['GITHUB_SHA']
-          d['watchExitStatus']=int(os.environ['WATCH_STATUS'])
+          d['watchExitStatus']=int(os.environ['PAGES_WATCH'])
+          d['detailRunId']=os.environ['DETAIL_ID'] or None
+          d['detailConclusion']=os.environ['DETAIL_CONCLUSION']
+          d['detailWatchExitStatus']=int(os.environ['DETAIL_WATCH'])
           json.dump(d,open(p,'w'),indent=2)
           PY
-          echo "WATCH_STATUS=$watch_status" >> "$GITHUB_ENV"
-          if [ "$watch_status" -eq 0 ]; then
-            gh workflow run home-ux-v2-detail-e2e.yml --ref main
-          fi
+          echo "PAGES_WATCH=$pages_watch" >> "$GITHUB_ENV"
+          echo "DETAIL_WATCH=$detail_watch" >> "$GITHUB_ENV"
 
       - name: Persist deployment result
         if: always()
@@ -58,19 +75,15 @@ jobs:
         run: |
           set -euo pipefail
           mkdir -p .github/home-ux-v2-e2e
-          if [ -f /tmp/deploy.json ]; then
-            cp /tmp/deploy.json .github/home-ux-v2-e2e/deploy.json
-          else
-            printf '{"status":"unknown","conclusion":"failure","dispatcherSha":"%s"}\n' "$GITHUB_SHA" > .github/home-ux-v2-e2e/deploy.json
-          fi
+          if [ -f /tmp/deploy.json ]; then cp /tmp/deploy.json .github/home-ux-v2-e2e/deploy.json; else printf '{"conclusion":"failure","dispatcherSha":"%s"}\n' "$GITHUB_SHA" > .github/home-ux-v2-e2e/deploy.json; fi
           git config user.name 'home-ux-v2-e2e-bot'
           git config user.email 'actions@users.noreply.github.com'
           git add .github/home-ux-v2-e2e/deploy.json
           git commit -m 'Record HOME UX V2 Pages deployment [skip ci]'
           git push origin HEAD:main
 
-      - name: Fail if Pages deployment failed
-        if: env.WATCH_STATUS != '0'
-        run: exit 1
-
-# Dispatch final detail E2E after successful Pages deployment
+      - name: Enforce Pages and detail E2E
+        if: always()
+        run: |
+          test "${PAGES_WATCH:-99}" = 0
+          test "${DETAIL_WATCH:-99}" = 0
