@@ -1,0 +1,11 @@
+{
+  "schemaVersion": 1,
+  "quality": "medium",
+  "selected": [
+    {"strainId":"fixture-a","cultivarName":"Fixture A","candidateStatus":"OK","aiQaStatus":"PASS"},
+    {"strainId":"fixture-b","cultivarName":"Fixture B","candidateStatus":"OK","aiQaStatus":"PASS"},
+    {"strainId":"fixture-c","cultivarName":"Fixture C","candidateStatus":"API_FAIL","aiQaStatus":"NOT_RUN"},
+    {"strainId":"fixture-d","cultivarName":"Fixture D","candidateStatus":"OK","aiQaStatus":"FAIL"},
+    {"strainId":"fixture-e","cultivarName":"Fixture E","candidateStatus":"OK","aiQaStatus":"PASS"}
+  ]
+}
