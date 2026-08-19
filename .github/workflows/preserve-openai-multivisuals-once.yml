@@ -1,10 +1,11 @@
 name: Preserve OpenAI multi-visuals once
 
 on:
-  push:
+  pull_request:
     branches: [master-migration]
+    types: [opened, synchronize, reopened]
     paths:
-      - ".github/workflows/preserve-openai-multivisuals-once.yml"
+      - ".github/preserve-openai-multivisuals-trigger"
 
 permissions:
   contents: write
@@ -29,12 +30,11 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          EXPECTED_BASE="a7095198aa3966457d6ecb79818a98848a3a7759"
-          test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
-          test "$(git rev-parse HEAD^)" = "$EXPECTED_BASE"
+          EXPECTED_PARENT="5b7e32a696411cf52d0153b93d66be36388cc2f7"
           git fetch origin master-migration
-          test "$(git rev-parse origin/master-migration)" = "$GITHUB_SHA"
-          changed="$(git diff-tree --no-commit-id --name-only -r "$GITHUB_SHA")"
+          test "$(git rev-parse HEAD)" = "$(git rev-parse origin/master-migration)"
+          git merge-base --is-ancestor "$EXPECTED_PARENT" HEAD
+          changed="$(git diff --name-only "$EXPECTED_PARENT" HEAD)"
           test "$changed" = ".github/workflows/preserve-openai-multivisuals-once.yml"
           echo "BASE GUARD: PASS"
 
@@ -412,7 +412,8 @@ jobs:
         run: |
           set -euo pipefail
           git fetch origin master-migration
-          test "$(git rev-parse origin/master-migration)" = "$GITHUB_SHA"
+          BASE_HEAD="$(git rev-parse origin/master-migration)"
+          test "$BASE_HEAD" = "$(git rev-parse HEAD~2)"
           git push origin HEAD:master-migration
           echo "MASTER FINAL PUSH: $(git rev-parse HEAD)"
           echo "OPENAI ADDITIONAL GENERATION REQUESTS: 0"
