@@ -2,29 +2,29 @@
   "schemaVersion": 1,
   "manifestVersion": 1,
   "manifestId": "image-manifest-dr-grinspoon-display-repair-20260819",
-  "runId": "display-repair-dr-grinspoon-20260819",
+  "runId": "image-production-v2-dr-grinspoon-malawi-20260819",
   "strainId": "dr-grinspoon",
-  "revision": 1,
+  "revision": 2,
   "attempt": 1,
   "sourceStockPath": null,
   "sourceStockBlobSha": null,
-  "visualPreparationHash": "532c019f7b39f32e227b2f044ae379ccd869c431169f48759c4b2eeac7e3a7a9",
-  "generatedFromManifestVersion": null,
-  "promptSnapshot": "Photorealistic botanical documentary photograph of a single mature female Dr Grinspoon cannabis plant, pure heirloom 100% Sativa. Show the complete plant or enough of the plant to clearly read its architecture. The plant must be tall and thin with slender stems. Its defining mature flowers are unusual compact green and reddish-brown bead-like clusters that hang loosely along thin stems, not conventional thick conical buds. Keep the overall silhouette open and delicate, with realistic sativa foliage and natural internodal spacing. Make the bead-like flower structure unmistakable and botanically plausible. One plant only. No text, labels, infographic, collage, split frame, hands, harvested buds, jars, smoke, or decorative cannabis graphics. Natural photographic lighting and credible horticultural setting. Avoid dense chunky indica-style colas.",
+  "visualPreparationHash": "3d9ed3bc1b99be3b9bef6998a2e4af272b8c989130a62f6f3f306f51c2d98ce8",
+  "generatedFromManifestVersion": 1,
+  "promptSnapshot": "1. CULTIVAR IDENTITY\nPhotorealistic botanical documentary photograph of one mature living female Dr Grinspoon cannabis plant. Pure heirloom 100% Sativa. The plant must remain unmistakably cannabis.\n\n2. PLANT ARCHITECTURE\nTall and thin overall plant architecture with slender stems and an open, delicate structure. Keep enough of the complete plant visible to read the vertical architecture and thin branching stems clearly.\n\n3. FLOWER STRUCTURE / DISTRIBUTION\nShow small individual cannabis calyxes as sparse, separated floral sites attached close along thin stems and at stem nodes. Leave clearly visible exposed stem segments between floral sites. Visible cannabis pistils should emerge from individual calyxes. Mature floral sites can show green to reddish-brown coloration. The unusual bead-like impression must come from separated individual cannabis calyxes following the stems, never from a separate hanging bunch or a fruit-like cluster.\n\n4. LEAF MORPHOLOGY\nUse realistic mature sativa cannabis foliage consistent with the 100% Sativa identity. Keep foliage botanically plausible and secondary enough that the unusual stem-borne floral pattern remains readable.\n\n5. OVERALL SILHOUETTE\nTall, slender, open and lightly built rather than squat, dense or bushy. Preserve visible negative space between branches and flower sites.\n\n6. BOTANICAL DISTINCTIVE FEATURES\nThe defining feature is the unusual compact green and reddish-brown bead-like cannabis flower impression along thin stems, while each unit still reads as cannabis calyx tissue with pistils. It must look unusual but botanically credible, never like an ornamental or fruiting plant.\n\n7. COMPOSITION / CAMERA\nOne plant only. Single continuous photographic frame. Frame the complete plant or nearly complete plant, not a macro bud close-up. Neutral documentary camera perspective with enough detail to inspect calyxes, pistils, stems, branching and overall architecture.\n\n8. LIGHTING / BACKGROUND\nNatural photographic lighting, neutral non-distracting horticultural or botanical-reference background, realistic color and depth. No dramatic fantasy grading.\n\n9. NEGATIVE CONSTRAINTS\nNo grapes, no berries, no fruit clusters, no hanging bunches, no pendulous racemes, no hop-like cones, no catkins, no non-cannabis fruits. No dense chunky indica-style colas. No fantasy plant, ornamental flowers, male pollen sacs, duplicated branches, impossible branching, fused or deformed leaves, plastic/CGI appearance, illustration, painting, collage, split frame, text, labels, watermark, hands, jars, smoke or harvested buds.",
   "evidenceSnapshot": [
     {
       "sourceRef": "barneys-farm-dr-grinspoon",
       "sourceType": "breederOfficial",
-      "description": "Barney's Farm identifies Dr Grinspoon as a pure heirloom 100% Sativa that grows tall and thin."
+      "description": "Barney's Farm identifies Dr Grinspoon as a pure heirloom 100% Sativa with a tall and thin overall plant structure."
     },
     {
       "sourceRef": "barneys-farm-dr-grinspoon",
       "sourceType": "breederOfficial",
-      "description": "At maturity, Barney's Farm describes the colas as compact green and reddish-brown bead-like flowers that hang loosely on thin stems."
+      "description": "Barney's Farm describes mature green to reddish-brown bead-like flowers along thin stems; V2 preflight operationalizes this as separated stem/node-attached cannabis calyx sites to prevent fruit-bunch interpretation without adding a new cultivar claim."
     }
   ],
   "visualMetadataSnapshot": {
-    "alt": "Dr Grinspoonの細長いサティバ株姿と、細い茎に疎らに付く緑〜赤褐色のビーズ状花序を表現したAI生成参考ビジュアル",
+    "alt": "Dr Grinspoonの細長いサティバ株姿と、細い茎・節に沿って疎に分かれたビーズ状の花姿を公式形態情報に基づいて表現したAI生成参考ビジュアル",
     "rights": "AI-generated project asset for Cannabis Strain Wisdom; prompt derived from cited breeder-official morphology evidence.",
     "scope": "cultivar",
     "aiGenerated": true,
@@ -32,22 +32,56 @@
   },
   "expectedInboxFilename": "dr-grinspoon.jpg",
   "expectedPrimaryPath": "strains/dr-grinspoon/images/generated/primary.webp",
-  "generatedAt": "2026-08-19T01:48:27Z",
-  "approvalStatus": "pending",
-  "approvedAt": null,
-  "approvalType": null,
-  "approvedManifestRevision": null,
-  "approvedAttempt": null,
-  "approvedSourceSha256": null,
+  "generatedAt": "2026-08-19T02:35:34Z",
+  "approvalStatus": "approved",
+  "approvedAt": "2026-08-19T02:51:13Z",
+  "approvalType": "assistant-visual-review",
+  "approvedManifestRevision": 2,
+  "approvedAttempt": 1,
+  "approvedSourceSha256": "5ac510338fa552225c77ddcd2b3a92a4d1b2e3ada3c4c7411fec5fc365388bb0",
   "imageInboxCommit": null,
   "imageProcessingCommit": null,
-  "processedPrimaryBlobSha": null,
-  "processedPrimarySha256": null,
-  "width": null,
-  "height": null,
-  "reviewStatus": "NEEDS_REVIEW",
-  "reviewReason": "Generated candidate visually rejected: flower clusters resembled long hanging berry/grape bunches rather than a botanically plausible Dr Grinspoon bead-like cannabis flower structure.",
+  "processedPrimaryBlobSha": "887dc0449d029bc3cc31efb17b065cf3476fbefd",
+  "processedPrimarySha256": "0d5c13e2aab448722eeb799e03f5c9256fe259c19f363928961fbc6b29fd9d3a",
+  "width": 1024,
+  "height": 1024,
+  "reviewStatus": "PASS",
+  "reviewReason": "V2 one-shot candidate accepted: tall/slender open cannabis architecture, sparse separated stem/node floral sites, no grape/berry/hanging-bunch interpretation, and overall morphology remains recognizably cannabis.",
   "generation": {
+    "provider": "OpenAI",
+    "model": "gpt-image-2",
+    "quality": "high",
+    "size": "1024x1024",
+    "outputFormat": "jpeg",
+    "n": 1,
+    "retryPolicy": "NO_RETRY",
+    "workflowRunId": 32209110570,
+    "artifactId": 9350233070,
+    "candidateSha256": "5ac510338fa552225c77ddcd2b3a92a4d1b2e3ada3c4c7411fec5fc365388bb0",
+    "candidateBytes": 167362,
+    "candidateDimensions": {
+      "width": 1024,
+      "height": 1024,
+      "format": "JPEG"
+    },
+    "usage": {
+      "input_tokens": 530,
+      "input_tokens_details": {
+        "image_tokens": 0,
+        "text_tokens": 530
+      },
+      "output_tokens": 7024,
+      "total_tokens": 7554,
+      "output_tokens_details": {
+        "image_tokens": 7024,
+        "text_tokens": 0
+      }
+    },
+    "estimatedInputCostUsd": 0.00265,
+    "estimatedOutputCostUsd": 0.21072,
+    "additionalOpenAiCostUsd": 0.21337
+  },
+  "previousGeneration": {
     "provider": "OpenAI",
     "model": "gpt-image-2",
     "quality": "high",
@@ -77,6 +111,30 @@
       "action": "VISUAL_QA_REVIEW",
       "status": "NEEDS_REVIEW",
       "note": "Assistant visual inspection rejected the candidate; it was not promoted to primary.webp or visuals because its hanging fruit-like clusters were not botanically credible cannabis flowers."
+    },
+    {
+      "at": "2026-08-19T02:51:13Z",
+      "action": "PROMPT_PREFLIGHT",
+      "status": "PASS",
+      "note": "Prior wording coupled 'bead-like', 'clusters', and 'hang loosely', which encouraged a berry/grape-bunch reading. V2 rewrote the morphology by attachment/distribution: separated individual cannabis calyxes at stems/nodes, exposed stem segments and visible pistils; negative constraints explicitly removed grapes, berries, fruit clusters, hanging bunches, pendulous racemes, hop-like cones and catkins."
+    },
+    {
+      "at": "2026-08-19T02:51:13Z",
+      "action": "OPENAI_ONE_SHOT_GENERATION",
+      "status": "success",
+      "note": "Exactly one Dr Grinspoon candidate was returned from gpt-image-2 high at 1024x1024. SHA-256 5ac510338fa552225c77ddcd2b3a92a4d1b2e3ada3c4c7411fec5fc365388bb0. No retry was used."
+    },
+    {
+      "at": "2026-08-19T02:51:13Z",
+      "action": "VISUAL_QA_REVIEW",
+      "status": "PASS",
+      "note": "Assistant visual inspection accepted the candidate: tall/slender cannabis silhouette and sparse separated flower sites are readable without fruit-cluster or ornamental-plant interpretation."
+    },
+    {
+      "at": "2026-08-19T02:51:13Z",
+      "action": "IMAGE_PRODUCTION_V2_DIRECT_PROMOTION",
+      "status": "prepared",
+      "note": "Converted the approved one-shot Actions artifact directly to the formal WebP primary. IMAGE UPLOAD INBOX V1 was not used for this controlled V2 artifact promotion; imageInboxCommit is intentionally null."
     }
   ]
 }
