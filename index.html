@@ -9,7 +9,7 @@
   <link rel="stylesheet" href="preview/styles.css?v=6">
   <link rel="stylesheet" href="preview/home-layout.css?v=2">
   <link rel="stylesheet" href="preview/home-viewport.css?v=2">
-  <link rel="stylesheet" href="preview/home-entrance-v1.css?v=4">
+  <link rel="stylesheet" href="preview/home-entrance-v1.css?v=5">
 </head>
 <body>
   <div class="data-state" id="data-state" hidden>LOADING</div>
@@ -27,9 +27,25 @@
       </section>
 
       <section class="home-search" aria-labelledby="search-title">
+        <div class="explore home-type-filters" id="explore" aria-label="タイプで絞り込む"><button type="button" class="explore-chip is-active" data-explore="all" aria-pressed="true">すべて</button><button type="button" class="explore-chip" data-explore="sativa" aria-pressed="false">SATIVA系 <b id="count-sativa">0</b></button><button type="button" class="explore-chip" data-explore="indica" aria-pressed="false">INDICA系 <b id="count-indica">0</b></button><button type="button" class="explore-chip" data-explore="hybrid" aria-pressed="false">HYBRID <b id="count-hybrid">0</b></button></div>
         <div class="home-search-heading"><span>SEARCH</span><h2 id="search-title">品種を検索</h2></div>
         <div class="search-wrap"><label class="sr-only" for="search">品種を検索</label><input id="search" type="search" autocomplete="off" placeholder="例：Bubble Gum、Kush、Humboldt CSI"></div>
         <p class="home-search-help">品種名・別名・ブリーダー／関連組織・generation・系譜・香り・テルペンから探せます</p>
+        <details class="filter-disclosure" id="filter-disclosure">
+          <summary><span class="filter-summary-label">絞り込み</span><span class="filter-summary-count" id="filter-summary-count" hidden>0</span><span class="filter-chevron" aria-hidden="true">⌄</span></summary>
+          <div class="filter-panel">
+            <section class="filter-group" id="generation-filter-group">
+              <div class="filter-group-heading"><span>GENERATION</span><h3>育種世代</h3></div>
+              <div class="generation-options" id="generation-options" aria-label="育種世代で絞り込む"></div>
+            </section>
+            <section class="filter-group" id="breeder-filter-group">
+              <div class="filter-group-heading"><span>BREEDER</span><h3>Breeder</h3></div>
+              <label class="sr-only" for="breeder-filter">Breederで絞り込む</label>
+              <select class="breeder-select" id="breeder-filter"><option value="">すべてのBreeder</option></select>
+            </section>
+            <button class="filter-clear" id="clear-filters" type="button" disabled>条件をクリア</button>
+          </div>
+        </details>
       </section>
 
       <details class="legal-alert" id="legal-alert"><summary><span class="legal-alert-icon" aria-hidden="true">i</span><span class="legal-alert-copy"><strong>重要なお知らせ</strong><small>Cannabis Strain Wisdom は教育・資料目的の情報アーカイブです。違法な所持・施用・栽培・輸入・購入等を推奨しません。</small></span><span class="legal-alert-action">詳細を読む</span></summary><div class="legal-alert-body"><p class="legal-alert-lead">法規・製品基準は変更されることがあります。以下は2026年8月15日時点で公的情報を確認した要点です。</p><ul><li>2024年12月12日から、大麻等の不正な施用についても麻薬及び向精神薬取締法の禁止規定・罰則が適用されています。</li><li>製品等に残留するΔ9-THCには区分別の残留限度値があり、油脂・粉末は10ppm、水溶液は0.10ppm、その他は1ppmです。限度値を超える製品等は「麻薬」に該当します。</li><li>大麻を原料とする製品は、残留限度値を超えるΔ9-THCを含む場合、原則として輸入できません。CBD関連製品では、麻薬に該当しないことの確認手続きが必要になる場合があります。</li><li>厚生労働省は、市場流通するCBD製品から残留限度値を超えるΔ9-THCが検出された事例について継続して注意喚起しています。</li></ul><p class="legal-alert-note">本サイトは品種・歴史・系譜・香り・資料等を整理する情報アーカイブです。違法な所持・施用・栽培・輸入・購入を推奨するものではありません。未成年者を対象とした使用・入手等の推奨も目的としていません。年齢にかかわらず、日本国内の法令に反する行為を推奨しません。</p><div class="legal-alert-sources"><span>公式情報</span><a href="https://www.mhlw.go.jp/stf/newpage_43079.html" target="_blank" rel="noopener noreferrer">厚生労働省｜改正法・残留限度値</a><a href="https://www.mhlw.go.jp/stf/seisakunitsuite/bunya/kenkou_iryou/iyakuhin/yakubuturanyou/" target="_blank" rel="noopener noreferrer">厚生労働省｜CBD製品等の注意喚起</a><a href="https://www.customs.go.jp/tetsuzuki/c-answer/kinseihin/2005_jr.htm" target="_blank" rel="noopener noreferrer">税関｜大麻を原料とする製品の輸入規制</a></div></div></details>
@@ -45,7 +61,6 @@
       <section class="content-panel home-section all-cultivars-section" data-content-panel="cultivars" aria-labelledby="all-cultivars-title">
         <section class="control-panel" id="cultivars" aria-label="すべての品種を探す">
           <div class="section-head"><div><span class="section-kicker">CATALOG</span><h2 id="all-cultivars-title">すべての品種</h2><p class="catalog-total" id="catalog-total">収録数を読み込み中</p></div><span class="result-label" id="result-label">読み込み中</span></div>
-          <div class="explore" id="explore" aria-label="タイプで絞り込む"><button type="button" class="explore-chip is-active" data-explore="all">すべて</button><button type="button" class="explore-chip" data-explore="sativa">SATIVA系 <b id="count-sativa">0</b></button><button type="button" class="explore-chip" data-explore="indica">INDICA系 <b id="count-indica">0</b></button><button type="button" class="explore-chip" data-explore="hybrid">HYBRID <b id="count-hybrid">0</b></button><button type="button" class="explore-chip" data-explore="unclassified">未分類</button></div>
         </section>
         <section class="cultivar-grid" id="cultivar-grid" aria-live="polite"></section>
         <div class="empty" id="empty" hidden>該当する品種はありません。</div>
@@ -55,5 +70,5 @@
     <footer class="catalog-meta" id="catalog-meta"></footer>
   </main>
   <dialog class="detail-dialog" id="detail-dialog"><div class="detail-shell" id="detail-shell"></div></dialog>
-  <script src="preview/app.js?v=5" defer></script><script src="preview/home-hero-v1.js?v=2" defer></script><script src="preview/detail-gallery.js?v=1" defer></script><script src="preview/home-ux-v2.js?v=3" defer></script>
+  <script src="preview/app.js?v=6" defer></script><script src="preview/home-hero-v1.js?v=2" defer></script><script src="preview/detail-gallery.js?v=1" defer></script><script src="preview/home-ux-v2.js?v=4" defer></script>
 </body></html>

@@ -39,9 +39,18 @@
   const homeContent = document.getElementById("home-content");
   const contentPanels = [...document.querySelectorAll("[data-content-panel]")];
   const homeEntries = [...document.querySelectorAll("[data-home-target]")];
+  const catalogTotal = document.getElementById("catalog-total");
+  const generationOptions = document.getElementById("generation-options");
+  const generationFilterGroup = document.getElementById("generation-filter-group");
+  const breederFilter = document.getElementById("breeder-filter");
+  const breederFilterGroup = document.getElementById("breeder-filter-group");
+  const filterSummaryCount = document.getElementById("filter-summary-count");
+  const clearFilters = document.getElementById("clear-filters");
 
   let catalog = null;
   let activeExplore = "all";
+  const activeGenerations = new Set();
+  let activeBreeder = "";
   let activeHomePanel = null;
   let savedScrollY = 0;
   let suppressCloseHistory = false;
@@ -155,6 +164,83 @@
   };
 
   const inExplore = cultivar => activeExplore === "all" || (catalog?.explore?.[activeExplore] || []).includes(cultivar.id);
+  const inGeneration = cultivar => !activeGenerations.size || activeGenerations.has(String(cultivar.breeding?.generation || "").trim());
+  const inBreeder = cultivar => !activeBreeder || (cultivar.relations || []).some(relation =>
+    relation.entityId === activeBreeder && (relation.roles || []).includes("breeder")
+  );
+  const matchesFilters = (cultivar, query) =>
+    inExplore(cultivar) &&
+    inGeneration(cultivar) &&
+    inBreeder(cultivar) &&
+    (!query || searchBlob(cultivar).includes(query));
+
+  function generationSortKey(value) {
+    const text = String(value || "").trim();
+    if (text === "S1") return [0, 1, text];
+    const f = text.match(/^F([1-9][0-9]*)$/);
+    if (f) return [1, Number(f[1]), text];
+    const bx = text.match(/^BX([1-9][0-9]*)$/);
+    if (bx) return [2, Number(bx[1]), text];
+    if (text === "IBL") return [3, 0, text];
+    return [4, 0, text.toLowerCase()];
+  }
+
+  function compareGeneration(a, b) {
+    const aa = generationSortKey(a);
+    const bb = generationSortKey(b);
+    return aa[0] - bb[0] || aa[1] - bb[1] || String(aa[2]).localeCompare(String(bb[2]), "en");
+  }
+
+  function syncFilterUi() {
+    document.querySelectorAll("[data-explore]").forEach(item => {
+      const active = item.dataset.explore === activeExplore;
+      item.classList.toggle("is-active", active);
+      item.setAttribute("aria-pressed", active ? "true" : "false");
+    });
+    generationOptions?.querySelectorAll("[data-generation]").forEach(item => {
+      const active = activeGenerations.has(item.dataset.generation || "");
+      item.classList.toggle("is-active", active);
+      item.setAttribute("aria-pressed", active ? "true" : "false");
+    });
+    if (breederFilter && breederFilter.value !== activeBreeder) breederFilter.value = activeBreeder;
+    const detailCount = activeGenerations.size + (activeBreeder ? 1 : 0);
+    if (filterSummaryCount) {
+      filterSummaryCount.textContent = String(detailCount);
+      filterSummaryCount.hidden = detailCount === 0;
+    }
+    if (clearFilters) clearFilters.disabled = activeExplore === "all" && detailCount === 0;
+  }
+
+  function setupDetailedFilters() {
+    const generations = [...new Set(catalog.cultivars
+      .map(cultivar => String(cultivar.breeding?.generation || "").trim())
+      .filter(value => value && value.toLowerCase() !== "unknown"))]
+      .sort(compareGeneration);
+    if (generationOptions) {
+      generationOptions.innerHTML = generations.map(value =>
+        `<button type="button" class="generation-chip" data-generation="${esc(value)}" aria-pressed="false">${esc(value)}</button>`
+      ).join("");
+    }
+    if (generationFilterGroup) generationFilterGroup.hidden = generations.length === 0;
+
+    const breeders = new Map();
+    for (const cultivar of catalog.cultivars) {
+      for (const relation of cultivar.relations || []) {
+        if (!(relation.roles || []).includes("breeder")) continue;
+        const entity = catalog.entities?.[relation.entityId];
+        const name = String(entity?.name || "").trim();
+        if (name) breeders.set(relation.entityId, name);
+      }
+    }
+    const breederEntries = [...breeders.entries()].sort((a, b) => a[1].localeCompare(b[1], "ja"));
+    if (breederFilter) {
+      breederFilter.innerHTML = `<option value="">すべてのBreeder</option>${breederEntries.map(([id, name]) =>
+        `<option value="${esc(id)}">${esc(name)}</option>`
+      ).join("")}`;
+    }
+    if (breederFilterGroup) breederFilterGroup.hidden = breederEntries.length === 0;
+    syncFilterUi();
+  }
 
   function showHomePanel(target, scroll = false) {
     if (!target) return;
@@ -173,7 +259,7 @@
   function renderGrid() {
     if (!catalog) return;
     const query = (search?.value || "").trim().toLowerCase();
-    const visible = catalog.cultivars.filter(cultivar => inExplore(cultivar) && (!query || searchBlob(cultivar).includes(query)));
+    const visible = catalog.cultivars.filter(cultivar => matchesFilters(cultivar, query));
 
     grid.innerHTML = visible.map(cultivar => {
       const visual = primaryVisual(cultivar);
@@ -193,12 +279,16 @@
     }).join("");
 
     resultLabel.textContent = `${visible.length} / ${catalog.cultivars.length}`;
+    if (catalogTotal) {
+      const filtered = activeExplore !== "all" || activeGenerations.size > 0 || Boolean(activeBreeder) || Boolean(query);
+      catalogTotal.textContent = filtered ? `${visible.length}件表示` : `${catalog.cultivars.length}品種を収録`;
+    }
     empty.hidden = visible.length !== 0;
   }
 
   function setExplore(key) {
-    activeExplore = key || "all";
-    document.querySelectorAll("[data-explore]").forEach(item => item.classList.toggle("is-active", item.dataset.explore === activeExplore));
+    activeExplore = ["all", "sativa", "indica", "hybrid"].includes(key) ? key : "all";
+    syncFilterUi();
     renderGrid();
   }
 
@@ -342,6 +432,31 @@
     if (button) setExplore(button.dataset.explore || "all");
   });
 
+  generationOptions?.addEventListener("click", event => {
+    const button = event.target.closest("[data-generation]");
+    if (!button) return;
+    const generation = button.dataset.generation || "";
+    if (!generation) return;
+    if (activeGenerations.has(generation)) activeGenerations.delete(generation);
+    else activeGenerations.add(generation);
+    syncFilterUi();
+    renderGrid();
+  });
+
+  breederFilter?.addEventListener("change", () => {
+    activeBreeder = breederFilter.value || "";
+    syncFilterUi();
+    renderGrid();
+  });
+
+  clearFilters?.addEventListener("click", () => {
+    activeExplore = "all";
+    activeGenerations.clear();
+    activeBreeder = "";
+    syncFilterUi();
+    renderGrid();
+  });
+
   document.querySelector(".home-entries")?.addEventListener("click", event => {
     const button = event.target.closest("[data-home-target]");
     if (!button) return;
@@ -381,6 +496,7 @@
         setCount(`count-${key}`, count);
         setCount(`overview-${key}`, count);
       }
+      setupDetailedFilters();
       renderGrid();
 
       const initialId = new URL(location.href).searchParams.get("strain");

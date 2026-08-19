@@ -169,14 +169,6 @@
     });
   }
 
-  if (search) {
-    search.addEventListener("input", () => {
-      if (!(search.value || "").trim()) return;
-      const all = document.querySelector('[data-explore="all"]');
-      if (all && !all.classList.contains("is-active")) all.click();
-    });
-  }
-
   if (allGrid) {
     new MutationObserver(() => {
       captureCanonicalCards();
