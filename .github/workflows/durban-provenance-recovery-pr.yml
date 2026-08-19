@@ -23,7 +23,7 @@ jobs:
     env:
       RUN_ID: content-production-20260818T060700Z-01
       APPROVED_SOURCE_SHA256: 6835045b34ea5e03c0a82e3d38213ff83ca2ea0a020c1528da9762192fffa2bb
-      EXPECTED_PARENT: 1bea719843efc046c553224c1877f4299c619e73
+      EXPECTED_PARENT: 9905950f23b36a470d3f981b5dc311d515cdc7db
       RECOVERY_WORKFLOW: .github/workflows/durban-provenance-recovery-pr.yml
       GH_TOKEN: ${{ github.token }}
     steps:
@@ -57,6 +57,28 @@ jobs:
           end=src.index("\n          PY\n",start)
           block=src[start:end].splitlines()
           code='\n'.join(line[10:] if line.startswith('          ') else line for line in block)+'\n'
+          code=code.replace('&event=push&per_page=100','&per_page=100')
+          old="""matches=[x for x in workflow_payload.get('workflow_runs',[]) if x.get('head_sha')==source_add_commit and x.get('conclusion')=='success']
+if len(matches)!=1: raise RuntimeError(f'SAFE-STOP: expected one successful Inbox workflow run for upload commit, found {len(matches)}')
+"""
+          new="""direct_matches=[x for x in workflow_payload.get('workflow_runs',[]) if x.get('head_sha')==source_add_commit and x.get('conclusion')=='success']
+if len(direct_matches)==1:
+    matches=direct_matches
+else:
+    matches=[]
+    signature=f'PASS durban-poison.jpg -> {PRIMARY_PATH}'
+    for candidate in workflow_payload.get('workflow_runs',[]):
+        if candidate.get('conclusion')!='success':
+            continue
+        logp=sh(['gh','run','view',str(candidate['id']),'--repo',os.environ['GITHUB_REPOSITORY'],'--log'],check=False)
+        combined=(logp.stdout or '')+'\\n'+(logp.stderr or '')
+        if signature in combined:
+            matches.append(candidate)
+if len(matches)!=1: raise RuntimeError(f'SAFE-STOP: expected one successful Inbox workflow run containing Durban processing evidence, found {len(matches)}')
+"""
+          if old not in code:
+              raise SystemExit('recovery patch anchor missing')
+          code=code.replace(old,new)
           Path('/tmp/durban-recover.py').write_text(code,encoding='utf-8')
           PYEXTRACT
           python /tmp/durban-recover.py
