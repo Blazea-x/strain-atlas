@@ -1,0 +1,4 @@
+NEXT_PRODUCTION_FIVE
+expected_master=8b43f9d261c193b39a56b0ab9aa4f85c0bb2d59c
+batch_size=5
+generate_images=true
