@@ -13,6 +13,9 @@ on:
       - "production/manifests/**"
       - "production/_system/**"
       - "scripts/validate-master-data.mjs"
+      - "scripts/validate-cultivar-publication.mjs"
+      - "scripts/test-data-first-pipeline.mjs"
+      - "scripts/list-image-backlog.mjs"
       - "scripts/build-runtime-data.mjs"
       - "scripts/audit-content-production.mjs"
       - "scripts/content-production-state.mjs"
@@ -47,6 +50,15 @@ jobs:
 
       - name: Validate MASTER data
         run: node scripts/validate-master-data.mjs
+
+      - name: Validate cultivar-level publication gates
+        run: node scripts/validate-cultivar-publication.mjs
+
+      - name: DATA-FIRST / IMAGE-LATER read-only fixture
+        run: node scripts/test-data-first-pipeline.mjs
+
+      - name: IMAGE backlog read-only smoke check
+        run: node scripts/list-image-backlog.mjs --json
 
       - name: CONTENT PRODUCTION V1 read-only dry run
         run: node scripts/audit-content-production.mjs --main-dir=.content-production-main-audit
