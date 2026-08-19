@@ -40,7 +40,7 @@
   "approvedAttempt": 1,
   "approvedSourceSha256": "5ac510338fa552225c77ddcd2b3a92a4d1b2e3ada3c4c7411fec5fc365388bb0",
   "imageInboxCommit": null,
-  "imageProcessingCommit": null,
+  "imageProcessingCommit": "d19445c659d128a1f411bfa79b75d4fce1580823",
   "processedPrimaryBlobSha": "887dc0449d029bc3cc31efb17b065cf3476fbefd",
   "processedPrimarySha256": "0d5c13e2aab448722eeb799e03f5c9256fe259c19f363928961fbc6b29fd9d3a",
   "width": 1024,
@@ -135,6 +135,12 @@
       "action": "IMAGE_PRODUCTION_V2_DIRECT_PROMOTION",
       "status": "prepared",
       "note": "Converted the approved one-shot Actions artifact directly to the formal WebP primary. IMAGE UPLOAD INBOX V1 was not used for this controlled V2 artifact promotion; imageInboxCommit is intentionally null."
+    },
+    {
+      "at": "2026-08-19T02:51:15Z",
+      "action": "PRODUCTION_COMMIT_BOUND",
+      "status": "recorded",
+      "note": "Formal WebP, visuals linkage and runtime were prepared in local processing commit d19445c659d128a1f411bfa79b75d4fce1580823; this provenance was bound before the two-commit fast-forward push."
     }
   ]
 }
