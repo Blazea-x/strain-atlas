@@ -7,12 +7,14 @@ on:
       - .github/production-triggers/s1-five-pr-v1
 
 jobs:
-  launch:
-    name: Launch five-cultivar PRODUCTION START V1
+  dispatch:
+    name: Dispatch five-cultivar PRODUCTION START V1
+    runs-on: ubuntu-latest
     permissions:
-      contents: write
-    uses: Blazea-x/strain-atlas/.github/workflows/production-start-v1.yml@master-migration
-    with:
-      batch_size: "5"
-      generate_images: true
-    secrets: inherit
+      actions: write
+      contents: read
+    steps:
+      - name: Dispatch existing production workflow
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh workflow run production-start-v1.yml --repo "$GITHUB_REPOSITORY" --ref master-migration -f batch_size=5 -f generate_images=true
