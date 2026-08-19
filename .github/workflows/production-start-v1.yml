@@ -8,13 +8,28 @@ on:
       - synchronize
 
 jobs:
-  launch:
-    name: Launch master-migration PRODUCTION START V1
+  dispatch:
     if: github.head_ref == 'ops/production-next5-20260819-1846'
+    runs-on: ubuntu-latest
     permissions:
-      contents: write
-    uses: Blazea-x/strain-atlas/.github/workflows/production-start-v1.yml@master-migration
-    with:
-      batch_size: "5"
-      generate_images: true
-    secrets: inherit
+      actions: write
+      contents: read
+    steps:
+      - name: Dispatch existing main PRODUCTION START V1
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          STARTED_AT="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+          gh workflow run production-start-v1.yml --ref main -f batch_size=5 -f generate_images=true
+          RUN_ID=""
+          for i in $(seq 1 30); do
+            RUN_ID="$(gh api "repos/$GH_REPO/actions/workflows/production-start-v1.yml/runs?event=workflow_dispatch&branch=main&per_page=10" --jq ".workflow_runs[] | select(.created_at >= \"$STARTED_AT\") | .id" | head -n1)"
+            if [ -n "$RUN_ID" ]; then break; fi
+            sleep 2
+          done
+          test -n "$RUN_ID"
+          echo "PRODUCTION_RUN_ID=$RUN_ID"
+          gh run watch "$RUN_ID" --repo "$GH_REPO" --exit-status
