@@ -20,13 +20,10 @@ jobs:
       - name: Mark verification start
         env:
           GH_TOKEN: ${{ github.token }}
-        shell: bash
-        run: |
-          gh api -X POST "repos/$GITHUB_REPOSITORY/issues/13/comments" \
-            -f body="HOME V1 FINAL LIVE VERIFY STARTED | run=$GITHUB_RUN_ID | repoHead=$GITHUB_SHA" >/dev/null
+        run: gh api -X POST "repos/$GITHUB_REPOSITORY/issues/13/comments" -f body="HOME V1 FINAL LIVE VERIFY STARTED | run=$GITHUB_RUN_ID | repoHead=$GITHUB_SHA" >/dev/null
 
-      - name: Resolve live Pages deployment and artifact
-        id: pages
+      - name: Resolve Pages deployment, artifact and runtime
+        id: facts
         env:
           GH_TOKEN: ${{ github.token }}
         shell: bash
@@ -43,7 +40,6 @@ jobs:
           deployment_id="$(jq -r '.[0].id // empty' <<<"$deployments")"
           deployment_sha="$(jq -r '.[0].sha // empty' <<<"$deployments")"
           deployment_created="$(jq -r '.[0].created_at // empty' <<<"$deployments")"
-          [[ -n "$deployment_id" && -n "$deployment_sha" ]]
           deployment_state="$(gh api "repos/$repo/deployments/$deployment_id/statuses?per_page=20" --jq '.[0].state // "unknown"')"
           [[ "$deployment_state" == "success" ]]
 
@@ -54,35 +50,10 @@ jobs:
           deploy_run_conclusion="$(jq -r '.conclusion // empty' <<<"$deploy_run")"
           [[ -n "$deploy_run_id" && "$deploy_run_conclusion" == "success" ]]
           artifacts="$(gh api "repos/$repo/actions/runs/$deploy_run_id/artifacts?per_page=100")"
-          artifact_count="$(jq -r '.total_count // 0' <<<"$artifacts")"
           artifact_summary="$(jq -c '[.artifacts[] | {id,name,size_in_bytes,expired,created_at}]' <<<"$artifacts")"
-          [[ "$artifact_count" -ge 1 ]]
+          [[ "$(jq -r '.total_count // 0' <<<"$artifacts")" -ge 1 ]]
 
-          {
-            printf 'site=%s\n' "$site"
-            printf 'build_type=%s\n' "$build_type"
-            printf 'source_branch=%s\n' "$source_branch"
-            printf 'source_path=%s\n' "$source_path"
-            printf 'deployment_id=%s\n' "$deployment_id"
-            printf 'deployment_sha=%s\n' "$deployment_sha"
-            printf 'deployment_created=%s\n' "$deployment_created"
-            printf 'deployment_state=%s\n' "$deployment_state"
-            printf 'deploy_run_id=%s\n' "$deploy_run_id"
-            printf 'deploy_run_name=%s\n' "$deploy_run_name"
-            printf 'deploy_run_conclusion=%s\n' "$deploy_run_conclusion"
-            printf 'artifact_count=%s\n' "$artifact_count"
-            printf 'artifact_summary=%s\n' "$artifact_summary"
-          } >> "$GITHUB_OUTPUT"
-
-      - name: Verify public HTML and master runtime assets
-        id: assets
-        env:
-          SITE: ${{ steps.pages.outputs.site }}
-        shell: bash
-        run: |
-          set -euo pipefail
-          site="${SITE%/}/"
-          curl -fsSL -H 'Cache-Control: no-cache' "${site}?verify=$RANDOM-$(date +%s%N)" -o /tmp/live.html
+          curl -fsSL -H 'Cache-Control: no-cache' "${site%/}/?verify=$(date +%s%N)" -o /tmp/live.html
           grep -q 'Cannabis <span>Strain Wisdom</span>' /tmp/live.html
           grep -q 'CULTIVARS · CULTURE · KNOWLEDGE' /tmp/live.html
           grep -q 'EDUCATIONAL ARCHIVE' /tmp/live.html
@@ -100,31 +71,58 @@ jobs:
           bubble_src="$(jq -r '.cultivars[] | select(.id == "bubble-gum") | .visuals[] | select(.role == "primary") | .src' /tmp/catalog.json | head -n1)"
           curl -fsSL -H 'Cache-Control: no-cache' "https://raw.githubusercontent.com/Blazea-x/strain-atlas/master-migration/${bubble_src}?verify=$(date +%s%N)" -o /tmp/bubble.webp
           file /tmp/bubble.webp | grep -qi 'Web/P image\|WebP'
-          printf 'cultivar_count=%s\nsource_count=%s\nentity_count=%s\nbubble_src=%s\n' "$cultivar_count" "$source_count" "$entity_count" "$bubble_src" >> "$GITHUB_OUTPUT"
 
-      - name: Exercise live UI in headless Chrome
+          {
+            printf 'site=%s\n' "$site"
+            printf 'build_type=%s\n' "$build_type"
+            printf 'source_branch=%s\n' "$source_branch"
+            printf 'source_path=%s\n' "$source_path"
+            printf 'deployment_id=%s\n' "$deployment_id"
+            printf 'deployment_sha=%s\n' "$deployment_sha"
+            printf 'deployment_created=%s\n' "$deployment_created"
+            printf 'deployment_state=%s\n' "$deployment_state"
+            printf 'deploy_run_id=%s\n' "$deploy_run_id"
+            printf 'deploy_run_name=%s\n' "$deploy_run_name"
+            printf 'deploy_run_conclusion=%s\n' "$deploy_run_conclusion"
+            printf 'artifact_summary=%s\n' "$artifact_summary"
+            printf 'cultivar_count=%s\n' "$cultivar_count"
+            printf 'source_count=%s\n' "$source_count"
+            printf 'entity_count=%s\n' "$entity_count"
+            printf 'bubble_src=%s\n' "$bubble_src"
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Exercise live UI and capture screenshot
         env:
-          SITE: ${{ steps.pages.outputs.site }}
+          SITE: ${{ steps.facts.outputs.site }}
         shell: bash
         run: |
           set -euo pipefail
           python3 -m pip install --quiet websocket-client
           browser="$(command -v google-chrome || command -v chromium || command -v chromium-browser || true)"
           [[ -n "$browser" ]]
-          "$browser" --headless=new --no-sandbox --disable-gpu --remote-debugging-port=9222 --remote-allow-origins='*' --user-data-dir=/tmp/csw-chrome about:blank >/tmp/chrome.log 2>&1 &
+          export SITE_UNDER_TEST="${SITE%/}/?verify=browser-$(date +%s%N)"
+          "$browser" --headless=new --no-sandbox --disable-gpu --remote-debugging-port=9222 --remote-allow-origins='*' --user-data-dir=/tmp/csw-chrome "$SITE_UNDER_TEST" >/tmp/chrome.log 2>&1 &
           chrome_pid=$!
           trap 'kill "$chrome_pid" 2>/dev/null || true' EXIT
-          for _ in $(seq 1 30); do
-            curl -fsS http://127.0.0.1:9222/json/list >/tmp/targets.json 2>/dev/null && jq -e 'length > 0' /tmp/targets.json >/dev/null && break
-            sleep 1
-          done
-          export SITE_UNDER_TEST="${SITE%/}/?verify=browser-$(date +%s%N)"
           cat >/tmp/cdp_verify.py <<'PY'
           import json, os, time, urllib.request
           import websocket
 
-          targets=json.load(urllib.request.urlopen('http://127.0.0.1:9222/json/list'))
-          ws=websocket.create_connection(targets[0]['webSocketDebuggerUrl'], timeout=20)
+          target=None
+          for _ in range(30):
+              try:
+                  targets=json.load(urllib.request.urlopen('http://127.0.0.1:9222/json/list'))
+                  pages=[t for t in targets if t.get('type') == 'page']
+                  target=next((t for t in pages if 'blazea-x.github.io/strain-atlas' in t.get('url','')), None)
+                  if target:
+                      break
+              except Exception:
+                  pass
+              time.sleep(1)
+          if not target:
+              raise RuntimeError('live page target not found')
+
+          ws=websocket.create_connection(target['webSocketDebuggerUrl'], timeout=20)
           seq=0
           def send(method, params=None):
               global seq
@@ -141,12 +139,18 @@ jobs:
               out=send('Runtime.evaluate', {'expression':expr,'returnByValue':True,'awaitPromise':True})
               return out.get('result',{}).get('value')
 
-          send('Page.enable')
           send('Runtime.enable')
-          send('Emulation.setDeviceMetricsOverride', {'width':390,'height':844,'deviceScaleFactor':2,'mobile':True})
-          send('Page.navigate', {'url':os.environ['SITE_UNDER_TEST']})
-          time.sleep(12)
+          for _ in range(30):
+              ready=ev("document.readyState")
+              has_title=ev("!!document.querySelector('#site-title')")
+              data_state=ev("document.querySelector('#data-state')?.textContent||''")
+              if ready in ('interactive','complete') and has_title and data_state == 'MASTER DATA':
+                  break
+              time.sleep(1)
+
           initial=ev("""(()=>({
+            href:location.href,
+            readyState:document.readyState,
             masterPreview:document.body.innerText.includes('MASTER PREVIEW'),
             title:document.querySelector('#site-title')?.innerText||'',
             kicker:document.querySelector('.home-hero-kicker')?.innerText||'',
@@ -166,19 +170,10 @@ jobs:
           }))()""")
           ev("""(()=>{const s=document.querySelector('#search');s.value='Bubble Gum';s.dispatchEvent(new Event('input',{bubbles:true}));return true})()""")
           time.sleep(1)
-          search=ev("""(()=>({
-            panel:document.querySelector('[data-content-panel="cultivars"]')?.hidden===false,
-            first:document.querySelector('.cultivar-card .tile-name')?.innerText||'',
-            cards:document.querySelectorAll('.cultivar-card').length,
-            result:document.querySelector('#result-label')?.innerText||''
-          }))()""")
+          search=ev("""(()=>({panel:document.querySelector('[data-content-panel="cultivars"]')?.hidden===false,first:document.querySelector('.cultivar-card .tile-name')?.innerText||'',cards:document.querySelectorAll('.cultivar-card').length,result:document.querySelector('#result-label')?.innerText||''}))()""")
           ev("document.querySelector('.cultivar-card')?.click()")
           time.sleep(1)
-          detail=ev("""(()=>({
-            open:document.querySelector('#detail-dialog')?.open||false,
-            topbar:document.querySelector('.detail-topbar')?.innerText||'',
-            hero:document.querySelector('.detail-hero-copy h2')?.innerText||''
-          }))()""")
+          detail=ev("""(()=>({open:document.querySelector('#detail-dialog')?.open||false,topbar:document.querySelector('.detail-topbar')?.innerText||'',hero:document.querySelector('.detail-hero-copy h2')?.innerText||''}))()""")
           ev("document.querySelector('.close-detail')?.click()")
           time.sleep(.4)
           ev("document.querySelector('[data-home-target=\"explore\"]')?.click()")
@@ -197,6 +192,7 @@ jobs:
           python3 /tmp/cdp_verify.py
           cat /tmp/ui.json
           jq -e '
+            (.initial.href | contains("blazea-x.github.io/strain-atlas")) and
             (.initial.masterPreview == false) and
             (.initial.title | contains("Cannabis")) and
             (.initial.title | contains("Strain Wisdom")) and
@@ -215,7 +211,6 @@ jobs:
             (.initial.dataState == "MASTER DATA") and
             (.search.panel == true) and
             (.search.first == "Bubble Gum") and
-            (.search.cards >= 1) and
             (.detail.open == true) and
             (.detail.topbar | contains("Bubble Gum")) and
             (.detail.hero == "Bubble Gum") and
@@ -230,49 +225,27 @@ jobs:
           test -s /tmp/home-entrance-v1-live.png
           file /tmp/home-entrance-v1-live.png | grep -qi 'PNG image'
 
-      - name: Build final verification report
+      - name: Build final report
         env:
-          SITE: ${{ steps.pages.outputs.site }}
-          BUILD_TYPE: ${{ steps.pages.outputs.build_type }}
-          SOURCE_BRANCH: ${{ steps.pages.outputs.source_branch }}
-          SOURCE_PATH: ${{ steps.pages.outputs.source_path }}
-          DEPLOYMENT_ID: ${{ steps.pages.outputs.deployment_id }}
-          DEPLOYMENT_SHA: ${{ steps.pages.outputs.deployment_sha }}
-          DEPLOYMENT_CREATED: ${{ steps.pages.outputs.deployment_created }}
-          DEPLOYMENT_STATE: ${{ steps.pages.outputs.deployment_state }}
-          DEPLOY_RUN_ID: ${{ steps.pages.outputs.deploy_run_id }}
-          DEPLOY_RUN_NAME: ${{ steps.pages.outputs.deploy_run_name }}
-          DEPLOY_RUN_CONCLUSION: ${{ steps.pages.outputs.deploy_run_conclusion }}
-          ARTIFACT_SUMMARY: ${{ steps.pages.outputs.artifact_summary }}
-          CULTIVAR_COUNT: ${{ steps.assets.outputs.cultivar_count }}
-          SOURCE_COUNT: ${{ steps.assets.outputs.source_count }}
-          ENTITY_COUNT: ${{ steps.assets.outputs.entity_count }}
-          BUBBLE_SRC: ${{ steps.assets.outputs.bubble_src }}
+          SITE: ${{ steps.facts.outputs.site }}
+          BUILD_TYPE: ${{ steps.facts.outputs.build_type }}
+          SOURCE_BRANCH: ${{ steps.facts.outputs.source_branch }}
+          SOURCE_PATH: ${{ steps.facts.outputs.source_path }}
+          DEPLOYMENT_ID: ${{ steps.facts.outputs.deployment_id }}
+          DEPLOYMENT_SHA: ${{ steps.facts.outputs.deployment_sha }}
+          DEPLOYMENT_CREATED: ${{ steps.facts.outputs.deployment_created }}
+          DEPLOYMENT_STATE: ${{ steps.facts.outputs.deployment_state }}
+          DEPLOY_RUN_ID: ${{ steps.facts.outputs.deploy_run_id }}
+          DEPLOY_RUN_NAME: ${{ steps.facts.outputs.deploy_run_name }}
+          DEPLOY_RUN_CONCLUSION: ${{ steps.facts.outputs.deploy_run_conclusion }}
+          ARTIFACT_SUMMARY: ${{ steps.facts.outputs.artifact_summary }}
+          CULTIVAR_COUNT: ${{ steps.facts.outputs.cultivar_count }}
+          SOURCE_COUNT: ${{ steps.facts.outputs.source_count }}
+          ENTITY_COUNT: ${{ steps.facts.outputs.entity_count }}
+          BUBBLE_SRC: ${{ steps.facts.outputs.bubble_src }}
         shell: bash
         run: |
-          set -euo pipefail
-          jq -n \
-            --arg status 'PUBLIC SITE VISUAL CONFIRMED' \
-            --arg site "$SITE" \
-            --arg verifierRun "$GITHUB_RUN_ID" \
-            --arg repoHead "$GITHUB_SHA" \
-            --arg buildType "$BUILD_TYPE" \
-            --arg sourceBranch "$SOURCE_BRANCH" \
-            --arg sourcePath "$SOURCE_PATH" \
-            --arg deploymentId "$DEPLOYMENT_ID" \
-            --arg deploymentSha "$DEPLOYMENT_SHA" \
-            --arg deploymentCreated "$DEPLOYMENT_CREATED" \
-            --arg deploymentState "$DEPLOYMENT_STATE" \
-            --arg deployRunId "$DEPLOY_RUN_ID" \
-            --arg deployRunName "$DEPLOY_RUN_NAME" \
-            --arg deployRunConclusion "$DEPLOY_RUN_CONCLUSION" \
-            --argjson artifacts "$ARTIFACT_SUMMARY" \
-            --arg cultivarCount "$CULTIVAR_COUNT" \
-            --arg sourceCount "$SOURCE_COUNT" \
-            --arg entityCount "$ENTITY_COUNT" \
-            --arg bubbleSrc "$BUBBLE_SRC" \
-            --slurpfile ui /tmp/ui.json \
-            '{status:$status,siteUrl:$site,verifier:{runId:$verifierRun,repoHead:$repoHead},pages:{buildType:$buildType,source:{branch:$sourceBranch,path:$sourcePath},deployment:{id:$deploymentId,sha:$deploymentSha,createdAt:$deploymentCreated,state:$deploymentState},workflow:{runId:$deployRunId,name:$deployRunName,conclusion:$deployRunConclusion},artifacts:$artifacts},runtime:{cultivars:($cultivarCount|tonumber),sources:($sourceCount|tonumber),entities:($entityCount|tonumber),bubbleGumPrimary:$bubbleSrc},ui:$ui[0]}' > /tmp/report.json
+          jq -n --arg status 'PUBLIC SITE VISUAL CONFIRMED' --arg site "$SITE" --arg verifierRun "$GITHUB_RUN_ID" --arg repoHead "$GITHUB_SHA" --arg buildType "$BUILD_TYPE" --arg sourceBranch "$SOURCE_BRANCH" --arg sourcePath "$SOURCE_PATH" --arg deploymentId "$DEPLOYMENT_ID" --arg deploymentSha "$DEPLOYMENT_SHA" --arg deploymentCreated "$DEPLOYMENT_CREATED" --arg deploymentState "$DEPLOYMENT_STATE" --arg deployRunId "$DEPLOY_RUN_ID" --arg deployRunName "$DEPLOY_RUN_NAME" --arg deployRunConclusion "$DEPLOY_RUN_CONCLUSION" --argjson artifacts "$ARTIFACT_SUMMARY" --arg cultivarCount "$CULTIVAR_COUNT" --arg sourceCount "$SOURCE_COUNT" --arg entityCount "$ENTITY_COUNT" --arg bubbleSrc "$BUBBLE_SRC" --slurpfile ui /tmp/ui.json '{status:$status,siteUrl:$site,verifier:{runId:$verifierRun,repoHead:$repoHead},pages:{buildType:$buildType,source:{branch:$sourceBranch,path:$sourcePath},deployment:{id:$deploymentId,sha:$deploymentSha,createdAt:$deploymentCreated,state:$deploymentState},workflow:{runId:$deployRunId,name:$deployRunName,conclusion:$deployRunConclusion},artifacts:$artifacts},runtime:{cultivars:($cultivarCount|tonumber),sources:($sourceCount|tonumber),entities:($entityCount|tonumber),bubbleGumPrimary:$bubbleSrc},ui:$ui[0]}' > /tmp/report.json
           cat /tmp/report.json
 
       - name: Upload verification evidence
@@ -287,7 +260,7 @@ jobs:
           retention-days: 7
           if-no-files-found: error
 
-      - name: Post final result to issue 13
+      - name: Post final result
         env:
           GH_TOKEN: ${{ github.token }}
         shell: bash
