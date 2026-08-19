@@ -6,23 +6,51 @@ on:
 
 permissions:
   actions: read
+  contents: read
+  deployments: read
   issues: write
+  pages: read
 
 jobs:
   ping:
     if: github.event.issue.number == 13
     runs-on: ubuntu-latest
     steps:
-      - name: Mark verifier event start and inspect Actions registration
+      - name: Probe actual Pages source and deployment
         env:
           GH_TOKEN: ${{ github.token }}
         shell: bash
         run: |
           set -euo pipefail
-          sleep 3
-          runs="$(gh api "repos/$GITHUB_REPOSITORY/actions/runs?event=issues&per_page=30")"
-          run_summary="$(jq -r --arg sha "$GITHUB_SHA" '[.workflow_runs[] | select(.head_sha == $sha) | {id,name,status,conclusion,head_sha,event,path}]' <<<"$runs")"
+          pages="$(gh api "repos/$GITHUB_REPOSITORY/pages")"
+          deployments="$(gh api "repos/$GITHUB_REPOSITORY/deployments?environment=github-pages&per_page=10")"
+          latest_id="$(jq -r '.[0].id // empty' <<<"$deployments")"
+          latest_sha="$(jq -r '.[0].sha // empty' <<<"$deployments")"
+          latest_created="$(jq -r '.[0].created_at // empty' <<<"$deployments")"
+          latest_state=""
+          if [[ -n "$latest_id" ]]; then
+            latest_state="$(gh api "repos/$GITHUB_REPOSITORY/deployments/$latest_id/statuses?per_page=20" --jq '.[0].state // "unknown"')"
+          fi
+          runs="$(gh api "repos/$GITHUB_REPOSITORY/actions/runs?per_page=100")"
+          pages_runs="$(jq -r '[.workflow_runs[] | select(((.path // "") | contains("pages-build-deployment")) or ((.name // "") | ascii_downcase | contains("pages build"))) | {id,name,path,event,status,conclusion,head_sha,created_at}] | .[:5]' <<<"$runs")"
+          artifacts='[]'
+          pages_run_id="$(jq -r '.[0].id // empty' <<<"$pages_runs")"
+          if [[ -n "$pages_run_id" ]]; then
+            artifacts="$(gh api "repos/$GITHUB_REPOSITORY/actions/runs/$pages_run_id/artifacts?per_page=100" --jq '[.artifacts[] | {id,name,size_in_bytes,expired,created_at}]')"
+          fi
           workflows="$(gh api "repos/$GITHUB_REPOSITORY/actions/workflows?per_page=100")"
-          workflow_summary="$(jq -r '[.workflows[] | select((.path // "") | contains("home-entrance-v1") or contains("home-v1-event-ping")) | {id,name,path,state}]' <<<"$workflows")"
-          body="$(printf 'HOME V1 VERIFY STARTED | run=%s | sha=%s\n\nIssue-event runs:\n```json\n%s\n```\n\nRegistered HOME workflows:\n```json\n%s\n```' "$GITHUB_RUN_ID" "$GITHUB_SHA" "$run_summary" "$workflow_summary")"
+          home_workflows="$(jq -r '[.workflows[] | select((.path // "") | contains("home-entrance-v1") or contains("home-v1-event-ping")) | {id,name,path,state}]' <<<"$workflows")"
+          report="$(jq -n \
+            --arg run "$GITHUB_RUN_ID" \
+            --arg sha "$GITHUB_SHA" \
+            --arg latestId "$latest_id" \
+            --arg latestSha "$latest_sha" \
+            --arg latestCreated "$latest_created" \
+            --arg latestState "$latest_state" \
+            --argjson pages "$pages" \
+            --argjson pagesRuns "$pages_runs" \
+            --argjson artifacts "$artifacts" \
+            --argjson homeWorkflows "$home_workflows" \
+            '{probeRun:$run,probeSha:$sha,pages:$pages,latestDeployment:{id:$latestId,sha:$latestSha,createdAt:$latestCreated,state:$latestState},pagesRuns:$pagesRuns,pagesRunArtifacts:$artifacts,registeredHomeWorkflows:$homeWorkflows}')"
+          body="$(printf 'HOME V1 PAGES PROBE\n\n```json\n%s\n```' "$report")"
           gh api -X POST "repos/$GITHUB_REPOSITORY/issues/13/comments" -f body="$body" >/dev/null
