@@ -1,4 +1,4 @@
-name: Display Repair Observer - Dr Grinspoon + Malawi
+name: Display Repair Observer - Dr Grinspoon Generation
 
 on:
   push:
@@ -16,34 +16,25 @@ jobs:
     timeout-minutes: 30
     env:
       GH_TOKEN: ${{ github.token }}
-      PREFLIGHT_HEAD: 135e602642d1b9ebd1d1a5bf789a123e37aefb1d
-      WORKFLOW_FILE: display-repair-preflight-dr-grinspoon-malawi.yml
+      TARGET_HEAD: 66559c32eb73bd59e5e95f8f24a4a24eff7d4714
+      WORKFLOW_FILE: display-repair-generate-dr-grinspoon.yml
     steps:
       - uses: actions/checkout@v4
         with:
           ref: master-migration
           fetch-depth: 0
-
-      - name: Wait for exact preflight run and collect result
+      - name: Wait for exact generation run and record metadata
         shell: bash
         run: |
           set -euo pipefail
           python - <<'PY'
-          import io, json, os, time, urllib.error, urllib.request, zipfile
+          import json, os, time, urllib.request
           from pathlib import Path
-
-          repo=os.environ['GITHUB_REPOSITORY']
-          token=os.environ['GH_TOKEN']
-          target=os.environ['PREFLIGHT_HEAD']
-          workflow=os.environ['WORKFLOW_FILE']
-          api='https://api.github.com'
-          headers={'Authorization':f'Bearer {token}','Accept':'application/vnd.github+json','X-GitHub-Api-Version':'2022-11-28'}
+          repo=os.environ['GITHUB_REPOSITORY']; token=os.environ['GH_TOKEN']; target=os.environ['TARGET_HEAD']; workflow=os.environ['WORKFLOW_FILE']
+          api='https://api.github.com'; headers={'Authorization':f'Bearer {token}','Accept':'application/vnd.github+json','X-GitHub-Api-Version':'2022-11-28'}
           def get_json(url):
               req=urllib.request.Request(url,headers=headers)
-              with urllib.request.urlopen(req,timeout=30) as r:
-                  return json.load(r)
-
-          out=Path('.display-repair-staging'); out.mkdir(exist_ok=True)
+              with urllib.request.urlopen(req,timeout=30) as r: return json.load(r)
           run=None
           for _ in range(120):
               data=get_json(f'{api}/repos/{repo}/actions/workflows/{workflow}/runs?branch=master-migration&per_page=20')
@@ -52,34 +43,24 @@ jobs:
                   run=matches[0]
                   if run.get('status')=='completed': break
               time.sleep(10)
+          out=Path('.display-repair-staging'); out.mkdir(exist_ok=True)
           if not run or run.get('status')!='completed':
-              (out/'observer.json').write_text(json.dumps({'status':'OBSERVER_TIMEOUT','preflightHeadSha':target},indent=2)+'\n')
-              raise SystemExit(0)
-
-          marker={'status':'PREFLIGHT_COMPLETED','preflightRunId':run['id'],'preflightRunConclusion':run.get('conclusion'),'preflightHeadSha':run.get('head_sha')}
-          artifacts=get_json(f'{api}/repos/{repo}/actions/runs/{run["id"]}/artifacts')
-          marker['artifactCount']=len(artifacts.get('artifacts',[]))
-          if artifacts.get('artifacts'):
-              art=artifacts['artifacts'][0]
-              marker.update({'artifactId':art['id'],'artifactName':art['name']})
-              try:
-                  req=urllib.request.Request(f'{api}/repos/{repo}/actions/artifacts/{art["id"]}/zip',headers=headers)
-                  with urllib.request.urlopen(req,timeout=60) as r:
-                      zipfile.ZipFile(io.BytesIO(r.read())).extractall(out)
-              except Exception as e:
-                  marker['artifactDownloadError']=type(e).__name__
-          (out/'observer.json').write_text(json.dumps(marker,indent=2)+'\n')
+              marker={'status':'OBSERVER_TIMEOUT','targetHead':target}
+          else:
+              arts=get_json(f'{api}/repos/{repo}/actions/runs/{run["id"]}/artifacts').get('artifacts',[])
+              marker={'status':'GENERATION_COMPLETED','runId':run['id'],'conclusion':run.get('conclusion'),'headSha':run.get('head_sha'),'artifactCount':len(arts)}
+              if arts:
+                  marker.update({'artifactId':arts[0]['id'],'artifactName':arts[0]['name']})
+          (out/'dr-generation-observer.json').write_text(json.dumps(marker,indent=2)+'\n')
           print(json.dumps(marker))
           PY
-
-      - name: Commit collected metadata/artifact for inspection
+      - name: Commit observer metadata
         shell: bash
         run: |
           set -euo pipefail
           git config user.name strain-atlas-display-repair
           git config user.email actions@users.noreply.github.com
-          git add .display-repair-staging
-          if git diff --cached --quiet; then exit 0; fi
-          git commit -m "[DISPLAY REPAIR] Stage preflight result"
+          git add .display-repair-staging/dr-generation-observer.json
+          git commit -m "[DISPLAY REPAIR] Record Dr Grinspoon generation run"
           git pull --rebase origin master-migration
           git push origin HEAD:master-migration
