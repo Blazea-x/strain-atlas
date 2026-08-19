@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "fixture": "ONE_CLICK_PRODUCTION_V1_STEP_1",
+  "startWorkflowRunId": "fixture-1001",
+  "sourceHead": "1111111111111111111111111111111111111111",
+  "mainHead": "2222222222222222222222222222222222222222",
+  "productionRunId": "content-production-start-fixture-1001",
+  "reviewBatchId": "production-review-fixture-1001",
+  "quality": "medium",
+  "selected": [
+    {"strainId":"fixture-a","cultivarName":"Fixture A","candidateStatus":"PASS","aiQaStatus":"PASS"},
+    {"strainId":"fixture-b","cultivarName":"Fixture B","candidateStatus":"PASS","aiQaStatus":"PASS"},
+    {"strainId":"fixture-c","cultivarName":"Fixture C","candidateStatus":"API_FAIL","aiQaStatus":"NOT_RUN"},
+    {"strainId":"fixture-d","cultivarName":"Fixture D","candidateStatus":"PASS","aiQaStatus":"FAIL"},
+    {"strainId":"fixture-e","cultivarName":"Fixture E","candidateStatus":"PASS","aiQaStatus":"PASS"}
+  ]
+}
