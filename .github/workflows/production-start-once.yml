@@ -1,19 +1,41 @@
-name: PRODUCTION START ONCE
+name: PRODUCTION START ONCE GUARDED PR
 
 on:
-  push:
-    branches:
-      - main
+  pull_request:
+    types: [opened, reopened]
     paths:
-      - ".github/workflows/production-start-once.yml"
+      - .github/production-triggers/next-production-five-pr-v1
 
 jobs:
-  launch:
-    if: startsWith(github.event.head_commit.message, 'Run next production five')
+  dispatch:
+    name: Guard and dispatch next production five
+    runs-on: ubuntu-latest
     permissions:
-      contents: write
-    uses: Blazea-x/strain-atlas/.github/workflows/production-start-v1.yml@master-migration
-    with:
-      batch_size: "5"
-      generate_images: true
-    secrets: inherit
+      actions: write
+      contents: read
+    steps:
+      - name: Guard against duplicate production and dispatch
+        env:
+          GH_TOKEN: ${{ github.token }}
+          EXPECTED_MASTER_HEAD: 8b43f9d261c193b39a56b0ab9aa4f85c0bb2d59c
+        run: |
+          set -euo pipefail
+          current_master="$(gh api "repos/$GITHUB_REPOSITORY/git/ref/heads/master-migration" --jq '.object.sha')"
+          echo "expected_master=$EXPECTED_MASTER_HEAD"
+          echo "current_master=$current_master"
+          echo "recent production runs:"
+          gh run list --repo "$GITHUB_REPOSITORY" --workflow production-start-v1.yml --limit 10 --json databaseId,event,status,conclusion,headBranch,createdAt --jq '.[] | [.databaseId,.event,.status,(.conclusion // ""),.headBranch,.createdAt] | @tsv' || true
+          active_count="$(gh run list --repo "$GITHUB_REPOSITORY" --workflow production-start-v1.yml --limit 20 --json status --jq '[.[] | select(.status == "queued" or .status == "in_progress" or .status == "waiting" or .status == "pending" or .status == "requested")] | length')"
+          if [ "$current_master" != "$EXPECTED_MASTER_HEAD" ]; then
+            echo "DISPATCH_SKIPPED_MASTER_ADVANCED"
+            exit 0
+          fi
+          if [ "$active_count" != "0" ]; then
+            echo "DISPATCH_SKIPPED_ACTIVE_PRODUCTION_RUN count=$active_count"
+            exit 0
+          fi
+          gh workflow run production-start-v1.yml --repo "$GITHUB_REPOSITORY" --ref master-migration -f batch_size=5 -f generate_images=true
+          echo "DISPATCH_SENT"
+          sleep 5
+          echo "production runs after dispatch:"
+          gh run list --repo "$GITHUB_REPOSITORY" --workflow production-start-v1.yml --limit 10 --json databaseId,event,status,conclusion,headBranch,createdAt --jq '.[] | [.databaseId,.event,.status,(.conclusion // ""),.headBranch,.createdAt] | @tsv'
