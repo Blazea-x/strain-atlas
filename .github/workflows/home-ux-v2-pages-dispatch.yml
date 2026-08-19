@@ -48,6 +48,9 @@ jobs:
           json.dump(d,open(p,'w'),indent=2)
           PY
           echo "WATCH_STATUS=$watch_status" >> "$GITHUB_ENV"
+          if [ "$watch_status" -eq 0 ]; then
+            gh workflow run home-ux-v2-detail-e2e.yml --ref main
+          fi
 
       - name: Persist deployment result
         if: always()
@@ -70,4 +73,4 @@ jobs:
         if: env.WATCH_STATUS != '0'
         run: exit 1
 
-# HOME UX V2 deploy retry after detail race fix
+# Dispatch final detail E2E after successful Pages deployment
