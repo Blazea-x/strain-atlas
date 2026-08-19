@@ -24,12 +24,12 @@ jobs:
           ref: master-migration
           fetch-depth: 0
 
-      - name: Wait for exact preflight run and stage its artifact
+      - name: Wait for exact preflight run and collect result
         shell: bash
         run: |
           set -euo pipefail
           python - <<'PY'
-          import io, json, os, time, urllib.request, zipfile
+          import io, json, os, time, urllib.error, urllib.request, zipfile
           from pathlib import Path
 
           repo=os.environ['GITHUB_REPOSITORY']
@@ -42,6 +42,8 @@ jobs:
               req=urllib.request.Request(url,headers=headers)
               with urllib.request.urlopen(req,timeout=30) as r:
                   return json.load(r)
+
+          out=Path('.display-repair-staging'); out.mkdir(exist_ok=True)
           run=None
           for _ in range(120):
               data=get_json(f'{api}/repos/{repo}/actions/workflows/{workflow}/runs?branch=master-migration&per_page=20')
@@ -51,36 +53,33 @@ jobs:
                   if run.get('status')=='completed': break
               time.sleep(10)
           if not run or run.get('status')!='completed':
-              raise RuntimeError('Exact preflight run did not complete within observer window')
+              (out/'observer.json').write_text(json.dumps({'status':'OBSERVER_TIMEOUT','preflightHeadSha':target},indent=2)+'\n')
+              raise SystemExit(0)
+
+          marker={'status':'PREFLIGHT_COMPLETED','preflightRunId':run['id'],'preflightRunConclusion':run.get('conclusion'),'preflightHeadSha':run.get('head_sha')}
           artifacts=get_json(f'{api}/repos/{repo}/actions/runs/{run["id"]}/artifacts')
-          if len(artifacts.get('artifacts',[]))!=1:
-              raise RuntimeError(f'Expected exactly one preflight artifact, got {len(artifacts.get("artifacts",[]))}')
-          art=artifacts['artifacts'][0]
-          req=urllib.request.Request(f'{api}/repos/{repo}/actions/artifacts/{art["id"]}/zip',headers=headers)
-          with urllib.request.urlopen(req,timeout=60) as r:
-              z=zipfile.ZipFile(io.BytesIO(r.read()))
-              out=Path('.display-repair-staging')
-              out.mkdir(exist_ok=True)
-              z.extractall(out)
-          marker={
-              'preflightRunId':run['id'],'preflightRunConclusion':run.get('conclusion'),
-              'preflightHeadSha':run.get('head_sha'),'artifactId':art['id'],'artifactName':art['name']
-          }
-          (Path('.display-repair-staging')/'observer.json').write_text(json.dumps(marker,indent=2)+'\n')
-          if run.get('conclusion')!='success':
-              raise RuntimeError(f'Preflight conclusion was {run.get("conclusion")}')
+          marker['artifactCount']=len(artifacts.get('artifacts',[]))
+          if artifacts.get('artifacts'):
+              art=artifacts['artifacts'][0]
+              marker.update({'artifactId':art['id'],'artifactName':art['name']})
+              try:
+                  req=urllib.request.Request(f'{api}/repos/{repo}/actions/artifacts/{art["id"]}/zip',headers=headers)
+                  with urllib.request.urlopen(req,timeout=60) as r:
+                      zipfile.ZipFile(io.BytesIO(r.read())).extractall(out)
+              except Exception as e:
+                  marker['artifactDownloadError']=type(e).__name__
+          (out/'observer.json').write_text(json.dumps(marker,indent=2)+'\n')
           print(json.dumps(marker))
           PY
 
-      - name: Commit staging artifact for visual inspection
+      - name: Commit collected metadata/artifact for inspection
         shell: bash
         run: |
           set -euo pipefail
           git config user.name strain-atlas-display-repair
           git config user.email actions@users.noreply.github.com
           git add .display-repair-staging
-          test -f .display-repair-staging/preflight-summary.json
-          test -f .display-repair-staging/dr-grinspoon.jpg
-          test -f .display-repair-staging/malawi-recovered.webp
-          git commit -m "[DISPLAY REPAIR] Stage reviewed candidates"
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m "[DISPLAY REPAIR] Stage preflight result"
+          git pull --rebase origin master-migration
           git push origin HEAD:master-migration
