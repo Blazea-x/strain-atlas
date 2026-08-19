@@ -62,11 +62,11 @@ jobs:
       - name: IMAGE backlog read-only smoke check
         run: node scripts/list-image-backlog.mjs --json
 
-      - name: CONTENT PRODUCTION V1 read-only dry run
-        run: node scripts/audit-content-production.mjs --main-dir=.content-production-main-audit
-
       - name: Build publication-filtered runtime catalog and current display data
         run: node scripts/build-runtime-data.mjs
+
+      - name: CONTENT PRODUCTION V1 read-only dry run
+        run: node scripts/audit-content-production.mjs --main-dir=.content-production-main-audit
 
       - name: Commit generated runtime and display data
         run: |
