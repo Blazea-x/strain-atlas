@@ -23,7 +23,7 @@ jobs:
     env:
       RUN_ID: content-production-20260818T060700Z-01
       APPROVED_SOURCE_SHA256: 6835045b34ea5e03c0a82e3d38213ff83ca2ea0a020c1528da9762192fffa2bb
-      EXPECTED_PARENT: 9905950f23b36a470d3f981b5dc311d515cdc7db
+      EXPECTED_PARENT: a12c3d5b82db74a9ccaf6baa8333b57b430381f6
       RECOVERY_WORKFLOW: .github/workflows/durban-provenance-recovery-pr.yml
       GH_TOKEN: ${{ github.token }}
     steps:
@@ -58,24 +58,26 @@ jobs:
           block=src[start:end].splitlines()
           code='\n'.join(line[10:] if line.startswith('          ') else line for line in block)+'\n'
           code=code.replace('&event=push&per_page=100','&per_page=100')
-          old="""matches=[x for x in workflow_payload.get('workflow_runs',[]) if x.get('head_sha')==source_add_commit and x.get('conclusion')=='success']
-if len(matches)!=1: raise RuntimeError(f'SAFE-STOP: expected one successful Inbox workflow run for upload commit, found {len(matches)}')
-"""
-          new="""direct_matches=[x for x in workflow_payload.get('workflow_runs',[]) if x.get('head_sha')==source_add_commit and x.get('conclusion')=='success']
-if len(direct_matches)==1:
-    matches=direct_matches
-else:
-    matches=[]
-    signature=f'PASS durban-poison.jpg -> {PRIMARY_PATH}'
-    for candidate in workflow_payload.get('workflow_runs',[]):
-        if candidate.get('conclusion')!='success':
-            continue
-        logp=sh(['gh','run','view',str(candidate['id']),'--repo',os.environ['GITHUB_REPOSITORY'],'--log'],check=False)
-        combined=(logp.stdout or '')+'\\n'+(logp.stderr or '')
-        if signature in combined:
-            matches.append(candidate)
-if len(matches)!=1: raise RuntimeError(f'SAFE-STOP: expected one successful Inbox workflow run containing Durban processing evidence, found {len(matches)}')
-"""
+          old=(
+              "matches=[x for x in workflow_payload.get('workflow_runs',[]) if x.get('head_sha')==source_add_commit and x.get('conclusion')=='success']\n"
+              "if len(matches)!=1: raise RuntimeError(f'SAFE-STOP: expected one successful Inbox workflow run for upload commit, found {len(matches)}')\n"
+          )
+          new=(
+              "direct_matches=[x for x in workflow_payload.get('workflow_runs',[]) if x.get('head_sha')==source_add_commit and x.get('conclusion')=='success']\n"
+              "if len(direct_matches)==1:\n"
+              "    matches=direct_matches\n"
+              "else:\n"
+              "    matches=[]\n"
+              "    signature=f'PASS durban-poison.jpg -> {PRIMARY_PATH}'\n"
+              "    for candidate in workflow_payload.get('workflow_runs',[]):\n"
+              "        if candidate.get('conclusion')!='success':\n"
+              "            continue\n"
+              "        logp=sh(['gh','run','view',str(candidate['id']),'--repo',os.environ['GITHUB_REPOSITORY'],'--log'],check=False)\n"
+              "        combined=(logp.stdout or '')+'\\n'+(logp.stderr or '')\n"
+              "        if signature in combined:\n"
+              "            matches.append(candidate)\n"
+              "if len(matches)!=1: raise RuntimeError(f'SAFE-STOP: expected one successful Inbox workflow run containing Durban processing evidence, found {len(matches)}')\n"
+          )
           if old not in code:
               raise SystemExit('recovery patch anchor missing')
           code=code.replace(old,new)
