@@ -1,0 +1,4 @@
+OFFICIAL_VISUAL_EVIDENCE_V1
+batch_size=5
+generate_images=true
+expected_master_head=96acc9ad253bca601ec210ba8e78223af316a081
