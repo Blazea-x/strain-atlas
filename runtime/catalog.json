@@ -1,14 +1,14 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-19T08:11:03.135Z",
+  "generatedAt": "2026-08-19T09:08:21.371Z",
   "sourceOfTruth": {
     "cultivars": "strains/<id>/strain.json",
     "sources": "sources/*.json",
     "entities": "entities/*.json"
   },
   "counts": {
-    "cultivars": 25,
-    "sources": 45,
+    "cultivars": 20,
+    "sources": 40,
     "entities": 11
   },
   "explore": {
@@ -38,11 +38,6 @@
       "wedding-cake"
     ],
     "unclassified": [
-      "bubba-kush-s1",
-      "california-orange-s1",
-      "chemdog-91-s1",
-      "gorilla-glue-4-s1",
-      "jager-s1",
       "wedding-cake-s1"
     ]
   },
@@ -159,72 +154,6 @@
       ],
       "checkedAt": "2026-08-17",
       "updatedAt": "2026-08-17"
-    },
-    {
-      "schemaVersion": 1,
-      "id": "bubba-kush-s1",
-      "status": "review",
-      "name": "Bubba Kush S1",
-      "jp": null,
-      "aliases": [],
-      "classification": {
-        "type": "unknown"
-      },
-      "breeding": {
-        "generation": "S1",
-        "method": "selfed"
-      },
-      "lineage": {
-        "status": "confirmed",
-        "confidence": "A",
-        "basis": "breederOfficial",
-        "sourceRefs": [
-          "humboldt-csi-bubba-kush-s1"
-        ],
-        "display": "Bubba Kush × Bubba Kush",
-        "parents": [
-          "Bubba Kush"
-        ],
-        "note": "Humboldt CSI's official Bubba Kush S1 page lists the cultivar as Bubba Kush × Bubba Kush. Together with the official S1 designation, this is treated as a selfed S1 line. No unstated ancestry is copied from the parent cultivar."
-      },
-      "relations": [
-        {
-          "entityId": "humboldt-csi",
-          "roles": [
-            "breeder",
-            "seedCompany"
-          ],
-          "status": "confirmed",
-          "confidence": "A",
-          "basis": "breederOfficial",
-          "sourceRefs": [
-            "humboldt-csi-bubba-kush-s1"
-          ]
-        }
-      ],
-      "aromas": {
-        "status": "unknown",
-        "items": [],
-        "note": "The official Bubba Kush S1 product page does not provide cultivar-level aroma descriptors; parent-cultivar or customer-review aromas are not generalized to this S1 line."
-      },
-      "terpenes": {
-        "status": "unknown",
-        "items": [],
-        "note": "The official Bubba Kush S1 product page does not provide a cultivar-specific terpene profile or lot COA."
-      },
-      "origin": {
-        "status": "unknown",
-        "text": "",
-        "note": "The official Bubba Kush S1 product page does not state the S1 line's exact creation location; no inferred location is added."
-      },
-      "history": {
-        "status": "unknown",
-        "text": "",
-        "note": "The official Bubba Kush S1 product page does not state a cultivar-specific release date or development history; no secondary history is imported."
-      },
-      "visuals": [],
-      "checkedAt": "2026-08-19",
-      "updatedAt": "2026-08-19"
     },
     {
       "schemaVersion": 1,
@@ -451,72 +380,6 @@
     },
     {
       "schemaVersion": 1,
-      "id": "california-orange-s1",
-      "status": "review",
-      "name": "California Orange S1",
-      "jp": null,
-      "aliases": [],
-      "classification": {
-        "type": "unknown"
-      },
-      "breeding": {
-        "generation": "S1",
-        "method": "selfed"
-      },
-      "lineage": {
-        "status": "confirmed",
-        "confidence": "A",
-        "basis": "breederOfficial",
-        "sourceRefs": [
-          "humboldt-csi-california-orange-s1"
-        ],
-        "display": "California Orange (AE77 cut) × California Orange (AE77 cut)",
-        "parents": [
-          "California Orange (AE77 cut)"
-        ],
-        "note": "Humboldt CSI's official California Orange S1 page lists the cultivar as California Orange (AE77 cut) × California Orange (AE77 cut). Together with the official S1 designation, this is treated as a selfed S1 line. No unstated ancestry is copied from the parent cultivar."
-      },
-      "relations": [
-        {
-          "entityId": "humboldt-csi",
-          "roles": [
-            "breeder",
-            "seedCompany"
-          ],
-          "status": "confirmed",
-          "confidence": "A",
-          "basis": "breederOfficial",
-          "sourceRefs": [
-            "humboldt-csi-california-orange-s1"
-          ]
-        }
-      ],
-      "aromas": {
-        "status": "unknown",
-        "items": [],
-        "note": "The official California Orange S1 product page does not provide cultivar-level aroma descriptors; parent-cultivar or customer-review aromas are not generalized to this S1 line."
-      },
-      "terpenes": {
-        "status": "unknown",
-        "items": [],
-        "note": "The official California Orange S1 product page does not provide a cultivar-specific terpene profile or lot COA."
-      },
-      "origin": {
-        "status": "unknown",
-        "text": "",
-        "note": "The official California Orange S1 product page does not state the S1 line's exact creation location; no inferred location is added."
-      },
-      "history": {
-        "status": "unknown",
-        "text": "",
-        "note": "The official California Orange S1 product page does not state a cultivar-specific release date or development history; no secondary history is imported."
-      },
-      "visuals": [],
-      "checkedAt": "2026-08-19",
-      "updatedAt": "2026-08-19"
-    },
-    {
-      "schemaVersion": 1,
       "id": "cataract-kush",
       "status": "review",
       "name": "Cataract Kush",
@@ -620,72 +483,6 @@
       ],
       "checkedAt": "2026-08-17",
       "updatedAt": "2026-08-17"
-    },
-    {
-      "schemaVersion": 1,
-      "id": "chemdog-91-s1",
-      "status": "review",
-      "name": "Chemdog ’91 S1",
-      "jp": null,
-      "aliases": [],
-      "classification": {
-        "type": "unknown"
-      },
-      "breeding": {
-        "generation": "S1",
-        "method": "selfed"
-      },
-      "lineage": {
-        "status": "confirmed",
-        "confidence": "A",
-        "basis": "breederOfficial",
-        "sourceRefs": [
-          "humboldt-csi-chemdog-91-s1"
-        ],
-        "display": "Chemdog ’91 × Chemdog ’91",
-        "parents": [
-          "Chemdog ’91"
-        ],
-        "note": "Humboldt CSI's official Chemdog ’91 S1 page lists the cultivar as Chemdog ’91 × Chemdog ’91. Together with the official S1 designation, this is treated as a selfed S1 line. No unstated ancestry is copied from the parent cultivar."
-      },
-      "relations": [
-        {
-          "entityId": "humboldt-csi",
-          "roles": [
-            "breeder",
-            "seedCompany"
-          ],
-          "status": "confirmed",
-          "confidence": "A",
-          "basis": "breederOfficial",
-          "sourceRefs": [
-            "humboldt-csi-chemdog-91-s1"
-          ]
-        }
-      ],
-      "aromas": {
-        "status": "unknown",
-        "items": [],
-        "note": "The official Chemdog ’91 S1 product page does not provide cultivar-level aroma descriptors; parent-cultivar or customer-review aromas are not generalized to this S1 line."
-      },
-      "terpenes": {
-        "status": "unknown",
-        "items": [],
-        "note": "The official Chemdog ’91 S1 product page does not provide a cultivar-specific terpene profile or lot COA."
-      },
-      "origin": {
-        "status": "unknown",
-        "text": "",
-        "note": "The official Chemdog ’91 S1 product page does not state the S1 line's exact creation location; no inferred location is added."
-      },
-      "history": {
-        "status": "unknown",
-        "text": "",
-        "note": "The official Chemdog ’91 S1 product page does not state a cultivar-specific release date or development history; no secondary history is imported."
-      },
-      "visuals": [],
-      "checkedAt": "2026-08-19",
-      "updatedAt": "2026-08-19"
     },
     {
       "schemaVersion": 1,
@@ -1065,143 +862,6 @@
       ],
       "checkedAt": "2026-08-17",
       "updatedAt": "2026-08-17"
-    },
-    {
-      "schemaVersion": 1,
-      "id": "gorilla-glue-4-s1",
-      "status": "review",
-      "name": "Gorilla Glue 4 S1",
-      "jp": null,
-      "aliases": [],
-      "classification": {
-        "type": "unknown"
-      },
-      "breeding": {
-        "generation": "S1",
-        "method": "selfed"
-      },
-      "lineage": {
-        "status": "confirmed",
-        "confidence": "A",
-        "basis": "breederOfficial",
-        "sourceRefs": [
-          "humboldt-csi-gorilla-glue-4-s1"
-        ],
-        "display": "Gorilla Glue 4 × Gorilla Glue 4",
-        "parents": [
-          "Gorilla Glue 4"
-        ],
-        "note": "Humboldt CSI's official Gorilla Glue 4 S1 page lists the cultivar as Gorilla Glue 4 × Gorilla Glue 4. Together with the official S1 designation, this is treated as a selfed S1 line. No unstated ancestry is copied from the parent cultivar."
-      },
-      "relations": [
-        {
-          "entityId": "humboldt-csi",
-          "roles": [
-            "breeder",
-            "seedCompany"
-          ],
-          "status": "confirmed",
-          "confidence": "A",
-          "basis": "breederOfficial",
-          "sourceRefs": [
-            "humboldt-csi-gorilla-glue-4-s1"
-          ]
-        }
-      ],
-      "aromas": {
-        "status": "unknown",
-        "items": [],
-        "note": "The official Gorilla Glue 4 S1 product page does not provide cultivar-level aroma descriptors; parent-cultivar or customer-review aromas are not generalized to this S1 line."
-      },
-      "terpenes": {
-        "status": "unknown",
-        "items": [],
-        "note": "The official Gorilla Glue 4 S1 product page does not provide a cultivar-specific terpene profile or lot COA."
-      },
-      "origin": {
-        "status": "unknown",
-        "text": "",
-        "note": "The official Gorilla Glue 4 S1 product page does not state the S1 line's exact creation location; no inferred location is added."
-      },
-      "history": {
-        "status": "unknown",
-        "text": "",
-        "note": "The official Gorilla Glue 4 S1 product page does not state a cultivar-specific release date or development history; no secondary history is imported."
-      },
-      "visuals": [],
-      "checkedAt": "2026-08-19",
-      "updatedAt": "2026-08-19"
-    },
-    {
-      "schemaVersion": 1,
-      "id": "jager-s1",
-      "status": "review",
-      "name": "Jager S1",
-      "jp": null,
-      "aliases": [],
-      "classification": {
-        "type": "unknown"
-      },
-      "breeding": {
-        "generation": "S1",
-        "method": "selfed"
-      },
-      "lineage": {
-        "status": "confirmed",
-        "confidence": "A",
-        "basis": "breederOfficial",
-        "sourceRefs": [
-          "humboldt-csi-jager-s1"
-        ],
-        "display": "Jager × Jager",
-        "parents": [
-          "Jager"
-        ],
-        "note": "Humboldt CSI's official Jager S1 page lists the cultivar as Jager × Jager. Together with the official S1 designation, this is treated as a selfed S1 line. No unstated ancestry is copied from the parent cultivar."
-      },
-      "relations": [
-        {
-          "entityId": "humboldt-csi",
-          "roles": [
-            "breeder",
-            "seedCompany"
-          ],
-          "status": "confirmed",
-          "confidence": "A",
-          "basis": "breederOfficial",
-          "sourceRefs": [
-            "humboldt-csi-jager-s1"
-          ]
-        }
-      ],
-      "aromas": {
-        "status": "unknown",
-        "items": [],
-        "note": "The official Jager S1 product page does not provide cultivar-level aroma descriptors; parent-cultivar or customer-review aromas are not generalized to this S1 line."
-      },
-      "terpenes": {
-        "status": "unknown",
-        "items": [],
-        "note": "The official Jager S1 product page does not provide a cultivar-specific terpene profile or lot COA."
-      },
-      "origin": {
-        "status": "unknown",
-        "text": "",
-        "note": "The official Jager S1 product page does not state the S1 line's exact creation location; no inferred location is added."
-      },
-      "history": {
-        "status": "confirmed",
-        "confidence": "A",
-        "basis": "breederOfficial",
-        "sourceRefs": [
-          "humboldt-csi-jager-s1"
-        ],
-        "text": "Humboldt CSI describes the Jager source cut as a very popular Southern Oregon outdoor cut that originated at Millerville Farms and spread widely.",
-        "note": "Retained only as parent-cut background from the official Jager S1 page; the page does not state the S1 line's exact creation date or production location."
-      },
-      "visuals": [],
-      "checkedAt": "2026-08-19",
-      "updatedAt": "2026-08-19"
     },
     {
       "schemaVersion": 1,
@@ -2878,92 +2538,6 @@
       "publishedAt": null,
       "checkedAt": "2026-08-17",
       "note": "Humboldt Seed Company official California Octane product page. Used for Dream Queen × I-369 × Papaya lineage, S3 designation, indica-leaning hybrid type, gas/guava/crème aroma and dense trichome-rich flower evidence."
-    },
-    "humboldt-csi-bubba-kush-s1": {
-      "schemaVersion": 1,
-      "id": "humboldt-csi-bubba-kush-s1",
-      "publisher": "Humboldt CSI",
-      "title": "Bubba Kush S1",
-      "url": "https://humboldtcsi.com/product/bubba-kush-s1/",
-      "sourceType": "breederOfficial",
-      "supports": [
-        "lineage",
-        "breeder",
-        "generation",
-        "breeding"
-      ],
-      "publishedAt": null,
-      "checkedAt": "2026-08-19",
-      "note": "Official Humboldt CSI product page used to confirm the Bubba Kush S1 identity, S1 designation, same-cultivar cross (Bubba Kush × Bubba Kush), feminized seed listing, and Humboldt CSI association. No unsupported aroma, terpene, classification, or cultivar-wide morphology claims are imported."
-    },
-    "humboldt-csi-california-orange-s1": {
-      "schemaVersion": 1,
-      "id": "humboldt-csi-california-orange-s1",
-      "publisher": "Humboldt CSI",
-      "title": "California Orange S1",
-      "url": "https://humboldtcsi.com/product/california-orange-s1/",
-      "sourceType": "breederOfficial",
-      "supports": [
-        "lineage",
-        "breeder",
-        "generation",
-        "breeding"
-      ],
-      "publishedAt": null,
-      "checkedAt": "2026-08-19",
-      "note": "Official Humboldt CSI product page used to confirm the California Orange S1 identity, S1 designation, same-cultivar cross (California Orange (AE77 cut) × California Orange (AE77 cut)), feminized seed listing, and Humboldt CSI association. No unsupported aroma, terpene, classification, or cultivar-wide morphology claims are imported."
-    },
-    "humboldt-csi-chemdog-91-s1": {
-      "schemaVersion": 1,
-      "id": "humboldt-csi-chemdog-91-s1",
-      "publisher": "Humboldt CSI",
-      "title": "Chemdog ’91 S1",
-      "url": "https://humboldtcsi.com/product/chemdog-91-s1/",
-      "sourceType": "breederOfficial",
-      "supports": [
-        "lineage",
-        "breeder",
-        "generation",
-        "breeding"
-      ],
-      "publishedAt": null,
-      "checkedAt": "2026-08-19",
-      "note": "Official Humboldt CSI product page used to confirm the Chemdog ’91 S1 identity, S1 designation, same-cultivar cross (Chemdog ’91 × Chemdog ’91), feminized seed listing, and Humboldt CSI association. No unsupported aroma, terpene, classification, or cultivar-wide morphology claims are imported."
-    },
-    "humboldt-csi-gorilla-glue-4-s1": {
-      "schemaVersion": 1,
-      "id": "humboldt-csi-gorilla-glue-4-s1",
-      "publisher": "Humboldt CSI",
-      "title": "Gorilla Glue 4 S1",
-      "url": "https://humboldtcsi.com/product/gorilla-glue-4-s1/",
-      "sourceType": "breederOfficial",
-      "supports": [
-        "lineage",
-        "breeder",
-        "generation",
-        "breeding"
-      ],
-      "publishedAt": null,
-      "checkedAt": "2026-08-19",
-      "note": "Official Humboldt CSI product page used to confirm the Gorilla Glue 4 S1 identity, S1 designation, same-cultivar cross (Gorilla Glue 4 × Gorilla Glue 4), feminized seed listing, and Humboldt CSI association. No unsupported aroma, terpene, classification, or cultivar-wide morphology claims are imported."
-    },
-    "humboldt-csi-jager-s1": {
-      "schemaVersion": 1,
-      "id": "humboldt-csi-jager-s1",
-      "publisher": "Humboldt CSI",
-      "title": "Jager S1",
-      "url": "https://humboldtcsi.com/product/jager-s1/",
-      "sourceType": "breederOfficial",
-      "supports": [
-        "lineage",
-        "breeder",
-        "generation",
-        "breeding",
-        "history"
-      ],
-      "publishedAt": null,
-      "checkedAt": "2026-08-19",
-      "note": "Official Humboldt CSI product page used to confirm the Jager S1 identity, S1 designation, same-cultivar cross (Jager × Jager), feminized seed listing, and Humboldt CSI association. No unsupported aroma, terpene, classification, or cultivar-wide morphology claims are imported."
     },
     "humboldt-csi-wedding-cake-s1": {
       "schemaVersion": 1,
