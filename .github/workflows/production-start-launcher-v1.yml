@@ -1,0 +1,32 @@
+name: PRODUCTION START V1
+
+on:
+  workflow_dispatch:
+    inputs:
+      batch_size:
+        description: Maximum cultivars to promote in this START batch
+        required: true
+        default: "1"
+        type: choice
+        options:
+          - "1"
+          - "2"
+          - "3"
+          - "4"
+          - "5"
+      generate_images:
+        description: Generate one medium-quality candidate per selected cultivar
+        required: true
+        default: true
+        type: boolean
+
+jobs:
+  launch:
+    name: Launch master-migration PRODUCTION START V1
+    permissions:
+      contents: write
+    uses: Blazea-x/strain-atlas/.github/workflows/production-start-v1.yml@master-migration
+    with:
+      batch_size: ${{ inputs.batch_size }}
+      generate_images: ${{ inputs.generate_images }}
+    secrets: inherit
