@@ -3,7 +3,7 @@ from __future__ import annotations
 import hashlib,json,shutil,sys,tempfile
 from pathlib import Path
 from PIL import Image
-ROOT=Path(__file__).resolve().parents[1]; INBOX=ROOT/'UPLOAD_IMAGES_HERE'; ALLOWED_EXTENSIONS={'.jpg','.jpeg','.png','.webp'}; MAX_BATCH=50; ACTIVE_STATUSES={'ACTIVE','WAITING_REPAIR','PUBLISHING'}; INBOX_CONTROL_FILES={'.gitkeep','README.md','REPROCESS_REQUEST.txt'}
+ROOT=Path(__file__).resolve().parents[1]; INBOX=ROOT/'UPLOAD_IMAGES_HERE'; ALLOWED_EXTENSIONS={'.jpg','.jpeg','.png','.webp'}; MAX_BATCH=50; ACTIVE_STATUSES={'ACTIVE','WAITING_REPAIR','PUBLISHING'}; PENDING_GUARD_PHASES={'IMAGE_PENDING','NEEDS_REVIEW'}; INBOX_CONTROL_FILES={'.gitkeep','README.md','REPROCESS_REQUEST.txt'}
 def fail(code,message): print(f'IMAGE UPLOAD INBOX V1 FAIL [{code}]: {message}',file=sys.stderr); raise SystemExit(1)
 def load_json(p): return json.loads(p.read_text(encoding='utf-8'))
 POLICY=load_json(ROOT/'production'/'_system'/'config.json').get('imageGenerationPolicy',{})
@@ -24,8 +24,8 @@ def production_context():
  for p in rdir.glob('*.json'):
   run=load_json(p)
   if run.get('schemaVersion')!=1 or run.get('runVersion')!=1: fail('UNSUPPORTED_SCHEMA_VERSION',f'unsupported RUN schema in {p.relative_to(ROOT)}')
-  if run.get('status') not in ACTIVE_STATUSES: continue
-  for item in run.get('items',[]): out[item.get('strainId')]=(run,manifests.get(item.get('manifestId')))
+  for item in run.get('items',[]):
+   if run.get('status') in ACTIVE_STATUSES or item.get('productionPhase') in PENDING_GUARD_PHASES: out[item.get('strainId')]=(run,manifests.get(item.get('manifestId')))
  return out
 def validate_production_guard(strain_id,source,ctx):
  if strain_id not in ctx: return
@@ -52,6 +52,13 @@ def validate_webp(p):
  except Exception as exc: fail('IMAGE_DECODE_FAILED',f'decoder could not open converted image {p}: {exc}')
  if w<=0 or h<=0: fail('INVALID_IMAGE_DIMENSIONS',f'invalid image dimensions {w}x{h}: {p}')
  return w,h
+def convert_to_webp(source,destination):
+ source=Path(source); destination=Path(destination); destination.parent.mkdir(parents=True,exist_ok=True)
+ try:
+  with Image.open(source) as image: image.load(); image.save(destination,format='WEBP',quality=92,method=6)
+ except Exception as exc: fail('IMAGE_DECODE_FAILED',f'cannot decode/convert {source.name}: {exc}')
+ w,h=validate_webp(destination)
+ return {'width':w,'height':h,'sha256':sha256(destination)}
 def main():
  INBOX.mkdir(parents=True,exist_ok=True); entries=sorted(p for p in INBOX.iterdir() if p.is_file() and p.name not in INBOX_CONTROL_FILES and not p.name.startswith('.'))
  if not entries: print('IMAGE UPLOAD INBOX V1: inbox is empty'); return
@@ -70,12 +77,11 @@ def main():
  with tempfile.TemporaryDirectory(prefix='image-upload-inbox-') as tmp_name:
   tmp=Path(tmp_name)
   for strain_id,source in by_strain.items():
-   converted=tmp/f'{strain_id}.webp'
-   try:
-    with Image.open(source) as image: image.load(); image.save(converted,format='WEBP',quality=92,method=6)
-   except Exception as exc: fail('IMAGE_DECODE_FAILED',f'cannot decode/convert {source.name}: {exc}')
-   w,h=validate_webp(converted); destination=ROOT/'strains'/strain_id/'images'/'generated'/'primary.webp'; staged.append((converted,destination)); print(f'PASS {source.name} -> {destination.relative_to(ROOT)} ({w}x{h})')
+   converted=tmp/f'{strain_id}.webp'; meta=convert_to_webp(source,converted); destination=ROOT/'strains'/strain_id/'images'/'generated'/'primary.webp'; staged.append((converted,destination)); print(f"PASS {source.name} -> {destination.relative_to(ROOT)} ({meta['width']}x{meta['height']})")
   for converted,destination in staged: destination.parent.mkdir(parents=True,exist_ok=True); shutil.copyfile(converted,destination)
   for source in entries: source.unlink()
  print(f'IMAGE UPLOAD INBOX V1: prepared atomic batch of {len(staged)} image(s)')
-if __name__=='__main__': main()
+if __name__=='__main__':
+ if len(sys.argv)==4 and sys.argv[1]=='--convert-approved': print(json.dumps(convert_to_webp(sys.argv[2],sys.argv[3]),sort_keys=True))
+ elif len(sys.argv)==1: main()
+ else: fail('INBOX_WRONG_FILENAME','usage: process-image-upload-inbox.py OR --convert-approved SOURCE DESTINATION')
