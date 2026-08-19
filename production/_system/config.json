@@ -15,7 +15,9 @@
   "automaticProductionPolicy": {
     "enabled": true,
     "publicationModeDefault": "auto",
-    "dataFirstPublication": true,
+    "dataFirstPublication": false,
+    "dataFirstRetention": true,
+    "imageGatedPublicVisibility": true,
     "autoApprovalStatus": "auto-approved",
     "aiVisualQaApprovalType": "ai-visual-qa",
     "aiVisualQaEngine": "local-clip-semantic-v1",

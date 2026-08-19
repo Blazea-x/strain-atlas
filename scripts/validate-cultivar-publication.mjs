@@ -24,7 +24,6 @@ const sameVisualMetadata=(visual,manifest)=>{
   if(visual.src!==manifest.expectedPrimaryPath)return false;
   return ['alt','rights','scope','aiGenerated','sourceType'].every(key=>visual[key]===manifest.visualMetadataSnapshot?.[key]);
 };
-const DATA_VALID_PHASES=new Set(['DATA_READY','IMAGE_PENDING','IMAGE_READY','VISUAL_LINKED','PUBLISHED','NEEDS_REVIEW']);
 
 const publication=readJson(path.join(ROOT,'production/publication.json'));
 const strains=new Map();
@@ -45,7 +44,7 @@ for(const file of listJson(path.join(ROOT,'production/runs'))){
 }
 
 const errors=[];
-let checked=0,dataFirstNoImage=0,imageBearing=0;
+let checked=0,imageBearing=0;
 for(const entry of publication.entries||[]){
   if(entry.origin!=='content-production'||entry.state!=='published')continue;
   checked+=1;
@@ -58,14 +57,14 @@ for(const entry of publication.entries||[]){
     && (strain.relations||[]).every(relation=>entities.has(relation.entityId));
   const primaryExists=primary.length===1&&localPathExists(primary[0].src);
   const visualLinkageValid=primary.length===1&&sameVisualMetadata(primary[0],manifest);
-  const cultivarValidationPass=Boolean(runItem&&DATA_VALID_PHASES.has(runItem.item.productionPhase));
+  const cultivarValidationPass=Boolean(runItem&&runItem.item.productionPhase==='PUBLISHED');
   const gate=evaluateCultivarPublicationGate({strain,manifest,primaryExists,sourceEntityClosureValid,visualLinkageValid,cultivarValidationPass});
   if(!gate.ok)errors.push(`${entry.strainId}: UNAUTHORIZED_PUBLICATION_OPEN (${gate.blockers.join(', ')})`);
-  else if(gate.mode==='data-first-no-image')dataFirstNoImage+=1;else imageBearing+=1;
+  else imageBearing+=1;
 }
 
-console.log('CULTIVAR-LEVEL PUBLICATION GATE');
+console.log('CULTIVAR-LEVEL IMAGE-GATED PUBLICATION GATE');
 console.log(`content-production published cultivars checked: ${checked}`);
-console.log(`image-bearing: ${imageBearing} / data-first no-image: ${dataFirstNoImage}`);
+console.log(`image-bearing and gate-valid: ${imageBearing}`);
 if(errors.length){for(const error of errors)console.error(`- ${error}`);process.exit(1);}
-console.log('PASS: every content-production published cultivar satisfies the data-first publication gate; image-bearing cultivars also have a current human or AI-visual-QA approval.');
+console.log('PASS: every content-production published cultivar has a current approved primary visual, valid linkage, and PUBLISHED run state. Formal data may remain pending with visuals=[] without entering runtime.');
