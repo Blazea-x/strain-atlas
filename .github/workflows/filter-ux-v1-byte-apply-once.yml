@@ -1,0 +1,79 @@
+name: FILTER UX V1 Byte Apply Once
+"on":
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/filter-ux-v1-byte-apply-once.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    env:
+      EXPECTED_BASE: b50cd646d28f707e6d1e444fd2957942948e9c65
+      EXPECTED_MASTER: 910ae4c794193f75bb588fec0ca80941546bf8f7
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Guard remote state
+        shell: bash
+        run: |
+          set -euo pipefail
+          git fetch origin main master-migration
+          test "$(git rev-parse HEAD^)" = "$EXPECTED_BASE"
+          test "$(git diff --name-only "$EXPECTED_BASE"..HEAD)" = ".github/workflows/filter-ux-v1-byte-apply-once.yml"
+          test "$(git rev-parse origin/main)" = "$(git rev-parse HEAD)"
+          test "$(git rev-parse origin/master-migration)" = "$EXPECTED_MASTER"
+      - name: Apply locally verified FILTER UX V1 patch
+        shell: bash
+        run: |
+          set -euo pipefail
+          cat > /tmp/filter-ux-v1.patch.gz.b64 <<'B64'
+          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
+          B64
+          base64 -d /tmp/filter-ux-v1.patch.gz.b64 | gzip -dc > /tmp/filter-ux-v1-apply.sh
+          bash /tmp/filter-ux-v1-apply.sh
+      - name: Verify exact UI diff
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --check preview/app.js
+          node --check preview/home-ux-v2.js
+          grep -q 'id="filter-disclosure"' index.html
+          grep -q 'preview/app.js?v=6' index.html
+          grep -q 'preview/home-ux-v2.js?v=4' index.html
+          grep -q 'preview/home-entrance-v1.css?v=5' index.html
+          test "$(grep -o 'id="explore"' index.html | wc -l)" -eq 1
+          ! grep -q 'data-explore="unclassified"' index.html
+          grep -q 'const matchesFilters' preview/app.js
+          grep -q 'FILTER UX V1' preview/home-entrance-v1.css
+          test "$(git diff --name-only | sort | tr '\n' ' ')" = "index.html preview/app.js preview/home-entrance-v1.css preview/home-ux-v2.js "
+      - name: Commit UI atomically
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name filter-ux-v1-bot
+          git config user.email actions@users.noreply.github.com
+          git add index.html preview/app.js preview/home-ux-v2.js preview/home-entrance-v1.css
+          git commit -m "Implement FILTER UX V1"
+          git fetch origin main
+          test "$(git rev-parse origin/main)" = "$(git rev-parse HEAD^)"
+          git push origin HEAD:main
+      - name: Remove one-shot workflow
+        if: always()
+        shell: bash
+        run: |
+          set -euo pipefail
+          git fetch origin main
+          git checkout main
+          git reset --hard origin/main
+          if [ -f .github/workflows/filter-ux-v1-byte-apply-once.yml ]; then
+            git rm .github/workflows/filter-ux-v1-byte-apply-once.yml
+            git config user.name filter-ux-v1-bot
+            git config user.email actions@users.noreply.github.com
+            git commit -m "Remove FILTER UX V1 byte helper [skip ci]"
+            git push origin HEAD:main
+          fi
