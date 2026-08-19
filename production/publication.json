@@ -311,6 +311,46 @@
       "bootstrapMasterSha": null,
       "unpublishedAt": null,
       "unpublicationReason": null
+    },
+    {
+      "strainId": "bubblegum-s1",
+      "state": "pending",
+      "origin": "content-production",
+      "introducedByRun": "content-production-start-32253204982",
+      "publishedAt": null,
+      "bootstrapMasterSha": null
+    },
+    {
+      "strainId": "chemdog-d-s1",
+      "state": "pending",
+      "origin": "content-production",
+      "introducedByRun": "content-production-start-32253204982",
+      "publishedAt": null,
+      "bootstrapMasterSha": null
+    },
+    {
+      "strainId": "cherry-pie-s1",
+      "state": "pending",
+      "origin": "content-production",
+      "introducedByRun": "content-production-start-32253204982",
+      "publishedAt": null,
+      "bootstrapMasterSha": null
+    },
+    {
+      "strainId": "durban-poison-s1",
+      "state": "pending",
+      "origin": "content-production",
+      "introducedByRun": "content-production-start-32253204982",
+      "publishedAt": null,
+      "bootstrapMasterSha": null
+    },
+    {
+      "strainId": "f1-durb-s1",
+      "state": "pending",
+      "origin": "content-production",
+      "introducedByRun": "content-production-start-32253204982",
+      "publishedAt": null,
+      "bootstrapMasterSha": null
     }
   ]
 }

@@ -1,0 +1,53 @@
+{
+  "schemaVersion": 1,
+  "manifestVersion": 1,
+  "manifestId": "content-production-start-32253204982-f1-durb-s1-image",
+  "runId": "content-production-start-32253204982",
+  "strainId": "f1-durb-s1",
+  "revision": 1,
+  "attempt": 1,
+  "sourceStockPath": "stock/items/f1-durb-s1.json",
+  "sourceStockBlobSha": "d431da661419635b0dec0d31d2509be8c2781217",
+  "visualPreparationHash": "eff8f3636311af2c4a9106330f9d717d043301360299f68d2ec7ffb0a0cec2b2",
+  "generatedFromManifestVersion": null,
+  "promptSnapshot": "Photorealistic botanical reference image of one mature flowering cannabis plant representing F1 Durb S1, complete plant visible, neutral natural light, realistic botany. Identity is grounded only in the official Humboldt CSI S1 listing. Official cultivar-specific visual morphology is unavailable or insufficient, so do not assert cultivar-specific silhouette, architecture, branching, internode spacing, leaf width, flower structure, flower density, coloration, pistil tendency, or resin/trichome intensity beyond ordinary natural cannabis morphology. No fruit or berries, labels, logos, packaging, people, smoke, consumption context, text, jars, bags, boxes, bottles, or unrelated objects.",
+  "evidenceSnapshot": [
+    {
+      "description": "[EVIDENCE_ALIGNMENT=NOT_APPLICABLE] Humboldt CSI's official F1 Durb S1 page confirms identity and S1/selfed parentage, but the current official product page exposes only an awaiting-product-image placeholder. No cultivar-specific morphology is extracted or inferred.",
+      "sourceIds": [
+        "humboldt-csi-f1-durb-s1"
+      ]
+    }
+  ],
+  "visualMetadataSnapshot": {
+    "alt": "F1 Durb S1の公式S1同定情報を基礎に、公式形態画像が不足しているため未確認の品種固有形態を付加せず作成するAI生成の植物学的参考ビジュアル",
+    "rights": "AI-generated project asset for Cannabis Strain Wisdom. No third-party image is copied; the prompt uses an identity-grounded fallback because reliable official cultivar visual evidence is unavailable or insufficient.",
+    "scope": "cultivar",
+    "aiGenerated": true,
+    "sourceType": "aiGenerated"
+  },
+  "expectedInboxFilename": "f1-durb-s1.jpg",
+  "expectedPrimaryPath": "strains/f1-durb-s1/images/generated/primary.webp",
+  "generatedAt": null,
+  "approvalStatus": "pending",
+  "approvedAt": null,
+  "approvalType": "human-visual-review",
+  "approvedManifestRevision": null,
+  "approvedAttempt": null,
+  "approvedSourceSha256": null,
+  "imageInboxCommit": null,
+  "imageProcessingCommit": null,
+  "processedPrimaryBlobSha": null,
+  "processedPrimarySha256": null,
+  "width": null,
+  "height": null,
+  "audit": [
+    {
+      "severity": "INFO",
+      "code": "MANIFEST_CREATED",
+      "at": "2026-08-19T12:33:09Z",
+      "productionPhase": "IMAGE_PENDING",
+      "note": "Created by PRODUCTION START V1. Candidate output is review-only and cannot publish."
+    }
+  ]
+}

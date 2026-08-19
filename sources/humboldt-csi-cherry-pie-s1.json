@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "id": "humboldt-csi-cherry-pie-s1",
+  "publisher": "Humboldt CSI",
+  "title": "Cherry Pie S1",
+  "url": "https://www.humboldtcsi.com/product/cherry-pie-s1/",
+  "sourceType": "breederOfficial",
+  "supports": [
+    "lineage",
+    "breeder",
+    "generation",
+    "breeding"
+  ],
+  "publishedAt": null,
+  "checkedAt": "2026-08-19",
+  "note": "Official Humboldt CSI product page identifies Cherry Pie S1 as Cherry Pie × Cherry Pie and lists feminized seeds. The current page exposes an awaiting-product-image placeholder, so no cultivar-specific visual morphology is extracted."
+}

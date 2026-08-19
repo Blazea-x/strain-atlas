@@ -1,0 +1,66 @@
+{
+  "schemaVersion": 1,
+  "id": "bubblegum-s1",
+  "status": "review",
+  "name": "Bubblegum S1",
+  "jp": null,
+  "aliases": [],
+  "classification": {
+    "type": "unknown"
+  },
+  "breeding": {
+    "generation": "S1",
+    "method": "selfed"
+  },
+  "lineage": {
+    "status": "confirmed",
+    "confidence": "A",
+    "basis": "breederOfficial",
+    "sourceRefs": [
+      "humboldt-csi-bubblegum-s1"
+    ],
+    "display": "Bubblegum (Indiana cut) × Bubblegum (Indiana cut)",
+    "parents": [
+      "Bubblegum (Indiana cut)"
+    ],
+    "note": "Humboldt CSI's official Bubblegum S1 page identifies the line as Bubblegum (Indiana cut) × Bubblegum (Indiana cut). Together with the official S1 designation, this is treated as a selfed S1 line; no additional ancestry is inferred."
+  },
+  "relations": [
+    {
+      "entityId": "humboldt-csi",
+      "roles": [
+        "breeder",
+        "seedCompany"
+      ],
+      "status": "confirmed",
+      "confidence": "A",
+      "basis": "breederOfficial",
+      "sourceRefs": [
+        "humboldt-csi-bubblegum-s1"
+      ]
+    }
+  ],
+  "aromas": {
+    "status": "unknown",
+    "items": [],
+    "note": "Customer-review or parent-cut aroma observations are not generalized to the complete Bubblegum S1 line."
+  },
+  "terpenes": {
+    "status": "unknown",
+    "items": [],
+    "note": "The official Bubblegum S1 page does not provide a cultivar-specific lot terpene profile or COA for the S1 line."
+  },
+  "origin": {
+    "status": "unknown",
+    "text": "",
+    "note": "The official Bubblegum S1 page identifies the Indiana cut used for the self-cross but does not state the S1 line's exact creation location; no location is inferred."
+  },
+  "history": {
+    "status": "unknown",
+    "text": "",
+    "note": "The official Bubblegum S1 page does not provide a sufficiently bounded cultivar-specific release chronology; no secondary history is imported."
+  },
+  "visuals": [],
+  "checkedAt": "2026-08-19",
+  "updatedAt": "2026-08-19"
+}

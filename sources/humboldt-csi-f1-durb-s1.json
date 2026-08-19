@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "id": "humboldt-csi-f1-durb-s1",
+  "publisher": "Humboldt CSI",
+  "title": "F1 Durb S1",
+  "url": "https://www.humboldtcsi.com/product/f1-durb-s1/",
+  "sourceType": "breederOfficial",
+  "supports": [
+    "lineage",
+    "breeder",
+    "generation",
+    "breeding"
+  ],
+  "publishedAt": null,
+  "checkedAt": "2026-08-19",
+  "note": "Official Humboldt CSI product page identifies F1 Durb S1 as F1 Durb × F1 Durb, states the reversal used Cookie Monster's F1 Durb cut, and lists feminized seeds. The current page exposes an awaiting-product-image placeholder, so no cultivar-specific visual morphology is extracted."
+}

@@ -1,0 +1,66 @@
+{
+  "schemaVersion": 1,
+  "id": "durban-poison-s1",
+  "status": "review",
+  "name": "Durban Poison S1",
+  "jp": null,
+  "aliases": [],
+  "classification": {
+    "type": "unknown"
+  },
+  "breeding": {
+    "generation": "S1",
+    "method": "selfed"
+  },
+  "lineage": {
+    "status": "confirmed",
+    "confidence": "A",
+    "basis": "breederOfficial",
+    "sourceRefs": [
+      "humboldt-csi-durban-poison-s1"
+    ],
+    "display": "Durban Poison × Durban Poison",
+    "parents": [
+      "Durban Poison"
+    ],
+    "note": "Humboldt CSI's official Durban Poison S1 page lists Durban Poison × Durban Poison. Together with the official S1 designation, this is treated as a selfed S1 line; no additional ancestry is inferred."
+  },
+  "relations": [
+    {
+      "entityId": "humboldt-csi",
+      "roles": [
+        "breeder",
+        "seedCompany"
+      ],
+      "status": "confirmed",
+      "confidence": "A",
+      "basis": "breederOfficial",
+      "sourceRefs": [
+        "humboldt-csi-durban-poison-s1"
+      ]
+    }
+  ],
+  "aromas": {
+    "status": "unknown",
+    "items": [],
+    "note": "The breeder's description of the source cut is not generalized into cultivar-wide aroma claims for every plant in the Durban Poison S1 line."
+  },
+  "terpenes": {
+    "status": "unknown",
+    "items": [],
+    "note": "The breeder mentions terpinolene for the source cut, but no cultivar-specific lot COA or bounded S1-line terpene dataset is provided, so no S1-wide terpene profile is asserted."
+  },
+  "origin": {
+    "status": "unknown",
+    "text": "",
+    "note": "The official Durban Poison S1 page does not state the S1 line's exact creation location; no location is inferred."
+  },
+  "history": {
+    "status": "unknown",
+    "text": "",
+    "note": "The official Durban Poison S1 page describes the source cut but does not provide a sufficiently bounded S1-line release chronology; no secondary history is imported."
+  },
+  "visuals": [],
+  "checkedAt": "2026-08-19",
+  "updatedAt": "2026-08-19"
+}

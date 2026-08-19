@@ -1,0 +1,66 @@
+{
+  "schemaVersion": 1,
+  "id": "f1-durb-s1",
+  "status": "review",
+  "name": "F1 Durb S1",
+  "jp": null,
+  "aliases": [],
+  "classification": {
+    "type": "unknown"
+  },
+  "breeding": {
+    "generation": "S1",
+    "method": "selfed"
+  },
+  "lineage": {
+    "status": "confirmed",
+    "confidence": "A",
+    "basis": "breederOfficial",
+    "sourceRefs": [
+      "humboldt-csi-f1-durb-s1"
+    ],
+    "display": "F1 Durb × F1 Durb",
+    "parents": [
+      "F1 Durb"
+    ],
+    "note": "Humboldt CSI's official F1 Durb S1 page lists F1 Durb × F1 Durb. Together with the official S1 designation, this is treated as a selfed S1 line; no additional ancestry is inferred."
+  },
+  "relations": [
+    {
+      "entityId": "humboldt-csi",
+      "roles": [
+        "breeder",
+        "seedCompany"
+      ],
+      "status": "confirmed",
+      "confidence": "A",
+      "basis": "breederOfficial",
+      "sourceRefs": [
+        "humboldt-csi-f1-durb-s1"
+      ]
+    }
+  ],
+  "aromas": {
+    "status": "unknown",
+    "items": [],
+    "note": "The official F1 Durb S1 page does not provide bounded cultivar-wide aroma descriptors for the complete S1 line."
+  },
+  "terpenes": {
+    "status": "unknown",
+    "items": [],
+    "note": "The official F1 Durb S1 page does not provide a cultivar-specific lot terpene profile or COA for the S1 line."
+  },
+  "origin": {
+    "status": "unknown",
+    "text": "",
+    "note": "The official F1 Durb S1 page identifies the source cut context but does not state the S1 line's exact creation location; no location is inferred."
+  },
+  "history": {
+    "status": "unknown",
+    "text": "",
+    "note": "The official page notes limited seed production from a reversal using Cookie Monster's F1 Durb cut, but no sufficiently bounded release chronology is asserted for this atlas entry."
+  },
+  "visuals": [],
+  "checkedAt": "2026-08-19",
+  "updatedAt": "2026-08-19"
+}

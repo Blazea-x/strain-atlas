@@ -1,0 +1,66 @@
+{
+  "schemaVersion": 1,
+  "id": "chemdog-d-s1",
+  "status": "review",
+  "name": "Chemdog D S1",
+  "jp": null,
+  "aliases": [],
+  "classification": {
+    "type": "unknown"
+  },
+  "breeding": {
+    "generation": "S1",
+    "method": "selfed"
+  },
+  "lineage": {
+    "status": "confirmed",
+    "confidence": "A",
+    "basis": "breederOfficial",
+    "sourceRefs": [
+      "humboldt-csi-chemdog-d-s1"
+    ],
+    "display": "Chemdog D × Chemdog D",
+    "parents": [
+      "Chemdog D"
+    ],
+    "note": "Humboldt CSI's official Chemdog D S1 page lists Chemdog D × Chemdog D. Together with the official S1 designation, this is treated as a selfed S1 line; no additional ancestry is inferred."
+  },
+  "relations": [
+    {
+      "entityId": "humboldt-csi",
+      "roles": [
+        "breeder",
+        "seedCompany"
+      ],
+      "status": "confirmed",
+      "confidence": "A",
+      "basis": "breederOfficial",
+      "sourceRefs": [
+        "humboldt-csi-chemdog-d-s1"
+      ]
+    }
+  ],
+  "aromas": {
+    "status": "unknown",
+    "items": [],
+    "note": "Descriptive claims about the source cut are not generalized to the complete Chemdog D S1 line."
+  },
+  "terpenes": {
+    "status": "unknown",
+    "items": [],
+    "note": "The official Chemdog D S1 page does not provide a cultivar-specific lot terpene profile or COA for the S1 line."
+  },
+  "origin": {
+    "status": "unknown",
+    "text": "",
+    "note": "The official Chemdog D S1 page does not state the S1 line's exact creation location; no location is inferred."
+  },
+  "history": {
+    "status": "unknown",
+    "text": "",
+    "note": "The official Chemdog D S1 page does not provide a sufficiently bounded cultivar-specific release chronology; no secondary history is imported."
+  },
+  "visuals": [],
+  "checkedAt": "2026-08-19",
+  "updatedAt": "2026-08-19"
+}

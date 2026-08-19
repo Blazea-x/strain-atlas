@@ -1,0 +1,260 @@
+{
+  "schemaVersion": 1,
+  "runVersion": 1,
+  "runId": "content-production-start-32253204982",
+  "mode": "new-publication",
+  "publicationPolicy": "cultivar",
+  "status": "ACTIVE",
+  "startedAt": "2026-08-19T12:33:09Z",
+  "updatedAt": "2026-08-19T12:33:09Z",
+  "finishedAt": null,
+  "cancelledAt": null,
+  "baseSha": "8b43f9d261c193b39a56b0ab9aa4f85c0bb2d59c",
+  "currentBaseSha": "8b43f9d261c193b39a56b0ab9aa4f85c0bb2d59c",
+  "attempt": 1,
+  "previousAttempts": [],
+  "mainHeadAtStart": "cd13dfa2c8f15a79f8cb0668361c75aa089b84f0",
+  "mainHeadAtEnd": null,
+  "publishedIdsAtStart": [
+    "bangi-haze",
+    "bubba-kush-s1",
+    "bubble-gum",
+    "california-octane",
+    "cataract-kush",
+    "chocolope-256",
+    "dr-grinspoon",
+    "durban-poison",
+    "frisian-duck",
+    "gorilla-glue-4-s1",
+    "jager-s1",
+    "kali-mist",
+    "laughing-buddha",
+    "malawi",
+    "og-kush",
+    "panama",
+    "shaman",
+    "shiva-skunk",
+    "strawberry-banana-s1",
+    "super-lemon-haze",
+    "t-1000-s1",
+    "the-og-18",
+    "trainwreck-s1",
+    "triangle-kush-s1",
+    "warlock",
+    "wedding-cake",
+    "wedding-cake-s1",
+    "zamaldelica"
+  ],
+  "targetStrainIds": [
+    "bubblegum-s1",
+    "chemdog-d-s1",
+    "cherry-pie-s1",
+    "durban-poison-s1",
+    "f1-durb-s1"
+  ],
+  "expectedPublicationDelta": [
+    "bubblegum-s1",
+    "chemdog-d-s1",
+    "cherry-pie-s1",
+    "durban-poison-s1",
+    "f1-durb-s1"
+  ],
+  "items": [
+    {
+      "strainId": "bubblegum-s1",
+      "sourceStockPath": "stock/items/bubblegum-s1.json",
+      "sourceStockBlobSha": "aeba58b2d6245371adbb1100aebc6edf74cf29b4",
+      "productionStrainPath": "strains/bubblegum-s1/strain.json",
+      "publicationEntryId": "bubblegum-s1",
+      "productionPhase": "IMAGE_PENDING",
+      "previousStablePhase": "IMAGE_PENDING",
+      "manifestId": "content-production-start-32253204982-bubblegum-s1-image",
+      "manifestRevision": 1,
+      "promotedAt": "2026-08-19T12:33:09Z",
+      "promotionCommit": null,
+      "approval": null,
+      "commits": {
+        "dataCommit": null,
+        "imageInboxCommit": null,
+        "imageProcessingCommit": null,
+        "visualsCommit": null,
+        "publicationCommit": null,
+        "buildCommit": null
+      },
+      "audit": [
+        {
+          "severity": "INFO",
+          "code": "PHASE_TRANSITION",
+          "fromPhase": "STOCKED",
+          "toPhase": "DATA_READY",
+          "at": "2026-08-19T12:33:09Z"
+        },
+        {
+          "severity": "INFO",
+          "code": "PHASE_TRANSITION",
+          "fromPhase": "DATA_READY",
+          "toPhase": "IMAGE_PENDING",
+          "at": "2026-08-19T12:33:09Z"
+        }
+      ]
+    },
+    {
+      "strainId": "chemdog-d-s1",
+      "sourceStockPath": "stock/items/chemdog-d-s1.json",
+      "sourceStockBlobSha": "5ef45e24588abea410fb52bd80aa4bed1819125e",
+      "productionStrainPath": "strains/chemdog-d-s1/strain.json",
+      "publicationEntryId": "chemdog-d-s1",
+      "productionPhase": "IMAGE_PENDING",
+      "previousStablePhase": "IMAGE_PENDING",
+      "manifestId": "content-production-start-32253204982-chemdog-d-s1-image",
+      "manifestRevision": 1,
+      "promotedAt": "2026-08-19T12:33:09Z",
+      "promotionCommit": null,
+      "approval": null,
+      "commits": {
+        "dataCommit": null,
+        "imageInboxCommit": null,
+        "imageProcessingCommit": null,
+        "visualsCommit": null,
+        "publicationCommit": null,
+        "buildCommit": null
+      },
+      "audit": [
+        {
+          "severity": "INFO",
+          "code": "PHASE_TRANSITION",
+          "fromPhase": "STOCKED",
+          "toPhase": "DATA_READY",
+          "at": "2026-08-19T12:33:09Z"
+        },
+        {
+          "severity": "INFO",
+          "code": "PHASE_TRANSITION",
+          "fromPhase": "DATA_READY",
+          "toPhase": "IMAGE_PENDING",
+          "at": "2026-08-19T12:33:09Z"
+        }
+      ]
+    },
+    {
+      "strainId": "cherry-pie-s1",
+      "sourceStockPath": "stock/items/cherry-pie-s1.json",
+      "sourceStockBlobSha": "1edc5cdc9cbbb6a75c23bc6aac3fcf0d5c981e72",
+      "productionStrainPath": "strains/cherry-pie-s1/strain.json",
+      "publicationEntryId": "cherry-pie-s1",
+      "productionPhase": "IMAGE_PENDING",
+      "previousStablePhase": "IMAGE_PENDING",
+      "manifestId": "content-production-start-32253204982-cherry-pie-s1-image",
+      "manifestRevision": 1,
+      "promotedAt": "2026-08-19T12:33:09Z",
+      "promotionCommit": null,
+      "approval": null,
+      "commits": {
+        "dataCommit": null,
+        "imageInboxCommit": null,
+        "imageProcessingCommit": null,
+        "visualsCommit": null,
+        "publicationCommit": null,
+        "buildCommit": null
+      },
+      "audit": [
+        {
+          "severity": "INFO",
+          "code": "PHASE_TRANSITION",
+          "fromPhase": "STOCKED",
+          "toPhase": "DATA_READY",
+          "at": "2026-08-19T12:33:09Z"
+        },
+        {
+          "severity": "INFO",
+          "code": "PHASE_TRANSITION",
+          "fromPhase": "DATA_READY",
+          "toPhase": "IMAGE_PENDING",
+          "at": "2026-08-19T12:33:09Z"
+        }
+      ]
+    },
+    {
+      "strainId": "durban-poison-s1",
+      "sourceStockPath": "stock/items/durban-poison-s1.json",
+      "sourceStockBlobSha": "a10005d7cc36fccbaf5d0536f7fd1727ad8ec0bc",
+      "productionStrainPath": "strains/durban-poison-s1/strain.json",
+      "publicationEntryId": "durban-poison-s1",
+      "productionPhase": "IMAGE_PENDING",
+      "previousStablePhase": "IMAGE_PENDING",
+      "manifestId": "content-production-start-32253204982-durban-poison-s1-image",
+      "manifestRevision": 1,
+      "promotedAt": "2026-08-19T12:33:09Z",
+      "promotionCommit": null,
+      "approval": null,
+      "commits": {
+        "dataCommit": null,
+        "imageInboxCommit": null,
+        "imageProcessingCommit": null,
+        "visualsCommit": null,
+        "publicationCommit": null,
+        "buildCommit": null
+      },
+      "audit": [
+        {
+          "severity": "INFO",
+          "code": "PHASE_TRANSITION",
+          "fromPhase": "STOCKED",
+          "toPhase": "DATA_READY",
+          "at": "2026-08-19T12:33:09Z"
+        },
+        {
+          "severity": "INFO",
+          "code": "PHASE_TRANSITION",
+          "fromPhase": "DATA_READY",
+          "toPhase": "IMAGE_PENDING",
+          "at": "2026-08-19T12:33:09Z"
+        }
+      ]
+    },
+    {
+      "strainId": "f1-durb-s1",
+      "sourceStockPath": "stock/items/f1-durb-s1.json",
+      "sourceStockBlobSha": "d431da661419635b0dec0d31d2509be8c2781217",
+      "productionStrainPath": "strains/f1-durb-s1/strain.json",
+      "publicationEntryId": "f1-durb-s1",
+      "productionPhase": "IMAGE_PENDING",
+      "previousStablePhase": "IMAGE_PENDING",
+      "manifestId": "content-production-start-32253204982-f1-durb-s1-image",
+      "manifestRevision": 1,
+      "promotedAt": "2026-08-19T12:33:09Z",
+      "promotionCommit": null,
+      "approval": null,
+      "commits": {
+        "dataCommit": null,
+        "imageInboxCommit": null,
+        "imageProcessingCommit": null,
+        "visualsCommit": null,
+        "publicationCommit": null,
+        "buildCommit": null
+      },
+      "audit": [
+        {
+          "severity": "INFO",
+          "code": "PHASE_TRANSITION",
+          "fromPhase": "STOCKED",
+          "toPhase": "DATA_READY",
+          "at": "2026-08-19T12:33:09Z"
+        },
+        {
+          "severity": "INFO",
+          "code": "PHASE_TRANSITION",
+          "fromPhase": "DATA_READY",
+          "toPhase": "IMAGE_PENDING",
+          "at": "2026-08-19T12:33:09Z"
+        }
+      ]
+    }
+  ],
+  "pagesDeploymentRunId": null,
+  "pagesDeploymentUrl": null,
+  "displayVerifiedAt": null,
+  "publicationSetAtEnd": null,
+  "recovery": null,
+  "auditSummary": null
+}

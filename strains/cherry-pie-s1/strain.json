@@ -1,0 +1,66 @@
+{
+  "schemaVersion": 1,
+  "id": "cherry-pie-s1",
+  "status": "review",
+  "name": "Cherry Pie S1",
+  "jp": null,
+  "aliases": [],
+  "classification": {
+    "type": "unknown"
+  },
+  "breeding": {
+    "generation": "S1",
+    "method": "selfed"
+  },
+  "lineage": {
+    "status": "confirmed",
+    "confidence": "A",
+    "basis": "breederOfficial",
+    "sourceRefs": [
+      "humboldt-csi-cherry-pie-s1"
+    ],
+    "display": "Cherry Pie × Cherry Pie",
+    "parents": [
+      "Cherry Pie"
+    ],
+    "note": "Humboldt CSI's official Cherry Pie S1 page lists Cherry Pie × Cherry Pie. Together with the official S1 designation, this is treated as a selfed S1 line; no additional ancestry is inferred."
+  },
+  "relations": [
+    {
+      "entityId": "humboldt-csi",
+      "roles": [
+        "breeder",
+        "seedCompany"
+      ],
+      "status": "confirmed",
+      "confidence": "A",
+      "basis": "breederOfficial",
+      "sourceRefs": [
+        "humboldt-csi-cherry-pie-s1"
+      ]
+    }
+  ],
+  "aromas": {
+    "status": "unknown",
+    "items": [],
+    "note": "No cultivar-wide aroma claims are imported from parent names or unrelated descriptions for the complete Cherry Pie S1 line."
+  },
+  "terpenes": {
+    "status": "unknown",
+    "items": [],
+    "note": "The official Cherry Pie S1 page does not provide a cultivar-specific lot terpene profile or COA for the S1 line."
+  },
+  "origin": {
+    "status": "unknown",
+    "text": "",
+    "note": "The official Cherry Pie S1 page does not state the S1 line's exact creation location; no location is inferred."
+  },
+  "history": {
+    "status": "unknown",
+    "text": "",
+    "note": "The official Cherry Pie S1 page does not provide a sufficiently bounded cultivar-specific release chronology; no secondary history is imported."
+  },
+  "visuals": [],
+  "checkedAt": "2026-08-19",
+  "updatedAt": "2026-08-19"
+}
