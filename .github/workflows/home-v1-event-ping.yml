@@ -5,6 +5,7 @@ on:
     types: [edited]
 
 permissions:
+  actions: read
   issues: write
 
 jobs:
@@ -12,8 +13,14 @@ jobs:
     if: github.event.issue.number == 13
     runs-on: ubuntu-latest
     steps:
-      - name: Mark verifier event start
+      - name: Mark verifier event start and list issue-event runs
         env:
           GH_TOKEN: ${{ github.token }}
+        shell: bash
         run: |
-          gh api -X POST "repos/$GITHUB_REPOSITORY/issues/13/comments" -f body="HOME V1 VERIFY STARTED | run=$GITHUB_RUN_ID | sha=$GITHUB_SHA" >/dev/null
+          set -euo pipefail
+          sleep 3
+          runs="$(gh api "repos/$GITHUB_REPOSITORY/actions/runs?event=issues&per_page=20")"
+          summary="$(jq -r --arg sha "$GITHUB_SHA" '[.workflow_runs[] | select(.head_sha == $sha) | {id,name,status,conclusion,head_sha,event}]' <<<"$runs")"
+          body="$(printf 'HOME V1 VERIFY STARTED | run=%s | sha=%s\n\n```json\n%s\n```' "$GITHUB_RUN_ID" "$GITHUB_SHA" "$summary")"
+          gh api -X POST "repos/$GITHUB_REPOSITORY/issues/13/comments" -f body="$body" >/dev/null
