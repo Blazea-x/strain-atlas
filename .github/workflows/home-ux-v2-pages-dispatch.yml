@@ -39,12 +39,12 @@ jobs:
           watch_status=$?
           set -e
           gh run view "$run_id" --json databaseId,headSha,status,conclusion,url > /tmp/deploy.json
-          python - <<'PY'
+          WATCH_STATUS="$watch_status" python - <<'PY'
           import json, os
           p='/tmp/deploy.json'
           d=json.load(open(p))
           d['dispatcherSha']=os.environ['GITHUB_SHA']
-          d['watchExitStatus']=int(os.environ.get('WATCH_STATUS','0'))
+          d['watchExitStatus']=int(os.environ['WATCH_STATUS'])
           json.dump(d,open(p,'w'),indent=2)
           PY
           echo "WATCH_STATUS=$watch_status" >> "$GITHUB_ENV"
