@@ -1,0 +1,59 @@
+{
+  "schemaVersion": 1,
+  "manifestVersion": 1,
+  "manifestId": "content-production-start-32255989337-ak-47-image",
+  "runId": "content-production-start-32255989337",
+  "strainId": "ak-47",
+  "revision": 1,
+  "attempt": 1,
+  "sourceStockPath": "stock/items/ak-47.json",
+  "sourceStockBlobSha": "3ba6b5621854dbd768fe46cc23dd0f45603f28b0",
+  "visualPreparationHash": "3735ba31cbcc4063886bbb308193a0dcd9371a10c02aceda0959167b825ee3ff",
+  "generatedFromManifestVersion": null,
+  "promptSnapshot": "TEXT-EVIDENCE FALLBACK: the breeder-operated cultivar page exposes cultivar-specific imagery, but the visual pixels were not retrievable in this run in a form sufficient for trustworthy image-derived morphology extraction. Use only the official text morphology evidence below; evidence alignment is NOT_APPLICABLE.\nCULTIVAR IDENTITY CONTEXT: AK-47 by Serious Seeds; Colombian × Mexican × Thai × Afghan; mostly-sativa F1 hybrid.\nTEXT MORPHOLOGY EVIDENCE: medium-sized plant with vigorous Christmas-tree-like growth; prominent central flower; compact flowers with few leaves; high calyx-to-leaf ratio; unusually large calyxes forming dense fat clusters; strong visible resin coverage.\nPHOTOGRAPHIC CONSTRAINTS: photorealistic botanical reference photography; one mature flowering female cannabis plant; complete plant visible; neutral natural light; neutral non-distracting background; realistic botany; no text; no collage.\nNEGATIVE CONSTRAINTS: no fruit or berries; no people; no labels or logos; no jars, bags, boxes or bottles; no smoke; no unrelated objects; no fantasy anatomy; do not add cultivar-specific morphology beyond the cited official text evidence.",
+  "evidenceSnapshot": [
+    {
+      "description": "[EVIDENCE_ALIGNMENT=NOT_APPLICABLE] Official cultivar imagery is present on the breeder-operated page, but its pixels were not retrievable in this run in a form sufficient for trustworthy visual morphology extraction. No image-derived claims are made; all non-alignment AI visual QA gates remain required.",
+      "sourceIds": [
+        "serious-seeds-ak-47"
+      ]
+    },
+    {
+      "description": "Official text morphology evidence: medium-sized plant with vigorous Christmas-tree-like growth; prominent central flower; compact flowers with few leaves; high calyx-to-leaf ratio; unusually large calyxes forming dense fat clusters; strong visible resin coverage.",
+      "sourceIds": [
+        "serious-seeds-ak-47"
+      ]
+    }
+  ],
+  "visualMetadataSnapshot": {
+    "alt": "AK-47のSerious Seeds公式テキスト形態情報を基礎に、未確認の画像由来形態を付加せず作成するAI生成参考ビジュアル",
+    "rights": "AI-generated project asset for Cannabis Strain Wisdom. No official or third-party image is copied or stored; prompt uses official text evidence only because visual retrieval was insufficient for image-derived morphology.",
+    "scope": "cultivar",
+    "aiGenerated": true,
+    "sourceType": "aiGenerated"
+  },
+  "expectedInboxFilename": "ak-47.jpg",
+  "expectedPrimaryPath": "strains/ak-47/images/generated/primary.webp",
+  "generatedAt": null,
+  "approvalStatus": "pending",
+  "approvedAt": null,
+  "approvalType": "human-visual-review",
+  "approvedManifestRevision": null,
+  "approvedAttempt": null,
+  "approvedSourceSha256": null,
+  "imageInboxCommit": null,
+  "imageProcessingCommit": null,
+  "processedPrimaryBlobSha": null,
+  "processedPrimarySha256": null,
+  "width": null,
+  "height": null,
+  "audit": [
+    {
+      "severity": "INFO",
+      "code": "MANIFEST_CREATED",
+      "at": "2026-08-19T13:04:19Z",
+      "productionPhase": "IMAGE_PENDING",
+      "note": "Created by PRODUCTION START V1. Candidate output is review-only and cannot publish."
+    }
+  ]
+}

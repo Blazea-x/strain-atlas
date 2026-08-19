@@ -1,0 +1,79 @@
+{
+  "schemaVersion": 1,
+  "id": "golden-tiger",
+  "status": "review",
+  "name": "Golden Tiger",
+  "jp": null,
+  "aliases": [],
+  "classification": {
+    "type": "sativa"
+  },
+  "breeding": {
+    "generation": "F3",
+    "method": "semi-stabilized 100% sativa hybrid"
+  },
+  "lineage": {
+    "status": "confirmed",
+    "confidence": "A",
+    "basis": "breederOfficial",
+    "sourceRefs": [
+      "ace-seeds-golden-tiger"
+    ],
+    "display": "Old Malawi Killer × Koh Chang Thai × Hmong Thai × 3rd-generation Malawi male",
+    "parents": [
+      "Old Malawi Killer",
+      "Koh Chang Thai",
+      "Hmong Thai",
+      "3rd-generation Malawi male"
+    ],
+    "note": "ACE Seeds identifies the current Golden Tiger as an F3 semi-stabilized 100% sativa hybrid combining two Thai lines and two Malawi parental plants."
+  },
+  "relations": [
+    {
+      "entityId": "ace-seeds",
+      "roles": [
+        "breeder",
+        "seedCompany"
+      ],
+      "status": "confirmed",
+      "confidence": "A",
+      "basis": "breederOfficial",
+      "sourceRefs": [
+        "ace-seeds-golden-tiger"
+      ]
+    }
+  ],
+  "aromas": {
+    "status": "unknown",
+    "items": [],
+    "note": "The checked official page mentions refined aromas but the retrieved source text does not provide a bounded cultivar-specific descriptor list; no aroma notes are inferred."
+  },
+  "terpenes": {
+    "status": "unknown",
+    "items": [],
+    "note": "No named cultivar-specific terpene compound panel was verified from the checked official source; no compounds are inferred from aroma words."
+  },
+  "origin": {
+    "status": "confirmed",
+    "confidence": "A",
+    "basis": "breederOfficial",
+    "sourceRefs": [
+      "ace-seeds-golden-tiger"
+    ],
+    "text": "Developed by ACE Seeds from Malawi and Thai parental lines.",
+    "note": "Limited to official breeder/seed-company context; undisclosed details remain undisclosed."
+  },
+  "history": {
+    "status": "confirmed",
+    "confidence": "B",
+    "basis": "breederOfficial",
+    "sourceRefs": [
+      "ace-seeds-golden-tiger"
+    ],
+    "text": "ACE Seeds describes the current version as a stronger-Thai-influence refinement of Golden Tiger and labels it F3 semi-stabilized.",
+    "note": "Only bounded history stated by the current official source is retained."
+  },
+  "visuals": [],
+  "checkedAt": "2026-08-19",
+  "updatedAt": "2026-08-19"
+}

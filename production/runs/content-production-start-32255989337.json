@@ -1,0 +1,265 @@
+{
+  "schemaVersion": 1,
+  "runVersion": 1,
+  "runId": "content-production-start-32255989337",
+  "mode": "new-publication",
+  "publicationPolicy": "cultivar",
+  "status": "ACTIVE",
+  "startedAt": "2026-08-19T13:04:19Z",
+  "updatedAt": "2026-08-19T13:04:19Z",
+  "finishedAt": null,
+  "cancelledAt": null,
+  "baseSha": "ef05960b203f1980ebf1e17edb22b70b7c934536",
+  "currentBaseSha": "ef05960b203f1980ebf1e17edb22b70b7c934536",
+  "attempt": 1,
+  "previousAttempts": [],
+  "mainHeadAtStart": "49cb6341df22f3551ffb1f9e7b3e041c18209564",
+  "mainHeadAtEnd": null,
+  "publishedIdsAtStart": [
+    "bangi-haze",
+    "bubba-kush-s1",
+    "bubble-gum",
+    "bubblegum-s1",
+    "california-octane",
+    "cataract-kush",
+    "chemdog-d-s1",
+    "cherry-pie-s1",
+    "chocolope-256",
+    "dr-grinspoon",
+    "durban-poison",
+    "durban-poison-s1",
+    "f1-durb-s1",
+    "frisian-duck",
+    "gorilla-glue-4-s1",
+    "jager-s1",
+    "kali-mist",
+    "laughing-buddha",
+    "malawi",
+    "og-kush",
+    "panama",
+    "shaman",
+    "shiva-skunk",
+    "strawberry-banana-s1",
+    "super-lemon-haze",
+    "t-1000-s1",
+    "the-og-18",
+    "trainwreck-s1",
+    "triangle-kush-s1",
+    "warlock",
+    "wedding-cake",
+    "wedding-cake-s1",
+    "zamaldelica"
+  ],
+  "targetStrainIds": [
+    "acapulco-gold",
+    "ak-47",
+    "golden-tiger",
+    "jack-herer",
+    "mazar"
+  ],
+  "expectedPublicationDelta": [
+    "acapulco-gold",
+    "ak-47",
+    "golden-tiger",
+    "jack-herer",
+    "mazar"
+  ],
+  "items": [
+    {
+      "strainId": "acapulco-gold",
+      "sourceStockPath": "stock/items/acapulco-gold.json",
+      "sourceStockBlobSha": "c7db149651a4afcb7a70a4e86fd18629c8fdfd36",
+      "productionStrainPath": "strains/acapulco-gold/strain.json",
+      "publicationEntryId": "acapulco-gold",
+      "productionPhase": "IMAGE_PENDING",
+      "previousStablePhase": "IMAGE_PENDING",
+      "manifestId": "content-production-start-32255989337-acapulco-gold-image",
+      "manifestRevision": 1,
+      "promotedAt": "2026-08-19T13:04:19Z",
+      "promotionCommit": null,
+      "approval": null,
+      "commits": {
+        "dataCommit": null,
+        "imageInboxCommit": null,
+        "imageProcessingCommit": null,
+        "visualsCommit": null,
+        "publicationCommit": null,
+        "buildCommit": null
+      },
+      "audit": [
+        {
+          "severity": "INFO",
+          "code": "PHASE_TRANSITION",
+          "fromPhase": "STOCKED",
+          "toPhase": "DATA_READY",
+          "at": "2026-08-19T13:04:19Z"
+        },
+        {
+          "severity": "INFO",
+          "code": "PHASE_TRANSITION",
+          "fromPhase": "DATA_READY",
+          "toPhase": "IMAGE_PENDING",
+          "at": "2026-08-19T13:04:19Z"
+        }
+      ]
+    },
+    {
+      "strainId": "ak-47",
+      "sourceStockPath": "stock/items/ak-47.json",
+      "sourceStockBlobSha": "3ba6b5621854dbd768fe46cc23dd0f45603f28b0",
+      "productionStrainPath": "strains/ak-47/strain.json",
+      "publicationEntryId": "ak-47",
+      "productionPhase": "IMAGE_PENDING",
+      "previousStablePhase": "IMAGE_PENDING",
+      "manifestId": "content-production-start-32255989337-ak-47-image",
+      "manifestRevision": 1,
+      "promotedAt": "2026-08-19T13:04:19Z",
+      "promotionCommit": null,
+      "approval": null,
+      "commits": {
+        "dataCommit": null,
+        "imageInboxCommit": null,
+        "imageProcessingCommit": null,
+        "visualsCommit": null,
+        "publicationCommit": null,
+        "buildCommit": null
+      },
+      "audit": [
+        {
+          "severity": "INFO",
+          "code": "PHASE_TRANSITION",
+          "fromPhase": "STOCKED",
+          "toPhase": "DATA_READY",
+          "at": "2026-08-19T13:04:19Z"
+        },
+        {
+          "severity": "INFO",
+          "code": "PHASE_TRANSITION",
+          "fromPhase": "DATA_READY",
+          "toPhase": "IMAGE_PENDING",
+          "at": "2026-08-19T13:04:19Z"
+        }
+      ]
+    },
+    {
+      "strainId": "golden-tiger",
+      "sourceStockPath": "stock/items/golden-tiger.json",
+      "sourceStockBlobSha": "148a4c34e943b65c57a265bc216316031ea37d82",
+      "productionStrainPath": "strains/golden-tiger/strain.json",
+      "publicationEntryId": "golden-tiger",
+      "productionPhase": "IMAGE_PENDING",
+      "previousStablePhase": "IMAGE_PENDING",
+      "manifestId": "content-production-start-32255989337-golden-tiger-image",
+      "manifestRevision": 1,
+      "promotedAt": "2026-08-19T13:04:19Z",
+      "promotionCommit": null,
+      "approval": null,
+      "commits": {
+        "dataCommit": null,
+        "imageInboxCommit": null,
+        "imageProcessingCommit": null,
+        "visualsCommit": null,
+        "publicationCommit": null,
+        "buildCommit": null
+      },
+      "audit": [
+        {
+          "severity": "INFO",
+          "code": "PHASE_TRANSITION",
+          "fromPhase": "STOCKED",
+          "toPhase": "DATA_READY",
+          "at": "2026-08-19T13:04:19Z"
+        },
+        {
+          "severity": "INFO",
+          "code": "PHASE_TRANSITION",
+          "fromPhase": "DATA_READY",
+          "toPhase": "IMAGE_PENDING",
+          "at": "2026-08-19T13:04:19Z"
+        }
+      ]
+    },
+    {
+      "strainId": "jack-herer",
+      "sourceStockPath": "stock/items/jack-herer.json",
+      "sourceStockBlobSha": "c157e627b2acfe726ea138e6422dddd5b25da634",
+      "productionStrainPath": "strains/jack-herer/strain.json",
+      "publicationEntryId": "jack-herer",
+      "productionPhase": "IMAGE_PENDING",
+      "previousStablePhase": "IMAGE_PENDING",
+      "manifestId": "content-production-start-32255989337-jack-herer-image",
+      "manifestRevision": 1,
+      "promotedAt": "2026-08-19T13:04:19Z",
+      "promotionCommit": null,
+      "approval": null,
+      "commits": {
+        "dataCommit": null,
+        "imageInboxCommit": null,
+        "imageProcessingCommit": null,
+        "visualsCommit": null,
+        "publicationCommit": null,
+        "buildCommit": null
+      },
+      "audit": [
+        {
+          "severity": "INFO",
+          "code": "PHASE_TRANSITION",
+          "fromPhase": "STOCKED",
+          "toPhase": "DATA_READY",
+          "at": "2026-08-19T13:04:19Z"
+        },
+        {
+          "severity": "INFO",
+          "code": "PHASE_TRANSITION",
+          "fromPhase": "DATA_READY",
+          "toPhase": "IMAGE_PENDING",
+          "at": "2026-08-19T13:04:19Z"
+        }
+      ]
+    },
+    {
+      "strainId": "mazar",
+      "sourceStockPath": "stock/items/mazar.json",
+      "sourceStockBlobSha": "b636019893cfa14973f85d7c4aef8f07b9ff2044",
+      "productionStrainPath": "strains/mazar/strain.json",
+      "publicationEntryId": "mazar",
+      "productionPhase": "IMAGE_PENDING",
+      "previousStablePhase": "IMAGE_PENDING",
+      "manifestId": "content-production-start-32255989337-mazar-image",
+      "manifestRevision": 1,
+      "promotedAt": "2026-08-19T13:04:19Z",
+      "promotionCommit": null,
+      "approval": null,
+      "commits": {
+        "dataCommit": null,
+        "imageInboxCommit": null,
+        "imageProcessingCommit": null,
+        "visualsCommit": null,
+        "publicationCommit": null,
+        "buildCommit": null
+      },
+      "audit": [
+        {
+          "severity": "INFO",
+          "code": "PHASE_TRANSITION",
+          "fromPhase": "STOCKED",
+          "toPhase": "DATA_READY",
+          "at": "2026-08-19T13:04:19Z"
+        },
+        {
+          "severity": "INFO",
+          "code": "PHASE_TRANSITION",
+          "fromPhase": "DATA_READY",
+          "toPhase": "IMAGE_PENDING",
+          "at": "2026-08-19T13:04:19Z"
+        }
+      ]
+    }
+  ],
+  "pagesDeploymentRunId": null,
+  "pagesDeploymentUrl": null,
+  "displayVerifiedAt": null,
+  "publicationSetAtEnd": null,
+  "recovery": null,
+  "auditSummary": null
+}

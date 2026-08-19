@@ -361,6 +361,46 @@
       "bootstrapMasterSha": null,
       "unpublishedAt": null,
       "unpublicationReason": null
+    },
+    {
+      "strainId": "acapulco-gold",
+      "state": "pending",
+      "origin": "content-production",
+      "introducedByRun": "content-production-start-32255989337",
+      "publishedAt": null,
+      "bootstrapMasterSha": null
+    },
+    {
+      "strainId": "ak-47",
+      "state": "pending",
+      "origin": "content-production",
+      "introducedByRun": "content-production-start-32255989337",
+      "publishedAt": null,
+      "bootstrapMasterSha": null
+    },
+    {
+      "strainId": "golden-tiger",
+      "state": "pending",
+      "origin": "content-production",
+      "introducedByRun": "content-production-start-32255989337",
+      "publishedAt": null,
+      "bootstrapMasterSha": null
+    },
+    {
+      "strainId": "jack-herer",
+      "state": "pending",
+      "origin": "content-production",
+      "introducedByRun": "content-production-start-32255989337",
+      "publishedAt": null,
+      "bootstrapMasterSha": null
+    },
+    {
+      "strainId": "mazar",
+      "state": "pending",
+      "origin": "content-production",
+      "introducedByRun": "content-production-start-32255989337",
+      "publishedAt": null,
+      "bootstrapMasterSha": null
     }
   ]
 }

@@ -1,0 +1,86 @@
+{
+  "schemaVersion": 1,
+  "id": "acapulco-gold",
+  "status": "review",
+  "name": "Acapulco Gold",
+  "jp": null,
+  "aliases": [],
+  "classification": {
+    "type": "sativa"
+  },
+  "breeding": {
+    "generation": "unknown",
+    "method": "sativa-dominant regular line"
+  },
+  "lineage": {
+    "status": "confirmed",
+    "confidence": "A",
+    "basis": "breederOfficial",
+    "sourceRefs": [
+      "barneys-farm-acapulco-gold"
+    ],
+    "display": "Central American",
+    "parents": [
+      "Central American"
+    ],
+    "note": "Barney's Farm lists Acapulco Gold Regular as Central American genetics and 70% sativa / 30% indica; no narrower hidden pedigree is inferred."
+  },
+  "relations": [
+    {
+      "entityId": "barneys-farm",
+      "roles": [
+        "breeder",
+        "seedCompany"
+      ],
+      "status": "confirmed",
+      "confidence": "A",
+      "basis": "breederOfficial",
+      "sourceRefs": [
+        "barneys-farm-acapulco-gold"
+      ]
+    }
+  ],
+  "aromas": {
+    "status": "confirmed",
+    "confidence": "A",
+    "basis": "breederOfficial",
+    "sourceRefs": [
+      "barneys-farm-acapulco-gold"
+    ],
+    "items": [
+      "earthy",
+      "pine",
+      "pungent",
+      "sweet"
+    ],
+    "note": "Official Barney's Farm cultivar descriptors."
+  },
+  "terpenes": {
+    "status": "unknown",
+    "items": [],
+    "note": "No named cultivar-specific terpene compound panel was verified from the checked official source; no compounds are inferred from aroma words."
+  },
+  "origin": {
+    "status": "confirmed",
+    "confidence": "A",
+    "basis": "breederOfficial",
+    "sourceRefs": [
+      "barneys-farm-acapulco-gold"
+    ],
+    "text": "Barney's Farm describes this Acapulco Gold line as derived from Central American/Mexican landrace heritage.",
+    "note": "Limited to official breeder/seed-company context; undisclosed details remain undisclosed."
+  },
+  "history": {
+    "status": "confirmed",
+    "confidence": "B",
+    "basis": "breederOfficial",
+    "sourceRefs": [
+      "barneys-farm-acapulco-gold"
+    ],
+    "text": "The official page presents Acapulco Gold as a legacy Mexican/Acapulco cultivar line; no precise creation date is asserted.",
+    "note": "Only bounded history stated by the current official source is retained."
+  },
+  "visuals": [],
+  "checkedAt": "2026-08-19",
+  "updatedAt": "2026-08-19"
+}

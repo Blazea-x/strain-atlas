@@ -1,0 +1,21 @@
+{
+  "schemaVersion": 1,
+  "id": "dutch-passion-mazar",
+  "publisher": "Dutch Passion",
+  "title": "Mazar",
+  "url": "https://dutch-passion.com/en/cannabis-seeds/mazar",
+  "sourceType": "breederOfficial",
+  "supports": [
+    "lineage",
+    "breeder",
+    "classification",
+    "breeding",
+    "aromas",
+    "origin",
+    "history",
+    "visualMorphology"
+  ],
+  "publishedAt": null,
+  "checkedAt": "2026-08-19",
+  "note": "Official cultivar page used for identity, breeding/lineage and text-grounded morphology. The page exposes cultivar imagery, but the visual pixels were not retrievable in a sufficiently inspectable form in this run, so no image-derived morphology is claimed."
+}

@@ -1,0 +1,83 @@
+{
+  "schemaVersion": 1,
+  "id": "jack-herer",
+  "status": "review",
+  "name": "Jack Herer",
+  "jp": null,
+  "aliases": [],
+  "classification": {
+    "type": "hybrid"
+  },
+  "breeding": {
+    "generation": "unknown",
+    "method": "balanced sativa/indica hybrid"
+  },
+  "lineage": {
+    "status": "confirmed",
+    "confidence": "A",
+    "basis": "breederOfficial",
+    "sourceRefs": [
+      "sensi-seeds-jack-herer"
+    ],
+    "display": "Undisclosed Sensi Seeds hybrid",
+    "parents": [],
+    "note": "Sensi Seeds identifies Jack Herer as a 50/50 sativa/indica hybrid but does not disclose a parent list on the checked official product page; no hidden pedigree is inferred."
+  },
+  "relations": [
+    {
+      "entityId": "sensi-seeds",
+      "roles": [
+        "breeder",
+        "seedCompany"
+      ],
+      "status": "confirmed",
+      "confidence": "A",
+      "basis": "breederOfficial",
+      "sourceRefs": [
+        "sensi-seeds-jack-herer"
+      ]
+    }
+  ],
+  "aromas": {
+    "status": "confirmed",
+    "confidence": "A",
+    "basis": "breederOfficial",
+    "sourceRefs": [
+      "sensi-seeds-jack-herer"
+    ],
+    "items": [
+      "sharp",
+      "savoury",
+      "earthy"
+    ],
+    "note": "Official Sensi Seeds post-harvest descriptors; phenotype-specific Afghan/skunk nuances are not generalized as fixed cultivar notes."
+  },
+  "terpenes": {
+    "status": "unknown",
+    "items": [],
+    "note": "No named cultivar-specific terpene compound panel was verified from the checked official source; no compounds are inferred from aroma words."
+  },
+  "origin": {
+    "status": "confirmed",
+    "confidence": "A",
+    "basis": "breederOfficial",
+    "sourceRefs": [
+      "sensi-seeds-jack-herer"
+    ],
+    "text": "Developed by Sensi Seeds and named for cannabis activist Jack Herer.",
+    "note": "Limited to official breeder/seed-company context; undisclosed details remain undisclosed."
+  },
+  "history": {
+    "status": "confirmed",
+    "confidence": "B",
+    "basis": "breederOfficial",
+    "sourceRefs": [
+      "sensi-seeds-jack-herer"
+    ],
+    "text": "Sensi Seeds presents Jack Herer as a flagship award-winning cultivar; no precise release year is imported from the checked product page.",
+    "note": "Only bounded history stated by the current official source is retained."
+  },
+  "visuals": [],
+  "checkedAt": "2026-08-19",
+  "updatedAt": "2026-08-19"
+}

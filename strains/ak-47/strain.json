@@ -1,0 +1,87 @@
+{
+  "schemaVersion": 1,
+  "id": "ak-47",
+  "status": "review",
+  "name": "AK-47",
+  "jp": null,
+  "aliases": [],
+  "classification": {
+    "type": "hybrid"
+  },
+  "breeding": {
+    "generation": "F1",
+    "method": "mostly-sativa F1 hybrid"
+  },
+  "lineage": {
+    "status": "confirmed",
+    "confidence": "A",
+    "basis": "breederOfficial",
+    "sourceRefs": [
+      "serious-seeds-ak-47"
+    ],
+    "display": "Colombian × Mexican × Thai × Afghan",
+    "parents": [
+      "Colombian",
+      "Mexican",
+      "Thai",
+      "Afghan"
+    ],
+    "note": "Serious Seeds identifies AK-47 as an F1 hybrid developed from Colombian, Mexican, Thai and Afghan seed stock, with mostly-sativa expression."
+  },
+  "relations": [
+    {
+      "entityId": "serious-seeds",
+      "roles": [
+        "breeder",
+        "seedCompany"
+      ],
+      "status": "confirmed",
+      "confidence": "A",
+      "basis": "breederOfficial",
+      "sourceRefs": [
+        "serious-seeds-ak-47"
+      ]
+    }
+  ],
+  "aromas": {
+    "status": "confirmed",
+    "confidence": "A",
+    "basis": "breederOfficial",
+    "sourceRefs": [
+      "serious-seeds-ak-47"
+    ],
+    "items": [
+      "spicy",
+      "sweet citrus"
+    ],
+    "note": "Official Serious Seeds cultivar descriptors, normalized conservatively."
+  },
+  "terpenes": {
+    "status": "unknown",
+    "items": [],
+    "note": "No named cultivar-specific terpene compound panel was verified from the checked official source; no compounds are inferred from aroma words."
+  },
+  "origin": {
+    "status": "confirmed",
+    "confidence": "A",
+    "basis": "breederOfficial",
+    "sourceRefs": [
+      "serious-seeds-ak-47"
+    ],
+    "text": "Created by Serious Seeds from Colombian, Mexican, Thai and Afghan seed stock.",
+    "note": "Limited to official breeder/seed-company context; undisclosed details remain undisclosed."
+  },
+  "history": {
+    "status": "confirmed",
+    "confidence": "B",
+    "basis": "breederOfficial",
+    "sourceRefs": [
+      "serious-seeds-ak-47"
+    ],
+    "text": "Serious Seeds states AK-47 was created in 1992 after selection work across multiple lines.",
+    "note": "Only bounded history stated by the current official source is retained."
+  },
+  "visuals": [],
+  "checkedAt": "2026-08-19",
+  "updatedAt": "2026-08-19"
+}

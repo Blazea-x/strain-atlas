@@ -1,0 +1,87 @@
+{
+  "schemaVersion": 1,
+  "id": "mazar",
+  "status": "review",
+  "name": "Mazar",
+  "jp": null,
+  "aliases": [],
+  "classification": {
+    "type": "indica"
+  },
+  "breeding": {
+    "generation": "unknown",
+    "method": "indica-dominant hybrid"
+  },
+  "lineage": {
+    "status": "confirmed",
+    "confidence": "A",
+    "basis": "breederOfficial",
+    "sourceRefs": [
+      "dutch-passion-mazar"
+    ],
+    "display": "Skunk #1 × Afghani",
+    "parents": [
+      "Skunk #1",
+      "Afghani"
+    ],
+    "note": "Dutch Passion identifies Mazar as Skunk #1 × Afghani and an indica-dominant Afghan hash-plant line."
+  },
+  "relations": [
+    {
+      "entityId": "dutch-passion",
+      "roles": [
+        "breeder",
+        "seedCompany"
+      ],
+      "status": "confirmed",
+      "confidence": "A",
+      "basis": "breederOfficial",
+      "sourceRefs": [
+        "dutch-passion-mazar"
+      ]
+    }
+  ],
+  "aromas": {
+    "status": "confirmed",
+    "confidence": "A",
+    "basis": "breederOfficial",
+    "sourceRefs": [
+      "dutch-passion-mazar"
+    ],
+    "items": [
+      "earthy hash",
+      "pine",
+      "incense",
+      "citrus"
+    ],
+    "note": "Official Dutch Passion descriptors, normalized without adding compounds."
+  },
+  "terpenes": {
+    "status": "unknown",
+    "items": [],
+    "note": "No named cultivar-specific terpene compound panel was verified from the checked official source; no compounds are inferred from aroma words."
+  },
+  "origin": {
+    "status": "confirmed",
+    "confidence": "A",
+    "basis": "breederOfficial",
+    "sourceRefs": [
+      "dutch-passion-mazar"
+    ],
+    "text": "Developed by Dutch Passion from a selected Skunk #1 crossed with Afghan genetics.",
+    "note": "Limited to official breeder/seed-company context; undisclosed details remain undisclosed."
+  },
+  "history": {
+    "status": "confirmed",
+    "confidence": "B",
+    "basis": "breederOfficial",
+    "sourceRefs": [
+      "dutch-passion-mazar"
+    ],
+    "text": "Dutch Passion describes Mazar as an 1980s/1990s classic and states the genetic mix was improved in 1997.",
+    "note": "Only bounded history stated by the current official source is retained."
+  },
+  "visuals": [],
+  "checkedAt": "2026-08-19",
+  "updatedAt": "2026-08-19"
+}
