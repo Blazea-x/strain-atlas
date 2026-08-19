@@ -66,6 +66,44 @@ window.STRAINS=[
     "reviews": []
   },
   {
+    "id": "bubba-kush-s1",
+    "name": "Bubba Kush S1",
+    "jp": "",
+    "type": {
+      "key": "unknown",
+      "label": "未分類"
+    },
+    "aliases": [],
+    "identity": {
+      "scope": "cultivar",
+      "note": "品種一般の情報。特定ロット・製品・フェノタイプを示すものではありません。"
+    },
+    "lineage": {
+      "display": "Bubba Kush × Bubba Kush",
+      "parents": [
+        "Bubba Kush"
+      ],
+      "note": "Humboldt CSI's official Bubba Kush S1 page lists the cultivar as Bubba Kush × Bubba Kush. Together with the official S1 designation, this is treated as a selfed S1 line. No unstated ancestry is copied from the parent cultivar."
+    },
+    "aromas": [],
+    "breeder": {
+      "name": "Humboldt CSI",
+      "era": ""
+    },
+    "terpenes": [],
+    "originHistory": "",
+    "history": "",
+    "confidence": {
+      "display": "LINEAGE A",
+      "note": "正本データの項目別confidenceを表示"
+    },
+    "visuals": [],
+    "sourceIds": [
+      "humboldt-csi-bubba-kush-s1"
+    ],
+    "reviews": []
+  },
+  {
     "id": "bubble-gum",
     "name": "Bubble Gum",
     "jp": "",
@@ -195,6 +233,44 @@ window.STRAINS=[
     "reviews": []
   },
   {
+    "id": "california-orange-s1",
+    "name": "California Orange S1",
+    "jp": "",
+    "type": {
+      "key": "unknown",
+      "label": "未分類"
+    },
+    "aliases": [],
+    "identity": {
+      "scope": "cultivar",
+      "note": "品種一般の情報。特定ロット・製品・フェノタイプを示すものではありません。"
+    },
+    "lineage": {
+      "display": "California Orange (AE77 cut) × California Orange (AE77 cut)",
+      "parents": [
+        "California Orange (AE77 cut)"
+      ],
+      "note": "Humboldt CSI's official California Orange S1 page lists the cultivar as California Orange (AE77 cut) × California Orange (AE77 cut). Together with the official S1 designation, this is treated as a selfed S1 line. No unstated ancestry is copied from the parent cultivar."
+    },
+    "aromas": [],
+    "breeder": {
+      "name": "Humboldt CSI",
+      "era": ""
+    },
+    "terpenes": [],
+    "originHistory": "",
+    "history": "",
+    "confidence": {
+      "display": "LINEAGE A",
+      "note": "正本データの項目別confidenceを表示"
+    },
+    "visuals": [],
+    "sourceIds": [
+      "humboldt-csi-california-orange-s1"
+    ],
+    "reviews": []
+  },
+  {
     "id": "cataract-kush",
     "name": "Cataract Kush",
     "jp": "",
@@ -251,6 +327,44 @@ window.STRAINS=[
       "dna-eu-cataract-kush",
       "seedfinder-cataract-kush",
       "leafly-cataract-kush"
+    ],
+    "reviews": []
+  },
+  {
+    "id": "chemdog-91-s1",
+    "name": "Chemdog ’91 S1",
+    "jp": "",
+    "type": {
+      "key": "unknown",
+      "label": "未分類"
+    },
+    "aliases": [],
+    "identity": {
+      "scope": "cultivar",
+      "note": "品種一般の情報。特定ロット・製品・フェノタイプを示すものではありません。"
+    },
+    "lineage": {
+      "display": "Chemdog ’91 × Chemdog ’91",
+      "parents": [
+        "Chemdog ’91"
+      ],
+      "note": "Humboldt CSI's official Chemdog ’91 S1 page lists the cultivar as Chemdog ’91 × Chemdog ’91. Together with the official S1 designation, this is treated as a selfed S1 line. No unstated ancestry is copied from the parent cultivar."
+    },
+    "aromas": [],
+    "breeder": {
+      "name": "Humboldt CSI",
+      "era": ""
+    },
+    "terpenes": [],
+    "originHistory": "",
+    "history": "",
+    "confidence": {
+      "display": "LINEAGE A",
+      "note": "正本データの項目別confidenceを表示"
+    },
+    "visuals": [],
+    "sourceIds": [
+      "humboldt-csi-chemdog-91-s1"
     ],
     "reviews": []
   },
@@ -472,6 +586,82 @@ window.STRAINS=[
     ],
     "sourceIds": [
       "dutch-passion-frisian-duck"
+    ],
+    "reviews": []
+  },
+  {
+    "id": "gorilla-glue-4-s1",
+    "name": "Gorilla Glue 4 S1",
+    "jp": "",
+    "type": {
+      "key": "unknown",
+      "label": "未分類"
+    },
+    "aliases": [],
+    "identity": {
+      "scope": "cultivar",
+      "note": "品種一般の情報。特定ロット・製品・フェノタイプを示すものではありません。"
+    },
+    "lineage": {
+      "display": "Gorilla Glue 4 × Gorilla Glue 4",
+      "parents": [
+        "Gorilla Glue 4"
+      ],
+      "note": "Humboldt CSI's official Gorilla Glue 4 S1 page lists the cultivar as Gorilla Glue 4 × Gorilla Glue 4. Together with the official S1 designation, this is treated as a selfed S1 line. No unstated ancestry is copied from the parent cultivar."
+    },
+    "aromas": [],
+    "breeder": {
+      "name": "Humboldt CSI",
+      "era": ""
+    },
+    "terpenes": [],
+    "originHistory": "",
+    "history": "",
+    "confidence": {
+      "display": "LINEAGE A",
+      "note": "正本データの項目別confidenceを表示"
+    },
+    "visuals": [],
+    "sourceIds": [
+      "humboldt-csi-gorilla-glue-4-s1"
+    ],
+    "reviews": []
+  },
+  {
+    "id": "jager-s1",
+    "name": "Jager S1",
+    "jp": "",
+    "type": {
+      "key": "unknown",
+      "label": "未分類"
+    },
+    "aliases": [],
+    "identity": {
+      "scope": "cultivar",
+      "note": "品種一般の情報。特定ロット・製品・フェノタイプを示すものではありません。"
+    },
+    "lineage": {
+      "display": "Jager × Jager",
+      "parents": [
+        "Jager"
+      ],
+      "note": "Humboldt CSI's official Jager S1 page lists the cultivar as Jager × Jager. Together with the official S1 designation, this is treated as a selfed S1 line. No unstated ancestry is copied from the parent cultivar."
+    },
+    "aromas": [],
+    "breeder": {
+      "name": "Humboldt CSI",
+      "era": ""
+    },
+    "terpenes": [],
+    "originHistory": "",
+    "history": "Humboldt CSI describes the Jager source cut as a very popular Southern Oregon outdoor cut that originated at Millerville Farms and spread widely.",
+    "confidence": {
+      "display": "LINEAGE A / HISTORY A",
+      "note": "正本データの項目別confidenceを表示"
+    },
+    "visuals": [],
+    "sourceIds": [
+      "humboldt-csi-jager-s1"
     ],
     "reviews": []
   },

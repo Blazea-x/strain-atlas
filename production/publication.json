@@ -164,42 +164,42 @@
     },
     {
       "strainId": "bubba-kush-s1",
-      "state": "pending",
+      "state": "published",
       "origin": "content-production",
       "introducedByRun": "content-production-start-32231155417",
-      "publishedAt": null,
+      "publishedAt": "2026-08-19T08:11:03Z",
       "bootstrapMasterSha": null
     },
     {
       "strainId": "california-orange-s1",
-      "state": "pending",
+      "state": "published",
       "origin": "content-production",
       "introducedByRun": "content-production-start-32231155417",
-      "publishedAt": null,
+      "publishedAt": "2026-08-19T08:11:03Z",
       "bootstrapMasterSha": null
     },
     {
       "strainId": "chemdog-91-s1",
-      "state": "pending",
+      "state": "published",
       "origin": "content-production",
       "introducedByRun": "content-production-start-32231155417",
-      "publishedAt": null,
+      "publishedAt": "2026-08-19T08:11:03Z",
       "bootstrapMasterSha": null
     },
     {
       "strainId": "gorilla-glue-4-s1",
-      "state": "pending",
+      "state": "published",
       "origin": "content-production",
       "introducedByRun": "content-production-start-32231155417",
-      "publishedAt": null,
+      "publishedAt": "2026-08-19T08:11:03Z",
       "bootstrapMasterSha": null
     },
     {
       "strainId": "jager-s1",
-      "state": "pending",
+      "state": "published",
       "origin": "content-production",
       "introducedByRun": "content-production-start-32231155417",
-      "publishedAt": null,
+      "publishedAt": "2026-08-19T08:11:03Z",
       "bootstrapMasterSha": null
     }
   ]

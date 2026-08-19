@@ -29,9 +29,9 @@
   "expectedInboxFilename": "california-orange-s1.jpg",
   "expectedPrimaryPath": "strains/california-orange-s1/images/generated/primary.webp",
   "generatedAt": null,
-  "approvalStatus": "pending",
+  "approvalStatus": "rejected",
   "approvedAt": null,
-  "approvalType": "human-visual-review",
+  "approvalType": "ai-visual-qa",
   "approvedManifestRevision": null,
   "approvedAttempt": null,
   "approvedSourceSha256": null,
@@ -48,6 +48,38 @@
       "at": "2026-08-19T08:08:56Z",
       "productionPhase": "IMAGE_PENDING",
       "note": "Created by PRODUCTION START V1. Candidate output is review-only and cannot publish."
+    },
+    {
+      "severity": "WARNING",
+      "code": "AI_VISUAL_QA_FAILED",
+      "at": "2026-08-19T08:11:03Z",
+      "qaEngine": "local-clip-semantic-v1",
+      "qaModel": "openai/clip-vit-base-patch32",
+      "reason": "AI_QA_MODEL_ERROR"
     }
-  ]
+  ],
+  "aiVisualQa": {
+    "strainId": "california-orange-s1",
+    "status": "FAIL",
+    "engine": "local-clip-semantic-v1",
+    "model": "openai/clip-vit-base-patch32",
+    "reason": "AI_QA_MODEL_ERROR",
+    "checks": [
+      {
+        "id": "image_decode",
+        "pass": true,
+        "width": 1024,
+        "height": 1536,
+        "variance": 727.119,
+        "meanLuma": 56.017
+      },
+      {
+        "id": "semantic_model",
+        "pass": false,
+        "detail": "'BaseModelOutputWithPooling' object has no attribute 'norm'"
+      }
+    ],
+    "evidenceText": "Humboldt CSI's official California Orange S1 page confirms cultivar identity and S1/selfed parentage but provides no verified cultivar-wide architecture, branching, internode, leaf-width, flower-density, color, or resin morphology descriptors. The generation prompt therefore intentionally avoids cultivar-specific morphology claims.",
+    "failClosed": true
+  }
 }

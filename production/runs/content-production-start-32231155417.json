@@ -4,17 +4,17 @@
   "runId": "content-production-start-32231155417",
   "mode": "new-publication",
   "publicationPolicy": "cultivar",
-  "status": "ACTIVE",
+  "status": "SUCCESS",
   "startedAt": "2026-08-19T08:08:56Z",
-  "updatedAt": "2026-08-19T08:08:56Z",
-  "finishedAt": null,
+  "updatedAt": "2026-08-19T08:11:03Z",
+  "finishedAt": "2026-08-19T08:11:03Z",
   "cancelledAt": null,
   "baseSha": "8dc9d45dfcdff6c06e0996e092090cdcc28bc395",
-  "currentBaseSha": "8dc9d45dfcdff6c06e0996e092090cdcc28bc395",
+  "currentBaseSha": "79969864c9e7d278972be4d798ce07545cf58aa9",
   "attempt": 1,
   "previousAttempts": [],
   "mainHeadAtStart": "aaadb18e2a8320f48082fa31cb653a3b0e6c2604",
-  "mainHeadAtEnd": null,
+  "mainHeadAtEnd": "d40f1f5b68e2b938999c47898ea2202ac5e3c0e5",
   "publishedIdsAtStart": [
     "bangi-haze",
     "bubble-gum",
@@ -58,7 +58,7 @@
       "sourceStockBlobSha": "edec7ecdfe613118474ee04e7539643bb3badcfc",
       "productionStrainPath": "strains/bubba-kush-s1/strain.json",
       "publicationEntryId": "bubba-kush-s1",
-      "productionPhase": "IMAGE_PENDING",
+      "productionPhase": "NEEDS_REVIEW",
       "previousStablePhase": "IMAGE_PENDING",
       "manifestId": "content-production-start-32231155417-bubba-kush-s1-image",
       "manifestRevision": 1,
@@ -87,6 +87,19 @@
           "fromPhase": "DATA_READY",
           "toPhase": "IMAGE_PENDING",
           "at": "2026-08-19T08:08:56Z"
+        },
+        {
+          "severity": "INFO",
+          "code": "PHASE_TRANSITION",
+          "fromPhase": "IMAGE_PENDING",
+          "toPhase": "NEEDS_REVIEW",
+          "at": "2026-08-19T08:11:03Z"
+        },
+        {
+          "severity": "WARNING",
+          "code": "AI_VISUAL_QA_FAILED",
+          "at": "2026-08-19T08:11:03Z",
+          "reason": "AI_QA_MODEL_ERROR"
         }
       ]
     },
@@ -96,7 +109,7 @@
       "sourceStockBlobSha": "a268afd870c1336495813c214426dcad3cb3f843",
       "productionStrainPath": "strains/california-orange-s1/strain.json",
       "publicationEntryId": "california-orange-s1",
-      "productionPhase": "IMAGE_PENDING",
+      "productionPhase": "NEEDS_REVIEW",
       "previousStablePhase": "IMAGE_PENDING",
       "manifestId": "content-production-start-32231155417-california-orange-s1-image",
       "manifestRevision": 1,
@@ -125,6 +138,19 @@
           "fromPhase": "DATA_READY",
           "toPhase": "IMAGE_PENDING",
           "at": "2026-08-19T08:08:56Z"
+        },
+        {
+          "severity": "INFO",
+          "code": "PHASE_TRANSITION",
+          "fromPhase": "IMAGE_PENDING",
+          "toPhase": "NEEDS_REVIEW",
+          "at": "2026-08-19T08:11:03Z"
+        },
+        {
+          "severity": "WARNING",
+          "code": "AI_VISUAL_QA_FAILED",
+          "at": "2026-08-19T08:11:03Z",
+          "reason": "AI_QA_MODEL_ERROR"
         }
       ]
     },
@@ -134,7 +160,7 @@
       "sourceStockBlobSha": "b5087a2b19fe7243c22ea8db90d4799be2a49dad",
       "productionStrainPath": "strains/chemdog-91-s1/strain.json",
       "publicationEntryId": "chemdog-91-s1",
-      "productionPhase": "IMAGE_PENDING",
+      "productionPhase": "NEEDS_REVIEW",
       "previousStablePhase": "IMAGE_PENDING",
       "manifestId": "content-production-start-32231155417-chemdog-91-s1-image",
       "manifestRevision": 1,
@@ -163,6 +189,19 @@
           "fromPhase": "DATA_READY",
           "toPhase": "IMAGE_PENDING",
           "at": "2026-08-19T08:08:56Z"
+        },
+        {
+          "severity": "INFO",
+          "code": "PHASE_TRANSITION",
+          "fromPhase": "IMAGE_PENDING",
+          "toPhase": "NEEDS_REVIEW",
+          "at": "2026-08-19T08:11:03Z"
+        },
+        {
+          "severity": "WARNING",
+          "code": "AI_VISUAL_QA_FAILED",
+          "at": "2026-08-19T08:11:03Z",
+          "reason": "AI_QA_MODEL_ERROR"
         }
       ]
     },
@@ -172,7 +211,7 @@
       "sourceStockBlobSha": "40a3955c91fc3df75dfb06728f797e98c588187d",
       "productionStrainPath": "strains/gorilla-glue-4-s1/strain.json",
       "publicationEntryId": "gorilla-glue-4-s1",
-      "productionPhase": "IMAGE_PENDING",
+      "productionPhase": "NEEDS_REVIEW",
       "previousStablePhase": "IMAGE_PENDING",
       "manifestId": "content-production-start-32231155417-gorilla-glue-4-s1-image",
       "manifestRevision": 1,
@@ -201,6 +240,19 @@
           "fromPhase": "DATA_READY",
           "toPhase": "IMAGE_PENDING",
           "at": "2026-08-19T08:08:56Z"
+        },
+        {
+          "severity": "INFO",
+          "code": "PHASE_TRANSITION",
+          "fromPhase": "IMAGE_PENDING",
+          "toPhase": "NEEDS_REVIEW",
+          "at": "2026-08-19T08:11:03Z"
+        },
+        {
+          "severity": "WARNING",
+          "code": "AI_VISUAL_QA_FAILED",
+          "at": "2026-08-19T08:11:03Z",
+          "reason": "AI_QA_MODEL_ERROR"
         }
       ]
     },
@@ -210,7 +262,7 @@
       "sourceStockBlobSha": "de574b8db78ff95b9c9344412dce116dcb2b089a",
       "productionStrainPath": "strains/jager-s1/strain.json",
       "publicationEntryId": "jager-s1",
-      "productionPhase": "IMAGE_PENDING",
+      "productionPhase": "NEEDS_REVIEW",
       "previousStablePhase": "IMAGE_PENDING",
       "manifestId": "content-production-start-32231155417-jager-s1-image",
       "manifestRevision": 1,
@@ -239,6 +291,19 @@
           "fromPhase": "DATA_READY",
           "toPhase": "IMAGE_PENDING",
           "at": "2026-08-19T08:08:56Z"
+        },
+        {
+          "severity": "INFO",
+          "code": "PHASE_TRANSITION",
+          "fromPhase": "IMAGE_PENDING",
+          "toPhase": "NEEDS_REVIEW",
+          "at": "2026-08-19T08:11:03Z"
+        },
+        {
+          "severity": "WARNING",
+          "code": "AI_VISUAL_QA_FAILED",
+          "at": "2026-08-19T08:11:03Z",
+          "reason": "AI_QA_MODEL_ERROR"
         }
       ]
     }
@@ -246,7 +311,53 @@
   "pagesDeploymentRunId": null,
   "pagesDeploymentUrl": null,
   "displayVerifiedAt": null,
-  "publicationSetAtEnd": null,
+  "publicationSetAtEnd": [
+    "bangi-haze",
+    "bubba-kush-s1",
+    "bubble-gum",
+    "california-octane",
+    "california-orange-s1",
+    "cataract-kush",
+    "chemdog-91-s1",
+    "chocolope-256",
+    "dr-grinspoon",
+    "durban-poison",
+    "frisian-duck",
+    "gorilla-glue-4-s1",
+    "jager-s1",
+    "kali-mist",
+    "malawi",
+    "og-kush",
+    "panama",
+    "shaman",
+    "strawberry-banana-s1",
+    "super-lemon-haze",
+    "the-og-18",
+    "warlock",
+    "wedding-cake",
+    "wedding-cake-s1",
+    "zamaldelica"
+  ],
   "recovery": null,
-  "auditSummary": null
+  "auditSummary": {
+    "mode": "auto",
+    "autoPublishedWithImage": [],
+    "dataFirstPublishedWithoutImage": [
+      "bubba-kush-s1",
+      "california-orange-s1",
+      "chemdog-91-s1",
+      "gorilla-glue-4-s1",
+      "jager-s1"
+    ],
+    "backlogRetained": [
+      "bubba-kush-s1",
+      "california-orange-s1",
+      "chemdog-91-s1",
+      "gorilla-glue-4-s1",
+      "jager-s1"
+    ],
+    "failedTargets": [],
+    "aiVisualQaApprovalType": "ai-visual-qa",
+    "finalValidationRequired": true
+  }
 }
