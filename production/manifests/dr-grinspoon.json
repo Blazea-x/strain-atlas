@@ -1,0 +1,82 @@
+{
+  "schemaVersion": 1,
+  "manifestVersion": 1,
+  "manifestId": "image-manifest-dr-grinspoon-display-repair-20260819",
+  "runId": "display-repair-dr-grinspoon-20260819",
+  "strainId": "dr-grinspoon",
+  "revision": 1,
+  "attempt": 1,
+  "sourceStockPath": null,
+  "sourceStockBlobSha": null,
+  "visualPreparationHash": "5b269a9ef4ed2b02237efb12529ce5ec08b43084a7fc8f9fbb75f72eb81c78c5",
+  "generatedFromManifestVersion": null,
+  "promptSnapshot": "Photorealistic botanical documentary photograph of a single mature female Dr Grinspoon cannabis plant, pure heirloom 100% Sativa. Show the complete plant or enough of the plant to clearly read its architecture. The plant must be tall and thin with slender stems. Its defining mature flowers are unusual compact green and reddish-brown bead-like clusters that hang loosely along thin stems, not conventional thick conical buds. Keep the overall silhouette open and delicate, with realistic sativa foliage and natural internodal spacing. Make the bead-like flower structure unmistakable and botanically plausible. One plant only. No text, labels, infographic, collage, split frame, hands, harvested buds, jars, smoke, or decorative cannabis graphics. Natural photographic lighting and credible horticultural setting. Avoid dense chunky indica-style colas.",
+  "evidenceSnapshot": [
+    {
+      "sourceRef": "barneys-farm-dr-grinspoon",
+      "sourceType": "breederOfficial",
+      "description": "Barney's Farm identifies Dr Grinspoon as a pure heirloom 100% Sativa that grows tall and thin."
+    },
+    {
+      "sourceRef": "barneys-farm-dr-grinspoon",
+      "sourceType": "breederOfficial",
+      "description": "At maturity, Barney's Farm describes the colas as compact green and reddish-brown bead-like flowers that hang loosely on thin stems."
+    }
+  ],
+  "visualMetadataSnapshot": {
+    "alt": "Dr Grinspoonの細長いサティバ株姿と、細い茎に疎らに付く緑〜赤褐色のビーズ状花序を表現したAI生成参考ビジュアル",
+    "rights": "AI-generated project asset for Cannabis Strain Wisdom; prompt derived from cited breeder-official morphology evidence.",
+    "scope": "cultivar",
+    "aiGenerated": true,
+    "sourceType": "aiGenerated"
+  },
+  "expectedInboxFilename": "dr-grinspoon.jpg",
+  "expectedPrimaryPath": "strains/dr-grinspoon/images/generated/primary.webp",
+  "generatedAt": "2026-08-19T01:48:27Z",
+  "approvalStatus": "pending",
+  "approvedAt": null,
+  "approvalType": null,
+  "approvedManifestRevision": null,
+  "approvedAttempt": null,
+  "approvedSourceSha256": null,
+  "imageInboxCommit": null,
+  "imageProcessingCommit": null,
+  "processedPrimaryBlobSha": null,
+  "processedPrimarySha256": null,
+  "width": null,
+  "height": null,
+  "reviewStatus": "NEEDS_REVIEW",
+  "reviewReason": "Generated candidate visually rejected: flower clusters resembled long hanging berry/grape bunches rather than a botanically plausible Dr Grinspoon bead-like cannabis flower structure.",
+  "generation": {
+    "provider": "OpenAI",
+    "model": "gpt-image-2",
+    "quality": "high",
+    "size": "1024x1536",
+    "outputFormat": "jpeg",
+    "n": 1,
+    "workflowRunId": 32206097651,
+    "artifactId": 9349217969,
+    "candidateSha256": "3c5fdd75353173f8d13312f21ccc8beea936610a1e5510e1ad2691fb2b5c3fe3",
+    "candidateBytes": 276112,
+    "candidateDimensions": {
+      "width": 1024,
+      "height": 1536,
+      "format": "JPEG"
+    },
+    "additionalOpenAiCostUsd": 0.16548
+  },
+  "audit": [
+    {
+      "at": "2026-08-19T01:48:27Z",
+      "action": "MANIFEST_BOOTSTRAP",
+      "status": "generated",
+      "note": "Bootstrap from formal source-backed prompt/evidence for one-image display repair attempt."
+    },
+    {
+      "at": "2026-08-19T01:49:00Z",
+      "action": "HUMAN_VISUAL_REVIEW",
+      "status": "NEEDS_REVIEW",
+      "note": "Candidate not promoted to primary.webp or visuals because its hanging fruit-like clusters were not botanically credible cannabis flowers."
+    }
+  ]
+}
