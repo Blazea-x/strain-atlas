@@ -1,0 +1,23 @@
+{
+  "current": {
+    "bytes": 14997,
+    "sha256": "9efc6c2914bea4bf05968d9f2ae378f0efb080dd4a61d4b6f045be87d4a840f7",
+    "magicHex": "671ccc22760e93348596f8fab5fbb087",
+    "decodable": false,
+    "verified": false,
+    "error": "UnidentifiedImageError"
+  },
+  "historicalCandidates": [
+    {
+      "bytes": 14997,
+      "sha256": "9efc6c2914bea4bf05968d9f2ae378f0efb080dd4a61d4b6f045be87d4a840f7",
+      "magicHex": "671ccc22760e93348596f8fab5fbb087",
+      "decodable": false,
+      "verified": false,
+      "error": "UnidentifiedImageError",
+      "objectId": "462e60b566b1fe6afd5b4e0e2d8df72b8beb2cec",
+      "path": "strains/malawi/images/generated/primary.webp"
+    }
+  ],
+  "recoveryMode": "NONE"
+}
