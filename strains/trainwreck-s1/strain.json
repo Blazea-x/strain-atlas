@@ -65,7 +65,17 @@
     "text": "Humboldt CSI states that the mid-to-late-1990s TrainWreck clone has been preserved in its library for over 20 years and is now available in S1 form.",
     "note": "The official page provides bounded parent-clone preservation context; no unsupported chronology is added."
   },
-  "visuals": [],
+  "visuals": [
+    {
+      "role": "primary",
+      "src": "strains/trainwreck-s1/images/generated/primary.webp",
+      "alt": "TrainWreck S1の根拠範囲を明示したAI生成の植物学的参考ビジュアル",
+      "rights": "AI-generated project asset for Cannabis Strain Wisdom. No official or third-party image is copied or stored; only bounded morphology evidence is used.",
+      "scope": "cultivar",
+      "aiGenerated": true,
+      "sourceType": "aiGenerated"
+    }
+  ],
   "checkedAt": "2026-08-19",
   "updatedAt": "2026-08-19"
 }

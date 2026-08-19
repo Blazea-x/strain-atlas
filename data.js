@@ -683,6 +683,61 @@ window.STRAINS=[
     "reviews": []
   },
   {
+    "id": "laughing-buddha",
+    "name": "Laughing Buddha",
+    "jp": "",
+    "type": {
+      "key": "sativa",
+      "label": "サティバ"
+    },
+    "aliases": [],
+    "identity": {
+      "scope": "cultivar",
+      "note": "品種一般の情報。特定ロット・製品・フェノタイプを示すものではありません。"
+    },
+    "lineage": {
+      "display": "Thai × Jamaican",
+      "parents": [
+        "Thai",
+        "Jamaican"
+      ],
+      "note": "Barney's Farm directly identifies Thai and Jamaican genetics and lists 80% sativa / 20% indica."
+    },
+    "aromas": [
+      "fresh",
+      "sweet",
+      "exotic fruits",
+      "spicy"
+    ],
+    "breeder": {
+      "name": "Barney's Farm",
+      "era": ""
+    },
+    "terpenes": [],
+    "originHistory": "Developed by Barney's Farm from Thai and Jamaican genetics.",
+    "history": "The current Barney's Farm page identifies Laughing Buddha as a cup-winning cultivar, but does not provide a precise release year or development chronology.",
+    "confidence": {
+      "display": "LINEAGE A / AROMA A / ORIGIN A / HISTORY B",
+      "note": "正本データの項目別confidenceを表示"
+    },
+    "visuals": [
+      {
+        "role": "primary",
+        "src": "strains/laughing-buddha/images/generated/primary.webp",
+        "alt": "Laughing Buddhaの公式テキスト形態情報を基礎に、未確認の画像由来形態を付加せず作成するAI生成参考ビジュアル",
+        "rights": "AI-generated project asset for Cannabis Strain Wisdom. No official or third-party image is copied or stored; fallback uses official text evidence only.",
+        "scope": "cultivar",
+        "aiGenerated": true,
+        "sourceType": "aiGenerated",
+        "label": "VISUAL REFERENCE"
+      }
+    ],
+    "sourceIds": [
+      "barneys-farm-laughing-buddha"
+    ],
+    "reviews": []
+  },
+  {
     "id": "malawi",
     "name": "Malawi",
     "jp": "",
@@ -942,6 +997,59 @@ window.STRAINS=[
     "reviews": []
   },
   {
+    "id": "shiva-skunk",
+    "name": "Shiva Skunk",
+    "jp": "",
+    "type": {
+      "key": "indica",
+      "label": "インディカ"
+    },
+    "aliases": [],
+    "identity": {
+      "scope": "cultivar",
+      "note": "品種一般の情報。特定ロット・製品・フェノタイプを示すものではありません。"
+    },
+    "lineage": {
+      "display": "Northern Lights #5 × Skunk #1",
+      "parents": [
+        "Northern Lights #5",
+        "Skunk #1"
+      ],
+      "note": "Sensi Seeds directly states the cultivar is bred from Northern Lights #5 and Skunk #1."
+    },
+    "aromas": [
+      "pungent",
+      "skunk"
+    ],
+    "breeder": {
+      "name": "Sensi Seeds",
+      "era": ""
+    },
+    "terpenes": [],
+    "originHistory": "Bred by Sensi Seeds from Northern Lights #5 and Skunk #1.",
+    "history": "Sensi Seeds states the strain was first released in 1987 as NL#5xSK#1 and was renamed Shiva Skunk shortly afterward.",
+    "confidence": {
+      "display": "LINEAGE A / AROMA B / ORIGIN A / HISTORY A",
+      "note": "正本データの項目別confidenceを表示"
+    },
+    "visuals": [
+      {
+        "role": "primary",
+        "src": "strains/shiva-skunk/images/generated/primary.webp",
+        "alt": "Shiva Skunkの公式テキスト形態情報を基礎に、未確認の画像由来形態を付加せず作成するAI生成参考ビジュアル",
+        "rights": "AI-generated project asset for Cannabis Strain Wisdom. No official or third-party image is copied or stored; fallback uses official text evidence only.",
+        "scope": "cultivar",
+        "aiGenerated": true,
+        "sourceType": "aiGenerated",
+        "label": "VISUAL REFERENCE"
+      }
+    ],
+    "sourceIds": [
+      "sensi-seeds-shiva-skunk"
+    ],
+    "reviews": []
+  },
+  {
     "id": "strawberry-banana-s1",
     "name": "Strawberry Banana S1",
     "jp": "",
@@ -1074,6 +1182,55 @@ window.STRAINS=[
     "reviews": []
   },
   {
+    "id": "t-1000-s1",
+    "name": "T-1000 S1",
+    "jp": "",
+    "type": {
+      "key": "unknown",
+      "label": "未分類"
+    },
+    "aliases": [],
+    "identity": {
+      "scope": "cultivar",
+      "note": "品種一般の情報。特定ロット・製品・フェノタイプを示すものではありません。"
+    },
+    "lineage": {
+      "display": "T-1000 × T-1000",
+      "parents": [
+        "T-1000"
+      ],
+      "note": "Humboldt CSI's official product page identifies T-1000 S1 as T-1000 × T-1000; together with the S1 designation this is treated as a selfed S1 line."
+    },
+    "aromas": [],
+    "breeder": {
+      "name": "Humboldt CSI",
+      "era": ""
+    },
+    "terpenes": [],
+    "originHistory": "",
+    "history": "Humboldt CSI describes T-1000 as a selection from its Old Family Purple hybrid and states that the T-1000 cut is now available in S1 feminized seed form.",
+    "confidence": {
+      "display": "LINEAGE A / HISTORY B",
+      "note": "正本データの項目別confidenceを表示"
+    },
+    "visuals": [
+      {
+        "role": "primary",
+        "src": "strains/t-1000-s1/images/generated/primary.webp",
+        "alt": "T-1000 S1の根拠範囲を明示したAI生成の植物学的参考ビジュアル",
+        "rights": "AI-generated project asset for Cannabis Strain Wisdom. No official or third-party image is copied or stored; only bounded morphology evidence is used.",
+        "scope": "cultivar",
+        "aiGenerated": true,
+        "sourceType": "aiGenerated",
+        "label": "VISUAL REFERENCE"
+      }
+    ],
+    "sourceIds": [
+      "humboldt-csi-t-1000-s1"
+    ],
+    "reviews": []
+  },
+  {
     "id": "the-og-18",
     "name": "The OG #18",
     "jp": "",
@@ -1133,6 +1290,104 @@ window.STRAINS=[
       "dna-eu-the-og-18",
       "seedfinder-the-og-18",
       "leafly-og-18"
+    ],
+    "reviews": []
+  },
+  {
+    "id": "trainwreck-s1",
+    "name": "TrainWreck S1",
+    "jp": "",
+    "type": {
+      "key": "unknown",
+      "label": "未分類"
+    },
+    "aliases": [],
+    "identity": {
+      "scope": "cultivar",
+      "note": "品種一般の情報。特定ロット・製品・フェノタイプを示すものではありません。"
+    },
+    "lineage": {
+      "display": "TrainWreck × TrainWreck",
+      "parents": [
+        "TrainWreck"
+      ],
+      "note": "Humboldt CSI's official product page identifies TrainWreck S1 as TrainWreck × TrainWreck; together with the S1 designation this is treated as a selfed S1 line."
+    },
+    "aromas": [],
+    "breeder": {
+      "name": "Humboldt CSI",
+      "era": ""
+    },
+    "terpenes": [],
+    "originHistory": "",
+    "history": "Humboldt CSI states that the mid-to-late-1990s TrainWreck clone has been preserved in its library for over 20 years and is now available in S1 form.",
+    "confidence": {
+      "display": "LINEAGE A / HISTORY B",
+      "note": "正本データの項目別confidenceを表示"
+    },
+    "visuals": [
+      {
+        "role": "primary",
+        "src": "strains/trainwreck-s1/images/generated/primary.webp",
+        "alt": "TrainWreck S1の根拠範囲を明示したAI生成の植物学的参考ビジュアル",
+        "rights": "AI-generated project asset for Cannabis Strain Wisdom. No official or third-party image is copied or stored; only bounded morphology evidence is used.",
+        "scope": "cultivar",
+        "aiGenerated": true,
+        "sourceType": "aiGenerated",
+        "label": "VISUAL REFERENCE"
+      }
+    ],
+    "sourceIds": [
+      "humboldt-csi-trainwreck-s1"
+    ],
+    "reviews": []
+  },
+  {
+    "id": "triangle-kush-s1",
+    "name": "Triangle Kush S1",
+    "jp": "",
+    "type": {
+      "key": "unknown",
+      "label": "未分類"
+    },
+    "aliases": [],
+    "identity": {
+      "scope": "cultivar",
+      "note": "品種一般の情報。特定ロット・製品・フェノタイプを示すものではありません。"
+    },
+    "lineage": {
+      "display": "Triangle Kush × Triangle Kush",
+      "parents": [
+        "Triangle Kush"
+      ],
+      "note": "Humboldt CSI's official product page identifies Triangle Kush S1 as Triangle Kush × Triangle Kush; together with the S1 designation this is treated as a selfed S1 line."
+    },
+    "aromas": [],
+    "breeder": {
+      "name": "Humboldt CSI",
+      "era": ""
+    },
+    "terpenes": [],
+    "originHistory": "",
+    "history": "Humboldt CSI describes repeated reversals of its Triangle Kush mother cut over roughly four years before successfully producing this S1 seed release.",
+    "confidence": {
+      "display": "LINEAGE A / HISTORY B",
+      "note": "正本データの項目別confidenceを表示"
+    },
+    "visuals": [
+      {
+        "role": "primary",
+        "src": "strains/triangle-kush-s1/images/generated/primary.webp",
+        "alt": "Triangle Kush S1の根拠範囲を明示したAI生成の植物学的参考ビジュアル",
+        "rights": "AI-generated project asset for Cannabis Strain Wisdom. No official or third-party image is copied or stored; only bounded morphology evidence is used.",
+        "scope": "cultivar",
+        "aiGenerated": true,
+        "sourceType": "aiGenerated",
+        "label": "VISUAL REFERENCE"
+      }
+    ],
+    "sourceIds": [
+      "humboldt-csi-triangle-kush-s1"
     ],
     "reviews": []
   },

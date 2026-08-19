@@ -1,15 +1,15 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-19T10:07:43.590Z",
+  "generatedAt": "2026-08-19T10:59:35.506Z",
   "sourceOfTruth": {
     "cultivars": "strains/<id>/strain.json",
     "sources": "sources/*.json",
     "entities": "entities/*.json"
   },
   "counts": {
-    "cultivars": 23,
-    "sources": 43,
-    "entities": 11
+    "cultivars": 28,
+    "sources": 48,
+    "entities": 12
   },
   "explore": {
     "sativa": [
@@ -18,6 +18,7 @@
       "dr-grinspoon",
       "durban-poison",
       "kali-mist",
+      "laughing-buddha",
       "malawi",
       "panama",
       "shaman",
@@ -27,6 +28,7 @@
     "indica": [
       "california-octane",
       "cataract-kush",
+      "shiva-skunk",
       "strawberry-banana-s1",
       "warlock"
     ],
@@ -41,6 +43,9 @@
       "bubba-kush-s1",
       "gorilla-glue-4-s1",
       "jager-s1",
+      "t-1000-s1",
+      "trainwreck-s1",
+      "triangle-kush-s1",
       "wedding-cake-s1"
     ]
   },
@@ -1207,6 +1212,103 @@
     },
     {
       "schemaVersion": 1,
+      "id": "laughing-buddha",
+      "status": "review",
+      "name": "Laughing Buddha",
+      "jp": null,
+      "aliases": [],
+      "classification": {
+        "type": "sativa"
+      },
+      "breeding": {
+        "generation": "unknown",
+        "method": "sativa-dominant hybrid"
+      },
+      "lineage": {
+        "status": "confirmed",
+        "confidence": "A",
+        "basis": "breederOfficial",
+        "display": "Thai × Jamaican",
+        "parents": [
+          "Thai",
+          "Jamaican"
+        ],
+        "note": "Barney's Farm directly identifies Thai and Jamaican genetics and lists 80% sativa / 20% indica.",
+        "sourceRefs": [
+          "barneys-farm-laughing-buddha"
+        ]
+      },
+      "relations": [
+        {
+          "entityId": "barneys-farm",
+          "roles": [
+            "breeder",
+            "seedCompany"
+          ],
+          "status": "confirmed",
+          "confidence": "A",
+          "basis": "breederOfficial",
+          "sourceRefs": [
+            "barneys-farm-laughing-buddha"
+          ]
+        }
+      ],
+      "aromas": {
+        "status": "confirmed",
+        "confidence": "A",
+        "basis": "breederOfficial",
+        "sourceRefs": [
+          "barneys-farm-laughing-buddha"
+        ],
+        "items": [
+          "fresh",
+          "sweet",
+          "exotic fruits",
+          "spicy"
+        ],
+        "note": "Official cultivar-specific aroma descriptors; wording normalized without adding unsupported notes."
+      },
+      "terpenes": {
+        "status": "unknown",
+        "items": [],
+        "note": "No named cultivar-specific terpene compound panel was verified; no compounds are inferred from aroma words."
+      },
+      "origin": {
+        "status": "confirmed",
+        "confidence": "A",
+        "basis": "breederOfficial",
+        "sourceRefs": [
+          "barneys-farm-laughing-buddha"
+        ],
+        "text": "Developed by Barney's Farm from Thai and Jamaican genetics.",
+        "note": "Limited to breeder-published origin context; undisclosed details remain undisclosed."
+      },
+      "history": {
+        "status": "confirmed",
+        "confidence": "B",
+        "basis": "breederOfficial",
+        "sourceRefs": [
+          "barneys-farm-laughing-buddha"
+        ],
+        "text": "The current Barney's Farm page identifies Laughing Buddha as a cup-winning cultivar, but does not provide a precise release year or development chronology.",
+        "note": "Only dated or descriptive history stated on the current official page is retained."
+      },
+      "visuals": [
+        {
+          "role": "primary",
+          "src": "strains/laughing-buddha/images/generated/primary.webp",
+          "alt": "Laughing Buddhaの公式テキスト形態情報を基礎に、未確認の画像由来形態を付加せず作成するAI生成参考ビジュアル",
+          "rights": "AI-generated project asset for Cannabis Strain Wisdom. No official or third-party image is copied or stored; fallback uses official text evidence only.",
+          "scope": "cultivar",
+          "aiGenerated": true,
+          "sourceType": "aiGenerated"
+        }
+      ],
+      "checkedAt": "2026-08-17",
+      "updatedAt": "2026-08-19"
+    },
+    {
+      "schemaVersion": 1,
       "id": "malawi",
       "status": "review",
       "name": "Malawi",
@@ -1637,6 +1739,101 @@
     },
     {
       "schemaVersion": 1,
+      "id": "shiva-skunk",
+      "status": "review",
+      "name": "Shiva Skunk",
+      "jp": null,
+      "aliases": [],
+      "classification": {
+        "type": "indica"
+      },
+      "breeding": {
+        "generation": "unknown",
+        "method": "85% indica hybrid"
+      },
+      "lineage": {
+        "status": "confirmed",
+        "confidence": "A",
+        "basis": "breederOfficial",
+        "display": "Northern Lights #5 × Skunk #1",
+        "parents": [
+          "Northern Lights #5",
+          "Skunk #1"
+        ],
+        "note": "Sensi Seeds directly states the cultivar is bred from Northern Lights #5 and Skunk #1.",
+        "sourceRefs": [
+          "sensi-seeds-shiva-skunk"
+        ]
+      },
+      "relations": [
+        {
+          "entityId": "sensi-seeds",
+          "roles": [
+            "breeder",
+            "seedCompany"
+          ],
+          "status": "confirmed",
+          "confidence": "A",
+          "basis": "breederOfficial",
+          "sourceRefs": [
+            "sensi-seeds-shiva-skunk"
+          ]
+        }
+      ],
+      "aromas": {
+        "status": "confirmed",
+        "confidence": "B",
+        "basis": "breederOfficial",
+        "sourceRefs": [
+          "sensi-seeds-shiva-skunk"
+        ],
+        "items": [
+          "pungent",
+          "skunk"
+        ],
+        "note": "Official cultivar-specific aroma descriptors; wording normalized without adding unsupported notes."
+      },
+      "terpenes": {
+        "status": "unknown",
+        "items": [],
+        "note": "No named cultivar-specific terpene compound panel was verified; no compounds are inferred from aroma words."
+      },
+      "origin": {
+        "status": "confirmed",
+        "confidence": "A",
+        "basis": "breederOfficial",
+        "sourceRefs": [
+          "sensi-seeds-shiva-skunk"
+        ],
+        "text": "Bred by Sensi Seeds from Northern Lights #5 and Skunk #1.",
+        "note": "Limited to breeder-published origin context; undisclosed details remain undisclosed."
+      },
+      "history": {
+        "status": "confirmed",
+        "confidence": "A",
+        "basis": "breederOfficial",
+        "sourceRefs": [
+          "sensi-seeds-shiva-skunk"
+        ],
+        "text": "Sensi Seeds states the strain was first released in 1987 as NL#5xSK#1 and was renamed Shiva Skunk shortly afterward.",
+        "note": "Only dated or descriptive history stated on the current official page is retained."
+      },
+      "visuals": [
+        {
+          "role": "primary",
+          "src": "strains/shiva-skunk/images/generated/primary.webp",
+          "alt": "Shiva Skunkの公式テキスト形態情報を基礎に、未確認の画像由来形態を付加せず作成するAI生成参考ビジュアル",
+          "rights": "AI-generated project asset for Cannabis Strain Wisdom. No official or third-party image is copied or stored; fallback uses official text evidence only.",
+          "scope": "cultivar",
+          "aiGenerated": true,
+          "sourceType": "aiGenerated"
+        }
+      ],
+      "checkedAt": "2026-08-17",
+      "updatedAt": "2026-08-19"
+    },
+    {
+      "schemaVersion": 1,
       "id": "strawberry-banana-s1",
       "status": "review",
       "name": "Strawberry Banana S1",
@@ -1863,6 +2060,87 @@
     },
     {
       "schemaVersion": 1,
+      "id": "t-1000-s1",
+      "status": "review",
+      "name": "T-1000 S1",
+      "jp": null,
+      "aliases": [],
+      "classification": {
+        "type": "unknown"
+      },
+      "breeding": {
+        "generation": "S1",
+        "method": "selfed"
+      },
+      "lineage": {
+        "status": "confirmed",
+        "confidence": "A",
+        "basis": "breederOfficial",
+        "sourceRefs": [
+          "humboldt-csi-t-1000-s1"
+        ],
+        "display": "T-1000 × T-1000",
+        "parents": [
+          "T-1000"
+        ],
+        "note": "Humboldt CSI's official product page identifies T-1000 S1 as T-1000 × T-1000; together with the S1 designation this is treated as a selfed S1 line."
+      },
+      "relations": [
+        {
+          "entityId": "humboldt-csi",
+          "roles": [
+            "breeder",
+            "seedCompany"
+          ],
+          "status": "confirmed",
+          "confidence": "A",
+          "basis": "breederOfficial",
+          "sourceRefs": [
+            "humboldt-csi-t-1000-s1"
+          ]
+        }
+      ],
+      "aromas": {
+        "status": "unknown",
+        "items": [],
+        "note": "No cultivar-wide aroma claim is added beyond the official source."
+      },
+      "terpenes": {
+        "status": "unknown",
+        "items": [],
+        "note": "No cultivar-specific lot terpene profile or COA is used for this S1 entry."
+      },
+      "origin": {
+        "status": "unknown",
+        "text": "",
+        "note": "The official page does not establish a sufficiently bounded creation location for this S1 line; no location is inferred."
+      },
+      "history": {
+        "status": "confirmed",
+        "confidence": "B",
+        "basis": "breederOfficial",
+        "sourceRefs": [
+          "humboldt-csi-t-1000-s1"
+        ],
+        "text": "Humboldt CSI describes T-1000 as a selection from its Old Family Purple hybrid and states that the T-1000 cut is now available in S1 feminized seed form.",
+        "note": "The official page gives cultivar development context but not a precise dated release chronology."
+      },
+      "visuals": [
+        {
+          "role": "primary",
+          "src": "strains/t-1000-s1/images/generated/primary.webp",
+          "alt": "T-1000 S1の根拠範囲を明示したAI生成の植物学的参考ビジュアル",
+          "rights": "AI-generated project asset for Cannabis Strain Wisdom. No official or third-party image is copied or stored; only bounded morphology evidence is used.",
+          "scope": "cultivar",
+          "aiGenerated": true,
+          "sourceType": "aiGenerated"
+        }
+      ],
+      "checkedAt": "2026-08-19",
+      "updatedAt": "2026-08-19"
+    },
+    {
+      "schemaVersion": 1,
       "id": "the-og-18",
       "status": "review",
       "name": "The OG #18",
@@ -1971,6 +2249,168 @@
       ],
       "checkedAt": "2026-08-16",
       "updatedAt": "2026-08-16"
+    },
+    {
+      "schemaVersion": 1,
+      "id": "trainwreck-s1",
+      "status": "review",
+      "name": "TrainWreck S1",
+      "jp": null,
+      "aliases": [],
+      "classification": {
+        "type": "unknown"
+      },
+      "breeding": {
+        "generation": "S1",
+        "method": "selfed"
+      },
+      "lineage": {
+        "status": "confirmed",
+        "confidence": "A",
+        "basis": "breederOfficial",
+        "sourceRefs": [
+          "humboldt-csi-trainwreck-s1"
+        ],
+        "display": "TrainWreck × TrainWreck",
+        "parents": [
+          "TrainWreck"
+        ],
+        "note": "Humboldt CSI's official product page identifies TrainWreck S1 as TrainWreck × TrainWreck; together with the S1 designation this is treated as a selfed S1 line."
+      },
+      "relations": [
+        {
+          "entityId": "humboldt-csi",
+          "roles": [
+            "breeder",
+            "seedCompany"
+          ],
+          "status": "confirmed",
+          "confidence": "A",
+          "basis": "breederOfficial",
+          "sourceRefs": [
+            "humboldt-csi-trainwreck-s1"
+          ]
+        }
+      ],
+      "aromas": {
+        "status": "unknown",
+        "items": [],
+        "note": "No cultivar-wide aroma claim is added beyond the official source."
+      },
+      "terpenes": {
+        "status": "unknown",
+        "items": [],
+        "note": "No cultivar-specific lot terpene profile or COA is used for this S1 entry."
+      },
+      "origin": {
+        "status": "unknown",
+        "text": "",
+        "note": "The official page does not establish a sufficiently bounded creation location for this S1 line; no location is inferred."
+      },
+      "history": {
+        "status": "confirmed",
+        "confidence": "B",
+        "basis": "breederOfficial",
+        "sourceRefs": [
+          "humboldt-csi-trainwreck-s1"
+        ],
+        "text": "Humboldt CSI states that the mid-to-late-1990s TrainWreck clone has been preserved in its library for over 20 years and is now available in S1 form.",
+        "note": "The official page provides bounded parent-clone preservation context; no unsupported chronology is added."
+      },
+      "visuals": [
+        {
+          "role": "primary",
+          "src": "strains/trainwreck-s1/images/generated/primary.webp",
+          "alt": "TrainWreck S1の根拠範囲を明示したAI生成の植物学的参考ビジュアル",
+          "rights": "AI-generated project asset for Cannabis Strain Wisdom. No official or third-party image is copied or stored; only bounded morphology evidence is used.",
+          "scope": "cultivar",
+          "aiGenerated": true,
+          "sourceType": "aiGenerated"
+        }
+      ],
+      "checkedAt": "2026-08-19",
+      "updatedAt": "2026-08-19"
+    },
+    {
+      "schemaVersion": 1,
+      "id": "triangle-kush-s1",
+      "status": "review",
+      "name": "Triangle Kush S1",
+      "jp": null,
+      "aliases": [],
+      "classification": {
+        "type": "unknown"
+      },
+      "breeding": {
+        "generation": "S1",
+        "method": "selfed"
+      },
+      "lineage": {
+        "status": "confirmed",
+        "confidence": "A",
+        "basis": "breederOfficial",
+        "sourceRefs": [
+          "humboldt-csi-triangle-kush-s1"
+        ],
+        "display": "Triangle Kush × Triangle Kush",
+        "parents": [
+          "Triangle Kush"
+        ],
+        "note": "Humboldt CSI's official product page identifies Triangle Kush S1 as Triangle Kush × Triangle Kush; together with the S1 designation this is treated as a selfed S1 line."
+      },
+      "relations": [
+        {
+          "entityId": "humboldt-csi",
+          "roles": [
+            "breeder",
+            "seedCompany"
+          ],
+          "status": "confirmed",
+          "confidence": "A",
+          "basis": "breederOfficial",
+          "sourceRefs": [
+            "humboldt-csi-triangle-kush-s1"
+          ]
+        }
+      ],
+      "aromas": {
+        "status": "unknown",
+        "items": [],
+        "note": "No cultivar-wide aroma claim is added beyond the official source."
+      },
+      "terpenes": {
+        "status": "unknown",
+        "items": [],
+        "note": "No cultivar-specific lot terpene profile or COA is used for this S1 entry."
+      },
+      "origin": {
+        "status": "unknown",
+        "text": "",
+        "note": "The official page does not establish a sufficiently bounded creation location for this S1 line; no location is inferred."
+      },
+      "history": {
+        "status": "confirmed",
+        "confidence": "B",
+        "basis": "breederOfficial",
+        "sourceRefs": [
+          "humboldt-csi-triangle-kush-s1"
+        ],
+        "text": "Humboldt CSI describes repeated reversals of its Triangle Kush mother cut over roughly four years before successfully producing this S1 seed release.",
+        "note": "The official page provides breeder-process context but not a precise calendar release date."
+      },
+      "visuals": [
+        {
+          "role": "primary",
+          "src": "strains/triangle-kush-s1/images/generated/primary.webp",
+          "alt": "Triangle Kush S1の根拠範囲を明示したAI生成の植物学的参考ビジュアル",
+          "rights": "AI-generated project asset for Cannabis Strain Wisdom. No official or third-party image is copied or stored; only bounded morphology evidence is used.",
+          "scope": "cultivar",
+          "aiGenerated": true,
+          "sourceType": "aiGenerated"
+        }
+      ],
+      "checkedAt": "2026-08-19",
+      "updatedAt": "2026-08-19"
     },
     {
       "schemaVersion": 1,
@@ -2538,6 +2978,28 @@
       "checkedAt": "2026-08-17",
       "note": "Barney's Farm公式Dr Grinspoon品種ページ。Heirloom Sativa Strain、100% sativa、Dr. Lester Grinspoonへの敬意による命名、sumac / lemon / tangy / tropical fruitのaromaを確認。親品種は公式ページで開示されていないためlineage parentageはunknown扱い。"
     },
+    "barneys-farm-laughing-buddha": {
+      "schemaVersion": 1,
+      "id": "barneys-farm-laughing-buddha",
+      "publisher": "Barney's Farm",
+      "title": "Laughing Buddha Strain",
+      "url": "https://www.barneysfarm.com/laughing-buddha-8",
+      "sourceType": "breederOfficial",
+      "supports": [
+        "lineage",
+        "breeder",
+        "classification",
+        "breeding",
+        "aromas",
+        "terpenes",
+        "origin",
+        "history",
+        "visualMorphology"
+      ],
+      "publishedAt": null,
+      "checkedAt": "2026-08-17",
+      "note": "Barney's Farm official cultivar page used for 80% sativa classification, Thai × Jamaican lineage, aroma and text morphology."
+    },
     "david-downs-wedding-cake-2026": {
       "schemaVersion": 1,
       "id": "david-downs-wedding-cake-2026",
@@ -2827,6 +3289,62 @@
       "checkedAt": "2026-08-19",
       "note": "Official Humboldt CSI product page used to confirm the Jager S1 identity, S1 designation, same-cultivar cross (Jager × Jager), feminized seed listing, and Humboldt CSI association. No unsupported aroma, terpene, classification, or cultivar-wide morphology claims are imported."
     },
+    "humboldt-csi-t-1000-s1": {
+      "schemaVersion": 1,
+      "id": "humboldt-csi-t-1000-s1",
+      "publisher": "Humboldt CSI",
+      "title": "T-1000 S1",
+      "url": "https://humboldtcsi.com/product/t-1000-s1/",
+      "sourceType": "breederOfficial",
+      "supports": [
+        "lineage",
+        "breeder",
+        "generation",
+        "breeding",
+        "history",
+        "visualMorphology"
+      ],
+      "publishedAt": null,
+      "checkedAt": "2026-08-19",
+      "note": "Official Humboldt CSI product page used for S1 identity, lineage context, and bounded flower-level visual morphology. The page credits the flower photograph to Resinated Lens; the project stores no copy of that image."
+    },
+    "humboldt-csi-trainwreck-s1": {
+      "schemaVersion": 1,
+      "id": "humboldt-csi-trainwreck-s1",
+      "publisher": "Humboldt CSI",
+      "title": "TrainWreck S1",
+      "url": "https://www.humboldtcsi.com/product/trainwreck-s1/",
+      "sourceType": "breederOfficial",
+      "supports": [
+        "lineage",
+        "breeder",
+        "generation",
+        "breeding",
+        "history"
+      ],
+      "publishedAt": null,
+      "checkedAt": "2026-08-19",
+      "note": "Official Humboldt CSI product page used for S1 identity and history context. The current page reports an awaiting-product-image placeholder; no visual morphology is claimed."
+    },
+    "humboldt-csi-triangle-kush-s1": {
+      "schemaVersion": 1,
+      "id": "humboldt-csi-triangle-kush-s1",
+      "publisher": "Humboldt CSI",
+      "title": "Triangle Kush S1",
+      "url": "https://www.humboldtcsi.com/product/triangle-kush-s1/",
+      "sourceType": "breederOfficial",
+      "supports": [
+        "lineage",
+        "breeder",
+        "generation",
+        "breeding",
+        "history",
+        "visualMorphology"
+      ],
+      "publishedAt": null,
+      "checkedAt": "2026-08-19",
+      "note": "Official Humboldt CSI product page used for S1 identity, breeder context, and bounded cultivar-specific visual morphology; no source image is copied into the repository."
+    },
     "humboldt-csi-wedding-cake-s1": {
       "schemaVersion": 1,
       "id": "humboldt-csi-wedding-cake-s1",
@@ -3071,6 +3589,28 @@
       "checkedAt": "2026-08-16",
       "note": "Specialist database corroborating Reserva Privada attribution, feminized-seed status, OG Kush background, flowering description, and major award records."
     },
+    "sensi-seeds-shiva-skunk": {
+      "schemaVersion": 1,
+      "id": "sensi-seeds-shiva-skunk",
+      "publisher": "Sensi Seeds",
+      "title": "Shiva Skunk Regular Seeds",
+      "url": "https://sensiseeds.com/en/cannabis-seeds/sensi-seeds/shiva-skunk",
+      "sourceType": "breederOfficial",
+      "supports": [
+        "lineage",
+        "breeder",
+        "classification",
+        "breeding",
+        "aromas",
+        "terpenes",
+        "origin",
+        "history",
+        "visualMorphology"
+      ],
+      "publishedAt": null,
+      "checkedAt": "2026-08-17",
+      "note": "Sensi Seeds official cultivar page used for 85% indica classification, NL#5 × Skunk #1 lineage, release history and written morphology."
+    },
     "serious-seeds-bubble-gum": {
       "schemaVersion": 1,
       "id": "serious-seeds-bubble-gum",
@@ -3258,6 +3798,18 @@
       "checkedAt": "2026-08-16",
       "updatedAt": "2026-08-16",
       "note": "Seed Junky official site was rechecked during the Wedding Cake audit and currently identifies Wedding Cake among its pheno-hunted cultivars. Cultivar-level breeder evidence is stored on the Wedding Cake relation; this entity record does not itself assert Wedding Cake parentage."
+    },
+    "sensi-seeds": {
+      "schemaVersion": 1,
+      "id": "sensi-seeds",
+      "name": "Sensi Seeds",
+      "roles": [
+        "breeder",
+        "seedCompany"
+      ],
+      "status": "confirmed",
+      "checkedAt": "2026-08-17",
+      "updatedAt": "2026-08-17"
     },
     "serious-seeds": {
       "schemaVersion": 1,

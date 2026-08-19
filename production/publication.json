@@ -264,43 +264,53 @@
     },
     {
       "strainId": "laughing-buddha",
-      "state": "pending",
+      "state": "published",
       "origin": "content-production",
       "introducedByRun": "content-production-start-32245177161",
-      "publishedAt": null,
-      "bootstrapMasterSha": null
+      "publishedAt": "2026-08-19T10:59:32Z",
+      "bootstrapMasterSha": null,
+      "unpublishedAt": null,
+      "unpublicationReason": null
     },
     {
       "strainId": "shiva-skunk",
-      "state": "pending",
+      "state": "published",
       "origin": "content-production",
       "introducedByRun": "content-production-start-32245177161",
-      "publishedAt": null,
-      "bootstrapMasterSha": null
+      "publishedAt": "2026-08-19T10:59:32Z",
+      "bootstrapMasterSha": null,
+      "unpublishedAt": null,
+      "unpublicationReason": null
     },
     {
       "strainId": "t-1000-s1",
-      "state": "pending",
+      "state": "published",
       "origin": "content-production",
       "introducedByRun": "content-production-start-32245177161",
-      "publishedAt": null,
-      "bootstrapMasterSha": null
+      "publishedAt": "2026-08-19T10:59:32Z",
+      "bootstrapMasterSha": null,
+      "unpublishedAt": null,
+      "unpublicationReason": null
     },
     {
       "strainId": "trainwreck-s1",
-      "state": "pending",
+      "state": "published",
       "origin": "content-production",
       "introducedByRun": "content-production-start-32245177161",
-      "publishedAt": null,
-      "bootstrapMasterSha": null
+      "publishedAt": "2026-08-19T10:59:32Z",
+      "bootstrapMasterSha": null,
+      "unpublishedAt": null,
+      "unpublicationReason": null
     },
     {
       "strainId": "triangle-kush-s1",
-      "state": "pending",
+      "state": "published",
       "origin": "content-production",
       "introducedByRun": "content-production-start-32245177161",
-      "publishedAt": null,
-      "bootstrapMasterSha": null
+      "publishedAt": "2026-08-19T10:59:32Z",
+      "bootstrapMasterSha": null,
+      "unpublishedAt": null,
+      "unpublicationReason": null
     }
   ]
 }

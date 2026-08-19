@@ -35,18 +35,18 @@
   "expectedInboxFilename": "triangle-kush-s1.jpg",
   "expectedPrimaryPath": "strains/triangle-kush-s1/images/generated/primary.webp",
   "generatedAt": null,
-  "approvalStatus": "pending",
-  "approvedAt": null,
-  "approvalType": "human-visual-review",
-  "approvedManifestRevision": null,
-  "approvedAttempt": null,
-  "approvedSourceSha256": null,
-  "imageInboxCommit": null,
-  "imageProcessingCommit": null,
-  "processedPrimaryBlobSha": null,
-  "processedPrimarySha256": null,
-  "width": null,
-  "height": null,
+  "approvalStatus": "auto-approved",
+  "approvedAt": "2026-08-19T10:59:32Z",
+  "approvalType": "ai-visual-qa",
+  "approvedManifestRevision": 1,
+  "approvedAttempt": 1,
+  "approvedSourceSha256": "b2ad46694513586fb1dc761a98226707c41f13889c2748ce41f288e012b4912d",
+  "imageInboxCommit": "not-applicable:production-auto-publish-v1-direct",
+  "imageProcessingCommit": "f031b8f9fd41cb9b0c2cffc3178d6faa167a175d",
+  "processedPrimaryBlobSha": "61bbc2781d596e8698010b858d8d376e0ae6c5d3",
+  "processedPrimarySha256": "f3dd3d21baa94af646e9eee0e3d16feed7919bffca23ca5a6a3ac02c1842db7d",
+  "width": 1024,
+  "height": 1536,
   "audit": [
     {
       "severity": "INFO",
@@ -54,6 +54,106 @@
       "at": "2026-08-19T10:57:28Z",
       "productionPhase": "IMAGE_PENDING",
       "note": "Created by PRODUCTION START V1. Candidate output is review-only and cannot publish."
+    },
+    {
+      "severity": "INFO",
+      "code": "AI_VISUAL_QA_PASS_AUTO_APPROVAL",
+      "at": "2026-08-19T10:59:32Z",
+      "approvalType": "ai-visual-qa",
+      "qaEngine": "local-clip-semantic-v1",
+      "qaModel": "openai/clip-vit-base-patch32",
+      "candidateSha256": "b2ad46694513586fb1dc761a98226707c41f13889c2748ce41f288e012b4912d"
+    },
+    {
+      "severity": "INFO",
+      "code": "PRIMARY_PROCESSED_INTERNAL",
+      "at": "2026-08-19T10:59:32Z",
+      "processingRoute": "production-auto-publish-v1-direct",
+      "processedPrimarySha256": "f3dd3d21baa94af646e9eee0e3d16feed7919bffca23ca5a6a3ac02c1842db7d",
+      "width": 1024,
+      "height": 1536
     }
-  ]
+  ],
+  "processingRoute": "production-auto-publish-v1-direct",
+  "processingSourceArtifact": "production-review-32245177161",
+  "aiVisualQa": {
+    "strainId": "triangle-kush-s1",
+    "status": "PASS",
+    "engine": "local-clip-semantic-v1",
+    "model": "openai/clip-vit-base-patch32",
+    "reason": null,
+    "checks": [
+      {
+        "id": "image_decode",
+        "pass": true,
+        "width": 1024,
+        "height": 1536,
+        "variance": 4513.922,
+        "meanLuma": 137.692
+      },
+      {
+        "id": "cannabis_natural",
+        "pass": true,
+        "positive": 0.32133,
+        "negative": 0.23805,
+        "margin": 0.08328,
+        "requiredMargin": 0.004
+      },
+      {
+        "id": "plant_structure",
+        "pass": true,
+        "positive": 0.26405,
+        "negative": 0.23206,
+        "margin": 0.03199,
+        "requiredMargin": 0.002
+      },
+      {
+        "id": "general_botanical_plausibility",
+        "pass": true,
+        "positive": 0.28407,
+        "negative": 0.23474,
+        "margin": 0.04933,
+        "requiredMargin": 0.001
+      },
+      {
+        "id": "no_fruit_or_berries",
+        "pass": true,
+        "positive": 0.3033,
+        "negative": 0.23128,
+        "margin": 0.07202,
+        "requiredMargin": 0.002
+      },
+      {
+        "id": "no_unwanted_objects",
+        "pass": true,
+        "positive": 0.28734,
+        "negative": 0.22992,
+        "margin": 0.05742,
+        "requiredMargin": 0.002
+      },
+      {
+        "id": "primary_visual_usable",
+        "pass": true,
+        "positive": 0.2942,
+        "negative": 0.18595,
+        "margin": 0.10825,
+        "requiredMargin": 0.001
+      },
+      {
+        "id": "evidence_alignment",
+        "pass": true,
+        "mode": "REQUIRED",
+        "evidenceScore": 0.29078,
+        "genericScore": 0.30473,
+        "margin": -0.01396,
+        "requiredEvidenceScore": 0.15,
+        "requiredMargin": -0.015,
+        "evidenceText": "Close-up reference shows a dense chunky flower cluster, medium-to-broad serrated green leaves, very heavy visible trichome coverage, and orange-rust pistils. Whole-plant silhouette, branching pattern, and internode spacing are not observable."
+      }
+    ],
+    "evidenceAlignmentMode": "REQUIRED",
+    "evidenceText": "Close-up reference shows a dense chunky flower cluster, medium-to-broad serrated green leaves, very heavy visible trichome coverage, and orange-rust pistils. Whole-plant silhouette, branching pattern, and internode spacing are not observable.",
+    "failedChecks": [],
+    "failClosed": true
+  }
 }

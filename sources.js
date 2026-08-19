@@ -114,6 +114,24 @@ window.SOURCES={
       "aromas"
     ]
   },
+  "barneys-farm-laughing-buddha": {
+    "name": "Barney's Farm — Laughing Buddha Strain",
+    "url": "https://www.barneysfarm.com/laughing-buddha-8",
+    "type": "primary",
+    "typeLabel": "一次情報",
+    "checked": "2026-08-17",
+    "supports": [
+      "lineage",
+      "breeder",
+      "classification",
+      "breeding",
+      "aromas",
+      "terpenes",
+      "origin",
+      "history",
+      "visualMorphology"
+    ]
+  },
   "david-downs-wedding-cake-2026": {
     "name": "David Downs / Fire Follower — Seed Junky Genetics recuts Wedding Cake into Cake Straws",
     "url": "https://daviddownspresents.substack.com/p/seed-junky-genetics-recuts-wedding",
@@ -339,6 +357,50 @@ window.SOURCES={
       "history"
     ]
   },
+  "humboldt-csi-t-1000-s1": {
+    "name": "Humboldt CSI — T-1000 S1",
+    "url": "https://humboldtcsi.com/product/t-1000-s1/",
+    "type": "primary",
+    "typeLabel": "一次情報",
+    "checked": "2026-08-19",
+    "supports": [
+      "lineage",
+      "breeder",
+      "generation",
+      "breeding",
+      "history",
+      "visualMorphology"
+    ]
+  },
+  "humboldt-csi-trainwreck-s1": {
+    "name": "Humboldt CSI — TrainWreck S1",
+    "url": "https://www.humboldtcsi.com/product/trainwreck-s1/",
+    "type": "primary",
+    "typeLabel": "一次情報",
+    "checked": "2026-08-19",
+    "supports": [
+      "lineage",
+      "breeder",
+      "generation",
+      "breeding",
+      "history"
+    ]
+  },
+  "humboldt-csi-triangle-kush-s1": {
+    "name": "Humboldt CSI — Triangle Kush S1",
+    "url": "https://www.humboldtcsi.com/product/triangle-kush-s1/",
+    "type": "primary",
+    "typeLabel": "一次情報",
+    "checked": "2026-08-19",
+    "supports": [
+      "lineage",
+      "breeder",
+      "generation",
+      "breeding",
+      "history",
+      "visualMorphology"
+    ]
+  },
   "humboldt-csi-wedding-cake-s1": {
     "name": "Humboldt CSI — Wedding Cake S1",
     "url": "https://humboldtcsi.com/product/wedding-cake-s1/",
@@ -521,6 +583,24 @@ window.SOURCES={
       "classification",
       "history",
       "awards"
+    ]
+  },
+  "sensi-seeds-shiva-skunk": {
+    "name": "Sensi Seeds — Shiva Skunk Regular Seeds",
+    "url": "https://sensiseeds.com/en/cannabis-seeds/sensi-seeds/shiva-skunk",
+    "type": "primary",
+    "typeLabel": "一次情報",
+    "checked": "2026-08-17",
+    "supports": [
+      "lineage",
+      "breeder",
+      "classification",
+      "breeding",
+      "aromas",
+      "terpenes",
+      "origin",
+      "history",
+      "visualMorphology"
     ]
   },
   "serious-seeds-bubble-gum": {

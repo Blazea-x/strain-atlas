@@ -4,17 +4,17 @@
   "runId": "content-production-start-32245177161",
   "mode": "new-publication",
   "publicationPolicy": "cultivar",
-  "status": "ACTIVE",
+  "status": "SUCCESS",
   "startedAt": "2026-08-19T10:57:28Z",
-  "updatedAt": "2026-08-19T10:57:28Z",
-  "finishedAt": null,
+  "updatedAt": "2026-08-19T10:59:32Z",
+  "finishedAt": "2026-08-19T10:59:32Z",
   "cancelledAt": null,
   "baseSha": "96acc9ad253bca601ec210ba8e78223af316a081",
-  "currentBaseSha": "96acc9ad253bca601ec210ba8e78223af316a081",
+  "currentBaseSha": "f031b8f9fd41cb9b0c2cffc3178d6faa167a175d",
   "attempt": 1,
   "previousAttempts": [],
   "mainHeadAtStart": "8606c4ac3acfadfb49a9437cbcb601f375f12bab",
-  "mainHeadAtEnd": null,
+  "mainHeadAtEnd": "8606c4ac3acfadfb49a9437cbcb601f375f12bab",
   "publishedIdsAtStart": [
     "bangi-haze",
     "bubba-kush-s1",
@@ -61,13 +61,23 @@
       "sourceStockBlobSha": "62fb74ff5eecdc546a2aabb04711edde9791e054",
       "productionStrainPath": "strains/laughing-buddha/strain.json",
       "publicationEntryId": "laughing-buddha",
-      "productionPhase": "IMAGE_PENDING",
-      "previousStablePhase": "IMAGE_PENDING",
+      "productionPhase": "PUBLISHED",
+      "previousStablePhase": "PUBLISHED",
       "manifestId": "content-production-start-32245177161-laughing-buddha-image",
       "manifestRevision": 1,
       "promotedAt": "2026-08-19T10:57:28Z",
       "promotionCommit": null,
-      "approval": null,
+      "approval": {
+        "status": "auto-approved",
+        "approvalType": "ai-visual-qa",
+        "approvedAt": "2026-08-19T10:59:32Z",
+        "candidateSha256": "35cb177b804c16f0940d6419c6fbd26542ba8d7b09adbe169ba5228f3803dbda",
+        "aiVisualQa": {
+          "status": "PASS",
+          "engine": "local-clip-semantic-v1",
+          "model": "openai/clip-vit-base-patch32"
+        }
+      },
       "commits": {
         "dataCommit": null,
         "imageInboxCommit": null,
@@ -90,6 +100,27 @@
           "fromPhase": "DATA_READY",
           "toPhase": "IMAGE_PENDING",
           "at": "2026-08-19T10:57:28Z"
+        },
+        {
+          "severity": "INFO",
+          "code": "PHASE_TRANSITION",
+          "fromPhase": "IMAGE_PENDING",
+          "toPhase": "IMAGE_READY",
+          "at": "2026-08-19T10:59:32Z"
+        },
+        {
+          "severity": "INFO",
+          "code": "PHASE_TRANSITION",
+          "fromPhase": "IMAGE_READY",
+          "toPhase": "VISUAL_LINKED",
+          "at": "2026-08-19T10:59:32Z"
+        },
+        {
+          "severity": "INFO",
+          "code": "PHASE_TRANSITION",
+          "fromPhase": "VISUAL_LINKED",
+          "toPhase": "PUBLISHED",
+          "at": "2026-08-19T10:59:32Z"
         }
       ]
     },
@@ -99,13 +130,23 @@
       "sourceStockBlobSha": "5fcd2e28d1ab8538c17248e167dbc4a930d4f13b",
       "productionStrainPath": "strains/shiva-skunk/strain.json",
       "publicationEntryId": "shiva-skunk",
-      "productionPhase": "IMAGE_PENDING",
-      "previousStablePhase": "IMAGE_PENDING",
+      "productionPhase": "PUBLISHED",
+      "previousStablePhase": "PUBLISHED",
       "manifestId": "content-production-start-32245177161-shiva-skunk-image",
       "manifestRevision": 1,
       "promotedAt": "2026-08-19T10:57:28Z",
       "promotionCommit": null,
-      "approval": null,
+      "approval": {
+        "status": "auto-approved",
+        "approvalType": "ai-visual-qa",
+        "approvedAt": "2026-08-19T10:59:32Z",
+        "candidateSha256": "9db05ba685ebc8fc24f95b897825bdd56639adeb76d91af3a6e6d0e5d68adce4",
+        "aiVisualQa": {
+          "status": "PASS",
+          "engine": "local-clip-semantic-v1",
+          "model": "openai/clip-vit-base-patch32"
+        }
+      },
       "commits": {
         "dataCommit": null,
         "imageInboxCommit": null,
@@ -128,6 +169,27 @@
           "fromPhase": "DATA_READY",
           "toPhase": "IMAGE_PENDING",
           "at": "2026-08-19T10:57:28Z"
+        },
+        {
+          "severity": "INFO",
+          "code": "PHASE_TRANSITION",
+          "fromPhase": "IMAGE_PENDING",
+          "toPhase": "IMAGE_READY",
+          "at": "2026-08-19T10:59:32Z"
+        },
+        {
+          "severity": "INFO",
+          "code": "PHASE_TRANSITION",
+          "fromPhase": "IMAGE_READY",
+          "toPhase": "VISUAL_LINKED",
+          "at": "2026-08-19T10:59:32Z"
+        },
+        {
+          "severity": "INFO",
+          "code": "PHASE_TRANSITION",
+          "fromPhase": "VISUAL_LINKED",
+          "toPhase": "PUBLISHED",
+          "at": "2026-08-19T10:59:32Z"
         }
       ]
     },
@@ -137,13 +199,23 @@
       "sourceStockBlobSha": "a64110bd68edc3d4e16c22f9a16c27ba279ae23e",
       "productionStrainPath": "strains/t-1000-s1/strain.json",
       "publicationEntryId": "t-1000-s1",
-      "productionPhase": "IMAGE_PENDING",
-      "previousStablePhase": "IMAGE_PENDING",
+      "productionPhase": "PUBLISHED",
+      "previousStablePhase": "PUBLISHED",
       "manifestId": "content-production-start-32245177161-t-1000-s1-image",
       "manifestRevision": 1,
       "promotedAt": "2026-08-19T10:57:28Z",
       "promotionCommit": null,
-      "approval": null,
+      "approval": {
+        "status": "auto-approved",
+        "approvalType": "ai-visual-qa",
+        "approvedAt": "2026-08-19T10:59:32Z",
+        "candidateSha256": "3f8828a5b83954dafad2d62f1e0ca08c3aa5e152fa0cdd9b04669020e64e9759",
+        "aiVisualQa": {
+          "status": "PASS",
+          "engine": "local-clip-semantic-v1",
+          "model": "openai/clip-vit-base-patch32"
+        }
+      },
       "commits": {
         "dataCommit": null,
         "imageInboxCommit": null,
@@ -166,6 +238,27 @@
           "fromPhase": "DATA_READY",
           "toPhase": "IMAGE_PENDING",
           "at": "2026-08-19T10:57:28Z"
+        },
+        {
+          "severity": "INFO",
+          "code": "PHASE_TRANSITION",
+          "fromPhase": "IMAGE_PENDING",
+          "toPhase": "IMAGE_READY",
+          "at": "2026-08-19T10:59:32Z"
+        },
+        {
+          "severity": "INFO",
+          "code": "PHASE_TRANSITION",
+          "fromPhase": "IMAGE_READY",
+          "toPhase": "VISUAL_LINKED",
+          "at": "2026-08-19T10:59:32Z"
+        },
+        {
+          "severity": "INFO",
+          "code": "PHASE_TRANSITION",
+          "fromPhase": "VISUAL_LINKED",
+          "toPhase": "PUBLISHED",
+          "at": "2026-08-19T10:59:32Z"
         }
       ]
     },
@@ -175,13 +268,23 @@
       "sourceStockBlobSha": "24900f7ecac7d2a87b36a730a8bf325d12435d8d",
       "productionStrainPath": "strains/trainwreck-s1/strain.json",
       "publicationEntryId": "trainwreck-s1",
-      "productionPhase": "IMAGE_PENDING",
-      "previousStablePhase": "IMAGE_PENDING",
+      "productionPhase": "PUBLISHED",
+      "previousStablePhase": "PUBLISHED",
       "manifestId": "content-production-start-32245177161-trainwreck-s1-image",
       "manifestRevision": 1,
       "promotedAt": "2026-08-19T10:57:28Z",
       "promotionCommit": null,
-      "approval": null,
+      "approval": {
+        "status": "auto-approved",
+        "approvalType": "ai-visual-qa",
+        "approvedAt": "2026-08-19T10:59:32Z",
+        "candidateSha256": "b998497c2b8bb2dc5949c854f513af08270902fab68a77dd80a600eb96fa0779",
+        "aiVisualQa": {
+          "status": "PASS",
+          "engine": "local-clip-semantic-v1",
+          "model": "openai/clip-vit-base-patch32"
+        }
+      },
       "commits": {
         "dataCommit": null,
         "imageInboxCommit": null,
@@ -204,6 +307,27 @@
           "fromPhase": "DATA_READY",
           "toPhase": "IMAGE_PENDING",
           "at": "2026-08-19T10:57:28Z"
+        },
+        {
+          "severity": "INFO",
+          "code": "PHASE_TRANSITION",
+          "fromPhase": "IMAGE_PENDING",
+          "toPhase": "IMAGE_READY",
+          "at": "2026-08-19T10:59:32Z"
+        },
+        {
+          "severity": "INFO",
+          "code": "PHASE_TRANSITION",
+          "fromPhase": "IMAGE_READY",
+          "toPhase": "VISUAL_LINKED",
+          "at": "2026-08-19T10:59:32Z"
+        },
+        {
+          "severity": "INFO",
+          "code": "PHASE_TRANSITION",
+          "fromPhase": "VISUAL_LINKED",
+          "toPhase": "PUBLISHED",
+          "at": "2026-08-19T10:59:32Z"
         }
       ]
     },
@@ -213,13 +337,23 @@
       "sourceStockBlobSha": "0e6918753bd9f1ff5eeb5444e3408f2484890570",
       "productionStrainPath": "strains/triangle-kush-s1/strain.json",
       "publicationEntryId": "triangle-kush-s1",
-      "productionPhase": "IMAGE_PENDING",
-      "previousStablePhase": "IMAGE_PENDING",
+      "productionPhase": "PUBLISHED",
+      "previousStablePhase": "PUBLISHED",
       "manifestId": "content-production-start-32245177161-triangle-kush-s1-image",
       "manifestRevision": 1,
       "promotedAt": "2026-08-19T10:57:28Z",
       "promotionCommit": null,
-      "approval": null,
+      "approval": {
+        "status": "auto-approved",
+        "approvalType": "ai-visual-qa",
+        "approvedAt": "2026-08-19T10:59:32Z",
+        "candidateSha256": "b2ad46694513586fb1dc761a98226707c41f13889c2748ce41f288e012b4912d",
+        "aiVisualQa": {
+          "status": "PASS",
+          "engine": "local-clip-semantic-v1",
+          "model": "openai/clip-vit-base-patch32"
+        }
+      },
       "commits": {
         "dataCommit": null,
         "imageInboxCommit": null,
@@ -242,6 +376,27 @@
           "fromPhase": "DATA_READY",
           "toPhase": "IMAGE_PENDING",
           "at": "2026-08-19T10:57:28Z"
+        },
+        {
+          "severity": "INFO",
+          "code": "PHASE_TRANSITION",
+          "fromPhase": "IMAGE_PENDING",
+          "toPhase": "IMAGE_READY",
+          "at": "2026-08-19T10:59:32Z"
+        },
+        {
+          "severity": "INFO",
+          "code": "PHASE_TRANSITION",
+          "fromPhase": "IMAGE_READY",
+          "toPhase": "VISUAL_LINKED",
+          "at": "2026-08-19T10:59:32Z"
+        },
+        {
+          "severity": "INFO",
+          "code": "PHASE_TRANSITION",
+          "fromPhase": "VISUAL_LINKED",
+          "toPhase": "PUBLISHED",
+          "at": "2026-08-19T10:59:32Z"
         }
       ]
     }
@@ -249,7 +404,51 @@
   "pagesDeploymentRunId": null,
   "pagesDeploymentUrl": null,
   "displayVerifiedAt": null,
-  "publicationSetAtEnd": null,
+  "publicationSetAtEnd": [
+    "bangi-haze",
+    "bubba-kush-s1",
+    "bubble-gum",
+    "california-octane",
+    "cataract-kush",
+    "chocolope-256",
+    "dr-grinspoon",
+    "durban-poison",
+    "frisian-duck",
+    "gorilla-glue-4-s1",
+    "jager-s1",
+    "kali-mist",
+    "laughing-buddha",
+    "malawi",
+    "og-kush",
+    "panama",
+    "shaman",
+    "shiva-skunk",
+    "strawberry-banana-s1",
+    "super-lemon-haze",
+    "t-1000-s1",
+    "the-og-18",
+    "trainwreck-s1",
+    "triangle-kush-s1",
+    "warlock",
+    "wedding-cake",
+    "wedding-cake-s1",
+    "zamaldelica"
+  ],
   "recovery": null,
-  "auditSummary": null
+  "auditSummary": {
+    "mode": "auto",
+    "autoPublishedWithImage": [
+      "laughing-buddha",
+      "shiva-skunk",
+      "t-1000-s1",
+      "trainwreck-s1",
+      "triangle-kush-s1"
+    ],
+    "dataFirstRetainedUnpublished": [],
+    "backlogRetained": [],
+    "failedTargets": [],
+    "aiVisualQaApprovalType": "ai-visual-qa",
+    "finalValidationRequired": true,
+    "imageGatedPublicVisibility": true
+  }
 }
