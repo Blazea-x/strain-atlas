@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "systemVersion": "CONTENT_PRODUCTION_V1",
-  "publicationPolicyDefault": "batch",
+  "publicationPolicyDefault": "cultivar",
   "maxConcurrentRetry": 1,
   "imageGenerationPolicy": {
     "defaultQuality": "medium",

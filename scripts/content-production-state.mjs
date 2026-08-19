@@ -33,6 +33,19 @@ export function approvalMatches(manifest) {
   const requiredType = CONFIG.imageGenerationPolicy?.requiredProductionApprovalType || 'human-visual-review';
   return manifest.approvalStatus === 'approved' && manifest.approvalType === requiredType && manifest.approvedManifestRevision === manifest.revision && manifest.approvedAttempt === manifest.attempt;
 }
+export function evaluateCultivarPublicationGate({strain,manifest,primaryExists=false,sourceEntityClosureValid=false,visualLinkageValid=false,cultivarValidationPass=false}={}) {
+  const primary=(strain?.visuals||[]).filter(v=>v.role==='primary');
+  const checks={
+    formalStrainDataValid:Boolean(strain?.id&&strain?.name),
+    sourceEntityClosureValid:Boolean(sourceEntityClosureValid),
+    primaryVisualExists:primary.length===1&&Boolean(primaryExists),
+    humanApprovalCurrent:Boolean(manifest&&approvalMatches(manifest)),
+    visualLinkageValid:primary.length===1&&Boolean(visualLinkageValid),
+    cultivarValidationPass:Boolean(cultivarValidationPass)
+  };
+  const blockers=Object.entries(checks).filter(([,ok])=>!ok).map(([name])=>name);
+  return {ok:blockers.length===0,checks,blockers};
+}
 export function inferStablePhase({strain, publicationEntry, manifest, primaryExists}) {
   if (!strain) return 'STOCKED';
   const primary = (strain.visuals || []).filter(v => v.role === 'primary');
