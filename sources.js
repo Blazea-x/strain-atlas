@@ -21,6 +21,24 @@ window.SOURCES={
       "history"
     ]
   },
+  "ace-seeds-bangi-haze": {
+    "name": "ACE Seeds — Bangi Haze Regular",
+    "url": "https://www.aceseeds.org/en/seeds/bangi-haze-regular-seeds/",
+    "type": "primary",
+    "typeLabel": "一次情報",
+    "checked": "2026-08-17",
+    "supports": [
+      "lineage",
+      "breeder",
+      "classification",
+      "breeding",
+      "aromas",
+      "terpenes",
+      "origin",
+      "history",
+      "visualMorphology"
+    ]
+  },
   "ace-seeds-malawi": {
     "name": "ACE Seeds — Malawi",
     "url": "https://www.aceseeds.org/en/seeds/malawi-standard/",

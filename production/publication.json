@@ -156,10 +156,10 @@
     },
     {
       "strainId": "bangi-haze",
-      "state": "pending",
+      "state": "published",
       "origin": "content-production",
       "introducedByRun": "content-production-start-32223471114",
-      "publishedAt": null,
+      "publishedAt": "2026-08-19T07:01:10Z",
       "bootstrapMasterSha": null
     }
   ]

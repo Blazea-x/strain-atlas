@@ -1,5 +1,71 @@
 window.STRAINS=[
   {
+    "id": "bangi-haze",
+    "name": "Bangi Haze",
+    "jp": "",
+    "type": {
+      "key": "sativa",
+      "label": "サティバ"
+    },
+    "aliases": [],
+    "identity": {
+      "scope": "cultivar",
+      "note": "品種一般の情報。特定ロット・製品・フェノタイプを示すものではありません。"
+    },
+    "lineage": {
+      "display": "F8 stabilized Congolese/Nepalese hybrid",
+      "parents": [
+        "Congolese",
+        "Nepalese"
+      ],
+      "note": "ACE Seeds explicitly identifies Bangi Haze as an F8 stabilized Congolese/Nepalese hybrid."
+    },
+    "aromas": [
+      "sweet",
+      "floral",
+      "musky",
+      "lemon",
+      "anisette"
+    ],
+    "breeder": {
+      "name": "ACE Seeds",
+      "era": ""
+    },
+    "terpenes": [
+      "alpha-pinene",
+      "beta-myrcene",
+      "terpinolene",
+      "beta-pinene",
+      "limonene",
+      "trans-ocimene",
+      "linalool",
+      "beta-caryophyllene",
+      "guaiol"
+    ],
+    "originHistory": "Developed and stabilized in Galicia, Spain from Congolese and Nepalese genetics.",
+    "history": "ACE Seeds describes Bangi Haze as a classic strain that has been in its catalogue for almost 20 years; an exact first-release year is not stated on the current page.",
+    "confidence": {
+      "display": "LINEAGE A / AROMA A / TERPENE B / ORIGIN A / HISTORY B",
+      "note": "正本データの項目別confidenceを表示"
+    },
+    "visuals": [
+      {
+        "role": "primary",
+        "src": "strains/bangi-haze/images/generated/primary.webp",
+        "alt": "Bangi Hazeの中型サティバ構造、枝分かれ、密度のある樹脂質な花を公式形態情報に基づいて表現したAI生成参考ビジュアル",
+        "rights": "AI-generated project asset planned for Cannabis Strain Wisdom; no third-party image will be copied. Visual prompt is derived from cited official morphology evidence.",
+        "scope": "cultivar",
+        "aiGenerated": true,
+        "sourceType": "aiGenerated",
+        "label": "VISUAL REFERENCE"
+      }
+    ],
+    "sourceIds": [
+      "ace-seeds-bangi-haze"
+    ],
+    "reviews": []
+  },
+  {
     "id": "bubble-gum",
     "name": "Bubble Gum",
     "jp": "",

@@ -29,18 +29,18 @@
   "expectedInboxFilename": "bangi-haze.jpg",
   "expectedPrimaryPath": "strains/bangi-haze/images/generated/primary.webp",
   "generatedAt": null,
-  "approvalStatus": "pending",
-  "approvedAt": null,
+  "approvalStatus": "approved",
+  "approvedAt": "2026-08-19T07:01:10Z",
   "approvalType": "human-visual-review",
-  "approvedManifestRevision": null,
-  "approvedAttempt": null,
-  "approvedSourceSha256": null,
-  "imageInboxCommit": null,
-  "imageProcessingCommit": null,
-  "processedPrimaryBlobSha": null,
-  "processedPrimarySha256": null,
-  "width": null,
-  "height": null,
+  "approvedManifestRevision": 1,
+  "approvedAttempt": 1,
+  "approvedSourceSha256": "8ad2113627bdd2c9dbd520b82a47b3b3acdf096b3faea1749c5c5c28ec59b063",
+  "imageInboxCommit": "not-applicable:production-approve-v1-direct",
+  "imageProcessingCommit": "4b600f3aedf752138b42802768d6abfa40c98ef6",
+  "processedPrimaryBlobSha": "1fc96fc368c2a6ba0c314f8d00ea4065064b8086",
+  "processedPrimarySha256": "f50f2c23922b6010cb73984f379ba157fcddd09d81239118cd536884a07734f7",
+  "width": 1024,
+  "height": 1536,
   "audit": [
     {
       "severity": "INFO",
@@ -48,6 +48,30 @@
       "at": "2026-08-19T06:27:40Z",
       "productionPhase": "IMAGE_PENDING",
       "note": "Created by PRODUCTION START V1. Candidate output is review-only and cannot publish."
+    },
+    {
+      "severity": "INFO",
+      "code": "HUMAN_VISUAL_APPROVAL",
+      "at": "2026-08-19T07:01:10Z",
+      "approvalType": "human-visual-review",
+      "approvalWorkflowRunId": "32225846474",
+      "approvalActor": "Blazea-x",
+      "approvalBindingSha256": "967337faef804f0f3fa23ca8a021e055b12ac907a002bbcb7b9b2ebfa8478775"
+    },
+    {
+      "severity": "INFO",
+      "code": "PRIMARY_PROCESSED_INTERNAL",
+      "at": "2026-08-19T07:01:10Z",
+      "processingRoute": "production-approve-v1-direct",
+      "processedPrimarySha256": "f50f2c23922b6010cb73984f379ba157fcddd09d81239118cd536884a07734f7",
+      "width": 1024,
+      "height": 1536
     }
-  ]
+  ],
+  "processingRoute": "production-approve-v1-direct",
+  "processingSourceArtifact": "production-review-32223471114",
+  "approvalBindingSha256": "967337faef804f0f3fa23ca8a021e055b12ac907a002bbcb7b9b2ebfa8478775",
+  "approvalWorkflowRunId": "32225846474",
+  "approvalActor": "Blazea-x",
+  "approvalEvent": "workflow_dispatch"
 }

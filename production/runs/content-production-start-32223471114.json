@@ -4,17 +4,17 @@
   "runId": "content-production-start-32223471114",
   "mode": "new-publication",
   "publicationPolicy": "cultivar",
-  "status": "ACTIVE",
+  "status": "SUCCESS",
   "startedAt": "2026-08-19T06:27:40Z",
-  "updatedAt": "2026-08-19T06:27:40Z",
-  "finishedAt": null,
+  "updatedAt": "2026-08-19T07:01:10Z",
+  "finishedAt": "2026-08-19T07:01:10Z",
   "cancelledAt": null,
   "baseSha": "684f1d9fb9beeee5349c5d18f7f147622a020787",
-  "currentBaseSha": "684f1d9fb9beeee5349c5d18f7f147622a020787",
+  "currentBaseSha": "4b600f3aedf752138b42802768d6abfa40c98ef6",
   "attempt": 1,
   "previousAttempts": [],
   "mainHeadAtStart": "77fdfa08f9263cb4beede48397cfd31a022b934a",
-  "mainHeadAtEnd": null,
+  "mainHeadAtEnd": "4be175d2052c0b9615d401c95e6ade412440a5c4",
   "publishedIdsAtStart": [
     "bubble-gum",
     "california-octane",
@@ -49,13 +49,21 @@
       "sourceStockBlobSha": "b81c542ddd3bf2f04a6f1dce76888a304db0d8d5",
       "productionStrainPath": "strains/bangi-haze/strain.json",
       "publicationEntryId": "bangi-haze",
-      "productionPhase": "IMAGE_PENDING",
-      "previousStablePhase": "IMAGE_PENDING",
+      "productionPhase": "PUBLISHED",
+      "previousStablePhase": "PUBLISHED",
       "manifestId": "content-production-start-32223471114-bangi-haze-image",
       "manifestRevision": 1,
       "promotedAt": "2026-08-19T06:27:40Z",
       "promotionCommit": null,
-      "approval": null,
+      "approval": {
+        "status": "approved",
+        "approvalType": "human-visual-review",
+        "approvedAt": "2026-08-19T07:01:10Z",
+        "approvalWorkflowRunId": "32225846474",
+        "approvalActor": "Blazea-x",
+        "approvalBindingSha256": "967337faef804f0f3fa23ca8a021e055b12ac907a002bbcb7b9b2ebfa8478775",
+        "candidateSha256": "8ad2113627bdd2c9dbd520b82a47b3b3acdf096b3faea1749c5c5c28ec59b063"
+      },
       "commits": {
         "dataCommit": null,
         "imageInboxCommit": null,
@@ -78,6 +86,27 @@
           "fromPhase": "DATA_READY",
           "toPhase": "IMAGE_PENDING",
           "at": "2026-08-19T06:27:40Z"
+        },
+        {
+          "severity": "INFO",
+          "code": "PHASE_TRANSITION",
+          "fromPhase": "IMAGE_PENDING",
+          "toPhase": "IMAGE_READY",
+          "at": "2026-08-19T07:01:10Z"
+        },
+        {
+          "severity": "INFO",
+          "code": "PHASE_TRANSITION",
+          "fromPhase": "IMAGE_READY",
+          "toPhase": "VISUAL_LINKED",
+          "at": "2026-08-19T07:01:10Z"
+        },
+        {
+          "severity": "INFO",
+          "code": "PHASE_TRANSITION",
+          "fromPhase": "VISUAL_LINKED",
+          "toPhase": "PUBLISHED",
+          "at": "2026-08-19T07:01:10Z"
         }
       ]
     }
@@ -85,7 +114,37 @@
   "pagesDeploymentRunId": null,
   "pagesDeploymentUrl": null,
   "displayVerifiedAt": null,
-  "publicationSetAtEnd": null,
+  "publicationSetAtEnd": [
+    "bangi-haze",
+    "bubble-gum",
+    "california-octane",
+    "cataract-kush",
+    "chocolope-256",
+    "dr-grinspoon",
+    "durban-poison",
+    "frisian-duck",
+    "kali-mist",
+    "malawi",
+    "og-kush",
+    "panama",
+    "shaman",
+    "strawberry-banana-s1",
+    "super-lemon-haze",
+    "the-og-18",
+    "warlock",
+    "wedding-cake",
+    "wedding-cake-s1",
+    "zamaldelica"
+  ],
   "recovery": null,
-  "auditSummary": null
+  "auditSummary": {
+    "approvalWorkflowRunId": "32225846474",
+    "approvalActor": "Blazea-x",
+    "approvedThisDispatch": [
+      "bangi-haze"
+    ],
+    "backlogRetained": [],
+    "rejectedThisDispatch": [],
+    "finalValidationRequired": true
+  }
 }
