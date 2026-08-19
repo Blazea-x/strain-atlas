@@ -29,6 +29,15 @@ def evidence_text(manifest):
 def normalize(v):
     return v / v.norm(dim=-1, keepdim=True).clamp_min(1e-8)
 
+def embedding_tensor(output, feature_name):
+    import torch
+    if torch.is_tensor(output):
+        return output
+    pooled = getattr(output, "pooler_output", None)
+    if torch.is_tensor(pooled):
+        return pooled
+    raise TypeError(f"{feature_name.upper()}_FEATURES_NOT_TENSOR")
+
 def qa_one(model, processor, image_path, manifest, device):
     from PIL import Image, ImageStat
     import torch
@@ -78,8 +87,10 @@ def qa_one(model, processor, image_path, manifest, device):
         image_inputs={k:v.to(device) for k,v in image_inputs.items()}
         text_inputs={k:v.to(device) for k,v in text_inputs.items()}
         with torch.no_grad():
-            iv=normalize(model.get_image_features(**image_inputs))
-            tv=normalize(model.get_text_features(**text_inputs))
+            image_output=model.get_image_features(**image_inputs)
+            text_output=model.get_text_features(**text_inputs)
+            iv=normalize(embedding_tensor(image_output, "image"))
+            tv=normalize(embedding_tensor(text_output, "text"))
             scores=(iv @ tv.T).detach().cpu().numpy()[0].tolist()
     except Exception as e:
         checks.append({"id":"semantic_model","pass":False,"detail":str(e)[:400]})
