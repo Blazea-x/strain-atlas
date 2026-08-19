@@ -1,0 +1,18 @@
+name: PRODUCTION START V1 PR TRIGGER
+
+on:
+  pull_request:
+    types: [opened]
+    paths:
+      - .github/production-triggers/s1-five-pr-v1
+
+jobs:
+  launch:
+    name: Launch five-cultivar PRODUCTION START V1
+    permissions:
+      contents: write
+    uses: Blazea-x/strain-atlas/.github/workflows/production-start-v1.yml@master-migration
+    with:
+      batch_size: "5"
+      generate_images: true
+    secrets: inherit
