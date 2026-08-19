@@ -1,0 +1,22 @@
+{
+  "schemaVersion": 1,
+  "id": "sensi-seeds-shiva-skunk",
+  "publisher": "Sensi Seeds",
+  "title": "Shiva Skunk Regular Seeds",
+  "url": "https://sensiseeds.com/en/cannabis-seeds/sensi-seeds/shiva-skunk",
+  "sourceType": "breederOfficial",
+  "supports": [
+    "lineage",
+    "breeder",
+    "classification",
+    "breeding",
+    "aromas",
+    "terpenes",
+    "origin",
+    "history",
+    "visualMorphology"
+  ],
+  "publishedAt": null,
+  "checkedAt": "2026-08-17",
+  "note": "Sensi Seeds official cultivar page used for 85% indica classification, NL#5 × Skunk #1 lineage, release history and written morphology."
+}

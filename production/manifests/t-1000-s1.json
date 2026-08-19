@@ -1,0 +1,59 @@
+{
+  "schemaVersion": 1,
+  "manifestVersion": 1,
+  "manifestId": "content-production-start-32245177161-t-1000-s1-image",
+  "runId": "content-production-start-32245177161",
+  "strainId": "t-1000-s1",
+  "revision": 1,
+  "attempt": 1,
+  "sourceStockPath": "stock/items/t-1000-s1.json",
+  "sourceStockBlobSha": "a64110bd68edc3d4e16c22f9a16c27ba279ae23e",
+  "visualPreparationHash": "60930ab182f39c8dc07b3b645b84673e60fb127439c779083a5ca4ec1ea744df",
+  "generatedFromManifestVersion": null,
+  "promptSnapshot": "CULTIVAR-SPECIFIC VISUAL EVIDENCE (highest priority): the official T-1000 mother-cut flower reference shows dense stacked flowering clusters, narrow-to-medium serrated leaves, strong visible trichome coverage, pale-to-rust pistils, and a dark green to burgundy-purple leaf coloration tendency. Do not infer whole-plant silhouette, branching pattern, or internode spacing from the close-up reference.\nCULTIVAR IDENTITY CONTEXT: T-1000 S1 by Humboldt CSI; S1/selfed generation; T-1000 × T-1000. The reference is the mother cut and is used only as a bounded morphology tendency, not proof of uniformity across every S1 plant.\nPHOTOGRAPHIC CONSTRAINTS: photorealistic botanical reference photography; single mature female cannabis plant; complete plant visible; natural light; neutral non-distracting background; no text; no collage; no packaging; no smoke.\nNEGATIVE CONSTRAINTS: no fruit or berries; no people; no labels or logos; no jars, bags, boxes or bottles; no smoke; no unrelated objects; no fantasy anatomy; do not invent cultivar-specific whole-plant architecture where the reference does not show it.",
+  "evidenceSnapshot": [
+    {
+      "description": "[EVIDENCE_ALIGNMENT=REQUIRED] OFFICIAL_VISUAL_EVIDENCE: Close-up reference shows dense stacked flowering clusters, narrow-to-medium serrated sugar/fan leaves, strong visible trichome coverage, pale-to-rust pistils, and a dark green to burgundy-purple leaf coloration tendency. Whole-plant silhouette, branching pattern, and internode spacing are not observable.",
+      "sourceIds": [
+        "humboldt-csi-t-1000-s1"
+      ]
+    },
+    {
+      "description": "The official page identifies the product as T-1000 × T-1000 and explicitly labels the pictured flower as the T-1000 mother cut; visual extraction is limited to traits visible in that reference.",
+      "sourceIds": [
+        "humboldt-csi-t-1000-s1"
+      ]
+    }
+  ],
+  "visualMetadataSnapshot": {
+    "alt": "T-1000 S1の根拠範囲を明示したAI生成の植物学的参考ビジュアル",
+    "rights": "AI-generated project asset for Cannabis Strain Wisdom. No official or third-party image is copied or stored; only bounded morphology evidence is used.",
+    "scope": "cultivar",
+    "aiGenerated": true,
+    "sourceType": "aiGenerated"
+  },
+  "expectedInboxFilename": "t-1000-s1.jpg",
+  "expectedPrimaryPath": "strains/t-1000-s1/images/generated/primary.webp",
+  "generatedAt": null,
+  "approvalStatus": "pending",
+  "approvedAt": null,
+  "approvalType": "human-visual-review",
+  "approvedManifestRevision": null,
+  "approvedAttempt": null,
+  "approvedSourceSha256": null,
+  "imageInboxCommit": null,
+  "imageProcessingCommit": null,
+  "processedPrimaryBlobSha": null,
+  "processedPrimarySha256": null,
+  "width": null,
+  "height": null,
+  "audit": [
+    {
+      "severity": "INFO",
+      "code": "MANIFEST_CREATED",
+      "at": "2026-08-19T10:57:28Z",
+      "productionPhase": "IMAGE_PENDING",
+      "note": "Created by PRODUCTION START V1. Candidate output is review-only and cannot publish."
+    }
+  ]
+}

@@ -1,0 +1,71 @@
+{
+  "schemaVersion": 1,
+  "id": "triangle-kush-s1",
+  "status": "review",
+  "name": "Triangle Kush S1",
+  "jp": null,
+  "aliases": [],
+  "classification": {
+    "type": "unknown"
+  },
+  "breeding": {
+    "generation": "S1",
+    "method": "selfed"
+  },
+  "lineage": {
+    "status": "confirmed",
+    "confidence": "A",
+    "basis": "breederOfficial",
+    "sourceRefs": [
+      "humboldt-csi-triangle-kush-s1"
+    ],
+    "display": "Triangle Kush × Triangle Kush",
+    "parents": [
+      "Triangle Kush"
+    ],
+    "note": "Humboldt CSI's official product page identifies Triangle Kush S1 as Triangle Kush × Triangle Kush; together with the S1 designation this is treated as a selfed S1 line."
+  },
+  "relations": [
+    {
+      "entityId": "humboldt-csi",
+      "roles": [
+        "breeder",
+        "seedCompany"
+      ],
+      "status": "confirmed",
+      "confidence": "A",
+      "basis": "breederOfficial",
+      "sourceRefs": [
+        "humboldt-csi-triangle-kush-s1"
+      ]
+    }
+  ],
+  "aromas": {
+    "status": "unknown",
+    "items": [],
+    "note": "No cultivar-wide aroma claim is added beyond the official source."
+  },
+  "terpenes": {
+    "status": "unknown",
+    "items": [],
+    "note": "No cultivar-specific lot terpene profile or COA is used for this S1 entry."
+  },
+  "origin": {
+    "status": "unknown",
+    "text": "",
+    "note": "The official page does not establish a sufficiently bounded creation location for this S1 line; no location is inferred."
+  },
+  "history": {
+    "status": "confirmed",
+    "confidence": "B",
+    "basis": "breederOfficial",
+    "sourceRefs": [
+      "humboldt-csi-triangle-kush-s1"
+    ],
+    "text": "Humboldt CSI describes repeated reversals of its Triangle Kush mother cut over roughly four years before successfully producing this S1 seed release.",
+    "note": "The official page provides breeder-process context but not a precise calendar release date."
+  },
+  "visuals": [],
+  "checkedAt": "2026-08-19",
+  "updatedAt": "2026-08-19"
+}

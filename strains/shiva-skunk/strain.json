@@ -1,0 +1,85 @@
+{
+  "schemaVersion": 1,
+  "id": "shiva-skunk",
+  "status": "review",
+  "name": "Shiva Skunk",
+  "jp": null,
+  "aliases": [],
+  "classification": {
+    "type": "indica"
+  },
+  "breeding": {
+    "generation": "unknown",
+    "method": "85% indica hybrid"
+  },
+  "lineage": {
+    "status": "confirmed",
+    "confidence": "A",
+    "basis": "breederOfficial",
+    "display": "Northern Lights #5 × Skunk #1",
+    "parents": [
+      "Northern Lights #5",
+      "Skunk #1"
+    ],
+    "note": "Sensi Seeds directly states the cultivar is bred from Northern Lights #5 and Skunk #1.",
+    "sourceRefs": [
+      "sensi-seeds-shiva-skunk"
+    ]
+  },
+  "relations": [
+    {
+      "entityId": "sensi-seeds",
+      "roles": [
+        "breeder",
+        "seedCompany"
+      ],
+      "status": "confirmed",
+      "confidence": "A",
+      "basis": "breederOfficial",
+      "sourceRefs": [
+        "sensi-seeds-shiva-skunk"
+      ]
+    }
+  ],
+  "aromas": {
+    "status": "confirmed",
+    "confidence": "B",
+    "basis": "breederOfficial",
+    "sourceRefs": [
+      "sensi-seeds-shiva-skunk"
+    ],
+    "items": [
+      "pungent",
+      "skunk"
+    ],
+    "note": "Official cultivar-specific aroma descriptors; wording normalized without adding unsupported notes."
+  },
+  "terpenes": {
+    "status": "unknown",
+    "items": [],
+    "note": "No named cultivar-specific terpene compound panel was verified; no compounds are inferred from aroma words."
+  },
+  "origin": {
+    "status": "confirmed",
+    "confidence": "A",
+    "basis": "breederOfficial",
+    "sourceRefs": [
+      "sensi-seeds-shiva-skunk"
+    ],
+    "text": "Bred by Sensi Seeds from Northern Lights #5 and Skunk #1.",
+    "note": "Limited to breeder-published origin context; undisclosed details remain undisclosed."
+  },
+  "history": {
+    "status": "confirmed",
+    "confidence": "A",
+    "basis": "breederOfficial",
+    "sourceRefs": [
+      "sensi-seeds-shiva-skunk"
+    ],
+    "text": "Sensi Seeds states the strain was first released in 1987 as NL#5xSK#1 and was renamed Shiva Skunk shortly afterward.",
+    "note": "Only dated or descriptive history stated on the current official page is retained."
+  },
+  "visuals": [],
+  "checkedAt": "2026-08-17",
+  "updatedAt": "2026-08-19"
+}

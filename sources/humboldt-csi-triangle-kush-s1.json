@@ -1,0 +1,19 @@
+{
+  "schemaVersion": 1,
+  "id": "humboldt-csi-triangle-kush-s1",
+  "publisher": "Humboldt CSI",
+  "title": "Triangle Kush S1",
+  "url": "https://www.humboldtcsi.com/product/triangle-kush-s1/",
+  "sourceType": "breederOfficial",
+  "supports": [
+    "lineage",
+    "breeder",
+    "generation",
+    "breeding",
+    "history",
+    "visualMorphology"
+  ],
+  "publishedAt": null,
+  "checkedAt": "2026-08-19",
+  "note": "Official Humboldt CSI product page used for S1 identity, breeder context, and bounded cultivar-specific visual morphology; no source image is copied into the repository."
+}

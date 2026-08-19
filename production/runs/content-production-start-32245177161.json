@@ -1,0 +1,255 @@
+{
+  "schemaVersion": 1,
+  "runVersion": 1,
+  "runId": "content-production-start-32245177161",
+  "mode": "new-publication",
+  "publicationPolicy": "cultivar",
+  "status": "ACTIVE",
+  "startedAt": "2026-08-19T10:57:28Z",
+  "updatedAt": "2026-08-19T10:57:28Z",
+  "finishedAt": null,
+  "cancelledAt": null,
+  "baseSha": "96acc9ad253bca601ec210ba8e78223af316a081",
+  "currentBaseSha": "96acc9ad253bca601ec210ba8e78223af316a081",
+  "attempt": 1,
+  "previousAttempts": [],
+  "mainHeadAtStart": "8606c4ac3acfadfb49a9437cbcb601f375f12bab",
+  "mainHeadAtEnd": null,
+  "publishedIdsAtStart": [
+    "bangi-haze",
+    "bubba-kush-s1",
+    "bubble-gum",
+    "california-octane",
+    "cataract-kush",
+    "chocolope-256",
+    "dr-grinspoon",
+    "durban-poison",
+    "frisian-duck",
+    "gorilla-glue-4-s1",
+    "jager-s1",
+    "kali-mist",
+    "malawi",
+    "og-kush",
+    "panama",
+    "shaman",
+    "strawberry-banana-s1",
+    "super-lemon-haze",
+    "the-og-18",
+    "warlock",
+    "wedding-cake",
+    "wedding-cake-s1",
+    "zamaldelica"
+  ],
+  "targetStrainIds": [
+    "laughing-buddha",
+    "shiva-skunk",
+    "t-1000-s1",
+    "trainwreck-s1",
+    "triangle-kush-s1"
+  ],
+  "expectedPublicationDelta": [
+    "laughing-buddha",
+    "shiva-skunk",
+    "t-1000-s1",
+    "trainwreck-s1",
+    "triangle-kush-s1"
+  ],
+  "items": [
+    {
+      "strainId": "laughing-buddha",
+      "sourceStockPath": "stock/items/laughing-buddha.json",
+      "sourceStockBlobSha": "62fb74ff5eecdc546a2aabb04711edde9791e054",
+      "productionStrainPath": "strains/laughing-buddha/strain.json",
+      "publicationEntryId": "laughing-buddha",
+      "productionPhase": "IMAGE_PENDING",
+      "previousStablePhase": "IMAGE_PENDING",
+      "manifestId": "content-production-start-32245177161-laughing-buddha-image",
+      "manifestRevision": 1,
+      "promotedAt": "2026-08-19T10:57:28Z",
+      "promotionCommit": null,
+      "approval": null,
+      "commits": {
+        "dataCommit": null,
+        "imageInboxCommit": null,
+        "imageProcessingCommit": null,
+        "visualsCommit": null,
+        "publicationCommit": null,
+        "buildCommit": null
+      },
+      "audit": [
+        {
+          "severity": "INFO",
+          "code": "PHASE_TRANSITION",
+          "fromPhase": "STOCKED",
+          "toPhase": "DATA_READY",
+          "at": "2026-08-19T10:57:28Z"
+        },
+        {
+          "severity": "INFO",
+          "code": "PHASE_TRANSITION",
+          "fromPhase": "DATA_READY",
+          "toPhase": "IMAGE_PENDING",
+          "at": "2026-08-19T10:57:28Z"
+        }
+      ]
+    },
+    {
+      "strainId": "shiva-skunk",
+      "sourceStockPath": "stock/items/shiva-skunk.json",
+      "sourceStockBlobSha": "5fcd2e28d1ab8538c17248e167dbc4a930d4f13b",
+      "productionStrainPath": "strains/shiva-skunk/strain.json",
+      "publicationEntryId": "shiva-skunk",
+      "productionPhase": "IMAGE_PENDING",
+      "previousStablePhase": "IMAGE_PENDING",
+      "manifestId": "content-production-start-32245177161-shiva-skunk-image",
+      "manifestRevision": 1,
+      "promotedAt": "2026-08-19T10:57:28Z",
+      "promotionCommit": null,
+      "approval": null,
+      "commits": {
+        "dataCommit": null,
+        "imageInboxCommit": null,
+        "imageProcessingCommit": null,
+        "visualsCommit": null,
+        "publicationCommit": null,
+        "buildCommit": null
+      },
+      "audit": [
+        {
+          "severity": "INFO",
+          "code": "PHASE_TRANSITION",
+          "fromPhase": "STOCKED",
+          "toPhase": "DATA_READY",
+          "at": "2026-08-19T10:57:28Z"
+        },
+        {
+          "severity": "INFO",
+          "code": "PHASE_TRANSITION",
+          "fromPhase": "DATA_READY",
+          "toPhase": "IMAGE_PENDING",
+          "at": "2026-08-19T10:57:28Z"
+        }
+      ]
+    },
+    {
+      "strainId": "t-1000-s1",
+      "sourceStockPath": "stock/items/t-1000-s1.json",
+      "sourceStockBlobSha": "a64110bd68edc3d4e16c22f9a16c27ba279ae23e",
+      "productionStrainPath": "strains/t-1000-s1/strain.json",
+      "publicationEntryId": "t-1000-s1",
+      "productionPhase": "IMAGE_PENDING",
+      "previousStablePhase": "IMAGE_PENDING",
+      "manifestId": "content-production-start-32245177161-t-1000-s1-image",
+      "manifestRevision": 1,
+      "promotedAt": "2026-08-19T10:57:28Z",
+      "promotionCommit": null,
+      "approval": null,
+      "commits": {
+        "dataCommit": null,
+        "imageInboxCommit": null,
+        "imageProcessingCommit": null,
+        "visualsCommit": null,
+        "publicationCommit": null,
+        "buildCommit": null
+      },
+      "audit": [
+        {
+          "severity": "INFO",
+          "code": "PHASE_TRANSITION",
+          "fromPhase": "STOCKED",
+          "toPhase": "DATA_READY",
+          "at": "2026-08-19T10:57:28Z"
+        },
+        {
+          "severity": "INFO",
+          "code": "PHASE_TRANSITION",
+          "fromPhase": "DATA_READY",
+          "toPhase": "IMAGE_PENDING",
+          "at": "2026-08-19T10:57:28Z"
+        }
+      ]
+    },
+    {
+      "strainId": "trainwreck-s1",
+      "sourceStockPath": "stock/items/trainwreck-s1.json",
+      "sourceStockBlobSha": "24900f7ecac7d2a87b36a730a8bf325d12435d8d",
+      "productionStrainPath": "strains/trainwreck-s1/strain.json",
+      "publicationEntryId": "trainwreck-s1",
+      "productionPhase": "IMAGE_PENDING",
+      "previousStablePhase": "IMAGE_PENDING",
+      "manifestId": "content-production-start-32245177161-trainwreck-s1-image",
+      "manifestRevision": 1,
+      "promotedAt": "2026-08-19T10:57:28Z",
+      "promotionCommit": null,
+      "approval": null,
+      "commits": {
+        "dataCommit": null,
+        "imageInboxCommit": null,
+        "imageProcessingCommit": null,
+        "visualsCommit": null,
+        "publicationCommit": null,
+        "buildCommit": null
+      },
+      "audit": [
+        {
+          "severity": "INFO",
+          "code": "PHASE_TRANSITION",
+          "fromPhase": "STOCKED",
+          "toPhase": "DATA_READY",
+          "at": "2026-08-19T10:57:28Z"
+        },
+        {
+          "severity": "INFO",
+          "code": "PHASE_TRANSITION",
+          "fromPhase": "DATA_READY",
+          "toPhase": "IMAGE_PENDING",
+          "at": "2026-08-19T10:57:28Z"
+        }
+      ]
+    },
+    {
+      "strainId": "triangle-kush-s1",
+      "sourceStockPath": "stock/items/triangle-kush-s1.json",
+      "sourceStockBlobSha": "0e6918753bd9f1ff5eeb5444e3408f2484890570",
+      "productionStrainPath": "strains/triangle-kush-s1/strain.json",
+      "publicationEntryId": "triangle-kush-s1",
+      "productionPhase": "IMAGE_PENDING",
+      "previousStablePhase": "IMAGE_PENDING",
+      "manifestId": "content-production-start-32245177161-triangle-kush-s1-image",
+      "manifestRevision": 1,
+      "promotedAt": "2026-08-19T10:57:28Z",
+      "promotionCommit": null,
+      "approval": null,
+      "commits": {
+        "dataCommit": null,
+        "imageInboxCommit": null,
+        "imageProcessingCommit": null,
+        "visualsCommit": null,
+        "publicationCommit": null,
+        "buildCommit": null
+      },
+      "audit": [
+        {
+          "severity": "INFO",
+          "code": "PHASE_TRANSITION",
+          "fromPhase": "STOCKED",
+          "toPhase": "DATA_READY",
+          "at": "2026-08-19T10:57:28Z"
+        },
+        {
+          "severity": "INFO",
+          "code": "PHASE_TRANSITION",
+          "fromPhase": "DATA_READY",
+          "toPhase": "IMAGE_PENDING",
+          "at": "2026-08-19T10:57:28Z"
+        }
+      ]
+    }
+  ],
+  "pagesDeploymentRunId": null,
+  "pagesDeploymentUrl": null,
+  "displayVerifiedAt": null,
+  "publicationSetAtEnd": null,
+  "recovery": null,
+  "auditSummary": null
+}

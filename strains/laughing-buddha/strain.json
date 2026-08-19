@@ -1,0 +1,87 @@
+{
+  "schemaVersion": 1,
+  "id": "laughing-buddha",
+  "status": "review",
+  "name": "Laughing Buddha",
+  "jp": null,
+  "aliases": [],
+  "classification": {
+    "type": "sativa"
+  },
+  "breeding": {
+    "generation": "unknown",
+    "method": "sativa-dominant hybrid"
+  },
+  "lineage": {
+    "status": "confirmed",
+    "confidence": "A",
+    "basis": "breederOfficial",
+    "display": "Thai × Jamaican",
+    "parents": [
+      "Thai",
+      "Jamaican"
+    ],
+    "note": "Barney's Farm directly identifies Thai and Jamaican genetics and lists 80% sativa / 20% indica.",
+    "sourceRefs": [
+      "barneys-farm-laughing-buddha"
+    ]
+  },
+  "relations": [
+    {
+      "entityId": "barneys-farm",
+      "roles": [
+        "breeder",
+        "seedCompany"
+      ],
+      "status": "confirmed",
+      "confidence": "A",
+      "basis": "breederOfficial",
+      "sourceRefs": [
+        "barneys-farm-laughing-buddha"
+      ]
+    }
+  ],
+  "aromas": {
+    "status": "confirmed",
+    "confidence": "A",
+    "basis": "breederOfficial",
+    "sourceRefs": [
+      "barneys-farm-laughing-buddha"
+    ],
+    "items": [
+      "fresh",
+      "sweet",
+      "exotic fruits",
+      "spicy"
+    ],
+    "note": "Official cultivar-specific aroma descriptors; wording normalized without adding unsupported notes."
+  },
+  "terpenes": {
+    "status": "unknown",
+    "items": [],
+    "note": "No named cultivar-specific terpene compound panel was verified; no compounds are inferred from aroma words."
+  },
+  "origin": {
+    "status": "confirmed",
+    "confidence": "A",
+    "basis": "breederOfficial",
+    "sourceRefs": [
+      "barneys-farm-laughing-buddha"
+    ],
+    "text": "Developed by Barney's Farm from Thai and Jamaican genetics.",
+    "note": "Limited to breeder-published origin context; undisclosed details remain undisclosed."
+  },
+  "history": {
+    "status": "confirmed",
+    "confidence": "B",
+    "basis": "breederOfficial",
+    "sourceRefs": [
+      "barneys-farm-laughing-buddha"
+    ],
+    "text": "The current Barney's Farm page identifies Laughing Buddha as a cup-winning cultivar, but does not provide a precise release year or development chronology.",
+    "note": "Only dated or descriptive history stated on the current official page is retained."
+  },
+  "visuals": [],
+  "checkedAt": "2026-08-17",
+  "updatedAt": "2026-08-19"
+}

@@ -1,0 +1,71 @@
+{
+  "schemaVersion": 1,
+  "id": "t-1000-s1",
+  "status": "review",
+  "name": "T-1000 S1",
+  "jp": null,
+  "aliases": [],
+  "classification": {
+    "type": "unknown"
+  },
+  "breeding": {
+    "generation": "S1",
+    "method": "selfed"
+  },
+  "lineage": {
+    "status": "confirmed",
+    "confidence": "A",
+    "basis": "breederOfficial",
+    "sourceRefs": [
+      "humboldt-csi-t-1000-s1"
+    ],
+    "display": "T-1000 × T-1000",
+    "parents": [
+      "T-1000"
+    ],
+    "note": "Humboldt CSI's official product page identifies T-1000 S1 as T-1000 × T-1000; together with the S1 designation this is treated as a selfed S1 line."
+  },
+  "relations": [
+    {
+      "entityId": "humboldt-csi",
+      "roles": [
+        "breeder",
+        "seedCompany"
+      ],
+      "status": "confirmed",
+      "confidence": "A",
+      "basis": "breederOfficial",
+      "sourceRefs": [
+        "humboldt-csi-t-1000-s1"
+      ]
+    }
+  ],
+  "aromas": {
+    "status": "unknown",
+    "items": [],
+    "note": "No cultivar-wide aroma claim is added beyond the official source."
+  },
+  "terpenes": {
+    "status": "unknown",
+    "items": [],
+    "note": "No cultivar-specific lot terpene profile or COA is used for this S1 entry."
+  },
+  "origin": {
+    "status": "unknown",
+    "text": "",
+    "note": "The official page does not establish a sufficiently bounded creation location for this S1 line; no location is inferred."
+  },
+  "history": {
+    "status": "confirmed",
+    "confidence": "B",
+    "basis": "breederOfficial",
+    "sourceRefs": [
+      "humboldt-csi-t-1000-s1"
+    ],
+    "text": "Humboldt CSI describes T-1000 as a selection from its Old Family Purple hybrid and states that the T-1000 cut is now available in S1 feminized seed form.",
+    "note": "The official page gives cultivar development context but not a precise dated release chronology."
+  },
+  "visuals": [],
+  "checkedAt": "2026-08-19",
+  "updatedAt": "2026-08-19"
+}

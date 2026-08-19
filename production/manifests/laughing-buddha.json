@@ -1,0 +1,59 @@
+{
+  "schemaVersion": 1,
+  "manifestVersion": 1,
+  "manifestId": "content-production-start-32245177161-laughing-buddha-image",
+  "runId": "content-production-start-32245177161",
+  "strainId": "laughing-buddha",
+  "revision": 1,
+  "attempt": 1,
+  "sourceStockPath": "stock/items/laughing-buddha.json",
+  "sourceStockBlobSha": "62fb74ff5eecdc546a2aabb04711edde9791e054",
+  "visualPreparationHash": "f0d51fa0e830cc2812400432d239e40ee2062e0e843d6ab1b71d7f03442c9a81",
+  "generatedFromManifestVersion": null,
+  "promptSnapshot": "TEXT-EVIDENCE FALLBACK: the breeder-operated page contains cultivar-specific image slots, but the retrievable visual representation in this run was insufficient for trustworthy image-derived morphology extraction. Use the breeder's text morphology evidence only; do not treat it as image-derived evidence.\nCULTIVAR IDENTITY CONTEXT: Laughing Buddha by Barney's Farm; Thai × Jamaican; sativa-dominant hybrid.\nTEXT MORPHOLOGY EVIDENCE: the official cultivar page describes a roughly one-meter cultivated plant with large, tight, heavy flowers that can require support, plus dense olive-green flowers, frosty trichomes and bright orange pistils.\nPHOTOGRAPHIC CONSTRAINTS: photorealistic botanical reference photography; single mature female cannabis plant; complete plant visible; natural light; neutral non-distracting background; no text; no collage; no packaging; no smoke.\nNEGATIVE CONSTRAINTS: no fruit or berries; no people; no labels or logos; no jars, bags, boxes or bottles; no smoke; no unrelated objects; no fantasy anatomy; do not add cultivar-specific morphology beyond the cited text evidence.",
+  "evidenceSnapshot": [
+    {
+      "description": "[EVIDENCE_ALIGNMENT=NOT_APPLICABLE] Official visual reference is present on the breeder-operated page but was insufficient for reliable image-derived morphology extraction in this run; all non-alignment AI visual QA gates remain required.",
+      "sourceIds": [
+        "barneys-farm-laughing-buddha"
+      ]
+    },
+    {
+      "description": "Barney's Farm text describes a compact cultivated height with large, tight, heavy flowers, olive-green flower coloration, visible frosty trichomes and bright orange pistils.",
+      "sourceIds": [
+        "barneys-farm-laughing-buddha"
+      ]
+    }
+  ],
+  "visualMetadataSnapshot": {
+    "alt": "Laughing Buddhaの公式テキスト形態情報を基礎に、未確認の画像由来形態を付加せず作成するAI生成参考ビジュアル",
+    "rights": "AI-generated project asset for Cannabis Strain Wisdom. No official or third-party image is copied or stored; fallback uses official text evidence only.",
+    "scope": "cultivar",
+    "aiGenerated": true,
+    "sourceType": "aiGenerated"
+  },
+  "expectedInboxFilename": "laughing-buddha.jpg",
+  "expectedPrimaryPath": "strains/laughing-buddha/images/generated/primary.webp",
+  "generatedAt": null,
+  "approvalStatus": "pending",
+  "approvedAt": null,
+  "approvalType": "human-visual-review",
+  "approvedManifestRevision": null,
+  "approvedAttempt": null,
+  "approvedSourceSha256": null,
+  "imageInboxCommit": null,
+  "imageProcessingCommit": null,
+  "processedPrimaryBlobSha": null,
+  "processedPrimarySha256": null,
+  "width": null,
+  "height": null,
+  "audit": [
+    {
+      "severity": "INFO",
+      "code": "MANIFEST_CREATED",
+      "at": "2026-08-19T10:57:28Z",
+      "productionPhase": "IMAGE_PENDING",
+      "note": "Created by PRODUCTION START V1. Candidate output is review-only and cannot publish."
+    }
+  ]
+}

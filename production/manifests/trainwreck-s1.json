@@ -1,0 +1,59 @@
+{
+  "schemaVersion": 1,
+  "manifestVersion": 1,
+  "manifestId": "content-production-start-32245177161-trainwreck-s1-image",
+  "runId": "content-production-start-32245177161",
+  "strainId": "trainwreck-s1",
+  "revision": 1,
+  "attempt": 1,
+  "sourceStockPath": "stock/items/trainwreck-s1.json",
+  "sourceStockBlobSha": "24900f7ecac7d2a87b36a730a8bf325d12435d8d",
+  "visualPreparationHash": "9e75a29856618f5b904056e23674a9c3c23c92f4dc0e6c78dc8365de8491ef21",
+  "generatedFromManifestVersion": null,
+  "promptSnapshot": "TEXT-EVIDENCE FALLBACK: no usable official cultivar photograph is available on the breeder product page, which currently shows an awaiting-product-image placeholder. Use only confirmed identity context and do not invent cultivar-specific morphology.\nCULTIVAR IDENTITY CONTEXT: TrainWreck S1 by Humboldt CSI; S1/selfed generation; TrainWreck × TrainWreck. The official page identifies the preserved mid-to-late-1990s TrainWreck clone as the parent used for the S1.\nPHOTOGRAPHIC CONSTRAINTS: photorealistic botanical reference photography; single mature female cannabis plant; complete plant visible; natural light; neutral non-distracting background; no text; no collage; no packaging; no smoke.\nNEGATIVE CONSTRAINTS: no fruit or berries; no people; no labels or logos; no jars, bags, boxes or bottles; no smoke; no unrelated objects; no fantasy anatomy; use neutral botanically plausible cannabis morphology where cultivar-specific shape is unsupported.",
+  "evidenceSnapshot": [
+    {
+      "description": "[EVIDENCE_ALIGNMENT=NOT_APPLICABLE] Official visual reference unavailable or insufficient; all non-alignment AI visual QA gates remain required.",
+      "sourceIds": [
+        "humboldt-csi-trainwreck-s1"
+      ]
+    },
+    {
+      "description": "The official product page confirms TrainWreck × TrainWreck and S1 identity. It does not provide a usable cultivar-specific real-plant photograph in this run, so morphology invention is prohibited.",
+      "sourceIds": [
+        "humboldt-csi-trainwreck-s1"
+      ]
+    }
+  ],
+  "visualMetadataSnapshot": {
+    "alt": "TrainWreck S1の根拠範囲を明示したAI生成の植物学的参考ビジュアル",
+    "rights": "AI-generated project asset for Cannabis Strain Wisdom. No official or third-party image is copied or stored; only bounded morphology evidence is used.",
+    "scope": "cultivar",
+    "aiGenerated": true,
+    "sourceType": "aiGenerated"
+  },
+  "expectedInboxFilename": "trainwreck-s1.jpg",
+  "expectedPrimaryPath": "strains/trainwreck-s1/images/generated/primary.webp",
+  "generatedAt": null,
+  "approvalStatus": "pending",
+  "approvedAt": null,
+  "approvalType": "human-visual-review",
+  "approvedManifestRevision": null,
+  "approvedAttempt": null,
+  "approvedSourceSha256": null,
+  "imageInboxCommit": null,
+  "imageProcessingCommit": null,
+  "processedPrimaryBlobSha": null,
+  "processedPrimarySha256": null,
+  "width": null,
+  "height": null,
+  "audit": [
+    {
+      "severity": "INFO",
+      "code": "MANIFEST_CREATED",
+      "at": "2026-08-19T10:57:28Z",
+      "productionPhase": "IMAGE_PENDING",
+      "note": "Created by PRODUCTION START V1. Candidate output is review-only and cannot publish."
+    }
+  ]
+}

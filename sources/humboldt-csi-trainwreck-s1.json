@@ -1,0 +1,18 @@
+{
+  "schemaVersion": 1,
+  "id": "humboldt-csi-trainwreck-s1",
+  "publisher": "Humboldt CSI",
+  "title": "TrainWreck S1",
+  "url": "https://www.humboldtcsi.com/product/trainwreck-s1/",
+  "sourceType": "breederOfficial",
+  "supports": [
+    "lineage",
+    "breeder",
+    "generation",
+    "breeding",
+    "history"
+  ],
+  "publishedAt": null,
+  "checkedAt": "2026-08-19",
+  "note": "Official Humboldt CSI product page used for S1 identity and history context. The current page reports an awaiting-product-image placeholder; no visual morphology is claimed."
+}

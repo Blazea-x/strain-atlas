@@ -1,0 +1,59 @@
+{
+  "schemaVersion": 1,
+  "manifestVersion": 1,
+  "manifestId": "content-production-start-32245177161-triangle-kush-s1-image",
+  "runId": "content-production-start-32245177161",
+  "strainId": "triangle-kush-s1",
+  "revision": 1,
+  "attempt": 1,
+  "sourceStockPath": "stock/items/triangle-kush-s1.json",
+  "sourceStockBlobSha": "0e6918753bd9f1ff5eeb5444e3408f2484890570",
+  "visualPreparationHash": "840b8e0dcea955f4207c96f7270970a57453318f2397afb30eee7f868a2bd10f",
+  "generatedFromManifestVersion": null,
+  "promptSnapshot": "CULTIVAR-SPECIFIC VISUAL EVIDENCE (highest priority): the official Triangle Kush S1 reference shows a dense chunky multi-lobed flower cluster, medium-to-broad serrated deep-green leaves, very heavy visible trichome coverage, and orange-rust pistils. Do not infer whole-plant silhouette, branching pattern, or internode spacing from this close-up reference.\nCULTIVAR IDENTITY CONTEXT: Triangle Kush S1 by Humboldt CSI; S1/selfed generation; Triangle Kush × Triangle Kush.\nPHOTOGRAPHIC CONSTRAINTS: photorealistic botanical reference photography; single mature female cannabis plant; complete plant visible; natural light; neutral non-distracting background; no text; no collage; no packaging; no smoke.\nNEGATIVE CONSTRAINTS: no fruit or berries; no people; no labels or logos; no jars, bags, boxes or bottles; no smoke; no unrelated objects; no fantasy anatomy; do not invent cultivar-specific whole-plant architecture where the reference does not show it.",
+  "evidenceSnapshot": [
+    {
+      "description": "[EVIDENCE_ALIGNMENT=REQUIRED] OFFICIAL_VISUAL_EVIDENCE: Close-up reference shows a dense chunky flower cluster, medium-to-broad serrated green leaves, very heavy visible trichome coverage, and orange-rust pistils. Whole-plant silhouette, branching pattern, and internode spacing are not observable.",
+      "sourceIds": [
+        "humboldt-csi-triangle-kush-s1"
+      ]
+    },
+    {
+      "description": "The official cultivar page identifies Triangle Kush × Triangle Kush and provides a cultivar-specific flower image; extraction is limited to flower, leaf, color and trichome traits visible in that image.",
+      "sourceIds": [
+        "humboldt-csi-triangle-kush-s1"
+      ]
+    }
+  ],
+  "visualMetadataSnapshot": {
+    "alt": "Triangle Kush S1の根拠範囲を明示したAI生成の植物学的参考ビジュアル",
+    "rights": "AI-generated project asset for Cannabis Strain Wisdom. No official or third-party image is copied or stored; only bounded morphology evidence is used.",
+    "scope": "cultivar",
+    "aiGenerated": true,
+    "sourceType": "aiGenerated"
+  },
+  "expectedInboxFilename": "triangle-kush-s1.jpg",
+  "expectedPrimaryPath": "strains/triangle-kush-s1/images/generated/primary.webp",
+  "generatedAt": null,
+  "approvalStatus": "pending",
+  "approvedAt": null,
+  "approvalType": "human-visual-review",
+  "approvedManifestRevision": null,
+  "approvedAttempt": null,
+  "approvedSourceSha256": null,
+  "imageInboxCommit": null,
+  "imageProcessingCommit": null,
+  "processedPrimaryBlobSha": null,
+  "processedPrimarySha256": null,
+  "width": null,
+  "height": null,
+  "audit": [
+    {
+      "severity": "INFO",
+      "code": "MANIFEST_CREATED",
+      "at": "2026-08-19T10:57:28Z",
+      "productionPhase": "IMAGE_PENDING",
+      "note": "Created by PRODUCTION START V1. Candidate output is review-only and cannot publish."
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "schemaVersion": 1,
+  "id": "humboldt-csi-t-1000-s1",
+  "publisher": "Humboldt CSI",
+  "title": "T-1000 S1",
+  "url": "https://humboldtcsi.com/product/t-1000-s1/",
+  "sourceType": "breederOfficial",
+  "supports": [
+    "lineage",
+    "breeder",
+    "generation",
+    "breeding",
+    "history",
+    "visualMorphology"
+  ],
+  "publishedAt": null,
+  "checkedAt": "2026-08-19",
+  "note": "Official Humboldt CSI product page used for S1 identity, lineage context, and bounded flower-level visual morphology. The page credits the flower photograph to Resinated Lens; the project stores no copy of that image."
+}

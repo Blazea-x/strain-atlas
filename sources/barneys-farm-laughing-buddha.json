@@ -1,0 +1,22 @@
+{
+  "schemaVersion": 1,
+  "id": "barneys-farm-laughing-buddha",
+  "publisher": "Barney's Farm",
+  "title": "Laughing Buddha Strain",
+  "url": "https://www.barneysfarm.com/laughing-buddha-8",
+  "sourceType": "breederOfficial",
+  "supports": [
+    "lineage",
+    "breeder",
+    "classification",
+    "breeding",
+    "aromas",
+    "terpenes",
+    "origin",
+    "history",
+    "visualMorphology"
+  ],
+  "publishedAt": null,
+  "checkedAt": "2026-08-17",
+  "note": "Barney's Farm official cultivar page used for 80% sativa classification, Thai × Jamaican lineage, aroma and text morphology."
+}

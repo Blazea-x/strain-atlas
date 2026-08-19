@@ -261,6 +261,46 @@
       "bootstrapMasterSha": null,
       "unpublishedAt": null,
       "unpublicationReason": "AI_VISUAL_QA_FAIL"
+    },
+    {
+      "strainId": "laughing-buddha",
+      "state": "pending",
+      "origin": "content-production",
+      "introducedByRun": "content-production-start-32245177161",
+      "publishedAt": null,
+      "bootstrapMasterSha": null
+    },
+    {
+      "strainId": "shiva-skunk",
+      "state": "pending",
+      "origin": "content-production",
+      "introducedByRun": "content-production-start-32245177161",
+      "publishedAt": null,
+      "bootstrapMasterSha": null
+    },
+    {
+      "strainId": "t-1000-s1",
+      "state": "pending",
+      "origin": "content-production",
+      "introducedByRun": "content-production-start-32245177161",
+      "publishedAt": null,
+      "bootstrapMasterSha": null
+    },
+    {
+      "strainId": "trainwreck-s1",
+      "state": "pending",
+      "origin": "content-production",
+      "introducedByRun": "content-production-start-32245177161",
+      "publishedAt": null,
+      "bootstrapMasterSha": null
+    },
+    {
+      "strainId": "triangle-kush-s1",
+      "state": "pending",
+      "origin": "content-production",
+      "introducedByRun": "content-production-start-32245177161",
+      "publishedAt": null,
+      "bootstrapMasterSha": null
     }
   ]
 }
