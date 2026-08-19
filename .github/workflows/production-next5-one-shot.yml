@@ -1,0 +1,19 @@
+name: PRODUCTION NEXT5 ONE-SHOT
+
+on:
+  push:
+    branches:
+      - ops/production-next5-20260819-1846
+    paths:
+      - .github/workflows/production-next5-one-shot.yml
+
+jobs:
+  launch:
+    if: github.event.head_commit.message == 'Trigger production next5 S1 batch'
+    permissions:
+      contents: write
+    uses: Blazea-x/strain-atlas/.github/workflows/production-start-v1.yml@master-migration
+    with:
+      batch_size: "5"
+      generate_images: true
+    secrets: inherit
