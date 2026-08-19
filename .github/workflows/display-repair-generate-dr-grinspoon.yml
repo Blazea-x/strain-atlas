@@ -1,0 +1,118 @@
+name: Display Repair Generate Dr Grinspoon
+
+on:
+  push:
+    branches: [master-migration]
+    paths:
+      - .github/workflows/display-repair-generate-dr-grinspoon.yml
+
+permissions:
+  contents: write
+
+env:
+  ARTIFACT_DIR: dr-grinspoon-display-repair-artifact
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    env:
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: master-migration
+          fetch-depth: 0
+      - run: python -m pip install --disable-pip-version-check --no-cache-dir 'openai>=1.100,<3' 'Pillow>=10,<12'
+      - name: Generate exactly one Dr Grinspoon candidate
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import base64, hashlib, io, json, os, subprocess, time
+          from pathlib import Path
+          from PIL import Image
+
+          out=Path(os.environ['ARTIFACT_DIR']); out.mkdir(exist_ok=True)
+          dr=json.loads(Path('strains/dr-grinspoon/strain.json').read_text())
+          pub=json.loads(Path('production/publication.json').read_text())
+          entries={x['strainId']:x for x in pub['entries']}
+          runtime=json.loads(Path('runtime/catalog.json').read_text())
+          rt={x['id']:x for x in runtime['cultivars']}
+          assert dr.get('visuals')==[], 'Dr Grinspoon visuals changed; safe-stop'
+          assert entries['dr-grinspoon']['state']=='published', 'Dr Grinspoon publication is not published; safe-stop'
+          assert rt['dr-grinspoon'].get('visuals')==[], 'Dr Grinspoon runtime no longer mirrors visuals=[]; safe-stop'
+          assert not Path('production/manifests/dr-grinspoon.json').exists(), 'Manifest already exists; safe-stop'
+          assert not Path('strains/dr-grinspoon/images/generated/primary.webp').exists(), 'Primary already exists; safe-stop'
+          if not os.environ.get('OPENAI_API_KEY','').strip():
+              print('OPENAI_API_KEY: NOT CONFIGURED')
+              raise RuntimeError('safe-stop before request')
+          print('OPENAI_API_KEY: CONFIGURED')
+
+          evidence=[
+            {'sourceRef':'barneys-farm-dr-grinspoon','sourceType':'breederOfficial','description':'Barney\'s Farm identifies Dr Grinspoon as a pure heirloom 100% Sativa that grows tall and thin.'},
+            {'sourceRef':'barneys-farm-dr-grinspoon','sourceType':'breederOfficial','description':'At maturity, Barney\'s Farm describes the colas as compact green and reddish-brown bead-like flowers that hang loosely on thin stems.'}
+          ]
+          prompt=(
+            'Photorealistic botanical documentary photograph of a single mature female Dr Grinspoon cannabis plant, pure heirloom 100% Sativa. '
+            'Show the complete plant or enough of the plant to clearly read its architecture. The plant must be tall and thin with slender stems. '
+            'Its defining mature flowers are unusual compact green and reddish-brown bead-like clusters that hang loosely along thin stems, not conventional thick conical buds. '
+            'Keep the overall silhouette open and delicate, with realistic sativa foliage and natural internodal spacing. '
+            'Make the bead-like flower structure unmistakable and botanically plausible. One plant only. '
+            'No text, labels, infographic, collage, split frame, hands, harvested buds, jars, smoke, or decorative cannabis graphics. '
+            'Natural photographic lighting and credible horticultural setting. Avoid dense chunky indica-style colas.'
+          )
+          visual_metadata={
+            'alt':'Dr Grinspoonの細長いサティバ株姿と、細い茎に疎らに付く緑〜赤褐色のビーズ状花序を表現したAI生成参考ビジュアル',
+            'rights':'AI-generated project asset for Cannabis Strain Wisdom; prompt derived from cited breeder-official morphology evidence.',
+            'scope':'cultivar','aiGenerated':True,'sourceType':'aiGenerated'
+          }
+          from openai import OpenAI
+          client=OpenAI()
+          started=time.monotonic()
+          response=client.images.generate(model='gpt-image-2',prompt=prompt,size='1024x1536',quality='high',output_format='jpeg',n=1)
+          if len(response.data)!=1 or not response.data[0].b64_json:
+              raise RuntimeError('Expected exactly one generated image')
+          raw=base64.b64decode(response.data[0].b64_json)
+          with Image.open(io.BytesIO(raw)) as im: im.verify()
+          with Image.open(io.BytesIO(raw)) as im: meta={'width':im.width,'height':im.height,'format':im.format}
+          if meta != {'width':1024,'height':1536,'format':'JPEG'}:
+              raise RuntimeError(f'Unexpected image metadata: {meta}')
+          (out/'dr-grinspoon.jpg').write_bytes(raw)
+          usage=response.usage.model_dump() if getattr(response,'usage',None) else {}
+          it=usage.get('input_tokens') if isinstance(usage,dict) else None
+          ot=usage.get('output_tokens') if isinstance(usage,dict) else None
+          input_cost=it*5.0/1_000_000 if isinstance(it,(int,float)) else 0.0
+          output_cost=ot*30.0/1_000_000 if isinstance(ot,(int,float)) else 0.165
+          cost=round(input_cost+output_cost,8)
+          summary={
+            'status':'READY_FOR_VISUAL_REVIEW','runId':int(os.environ['GITHUB_RUN_ID']),
+            'sourceHead':subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip(),
+            'mainHead':subprocess.check_output(['git','ls-remote','origin','refs/heads/main'],text=True).split()[0],
+            'model':'gpt-image-2','quality':'high','size':'1024x1536','outputFormat':'jpeg','n':1,
+            'sha256':hashlib.sha256(raw).hexdigest(),'bytes':len(raw),'dimensions':meta,
+            'promptSnapshot':prompt,'evidenceSnapshot':evidence,'visualMetadataSnapshot':visual_metadata,
+            'usage':usage,'additionalOpenAiCostUsd':cost,'elapsedSeconds':round(time.monotonic()-started,3)
+          }
+          (out/'generation-summary.json').write_text(json.dumps(summary,indent=2,ensure_ascii=False)+'\n',encoding='utf-8')
+          stage=Path('.display-repair-staging'); stage.mkdir(exist_ok=True)
+          (stage/'dr-grinspoon-generation-summary.json').write_text(json.dumps(summary,indent=2,ensure_ascii=False)+'\n',encoding='utf-8')
+          print(json.dumps({'status':summary['status'],'runId':summary['runId'],'sha256':summary['sha256'],'costUsd':cost}))
+          PY
+      - name: Upload generated candidate
+        uses: actions/upload-artifact@v4
+        with:
+          name: dr-grinspoon-display-repair-${{ github.run_id }}
+          path: dr-grinspoon-display-repair-artifact/
+          if-no-files-found: error
+          retention-days: 14
+      - name: Commit generation summary only
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name strain-atlas-display-repair
+          git config user.email actions@users.noreply.github.com
+          git add .display-repair-staging/dr-grinspoon-generation-summary.json
+          git commit -m "[DISPLAY REPAIR] Record Dr Grinspoon candidate summary"
+          git pull --rebase origin master-migration
+          git push origin HEAD:master-migration
