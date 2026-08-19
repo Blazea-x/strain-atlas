@@ -1,0 +1,89 @@
+{
+  "schemaVersion": "AUTO_STOCK_V1",
+  "stockId": "bubblegum-s1",
+  "status": "IMAGE_PENDING",
+  "createdAt": "2026-08-19T12:21:00Z",
+  "candidate": {
+    "id": "bubblegum-s1",
+    "canonicalName": "Bubblegum S1",
+    "strainData": {
+      "schemaVersion": 1,
+      "id": "bubblegum-s1",
+      "status": "review",
+      "name": "Bubblegum S1",
+      "jp": null,
+      "aliases": [],
+      "classification": { "type": "unknown" },
+      "breeding": { "generation": "S1", "method": "selfed" },
+      "lineage": {
+        "status": "confirmed",
+        "confidence": "A",
+        "basis": "breederOfficial",
+        "sourceRefs": ["humboldt-csi-bubblegum-s1"],
+        "display": "Bubblegum (Indiana cut) × Bubblegum (Indiana cut)",
+        "parents": ["Bubblegum (Indiana cut)"],
+        "note": "Humboldt CSI's official Bubblegum S1 page identifies the line as Bubblegum (Indiana cut) × Bubblegum (Indiana cut). Together with the official S1 designation, this is treated as a selfed S1 line; no additional ancestry is inferred."
+      },
+      "relations": [{
+        "entityId": "humboldt-csi",
+        "roles": ["breeder", "seedCompany"],
+        "status": "confirmed",
+        "confidence": "A",
+        "basis": "breederOfficial",
+        "sourceRefs": ["humboldt-csi-bubblegum-s1"]
+      }],
+      "aromas": { "status": "unknown", "items": [], "note": "Customer-review or parent-cut aroma observations are not generalized to the complete Bubblegum S1 line." },
+      "terpenes": { "status": "unknown", "items": [], "note": "The official Bubblegum S1 page does not provide a cultivar-specific lot terpene profile or COA for the S1 line." },
+      "origin": { "status": "unknown", "text": "", "note": "The official Bubblegum S1 page identifies the Indiana cut used for the self-cross but does not state the S1 line's exact creation location; no location is inferred." },
+      "history": { "status": "unknown", "text": "", "note": "The official Bubblegum S1 page does not provide a sufficiently bounded cultivar-specific release chronology; no secondary history is imported." },
+      "visuals": [],
+      "checkedAt": "2026-08-19",
+      "updatedAt": "2026-08-19"
+    }
+  },
+  "confidence": {
+    "lineage": { "grade": "A", "basis": "Humboldt CSI directly identifies Bubblegum S1 and lists the same Indiana cut on both sides of the cross.", "sourceIds": ["humboldt-csi-bubblegum-s1"] },
+    "history": { "grade": "unknown", "basis": "No bounded cultivar-specific release chronology is imported from the official page." },
+    "aroma": { "grade": "unknown", "basis": "Customer-review or parent-cut aroma observations are not generalized to the complete S1 line." },
+    "terpene": { "grade": "unknown", "basis": "No cultivar-specific lot terpene profile or COA is available for the S1 line." }
+  },
+  "sources": [{
+    "id": "humboldt-csi-bubblegum-s1",
+    "url": "https://www.humboldtcsi.com/product/bubblegum-s1/",
+    "payload": {
+      "schemaVersion": 1,
+      "id": "humboldt-csi-bubblegum-s1",
+      "publisher": "Humboldt CSI",
+      "title": "Bubblegum S1",
+      "url": "https://www.humboldtcsi.com/product/bubblegum-s1/",
+      "sourceType": "breederOfficial",
+      "supports": ["lineage", "breeder", "generation", "breeding"],
+      "publishedAt": null,
+      "checkedAt": "2026-08-19",
+      "note": "Official Humboldt CSI product page identifies Bubblegum S1 as Bubblegum (Indiana cut) × Bubblegum (Indiana cut) and lists feminized seeds. The current page exposes an awaiting-product-image placeholder, so no cultivar-specific visual morphology is extracted."
+    }
+  }],
+  "entities": [{
+    "id": "humboldt-csi",
+    "canonicalName": "Humboldt CSI",
+    "payload": { "schemaVersion": 1, "id": "humboldt-csi", "name": "Humboldt CSI", "roles": ["breeder", "seedCompany"], "status": "confirmed", "checkedAt": "2026-08-16", "updatedAt": "2026-08-16" }
+  }],
+  "duplicateCheck": {
+    "productionChecked": true,
+    "stockChecked": true,
+    "strain": { "key": "id=bubblegum-s1; canonicalName=Bubblegum S1", "result": "UNIQUE", "reason": "No matching production strain ID/canonical name, publication entry, or existing STOCK item at master-migration HEAD 3e7ab153ee259621c520a5da11e901c0e5a652d6. Existing Bubble Gum is a distinct cultivar entry and not this Humboldt CSI S1 line." },
+    "sources": [{ "key": "id=humboldt-csi-bubblegum-s1; url=https://www.humboldtcsi.com/product/bubblegum-s1/", "result": "UNIQUE", "reason": "No existing production or STOCK source uses this source ID or exact official URL." }],
+    "entities": [{ "key": "id=humboldt-csi; canonicalName=Humboldt CSI", "result": "MATCH", "matchedPath": "entities/humboldt-csi.json", "reason": "Existing production entity ID and canonical name match; the production entity payload is reused exactly and no entity file is proposed." }]
+  },
+  "visualStatus": "IMAGE_PENDING",
+  "visualPreparation": {
+    "prompt": "Photorealistic botanical reference image of one mature flowering cannabis plant representing Bubblegum S1, complete plant visible, neutral natural light, realistic botany. Identity is grounded only in the official Humboldt CSI S1 listing. Official cultivar-specific visual morphology is unavailable or insufficient, so do not assert cultivar-specific silhouette, architecture, branching, internode spacing, leaf width, flower structure, flower density, coloration, pistil tendency, or resin/trichome intensity beyond ordinary natural cannabis morphology. No fruit or berries, labels, logos, packaging, people, smoke, consumption context, text, jars, bags, boxes, bottles, or unrelated objects.",
+    "evidence": [{ "description": "[EVIDENCE_ALIGNMENT=NOT_APPLICABLE] Humboldt CSI's official Bubblegum S1 page confirms identity and S1/selfed parentage, but the current official product page exposes only an awaiting-product-image placeholder. No cultivar-specific morphology is extracted or inferred.", "sourceIds": ["humboldt-csi-bubblegum-s1"] }],
+    "alt": "Bubblegum S1の公式S1同定情報を基礎に、公式形態画像が不足しているため未確認の品種固有形態を付加せず作成するAI生成の植物学的参考ビジュアル",
+    "rights": "AI-generated project asset for Cannabis Strain Wisdom. No third-party image is copied; the prompt uses an identity-grounded fallback because reliable official cultivar visual evidence is unavailable or insufficient.",
+    "scope": "cultivar",
+    "aiGenerated": true
+  },
+  "visuals": [],
+  "notes": "Prepared as a new S1-priority production candidate. Official breeder source confirms S1/selfed identity. Official visual source is insufficient; evidence alignment is NOT_APPLICABLE and no morphology is inferred."
+}
