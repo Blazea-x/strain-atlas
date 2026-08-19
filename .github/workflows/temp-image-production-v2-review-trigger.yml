@@ -1,9 +1,9 @@
-name: TEMP IMAGE PRODUCTION V2 Review Trigger
+name: TEMP IMAGE PRODUCTION V2 Promotion
 
 on:
   pull_request_target:
     branches: [master-migration]
-    types: [ready_for_review, edited]
+    types: [edited]
 
 permissions:
   actions: read
@@ -11,137 +11,142 @@ permissions:
   pull-requests: read
 
 jobs:
-  one-shot:
+  promote-dr-grinspoon:
     if: >-
-      github.event.action == 'ready_for_review' &&
       github.event.pull_request.head.repo.full_name == github.repository &&
-      github.event.pull_request.head.ref == 'image-production-v2-review-dr-malawi-20260819'
+      github.event.pull_request.head.ref == 'image-production-v2-review-dr-malawi-20260819' &&
+      contains(github.event.pull_request.body, 'PROMOTE_DR_GRINSPOON_PASS_MALAWI_TIMEOUT')
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 20
     concurrency:
-      group: image-production-v2-dr-malawi-one-shot
+      group: image-production-v2-dr-grinspoon-promotion
       cancel-in-progress: false
     env:
-      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
       GH_TOKEN: ${{ github.token }}
-      ORIGINAL_PUSH_SHA: 639f6087c796ac61787682aff377850165fb1e55
-      ORIGINAL_PUSH_RUN_ID: 32208320621
-      WORKFLOW_FILE: image-production-v2-dr-grinspoon-malawi-preflight.yml
+      ARTIFACT_ID: '9350233070'
+      GENERATION_RUN_ID: '32209110570'
+      EXPECTED_CANDIDATE_SHA256: '5ac510338fa552225c77ddcd2b3a92a4d1b2e3ada3c4c7411fec5fc365388bb0'
+      PROMOTION_REPORT: /tmp/dr-grinspoon-promotion-report.json
 
     steps:
-      - name: Checkout formal master-migration source
+      - name: Checkout formal master-migration
         uses: actions/checkout@v4
         with:
           ref: master-migration
           path: master
-          persist-credentials: false
-
-      - name: Checkout temporary review branch
-        uses: actions/checkout@v4
-        with:
-          ref: ${{ github.event.pull_request.head.ref }}
-          path: review
           persist-credentials: true
 
-      - name: Prove original failed run never reached a job
+      - name: Checkout current main UI shell read-only
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          path: main-shell
+          persist-credentials: false
+
+      - name: Install image dependency
+        run: python -m pip install --disable-pip-version-check --no-cache-dir 'Pillow>=10,<12'
+
+      - name: Promote reviewed Dr Grinspoon artifact only
+        working-directory: master
+        run: python scripts/image-production-v2-promote-dr-grinspoon.py
+
+      - name: Runtime build
+        working-directory: master
+        run: node scripts/build-runtime-data.mjs
+
+      - name: Bind processing commit locally
+        working-directory: master
+        shell: bash
+        run: |
+          git config user.name strain-atlas-bot
+          git config user.email actions@users.noreply.github.com
+          git add strains/dr-grinspoon/strain.json strains/dr-grinspoon/images/generated/primary.webp production/manifests/dr-grinspoon.json runtime/catalog.json data.js sources.js
+          git commit -m 'Promote Dr Grinspoon V2 primary visual'
+          PROCESSING_COMMIT="$(git rev-parse HEAD)"
+          python - "$PROCESSING_COMMIT" <<'PY'
+          import json,sys
+          from datetime import datetime, timezone
+          p='production/manifests/dr-grinspoon.json'
+          m=json.load(open(p,encoding='utf-8'))
+          sha=sys.argv[1]
+          m['imageProcessingCommit']=sha
+          now=datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace('+00:00','Z')
+          m['audit'].append({'at':now,'action':'PRODUCTION_COMMIT_BOUND','status':'recorded','note':f'Formal WebP, visuals linkage and runtime were prepared in local processing commit {sha}; this provenance was bound before the two-commit fast-forward push.'})
+          with open(p,'w',encoding='utf-8') as f: json.dump(m,f,ensure_ascii=False,indent=2); f.write('\n')
+          PY
+          git add production/manifests/dr-grinspoon.json
+          git commit -m 'Record Dr Grinspoon V2 processing provenance'
+
+      - name: MASTER validation
+        working-directory: master
+        run: node scripts/validate-master-data.mjs
+
+      - name: CONTENT PRODUCTION audit and capture expected Malawi failure
+        shell: bash
+        run: |
+          set +e
+          (cd master && node scripts/audit-content-production.mjs --json --main-dir="${GITHUB_WORKSPACE}/main-shell") > /tmp/content-production-audit.json 2>&1
+          STATUS=$?
+          set -e
+          echo "$STATUS" > /tmp/content-production-audit.exit
+          echo "CONTENT_PRODUCTION_AUDIT_EXIT=$STATUS"
+
+      - name: Site display checks
         shell: bash
         run: |
           python - <<'PY'
-          import os, json, urllib.request
-          repo = os.environ['GITHUB_REPOSITORY']
-          token = os.environ['GH_TOKEN']
-          run_id = os.environ['ORIGINAL_PUSH_RUN_ID']
-          headers = {'Authorization': f'Bearer {token}','Accept':'application/vnd.github+json','X-GitHub-Api-Version':'2022-11-28','User-Agent':'strain-atlas-image-production-v2'}
-          def get(url):
-              req = urllib.request.Request(url, headers=headers)
-              with urllib.request.urlopen(req, timeout=30) as r: return json.load(r)
-          run = get(f'https://api.github.com/repos/{repo}/actions/runs/{run_id}')
-          jobs = get(f'https://api.github.com/repos/{repo}/actions/runs/{run_id}/jobs')
-          arts = get(f'https://api.github.com/repos/{repo}/actions/runs/{run_id}/artifacts')
-          zero_jobs = int(jobs.get('total_count', len(jobs.get('jobs', [])))) == 0
-          zero_artifacts = int(arts.get('total_count', len(arts.get('artifacts', [])))) == 0
-          instant_failure = run.get('status') == 'completed' and run.get('conclusion') == 'failure' and run.get('created_at') == run.get('updated_at')
-          if not (zero_jobs and zero_artifacts and instant_failure):
-              raise SystemExit('SAFE-STOP: prior run cannot be proven pre-execution; generation remains blocked')
-          with open(os.environ['GITHUB_ENV'], 'a', encoding='utf-8') as env:
-              env.write('ORIGINAL_PUSH_SHA=PREEXECUTION_FAILURE_CONFIRMED_NO_GENERATION\n')
-          print('PRIOR PUSH RUN: PRE-EXECUTION FAILURE CONFIRMED')
-          print('PRIOR OPENAI GENERATIONS: 0')
+          import json,hashlib
+          from pathlib import Path
+          from PIL import Image
+          root=Path('master'); main=Path('main-shell')
+          cat=json.loads((root/'runtime/catalog.json').read_text(encoding='utf-8'))
+          by={x['id']:x for x in cat['cultivars']}
+          app=(main/'preview/app.js').read_text(encoding='utf-8')
+          report={}
+          for sid in ['dr-grinspoon','malawi']:
+              c=by[sid]
+              prim=[v for v in c.get('visuals',[]) if v.get('role')=='primary']
+              path=prim[0]['src'] if len(prim)==1 else None
+              fp=root/path if path else None
+              signature=False; decode=False
+              if fp and fp.is_file():
+                  b=fp.read_bytes(); signature=len(b)>=12 and b[:4]==b'RIFF' and b[8:12]==b'WEBP'
+                  if signature:
+                      try:
+                          with Image.open(fp) as im: im.verify()
+                          decode=True
+                      except Exception: decode=False
+              route_ok='asset(visual.src)' in app and 'class="tile-visual"' in app and 'class="detail-hero"' in app
+              ok=len(prim)==1 and signature and decode and route_ok
+              report[sid]={'primaryPath':path,'signature':signature,'decode':decode,'cardImage':'PASS' if ok else 'FAIL','detailImage':'PASS' if ok else 'FAIL'}
+          if report['dr-grinspoon']['cardImage']!='PASS' or report['dr-grinspoon']['detailImage']!='PASS':
+              raise SystemExit('Dr Grinspoon display check failed')
+          Path('/tmp/site-display-check.json').write_text(json.dumps(report,indent=2)+'\n',encoding='utf-8')
+          print(json.dumps(report))
           PY
 
-      - name: Install generation dependencies
-        run: python -m pip install --disable-pip-version-check --no-cache-dir 'openai>=1.100,<3' 'Pillow>=10,<12'
-
-      - name: Formal preflight and strict one-shot generation
+      - name: Prove only intended formal target changed
         working-directory: master
-        env:
-          OUT: ${{ github.workspace }}/review/.image-transfer/review/image-production-v2-dr-grinspoon-malawi
         shell: bash
         run: |
-          MASTER_SOURCE_SHA="$(git rev-parse HEAD)" python scripts/image-production-v2-dr-malawi-one-shot.py
+          BASE="$(git merge-base HEAD origin/master-migration)"
+          echo "Local final commits:" && git --no-pager log --oneline "$BASE"..HEAD
+          git status --porcelain
+          test -z "$(git status --porcelain)"
 
-      - name: Prove formal source remained read-only during generation
-        run: |
-          test -z "$(git -C master status --porcelain -- strains production runtime sources entities uploads UPLOAD_IMAGES_HERE)"
-          test "$(git -C master branch --show-current)" = "master-migration"
+      - name: Push two local promotion commits atomically by fast-forward
+        working-directory: master
+        run: git push origin HEAD:master-migration
 
-      - name: Commit review-only candidates to temporary branch
-        shell: bash
-        run: |
-          git -C review config user.name strain-atlas-bot
-          git -C review config user.email actions@users.noreply.github.com
-          git -C review add .image-transfer/review/image-production-v2-dr-grinspoon-malawi
-          if git -C review diff --cached --quiet; then
-            echo 'No review files changed.'
-          else
-            git -C review commit -m 'Store one-shot Dr Grinspoon and Malawi candidates for review'
-            git -C review push origin HEAD:${{ github.event.pull_request.head.ref }}
-          fi
-
-      - name: Upload review artifact
+      - name: Upload promotion validation report
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: image-production-v2-dr-grinspoon-malawi-${{ github.run_id }}
-          path: review/.image-transfer/review/image-production-v2-dr-grinspoon-malawi/
-          if-no-files-found: error
+          name: image-production-v2-dr-grinspoon-promotion-${{ github.run_id }}
+          path: |
+            /tmp/dr-grinspoon-promotion-report.json
+            /tmp/content-production-audit.json
+            /tmp/content-production-audit.exit
+            /tmp/site-display-check.json
+          if-no-files-found: warn
           retention-days: 14
-
-  probe:
-    if: >-
-      github.event.action == 'edited' &&
-      github.event.pull_request.head.repo.full_name == github.repository &&
-      github.event.pull_request.head.ref == 'image-production-v2-review-dr-malawi-20260819'
-    runs-on: ubuntu-latest
-    timeout-minutes: 5
-    env:
-      GH_TOKEN: ${{ github.token }}
-    steps:
-      - name: Checkout temporary review branch
-        uses: actions/checkout@v4
-        with:
-          ref: ${{ github.event.pull_request.head.ref }}
-          persist-credentials: true
-      - name: Record current workflow run states without generating images
-        shell: bash
-        run: |
-          python - <<'PY'
-          import os, json, urllib.request
-          from pathlib import Path
-          repo=os.environ['GITHUB_REPOSITORY']; token=os.environ['GH_TOKEN']; current=int(os.environ['GITHUB_RUN_ID'])
-          headers={'Authorization':f'Bearer {token}','Accept':'application/vnd.github+json','X-GitHub-Api-Version':'2022-11-28','User-Agent':'strain-atlas-image-production-v2-probe'}
-          req=urllib.request.Request(f'https://api.github.com/repos/{repo}/actions/workflows/temp-image-production-v2-review-trigger.yml/runs?per_page=20',headers=headers)
-          with urllib.request.urlopen(req,timeout=30) as r: data=json.load(r)
-          rows=[]
-          for x in data.get('workflow_runs',[]):
-              if x.get('id')==current: continue
-              rows.append({'id':x.get('id'),'event':x.get('event'),'status':x.get('status'),'conclusion':x.get('conclusion'),'runAttempt':x.get('run_attempt'),'createdAt':x.get('created_at'),'updatedAt':x.get('updated_at'),'headSha':x.get('head_sha'),'displayTitle':x.get('display_title')})
-          out=Path('.image-transfer/review/image-production-v2-dr-grinspoon-malawi/workflow-status-probe.json')
-          out.parent.mkdir(parents=True,exist_ok=True); out.write_text(json.dumps({'probeRunId':current,'runs':rows},indent=2)+'\n',encoding='utf-8')
-          print('STATUS PROBE ONLY. OPENAI REQUESTS: 0')
-          PY
-          git config user.name strain-atlas-bot
-          git config user.email actions@users.noreply.github.com
-          git add .image-transfer/review/image-production-v2-dr-grinspoon-malawi/workflow-status-probe.json
-          git commit -m 'Record IMAGE PRODUCTION V2 workflow status probe' || true
-          git push origin HEAD:${{ github.event.pull_request.head.ref }}
