@@ -29,9 +29,9 @@
   "expectedInboxFilename": "granddaddy-purple-s1.jpg",
   "expectedPrimaryPath": "strains/granddaddy-purple-s1/images/generated/primary.webp",
   "generatedAt": null,
-  "approvalStatus": "pending",
+  "approvalStatus": "rejected",
   "approvedAt": null,
-  "approvalType": "human-visual-review",
+  "approvalType": "ai-visual-qa",
   "approvedManifestRevision": null,
   "approvedAttempt": null,
   "approvedSourceSha256": null,
@@ -48,6 +48,80 @@
       "at": "2026-08-19T10:05:33Z",
       "productionPhase": "IMAGE_PENDING",
       "note": "Created by PRODUCTION START V1. Candidate output is review-only and cannot publish."
+    },
+    {
+      "severity": "WARNING",
+      "code": "AI_VISUAL_QA_FAILED",
+      "at": "2026-08-19T10:07:43Z",
+      "qaEngine": "local-clip-semantic-v1",
+      "qaModel": "openai/clip-vit-base-patch32",
+      "reason": "AI_VISUAL_QA_FAIL"
     }
-  ]
+  ],
+  "aiVisualQa": {
+    "strainId": "granddaddy-purple-s1",
+    "status": "FAIL",
+    "engine": "local-clip-semantic-v1",
+    "model": "openai/clip-vit-base-patch32",
+    "checks": [
+      {
+        "id": "image_decode",
+        "pass": true,
+        "width": 1024,
+        "height": 1536,
+        "variance": 855.803,
+        "meanLuma": 63.778
+      },
+      {
+        "id": "cannabis_natural",
+        "pass": true,
+        "positive": 0.32715,
+        "negative": 0.25213,
+        "margin": 0.07502,
+        "requiredMargin": 0.004
+      },
+      {
+        "id": "plant_structure",
+        "pass": true,
+        "positive": 0.26687,
+        "negative": 0.23741,
+        "margin": 0.02946,
+        "requiredMargin": 0.002
+      },
+      {
+        "id": "no_fruit_or_berries",
+        "pass": true,
+        "positive": 0.30833,
+        "negative": 0.23354,
+        "margin": 0.07479,
+        "requiredMargin": 0.002
+      },
+      {
+        "id": "no_unwanted_objects",
+        "pass": true,
+        "positive": 0.29197,
+        "negative": 0.25261,
+        "margin": 0.03936,
+        "requiredMargin": 0.002
+      },
+      {
+        "id": "primary_visual_usable",
+        "pass": true,
+        "positive": 0.2979,
+        "negative": 0.16754,
+        "margin": 0.13036,
+        "requiredMargin": 0.001
+      },
+      {
+        "id": "evidence_alignment",
+        "pass": false,
+        "evidenceScore": 0.2931,
+        "genericScore": 0.32025,
+        "margin": -0.02715,
+        "evidenceText": "Humboldt CSI's official GrandDaddy Purple S1 page confirms cultivar identity and S1/selfed parentage. The generation prompt intentionally avoids unsupported cultivar-wide morphology claims."
+      }
+    ],
+    "evidenceText": "Humboldt CSI's official GrandDaddy Purple S1 page confirms cultivar identity and S1/selfed parentage. The generation prompt intentionally avoids unsupported cultivar-wide morphology claims.",
+    "failClosed": true
+  }
 }

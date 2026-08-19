@@ -218,7 +218,9 @@
       "origin": "content-production",
       "introducedByRun": "content-production-start-32240921338",
       "publishedAt": null,
-      "bootstrapMasterSha": null
+      "bootstrapMasterSha": null,
+      "unpublishedAt": null,
+      "unpublicationReason": "AI_VISUAL_QA_FAIL"
     },
     {
       "strainId": "chemdog-1-s1",
@@ -226,7 +228,9 @@
       "origin": "content-production",
       "introducedByRun": "content-production-start-32240921338",
       "publishedAt": null,
-      "bootstrapMasterSha": null
+      "bootstrapMasterSha": null,
+      "unpublishedAt": null,
+      "unpublicationReason": "AI_VISUAL_QA_FAIL"
     },
     {
       "strainId": "chemdog-4-s1",
@@ -234,7 +238,9 @@
       "origin": "content-production",
       "introducedByRun": "content-production-start-32240921338",
       "publishedAt": null,
-      "bootstrapMasterSha": null
+      "bootstrapMasterSha": null,
+      "unpublishedAt": null,
+      "unpublicationReason": "AI_VISUAL_QA_FAIL"
     },
     {
       "strainId": "granddaddy-purple-s1",
@@ -242,7 +248,9 @@
       "origin": "content-production",
       "introducedByRun": "content-production-start-32240921338",
       "publishedAt": null,
-      "bootstrapMasterSha": null
+      "bootstrapMasterSha": null,
+      "unpublishedAt": null,
+      "unpublicationReason": "AI_VISUAL_QA_FAIL"
     },
     {
       "strainId": "hp13-s1",
@@ -250,7 +258,9 @@
       "origin": "content-production",
       "introducedByRun": "content-production-start-32240921338",
       "publishedAt": null,
-      "bootstrapMasterSha": null
+      "bootstrapMasterSha": null,
+      "unpublishedAt": null,
+      "unpublicationReason": "AI_VISUAL_QA_FAIL"
     }
   ]
 }

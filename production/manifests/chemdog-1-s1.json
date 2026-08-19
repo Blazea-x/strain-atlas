@@ -29,9 +29,9 @@
   "expectedInboxFilename": "chemdog-1-s1.jpg",
   "expectedPrimaryPath": "strains/chemdog-1-s1/images/generated/primary.webp",
   "generatedAt": null,
-  "approvalStatus": "pending",
+  "approvalStatus": "rejected",
   "approvedAt": null,
-  "approvalType": "human-visual-review",
+  "approvalType": "ai-visual-qa",
   "approvedManifestRevision": null,
   "approvedAttempt": null,
   "approvedSourceSha256": null,
@@ -48,6 +48,80 @@
       "at": "2026-08-19T10:05:33Z",
       "productionPhase": "IMAGE_PENDING",
       "note": "Created by PRODUCTION START V1. Candidate output is review-only and cannot publish."
+    },
+    {
+      "severity": "WARNING",
+      "code": "AI_VISUAL_QA_FAILED",
+      "at": "2026-08-19T10:07:43Z",
+      "qaEngine": "local-clip-semantic-v1",
+      "qaModel": "openai/clip-vit-base-patch32",
+      "reason": "AI_VISUAL_QA_FAIL"
     }
-  ]
+  ],
+  "aiVisualQa": {
+    "strainId": "chemdog-1-s1",
+    "status": "FAIL",
+    "engine": "local-clip-semantic-v1",
+    "model": "openai/clip-vit-base-patch32",
+    "checks": [
+      {
+        "id": "image_decode",
+        "pass": true,
+        "width": 1024,
+        "height": 1536,
+        "variance": 902.747,
+        "meanLuma": 82.275
+      },
+      {
+        "id": "cannabis_natural",
+        "pass": true,
+        "positive": 0.33869,
+        "negative": 0.25529,
+        "margin": 0.0834,
+        "requiredMargin": 0.004
+      },
+      {
+        "id": "plant_structure",
+        "pass": true,
+        "positive": 0.27512,
+        "negative": 0.23837,
+        "margin": 0.03675,
+        "requiredMargin": 0.002
+      },
+      {
+        "id": "no_fruit_or_berries",
+        "pass": true,
+        "positive": 0.31537,
+        "negative": 0.23497,
+        "margin": 0.0804,
+        "requiredMargin": 0.002
+      },
+      {
+        "id": "no_unwanted_objects",
+        "pass": true,
+        "positive": 0.29514,
+        "negative": 0.25569,
+        "margin": 0.03946,
+        "requiredMargin": 0.002
+      },
+      {
+        "id": "primary_visual_usable",
+        "pass": true,
+        "positive": 0.30341,
+        "negative": 0.18278,
+        "margin": 0.12063,
+        "requiredMargin": 0.001
+      },
+      {
+        "id": "evidence_alignment",
+        "pass": false,
+        "evidenceScore": 0.29717,
+        "genericScore": 0.32824,
+        "margin": -0.03107,
+        "evidenceText": "Humboldt CSI's official Chemdog #1 S1 page confirms cultivar identity and S1/selfed parentage. The generation prompt intentionally avoids unsupported cultivar-wide morphology claims."
+      }
+    ],
+    "evidenceText": "Humboldt CSI's official Chemdog #1 S1 page confirms cultivar identity and S1/selfed parentage. The generation prompt intentionally avoids unsupported cultivar-wide morphology claims.",
+    "failClosed": true
+  }
 }

@@ -29,9 +29,9 @@
   "expectedInboxFilename": "hp13-s1.jpg",
   "expectedPrimaryPath": "strains/hp13-s1/images/generated/primary.webp",
   "generatedAt": null,
-  "approvalStatus": "pending",
+  "approvalStatus": "rejected",
   "approvedAt": null,
-  "approvalType": "human-visual-review",
+  "approvalType": "ai-visual-qa",
   "approvedManifestRevision": null,
   "approvedAttempt": null,
   "approvedSourceSha256": null,
@@ -48,6 +48,80 @@
       "at": "2026-08-19T10:05:33Z",
       "productionPhase": "IMAGE_PENDING",
       "note": "Created by PRODUCTION START V1. Candidate output is review-only and cannot publish."
+    },
+    {
+      "severity": "WARNING",
+      "code": "AI_VISUAL_QA_FAILED",
+      "at": "2026-08-19T10:07:43Z",
+      "qaEngine": "local-clip-semantic-v1",
+      "qaModel": "openai/clip-vit-base-patch32",
+      "reason": "AI_VISUAL_QA_FAIL"
     }
-  ]
+  ],
+  "aiVisualQa": {
+    "strainId": "hp13-s1",
+    "status": "FAIL",
+    "engine": "local-clip-semantic-v1",
+    "model": "openai/clip-vit-base-patch32",
+    "checks": [
+      {
+        "id": "image_decode",
+        "pass": true,
+        "width": 1024,
+        "height": 1536,
+        "variance": 2573.872,
+        "meanLuma": 124.76
+      },
+      {
+        "id": "cannabis_natural",
+        "pass": true,
+        "positive": 0.32882,
+        "negative": 0.25107,
+        "margin": 0.07776,
+        "requiredMargin": 0.004
+      },
+      {
+        "id": "plant_structure",
+        "pass": true,
+        "positive": 0.26665,
+        "negative": 0.24222,
+        "margin": 0.02444,
+        "requiredMargin": 0.002
+      },
+      {
+        "id": "no_fruit_or_berries",
+        "pass": true,
+        "positive": 0.31051,
+        "negative": 0.23069,
+        "margin": 0.07983,
+        "requiredMargin": 0.002
+      },
+      {
+        "id": "no_unwanted_objects",
+        "pass": true,
+        "positive": 0.29986,
+        "negative": 0.24686,
+        "margin": 0.053,
+        "requiredMargin": 0.002
+      },
+      {
+        "id": "primary_visual_usable",
+        "pass": true,
+        "positive": 0.3023,
+        "negative": 0.18903,
+        "margin": 0.11326,
+        "requiredMargin": 0.001
+      },
+      {
+        "id": "evidence_alignment",
+        "pass": false,
+        "evidenceScore": 0.28165,
+        "genericScore": 0.31237,
+        "margin": -0.03072,
+        "evidenceText": "Humboldt CSI's official HP13 S1 page confirms cultivar identity and S1/selfed parentage. The generation prompt intentionally avoids unsupported cultivar-wide morphology claims."
+      }
+    ],
+    "evidenceText": "Humboldt CSI's official HP13 S1 page confirms cultivar identity and S1/selfed parentage. The generation prompt intentionally avoids unsupported cultivar-wide morphology claims.",
+    "failClosed": true
+  }
 }
