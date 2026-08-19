@@ -46,7 +46,7 @@
   "width": 1024,
   "height": 1024,
   "reviewStatus": "PASS",
-  "reviewReason": "V2 one-shot candidate accepted: tall/slender open cannabis architecture, sparse separated stem/node floral sites, no grape/berry/hanging-bunch interpretation, and overall morphology remains recognizably cannabis.",
+  "reviewReason": "Historical AI visual QA PASS retained for provenance only. Human visual review subsequently rejected this candidate for production; AI PASS alone is insufficient for production approval under the current human approval gate.",
   "generation": {
     "provider": "OpenAI",
     "model": "gpt-image-2",
