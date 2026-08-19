@@ -1,0 +1,116 @@
+{
+  "runId": "32291090498",
+  "site": "https://blazea-x.github.io/strain-atlas/",
+  "checks": {
+    "home-layout-390-430-desktop": {
+      "pass": true,
+      "detail": {
+        "390": {
+          "latest": 6,
+          "all": 38
+        },
+        "430": {
+          "latest": 6,
+          "all": 38
+        },
+        "1280": {
+          "latest": 6,
+          "all": 38
+        }
+      }
+    },
+    "important-notice": {
+      "pass": true,
+      "detail": {
+        "officialLinks": 3
+      }
+    },
+    "latest-six-publication-registry": {
+      "pass": true,
+      "detail": [
+        "mazar",
+        "jack-herer",
+        "golden-tiger",
+        "ak-47",
+        "acapulco-gold",
+        "f1-durb-s1"
+      ]
+    },
+    "filter-search-all-catalog": {
+      "pass": true,
+      "detail": {
+        "Bubble Gum": {
+          "count": 2,
+          "target": "bubble-gum"
+        },
+        "Wedding Cake": {
+          "count": 2,
+          "target": "wedding-cake-s1"
+        },
+        "Humboldt CSI": {
+          "count": 12,
+          "target": "wedding-cake-s1"
+        },
+        "S1": {
+          "count": 14,
+          "target": "f1-durb-s1"
+        },
+        "Kush": {
+          "count": 7,
+          "target": "bubba-kush-s1"
+        }
+      }
+    },
+    "generation-display-separation": {
+      "pass": true,
+      "detail": {
+        "wedding-cake-s1": {
+          "name": "Wedding Cake",
+          "generation": "S1"
+        },
+        "bubba-kush-s1": {
+          "name": "Bubba Kush",
+          "generation": "S1"
+        },
+        "f1-durb-s1": {
+          "name": "F1 Durb",
+          "generation": "S1"
+        },
+        "ak-47": {
+          "name": "AK-47",
+          "generation": "F1"
+        }
+      }
+    },
+    "detail-dialog": {
+      "pass": true,
+      "detail": "Wedding Cake S1 detail open/close PASS"
+    },
+    "publication-failure-fail-closed": {
+      "pass": true,
+      "detail": "新着情報を取得できません"
+    },
+    "footer-and-robots": {
+      "pass": true,
+      "detail": {
+        "footer": "Cannabis Strain Wisdom\n38 品種 · 58 出典 · 12 関連組織・ブリーダー\nこのサイトについて\n品種一覧\n重要なお知らせ",
+        "robots": "noindex,nofollow,noarchive"
+      }
+    }
+  },
+  "errors": [],
+  "expectedLatest": [
+    "mazar",
+    "jack-herer",
+    "golden-tiger",
+    "ak-47",
+    "acapulco-gold",
+    "f1-durb-s1"
+  ],
+  "counts": {
+    "cultivars": 38,
+    "sources": 58,
+    "entities": 12
+  },
+  "pass": true
+}
