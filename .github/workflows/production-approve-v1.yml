@@ -1,0 +1,260 @@
+name: PRODUCTION APPROVE V1
+
+on:
+  workflow_dispatch:
+    inputs:
+      production_run_id:
+        description: "STEP 1 production run id, e.g. content-production-start-123456789"
+        required: true
+        type: string
+      approved_candidates:
+        description: "Human-approved candidates: strainId:approvalBindingSha256, comma/newline separated"
+        required: true
+        type: string
+
+concurrency:
+  group: production-approve-v1
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  resolve:
+    name: Resolve human approval input
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    outputs:
+      production_run_id: ${{ steps.resolve.outputs.production_run_id }}
+      start_workflow_run_id: ${{ steps.resolve.outputs.start_workflow_run_id }}
+      review_artifact_name: ${{ steps.resolve.outputs.review_artifact_name }}
+      matrix: ${{ steps.resolve.outputs.matrix }}
+      base_sha: ${{ steps.resolve.outputs.base_sha }}
+      main_head: ${{ steps.resolve.outputs.main_head }}
+    steps:
+      - name: Checkout latest master-migration
+        uses: actions/checkout@v4
+        with:
+          ref: master-migration
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Fix BASE_SHA and resolve START review artifact
+        id: resolve
+        shell: bash
+        run: |
+          set -euo pipefail
+          git fetch --no-tags origin master-migration:refs/remotes/origin/master-migration main:refs/remotes/origin/main
+          BASE_SHA="$(git rev-parse origin/master-migration)"
+          MAIN_HEAD="$(git rev-parse origin/main)"
+          git reset --hard "$BASE_SHA"
+          OUT="$RUNNER_TEMP/approve-resolve.json"
+          node scripts/one-click-production-approve-v1.mjs resolve \
+            --production-run-id="${{ inputs.production_run_id }}" \
+            --approved-candidates="${{ inputs.approved_candidates }}" \
+            --out="$OUT" >/dev/null
+          echo "production_run_id=$(node -e "const x=require(process.argv[1]);process.stdout.write(x.productionRunId)" "$OUT")" >> "$GITHUB_OUTPUT"
+          echo "start_workflow_run_id=$(node -e "const x=require(process.argv[1]);process.stdout.write(String(x.startWorkflowRunId))" "$OUT")" >> "$GITHUB_OUTPUT"
+          echo "review_artifact_name=$(node -e "const x=require(process.argv[1]);process.stdout.write(x.reviewArtifactName)" "$OUT")" >> "$GITHUB_OUTPUT"
+          echo "matrix=$(node -e "const x=require(process.argv[1]);process.stdout.write(JSON.stringify(x.matrix))" "$OUT")" >> "$GITHUB_OUTPUT"
+          echo "base_sha=$BASE_SHA" >> "$GITHUB_OUTPUT"
+          echo "main_head=$MAIN_HEAD" >> "$GITHUB_OUTPUT"
+
+  verify:
+    name: Verify approval / ${{ matrix.strainId }}
+    needs: resolve
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    strategy:
+      fail-fast: false
+      matrix: ${{ fromJSON(needs.resolve.outputs.matrix) }}
+    permissions:
+      contents: read
+      actions: read
+    steps:
+      - name: Checkout current master-migration
+        uses: actions/checkout@v4
+        with:
+          ref: master-migration
+          fetch-depth: 1
+          persist-credentials: false
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Download exact immutable STEP 1 review artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ needs.resolve.outputs.review_artifact_name }}
+          path: ${{ runner.temp }}/start-review
+          github-token: ${{ github.token }}
+          repository: ${{ github.repository }}
+          run-id: ${{ needs.resolve.outputs.start_workflow_run_id }}
+
+      - name: Re-hash bytes and verify full approval binding
+        shell: bash
+        run: |
+          set -euo pipefail
+          OUT="$RUNNER_TEMP/approval-check-${{ matrix.strainId }}"
+          node scripts/one-click-production-approve-v1.mjs verify \
+            --review-dir="$RUNNER_TEMP/start-review" \
+            --production-run-id="${{ needs.resolve.outputs.production_run_id }}" \
+            --strain-id="${{ matrix.strainId }}" \
+            --approval-binding="${{ matrix.approvalBindingSha256 }}" \
+            --out="$OUT"
+
+      - name: Upload candidate-specific verification checkpoint
+        uses: actions/upload-artifact@v4
+        with:
+          name: approval-check-${{ github.run_id }}-${{ matrix.strainId }}
+          path: ${{ runner.temp }}/approval-check-${{ matrix.strainId }}/
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 30
+
+  apply:
+    name: Atomic approved-only reflection / final build once
+    needs: [resolve, verify]
+    if: always() && needs.resolve.result == 'success'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: write
+      actions: read
+    steps:
+      - name: Checkout master-migration with write credentials
+        uses: actions/checkout@v4
+        with:
+          ref: master-migration
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install existing image processor dependency
+        run: python -m pip install --disable-pip-version-check "Pillow==11.3.0"
+
+      - name: Download all candidate verification checkpoints
+        uses: actions/download-artifact@v4
+        with:
+          pattern: approval-check-${{ github.run_id }}-*
+          path: ${{ runner.temp }}/approval-checks
+
+      - name: Prepare approved cultivars, BASE_SHA guard, validate and build once, atomic push
+        id: apply
+        shell: bash
+        env:
+          ORIGINAL_BASE_SHA: ${{ needs.resolve.outputs.base_sha }}
+          ORIGINAL_MAIN_HEAD: ${{ needs.resolve.outputs.main_head }}
+          PRODUCTION_RUN_ID: ${{ needs.resolve.outputs.production_run_id }}
+        run: |
+          set -euo pipefail
+          git config user.name "strain-atlas-approve-bot"
+          git config user.email "actions@users.noreply.github.com"
+          EXPECTED_BASE="$ORIGINAL_BASE_SHA"
+          APPROVAL_COMMIT=""
+          CHECKPOINT="$RUNNER_TEMP/approve-transaction.json"
+
+          for ATTEMPT in 1 2; do
+            git fetch --no-tags origin master-migration:refs/remotes/origin/master-migration main:refs/remotes/origin/main
+            REMOTE_HEAD="$(git rev-parse origin/master-migration)"
+            MAIN_HEAD="$(git rev-parse origin/main)"
+
+            if [ "$REMOTE_HEAD" != "$EXPECTED_BASE" ]; then
+              if [ "$ATTEMPT" -ge 2 ]; then
+                echo "BASE_SHA changed twice. Safe stop; force is forbidden."
+                exit 75
+              fi
+              EXPECTED_BASE="$REMOTE_HEAD"
+            fi
+
+            git reset --hard "$REMOTE_HEAD"
+            git clean -fdx
+
+            node scripts/one-click-production-approve-v1.mjs apply \
+              --verified-root="$RUNNER_TEMP/approval-checks" \
+              --production-run-id="$PRODUCTION_RUN_ID" \
+              --approval-workflow-run-id="$GITHUB_RUN_ID" \
+              --approval-actor="$GITHUB_ACTOR" \
+              --human-dispatch=true \
+              --base-sha="$REMOTE_HEAD" \
+              --main-head="$MAIN_HEAD" \
+              --stage-root="$RUNNER_TEMP/approve-stage" \
+              --out="$CHECKPOINT" >/dev/null
+
+            SUCCESS_COUNT="$(node -e "const x=require(process.argv[1]);process.stdout.write(String(x.successfulCount))" "$CHECKPOINT")"
+            if [ "$SUCCESS_COUNT" -eq 0 ]; then
+              echo "No approved candidate survived artifact/current-state verification. Safe stop."
+              cat "$CHECKPOINT"
+              exit 1
+            fi
+
+            # Runtime is generated exactly once per transaction attempt, after all approved-only changes are prepared.
+            node scripts/build-runtime-data.mjs
+
+            rm -rf "$RUNNER_TEMP/main-audit"
+            git worktree add --detach "$RUNNER_TEMP/main-audit" origin/main
+            node scripts/validate-master-data.mjs
+            node scripts/validate-cultivar-publication.mjs
+            node scripts/audit-content-production.mjs --main-dir="$RUNNER_TEMP/main-audit"
+            git worktree remove "$RUNNER_TEMP/main-audit" --force
+
+            git add -- strains production runtime data.js sources.js
+            test -n "$(git diff --cached --name-only)" || { echo "No approved production transaction to commit"; exit 1; }
+
+            # Scope guard: no sources/entities/stock/main/workflow mutations are allowed in the approval transaction.
+            BAD="$(git diff --cached --name-only | grep -Ev '^(strains/[^/]+/strain\.json|strains/[^/]+/images/generated/primary\.webp|production/manifests/[^/]+\.json|production/publication\.json|production/runs/[^/]+\.json|runtime/catalog\.json|data\.js|sources\.js)$' || true)"
+            test -z "$BAD" || { echo "Forbidden APPROVE transaction path(s):"; echo "$BAD"; exit 1; }
+
+            git fetch --no-tags origin master-migration:refs/remotes/origin/master-migration
+            HEAD_BEFORE_PUSH="$(git rev-parse origin/master-migration)"
+            if [ "$HEAD_BEFORE_PUSH" != "$REMOTE_HEAD" ]; then
+              if [ "$ATTEMPT" -ge 2 ]; then
+                echo "BASE_SHA changed twice before push. Safe stop; force is forbidden."
+                exit 75
+              fi
+              EXPECTED_BASE="$HEAD_BEFORE_PUSH"
+              continue
+            fi
+
+            git commit -m "PRODUCTION APPROVE V1 $GITHUB_RUN_ID [skip ci]"
+            git push origin HEAD:master-migration
+            APPROVAL_COMMIT="$(git rev-parse HEAD)"
+            node - "$CHECKPOINT" "$APPROVAL_COMMIT" <<'NODE'
+          const fs=require('fs');
+          const [file,commit]=process.argv.slice(2);
+          const x=JSON.parse(fs.readFileSync(file,'utf8'));
+          x.approvalCommit=commit;
+          x.atomicTransactionCommitted=true;
+          x.finalValidationBuildOnce=true;
+          fs.writeFileSync(file,JSON.stringify(x,null,2)+'\n');
+          NODE
+            break
+          done
+
+          test -n "$APPROVAL_COMMIT"
+          echo "approval_commit=$APPROVAL_COMMIT" >> "$GITHUB_OUTPUT"
+
+      - name: Upload APPROVE checkpoint
+        uses: actions/upload-artifact@v4
+        with:
+          name: production-approve-${{ github.run_id }}
+          path: ${{ runner.temp }}/approve-transaction.json
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 30
