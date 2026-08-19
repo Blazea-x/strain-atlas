@@ -1,0 +1,49 @@
+{
+  "runs": [
+    {
+      "id": 32209917284,
+      "event": "pull_request_target",
+      "status": "completed",
+      "conclusion": "skipped",
+      "createdAt": "2026-08-19T02:49:10Z",
+      "updatedAt": "2026-08-19T02:49:11Z",
+      "headSha": "faad7f7ccf319527ccafd7a008004766edec2020"
+    },
+    {
+      "id": 32209800603,
+      "event": "pull_request_target",
+      "status": "completed",
+      "conclusion": "failure",
+      "createdAt": "2026-08-19T02:47:09Z",
+      "updatedAt": "2026-08-19T02:47:22Z",
+      "headSha": "faad7f7ccf319527ccafd7a008004766edec2020"
+    },
+    {
+      "id": 32209381388,
+      "event": "pull_request_target",
+      "status": "completed",
+      "conclusion": "success",
+      "createdAt": "2026-08-19T02:40:12Z",
+      "updatedAt": "2026-08-19T02:40:22Z",
+      "headSha": "ab75556c0f4896d04f405c8504d6baa6d36982bd"
+    },
+    {
+      "id": 32209110570,
+      "event": "pull_request_target",
+      "status": "completed",
+      "conclusion": "failure",
+      "createdAt": "2026-08-19T02:35:34Z",
+      "updatedAt": "2026-08-19T02:41:39Z",
+      "headSha": "ab75556c0f4896d04f405c8504d6baa6d36982bd"
+    },
+    {
+      "id": 32208973322,
+      "event": "pull_request_target",
+      "status": "completed",
+      "conclusion": "success",
+      "createdAt": "2026-08-19T02:33:17Z",
+      "updatedAt": "2026-08-19T02:33:37Z",
+      "headSha": "09abad9d8cba661f64f98ba785d6a45d5fbd2976"
+    }
+  ]
+}
