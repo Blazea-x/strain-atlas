@@ -7,14 +7,14 @@ on:
       - .github/production-triggers/s1-five-pr-v1
 
 jobs:
-  dispatch:
-    name: Dispatch five-cultivar PRODUCTION START V1
+  cancel-duplicate:
+    name: Cancel duplicate production dispatch
     runs-on: ubuntu-latest
     permissions:
       actions: write
       contents: read
     steps:
-      - name: Dispatch existing production workflow
+      - name: Cancel duplicate queued run
         env:
           GH_TOKEN: ${{ github.token }}
-        run: gh workflow run production-start-v1.yml --repo "$GITHUB_REPOSITORY" --ref master-migration -f batch_size=5 -f generate_images=true
+        run: gh run cancel 32231209024 --repo "$GITHUB_REPOSITORY"
