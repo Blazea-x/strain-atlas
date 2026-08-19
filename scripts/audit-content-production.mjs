@@ -26,31 +26,31 @@ function visualAuditPolicy(entry,phase){
   return {
     manifestRequired:managed&&phaseAtLeast(phase,'IMAGE_PENDING'),
     imageReadyRequired:managed&&phaseAtLeast(phase,'IMAGE_READY'),
-    primaryLinkageRequired:managed&&(entry?.state==='published'||phaseAtLeast(phase,'VISUAL_LINKED'))
+    primaryLinkageRequired:managed&&phaseAtLeast(phase,'VISUAL_LINKED')
   };
 }
 function regressionCheckVisualPhaseGates(){
   const fixtureCodes=({entry,phase,primaryCount,metadataOk=true,brokenPrimary=false,orphanPrimary=false})=>{
-    const policy=visualAuditPolicy(entry,phase);
-    const codes=[];
+    const policy=visualAuditPolicy(entry,phase),codes=[];
     if(policy.primaryLinkageRequired&&primaryCount!==1)codes.push('PRIMARY_COUNT_INVALID');
     if(policy.primaryLinkageRequired&&primaryCount===1&&!metadataOk)codes.push('VISUAL_METADATA_MISMATCH');
     if(brokenPrimary)codes.push('BROKEN_PRIMARY_REFERENCE');
     if(orphanPrimary)codes.push('ORPHAN_PRIMARY');
     return codes;
   };
-  const cpPending={origin:'content-production',state:'pending'};
-  const grandfathered={origin:'grandfathered',state:'published'};
+  const cpPending={origin:'content-production',state:'pending'},cpPublished={origin:'content-production',state:'published'},grandfathered={origin:'grandfathered',state:'published'};
   const A=fixtureCodes({entry:cpPending,phase:'IMAGE_PENDING',primaryCount:0});
   const B=fixtureCodes({entry:cpPending,phase:'VISUAL_LINKED',primaryCount:0});
   const C=fixtureCodes({entry:cpPending,phase:'VISUAL_LINKED',primaryCount:1,metadataOk:true});
   const D=fixtureCodes({entry:grandfathered,phase:null,primaryCount:1,brokenPrimary:true});
   const E=fixtureCodes({entry:grandfathered,phase:null,primaryCount:1,orphanPrimary:true});
+  const F=fixtureCodes({entry:cpPublished,phase:'IMAGE_PENDING',primaryCount:0});
   if(A.includes('PRIMARY_COUNT_INVALID'))throw new Error('visual regression A: IMAGE_PENDING visuals=[] must not require primary linkage');
   if(!B.includes('PRIMARY_COUNT_INVALID'))throw new Error('visual regression B: VISUAL_LINKED visuals=[] must fail primary linkage');
   if(C.includes('PRIMARY_COUNT_INVALID')||C.includes('VISUAL_METADATA_MISMATCH'))throw new Error('visual regression C: valid VISUAL_LINKED primary must pass linkage audit');
   if(!D.includes('BROKEN_PRIMARY_REFERENCE'))throw new Error('visual regression D: broken published primary must remain blocking');
   if(!E.includes('ORPHAN_PRIMARY'))throw new Error('visual regression E: orphan published primary must remain blocking');
+  if(F.includes('PRIMARY_COUNT_INVALID'))throw new Error('visual regression F: data-first published IMAGE_PENDING visuals=[] must be allowed');
 }
 regressionCheckVisualPhaseGates();
 function loadUnique(files,kind){const map=new Map();for(const f of files){let x;try{x=readJson(f)}catch(e){add(kind==='strain'?'DUPLICATE_STRAIN_ID':kind==='source'?'SOURCE_ID_CONFLICT':'ENTITY_ID_CONFLICT',`cannot parse ${f}: ${e.message}`);continue}if(map.has(x.id))add(kind==='strain'?'DUPLICATE_STRAIN_ID':kind==='source'?'SOURCE_ID_CONFLICT':'ENTITY_ID_CONFLICT',`duplicate ${kind} id ${x.id}`,{files:[map.get(x.id).__file,f]});x.__file=f;map.set(x.id,x)}return map}
@@ -64,7 +64,7 @@ if(publication.schemaVersion!==1)add('UNSUPPORTED_SCHEMA_VERSION',`publication s
 const pub=new Map();
 for(const e of publication.entries||[]){if(pub.has(e.strainId))add('ILLEGAL_PUBLICATION_TRANSITION',`duplicate publication entry ${e.strainId}`);pub.set(e.strainId,e);if(!strains.has(e.strainId))add('ORPHAN_PUBLICATION_ENTRY',`${e.strainId} has publication entry but no strain.json`)}
 for(const id of strains.keys())if(!pub.has(id))add('MISSING_PUBLICATION_ENTRY',`${id} has MASTER strain but no publication entry`);
-const names=new Map(); const aliasOwner=new Map();
+const names=new Map();const aliasOwner=new Map();
 for(const s of strains.values()){
   const n=norm(s.name);if(names.has(n)&&names.get(n)!==s.id)add('CONFIRMED_DUPLICATE_CULTIVAR',`${s.id} and ${names.get(n)} share canonical name ${s.name}`);else names.set(n,s.id);
   for(const label of [s.name,...(s.aliases||[])]){const k=norm(label);if(!k)continue;if(aliasOwner.has(k)&&aliasOwner.get(k)!==s.id)add('ALIAS_COLLISION_REVIEW',`${s.id} collides with ${aliasOwner.get(k)} on normalized alias ${label}`);else aliasOwner.set(k,s.id)}
@@ -82,7 +82,7 @@ for(const f of runFiles){let run;try{run=readJson(f)}catch(e){add('RUN_RECORD_ST
   }}
 const stocks=jsonFiles(path.join(ROOT,'stock/items'));const stockIds=[];const promoted=[];
 for(const f of stocks){const id=path.basename(f,'.json');stockIds.push(id);if(strains.has(id)){promoted.push(id);add('ALREADY_PROMOTED_STOCK',`${id} exists in STOCK and MASTER; allowed history, exclude from new promotion`,{sourceStockPath:path.relative(ROOT,f)})}}
-const manifests=new Map();for(const f of jsonFiles(path.join(ROOT,'production/manifests'))){let m;try{m=readJson(f)}catch(e){add('IMAGE_MANIFEST_MISMATCH',`manifest unreadable ${f}: ${e.message}`);continue}if(m.schemaVersion!==1||m.manifestVersion!==1){add('UNSUPPORTED_SCHEMA_VERSION',`${f} has unsupported manifest version`);continue}manifests.set(m.manifestId,m);if(m.visualPreparationHash!==visualPreparationHash({promptSnapshot:m.promptSnapshot,evidenceSnapshot:m.evidenceSnapshot,visualMetadataSnapshot:m.visualMetadataSnapshot}))add('IMAGE_MANIFEST_MISMATCH',`${m.manifestId} visualPreparationHash mismatch`);if(m.approvalStatus==='approved'&&!approvalMatches(m))add('STALE_IMAGE_ATTEMPT',`${m.manifestId} approval is not bound to current revision/attempt`)}
+const manifests=new Map();for(const f of jsonFiles(path.join(ROOT,'production/manifests'))){let m;try{m=readJson(f)}catch(e){add('IMAGE_MANIFEST_MISMATCH',`manifest unreadable ${f}: ${e.message}`);continue}if(m.schemaVersion!==1||m.manifestVersion!==1){add('UNSUPPORTED_SCHEMA_VERSION',`${f} has unsupported manifest version`);continue}manifests.set(m.manifestId,m);if(m.visualPreparationHash!==visualPreparationHash({promptSnapshot:m.promptSnapshot,evidenceSnapshot:m.evidenceSnapshot,visualMetadataSnapshot:m.visualMetadataSnapshot}))add('IMAGE_MANIFEST_MISMATCH',`${m.manifestId} visualPreparationHash mismatch`);if(['approved','auto-approved'].includes(m.approvalStatus)&&!approvalMatches(m))add('STALE_IMAGE_ATTEMPT',`${m.manifestId} approval is not bound to current revision/attempt`)}
 const latestManifestFor=id=>[...manifests.values()].filter(x=>x.strainId===id).sort((a,b)=>b.revision-a.revision||b.attempt-a.attempt)[0];
 for(const s of strains.values()){
   const prim=(s.visuals||[]).filter(v=>v.role==='primary');const entry=pub.get(s.id);const runItem=entry?.introducedByRun?runItems.get(`${entry.introducedByRun}\u0000${s.id}`):null;const phase=runItem?.item?.productionPhase||null;const policy=visualAuditPolicy(entry,phase);
