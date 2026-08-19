@@ -1,0 +1,108 @@
+name: HOME UX V2 Final Public Confirm
+on:
+  push:
+    branches: [main]
+    paths: [".github/workflows/home-ux-v2-final-confirm.yml"]
+permissions:
+  contents: write
+jobs:
+  confirm:
+    runs-on: ubuntu-latest
+    env:
+      SITE: https://blazea-x.github.io/strain-atlas/
+    steps:
+      - uses: actions/checkout@v4
+      - name: Public browser confirmation
+        env:
+          RUN_ID: ${{ github.run_id }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl -fsSL "${SITE}?final-confirm=${RUN_ID}" -o /tmp/public-index.html
+          test "$(sha256sum index.html | cut -d' ' -f1)" = "$(sha256sum /tmp/public-index.html | cut -d' ' -f1)"
+          grep -q 'home-ux-v2.js?v=3' /tmp/public-index.html
+          grep -q '新着の品種' /tmp/public-index.html
+          grep -q 'すべての品種' /tmp/public-index.html
+          ! grep -q 'COMING LATER' /tmp/public-index.html
+          python -m pip install --disable-pip-version-check --quiet selenium
+          python - <<'PY'
+          import json, os, time, urllib.request
+          from pathlib import Path
+          from selenium import webdriver
+          from selenium.webdriver.chrome.options import Options
+          from selenium.webdriver.chrome.service import Service
+          from selenium.webdriver.common.by import By
+          from selenium.webdriver.support.ui import WebDriverWait
+          SITE=os.environ['SITE']; OUT=Path('home-ux-v2-final-confirm'); OUT.mkdir(exist_ok=True)
+          def j(url):
+            req=urllib.request.Request(url,headers={'User-Agent':'home-ux-v2-final-confirm'})
+            with urllib.request.urlopen(req,timeout=30) as r:return json.load(r)
+          cat=j('https://raw.githubusercontent.com/Blazea-x/strain-atlas/master-migration/runtime/catalog.json'); pub=j('https://raw.githubusercontent.com/Blazea-x/strain-atlas/master-migration/production/publication.json')
+          runtime={c['id'] for c in cat['cultivars']}; ranked=[]
+          for i,e in enumerate(pub['entries']):
+            if e.get('state')=='published' and e.get('strainId') in runtime: ranked.append((e.get('publishedAt') or '',i,e['strainId']))
+          ranked.sort(key=lambda x:(x[0] != '',x[0],x[1],x[2]),reverse=True); latest=[x[2] for x in ranked[:6]]
+          R={'runId':os.environ['RUN_ID'],'site':SITE,'latest':latest,'checks':{},'errors':[]}
+          o=Options(); o.add_argument('--headless=new'); o.add_argument('--no-sandbox'); o.add_argument('--disable-dev-shm-usage'); o.add_argument('--window-size=390,844')
+          d=webdriver.Chrome(service=Service('/usr/bin/chromedriver'),options=o); w=WebDriverWait(d,25)
+          def rec(name,fn):
+            try:R['checks'][name]={'pass':True,'detail':fn()}
+            except Exception as e:R['checks'][name]={'pass':False,'detail':f'{type(e).__name__}: {e}'};R['errors'].append(name)
+          def ids(sel):return [x.get_attribute('data-strain-id') for x in d.find_elements(By.CSS_SELECTOR,sel)]
+          def load(url=SITE,width=390,height=844,need_latest=True):
+            d.set_window_size(width,height); d.get(url); w.until(lambda x:len(x.find_elements(By.CSS_SELECTOR,'#cultivar-grid [data-strain-id]'))==38)
+            if need_latest:w.until(lambda x:len(x.find_elements(By.CSS_SELECTOR,'#latest-grid [data-strain-id]'))==6)
+          def search(q):
+            d.execute_script("const s=document.getElementById('search');s.value=arguments[0];s.dispatchEvent(new Event('input',{bubbles:true}));",q);time.sleep(.25);return ids('#cultivar-grid [data-strain-id]')
+          def click(sel):d.execute_script('arguments[0].click()',d.find_element(By.CSS_SELECTOR,sel));time.sleep(.2)
+          def open_card(sid):
+            c=d.find_element(By.CSS_SELECTOR,f'#cultivar-grid [data-strain-id="{sid}"]');d.execute_script('arguments[0].scrollIntoView({block:"center"})',c);time.sleep(.15);y=d.execute_script('return window.scrollY');d.execute_script('arguments[0].click()',c);w.until(lambda x:x.find_element(By.ID,'detail-dialog').get_attribute('open') is not None);return y
+          rec('home-390',lambda:(load(),d.save_screenshot(str(OUT/'public-home-390.png')),'PASS')[-1])
+          rec('brand-bubble-legal',lambda:'PASS' if 'Cannabis' in d.find_element(By.ID,'site-title').text and 'Bubble Gum' in d.find_element(By.ID,'home-hero-caption').text and d.find_element(By.ID,'legal-alert').is_displayed() else (_ for _ in ()).throw(AssertionError()))
+          rec('latest-six-stable',lambda:ids('#latest-grid [data-strain-id]') if ids('#latest-grid [data-strain-id]')==latest else (_ for _ in ()).throw(AssertionError(ids('#latest-grid [data-strain-id]'))))
+          def mob(wid):
+            load(SITE+f'?vw={wid}',wid,844); cards=d.find_elements(By.CSS_SELECTOR,'#latest-grid [data-strain-id]'); tops=[round(x.rect['y']) for x in cards[:3]]; assert tops[0]==tops[1] and tops[2]>tops[1]; return tops
+          rec('home-430-two-column',lambda:mob(430)); rec('desktop',lambda:(load(SITE+'?desktop=1',1280,900),d.save_screenshot(str(OUT/'public-home-desktop.png')),'PASS')[-1])
+          def filt():
+            click('[data-explore="sativa"]'); n=len(ids('#cultivar-grid [data-strain-id]')); assert n==len(cat['explore']['sativa']); click('[data-explore="all"]'); assert len(ids('#cultivar-grid [data-strain-id]'))==38; return {'sativa':n,'all':38}
+          rec('filter',filt)
+          def searches():
+            expected={'Bubble Gum':'bubble-gum','Wedding Cake':'wedding-cake-s1','Humboldt CSI':'wedding-cake-s1','S1':'f1-durb-s1','Kush':'bubba-kush-s1'}; out={}
+            for q,target in expected.items(): found=search(q); assert target in found,(q,target,found); out[q]=len(found)
+            assert len(search(''))==38; return out
+          rec('search-all-catalog',searches)
+          def identity(q,sid,name,gen):
+            found=search(q); assert sid in found; c=d.find_element(By.CSS_SELECTOR,f'#cultivar-grid [data-strain-id="{sid}"]'); a=c.find_element(By.CSS_SELECTOR,'.tile-display-name').text;b=c.find_element(By.CSS_SELECTOR,'.generation-badge').text;assert(a,b)==(name,gen);return [a,b]
+          rec('generation-wedding',lambda:identity('Wedding Cake S1','wedding-cake-s1','Wedding Cake','S1'));rec('generation-bubba',lambda:identity('Bubba Kush S1','bubba-kush-s1','Bubba Kush','S1'));rec('generation-f1-durb',lambda:identity('F1 Durb S1','f1-durb-s1','F1 Durb','S1'));rec('generation-ak47',lambda:identity('AK-47','ak-47','AK-47','F1'))
+          def detail():
+            load();y=open_card('wedding-cake-s1');formal=w.until(lambda x:x.find_element(By.CSS_SELECTOR,'.detail-registered-name').text);assert formal=='正式登録名: Wedding Cake S1';click('.close-detail');w.until(lambda x:x.find_element(By.ID,'detail-dialog').get_attribute('open') is None);end=time.time()+5
+            while time.time()<end and abs(d.execute_script('return scrollY')-y)>=40:time.sleep(.1)
+            delta=abs(d.execute_script('return scrollY')-y);assert delta<40,delta;return {'formal':formal,'scrollDelta':delta}
+          rec('detail-scroll',detail)
+          def deepfull():
+            load(SITE+'?strain=ak-47',need_latest=False);w.until(lambda x:x.find_element(By.ID,'detail-dialog').get_attribute('open') is not None);assert d.find_element(By.CSS_SELECTOR,'.detail-registered-name').text=='正式登録名: AK-47';d.get(SITE);w.until(lambda x:len(x.find_elements(By.CSS_SELECTOR,'#cultivar-grid [data-strain-id]'))==38);open_card('super-lemon-haze');txt=d.find_element(By.ID,'detail-shell').text;required=['系譜 / LINEAGE','香り / AROMA','テルペン / TERPENE','歴史 / HISTORY','出典 / SOURCES'];assert all(x in txt for x in required);assert len(d.find_elements(By.CSS_SELECTOR,'.source-detail-link'))>=1;return required
+          rec('deep-link-and-detail-fields',deepfull)
+          def failclosed():
+            d.execute_cdp_cmd('Network.enable',{});d.execute_cdp_cmd('Network.setBlockedURLs',{'urls':['*production/publication.json*']});load(SITE+'?pubfail=1',need_latest=False);w.until(lambda x:'新着情報を取得できません' in x.find_element(By.ID,'latest-state').text);assert len(ids('#cultivar-grid [data-strain-id]'))==38;msg=d.find_element(By.ID,'latest-state').text;d.execute_cdp_cmd('Network.setBlockedURLs',{'urls':[]});return msg
+          rec('publication-fail-closed',failclosed)
+          R['pass']=not R['errors'] and all(v['pass'] for v in R['checks'].values());(OUT/'result.json').write_text(json.dumps(R,ensure_ascii=False,indent=2));d.quit();assert R['pass'],R
+          PY
+      - name: Upload confirmation artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: home-ux-v2-final-confirm-${{ github.run_id }}
+          path: home-ux-v2-final-confirm/
+      - name: Persist confirmation
+        if: always()
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p .github/home-ux-v2-final-confirm
+          cp home-ux-v2-final-confirm/result.json .github/home-ux-v2-final-confirm/result.json
+          git config user.name home-ux-v2-e2e-bot
+          git config user.email actions@users.noreply.github.com
+          git pull --rebase origin main
+          git add .github/home-ux-v2-final-confirm/result.json
+          git commit -m 'Record final HOME UX V2 public confirmation [skip ci]'
+          git push origin HEAD:main
