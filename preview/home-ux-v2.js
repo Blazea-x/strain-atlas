@@ -132,6 +132,22 @@
     detailShell.querySelectorAll("[data-detail-toggle] small").forEach(node => { node.textContent = "詳細"; });
   }
 
+  function currentDetailCultivar() {
+    if (!catalog || !detailShell) return null;
+    const id = new URL(location.href).searchParams.get("strain");
+    if (id && cultivarById.has(id)) return cultivarById.get(id);
+    const formalName = detailShell.querySelector(".detail-topbar strong")?.textContent?.trim();
+    if (!formalName) return null;
+    return catalog.cultivars.find(item => item.name === formalName) ||
+      catalog.cultivars.find(item => displayIdentity(item).displayName === formalName) ||
+      null;
+  }
+
+  function localizeCurrentDetail() {
+    const cultivar = currentDetailCultivar();
+    if (cultivar) localizeDetail(cultivar);
+  }
+
   function renderFooter() {
     if (!catalogMeta || !catalog) return;
     const counts = catalog.counts || {};
@@ -172,13 +188,7 @@
   if (resultLabel) new MutationObserver(localizeResultLabel).observe(resultLabel, { childList: true, characterData: true, subtree: true });
 
   if (detailShell) {
-    new MutationObserver(() => {
-      const formalName = detailShell.querySelector(".detail-topbar strong")?.textContent?.trim();
-      if (!formalName) return;
-      const cultivar = catalog?.cultivars?.find(item => item.name === formalName) ||
-        catalog?.cultivars?.find(item => displayIdentity(item).displayName === formalName);
-      if (cultivar) localizeDetail(cultivar);
-    }).observe(detailShell, { childList: true, subtree: false });
+    new MutationObserver(localizeCurrentDetail).observe(detailShell, { childList: true, subtree: false });
   }
 
   async function bootHomeUxV2() {
@@ -191,6 +201,7 @@
       if (catalogTotal) catalogTotal.textContent = `${catalog.cultivars.length}品種を収録`;
       renderFooter();
       captureCanonicalCards();
+      localizeCurrentDetail();
     } catch (error) {
       console.warn("HOME UX V2 catalog enhancement unavailable", error);
     }
