@@ -12,6 +12,11 @@
     "balanced-hybrid": "BALANCED HYBRID",
     "unknown": "未分類"
   };
+  const exploreLabels = {
+    sativa: "SATIVA系",
+    indica: "INDICA系",
+    hybrid: "HYBRID"
+  };
   const roleLabels = {
     originator: "ORIGINATOR",
     breeder: "BREEDER",
@@ -40,12 +45,16 @@
   const contentPanels = [...document.querySelectorAll("[data-content-panel]")];
   const homeEntries = [...document.querySelectorAll("[data-home-target]")];
   const catalogTotal = document.getElementById("catalog-total");
+  const allCultivarsTitle = document.getElementById("all-cultivars-title");
+  const latestSection = document.querySelector(".latest-section");
   const generationOptions = document.getElementById("generation-options");
   const generationFilterGroup = document.getElementById("generation-filter-group");
   const breederFilter = document.getElementById("breeder-filter");
   const breederFilterGroup = document.getElementById("breeder-filter-group");
   const filterSummaryCount = document.getElementById("filter-summary-count");
   const clearFilters = document.getElementById("clear-filters");
+  const filterDisclosure = document.getElementById("filter-disclosure");
+  let viewResults = document.getElementById("view-results");
 
   let catalog = null;
   let activeExplore = "all";
@@ -174,6 +183,20 @@
     inBreeder(cultivar) &&
     (!query || searchBlob(cultivar).includes(query));
 
+  const currentQuery = () => (search?.value || "").trim();
+  const getVisibleCultivars = query => {
+    const normalizedQuery = String(query || "").toLowerCase();
+    return catalog?.cultivars?.filter(cultivar => matchesFilters(cultivar, normalizedQuery)) || [];
+  };
+  const resultModeFor = query => {
+    const isResultMode =
+      activeExplore !== "all" ||
+      activeGenerations.size > 0 ||
+      Boolean(activeBreeder) ||
+      Boolean(query);
+    return isResultMode;
+  };
+
   function generationSortKey(value) {
     const text = String(value || "").trim();
     if (text === "S1") return [0, 1, text];
@@ -189,6 +212,37 @@
     const aa = generationSortKey(a);
     const bb = generationSortKey(b);
     return aa[0] - bb[0] || aa[1] - bb[1] || String(aa[2]).localeCompare(String(bb[2]), "en");
+  }
+
+  function activeBreederName() {
+    if (!activeBreeder) return "";
+    return String(catalog?.entities?.[activeBreeder]?.name || activeBreeder).trim();
+  }
+
+  function scrollResultsIntoView() {
+    const target = document.getElementById("cultivars");
+    if (!target) return;
+    const reduceMotion = window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches;
+    target.scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth", block: "start" });
+  }
+
+  function ensureResultButton() {
+    if (viewResults) return;
+    const panel = filterDisclosure?.querySelector(".filter-panel");
+    if (!panel) return;
+    viewResults = document.createElement("button");
+    viewResults.id = "view-results";
+    viewResults.type = "button";
+    viewResults.className = "filter-clear filter-results";
+    viewResults.hidden = true;
+    viewResults.disabled = true;
+    panel.appendChild(viewResults);
+    viewResults.addEventListener("click", () => {
+      const query = currentQuery();
+      if (!resultModeFor(query)) return;
+      if (filterDisclosure?.open) filterDisclosure.open = false;
+      requestAnimationFrame(scrollResultsIntoView);
+    });
   }
 
   function syncFilterUi() {
@@ -239,6 +293,7 @@
       ).join("")}`;
     }
     if (breederFilterGroup) breederFilterGroup.hidden = breederEntries.length === 0;
+    ensureResultButton();
     syncFilterUi();
   }
 
@@ -256,11 +311,72 @@
     if (scroll) requestAnimationFrame(() => homeContent?.scrollIntoView({ behavior: "smooth", block: "start" }));
   }
 
-  function renderGrid() {
-    if (!catalog) return;
-    const query = (search?.value || "").trim().toLowerCase();
-    const visible = catalog.cultivars.filter(cultivar => matchesFilters(cultivar, query));
+  function updateResultHeading(visible, query, isResultMode) {
+    const count = visible.length;
+    if (!isResultMode) {
+      if (allCultivarsTitle) allCultivarsTitle.textContent = "すべての品種";
+      if (catalogTotal) catalogTotal.textContent = `${catalog.cultivars.length}品種を収録`;
+      if (resultLabel) {
+        resultLabel.textContent = "";
+        resultLabel.hidden = true;
+      }
+      if (viewResults) {
+        viewResults.textContent = `${count}件の結果を見る`;
+        viewResults.hidden = true;
+        viewResults.disabled = true;
+      }
+      return;
+    }
 
+    if (resultLabel) {
+      resultLabel.hidden = false;
+      resultLabel.textContent = `${count}件表示`;
+    }
+    if (viewResults) {
+      viewResults.textContent = `${count}件の結果を見る`;
+      viewResults.hidden = false;
+      viewResults.disabled = false;
+    }
+
+    const hasExplore = activeExplore !== "all";
+    const generations = [...activeGenerations];
+    const breeder = activeBreederName();
+    const hasBreeder = Boolean(activeBreeder);
+    const hasQuery = Boolean(query);
+    const conditionCount = (hasExplore ? 1 : 0) + generations.length + (hasBreeder ? 1 : 0) + (hasQuery ? 1 : 0);
+
+    if (conditionCount === 1 && hasExplore) {
+      if (allCultivarsTitle) allCultivarsTitle.textContent = `${exploreLabels[activeExplore] || activeExplore}の品種`;
+      if (catalogTotal) catalogTotal.textContent = "";
+      return;
+    }
+    if (conditionCount === 1 && generations.length === 1) {
+      if (allCultivarsTitle) allCultivarsTitle.textContent = `育種世代 ${generations[0]}`;
+      if (catalogTotal) catalogTotal.textContent = "";
+      return;
+    }
+    if (conditionCount === 1 && hasBreeder) {
+      if (allCultivarsTitle) allCultivarsTitle.textContent = `${breeder}の品種`;
+      if (catalogTotal) catalogTotal.textContent = "";
+      return;
+    }
+    if (conditionCount === 1 && hasQuery) {
+      if (allCultivarsTitle) allCultivarsTitle.textContent = "検索結果";
+      if (catalogTotal) catalogTotal.textContent = `「${query}」`;
+      return;
+    }
+
+    const parts = [];
+    if (hasExplore) parts.push(exploreLabels[activeExplore] || activeExplore);
+    parts.push(...generations);
+    if (hasBreeder) parts.push(breeder);
+    if (hasQuery) parts.push(`「${query}」`);
+    if (allCultivarsTitle) allCultivarsTitle.textContent = "絞り込み結果";
+    if (catalogTotal) catalogTotal.textContent = parts.join(" · ");
+  }
+
+  function renderGrid(visible) {
+    if (!catalog) return;
     grid.innerHTML = visible.map(cultivar => {
       const visual = primaryVisual(cultivar);
       const aromas = (cultivar.aromas?.items || []).slice(0, 2);
@@ -277,19 +393,25 @@
         </div>
       </button>`;
     }).join("");
-
-    resultLabel.textContent = `${visible.length} / ${catalog.cultivars.length}`;
-    if (catalogTotal) {
-      const filtered = activeExplore !== "all" || activeGenerations.size > 0 || Boolean(activeBreeder) || Boolean(query);
-      catalogTotal.textContent = filtered ? `${visible.length}件表示` : `${catalog.cultivars.length}品種を収録`;
-    }
     empty.hidden = visible.length !== 0;
+  }
+
+  function updateResults({ scrollToResults = false } = {}) {
+    if (!catalog) return { query: currentQuery(), visible: [], isResultMode: false };
+    const query = currentQuery();
+    const visible = getVisibleCultivars(query);
+    const isResultMode = resultModeFor(query);
+    if (latestSection) latestSection.hidden = isResultMode;
+    updateResultHeading(visible, query, isResultMode);
+    renderGrid(visible);
+    if (scrollToResults && isResultMode) requestAnimationFrame(scrollResultsIntoView);
+    return { query, visible, isResultMode };
   }
 
   function setExplore(key) {
     activeExplore = ["all", "sativa", "indica", "hybrid"].includes(key) ? key : "all";
     syncFilterUi();
-    renderGrid();
+    return updateResults({ scrollToResults: true });
   }
 
   const chips = (items, kind) => items?.length
@@ -422,10 +544,22 @@
     if (card) openDetail(card.dataset.strainId, true);
   });
 
-  search.addEventListener("input", () => {
-    if ((search.value || "").trim() && activeHomePanel !== "cultivars") showHomePanel("cultivars", false);
-    renderGrid();
-  });
+  if (search) {
+    search.setAttribute("enterkeyhint", "search");
+    const handleSearchChange = () => {
+      if (currentQuery() && activeHomePanel !== "cultivars") showHomePanel("cultivars", false);
+      updateResults();
+    };
+    search.addEventListener("input", handleSearchChange);
+    search.addEventListener("search", handleSearchChange);
+    search.addEventListener("keydown", event => {
+      if (event.key !== "Enter" || event.isComposing) return;
+      event.preventDefault();
+      search.blur();
+      const state = updateResults();
+      if (state.isResultMode) requestAnimationFrame(scrollResultsIntoView);
+    });
+  }
 
   document.getElementById("explore")?.addEventListener("click", event => {
     const button = event.target.closest("[data-explore]");
@@ -440,13 +574,13 @@
     if (activeGenerations.has(generation)) activeGenerations.delete(generation);
     else activeGenerations.add(generation);
     syncFilterUi();
-    renderGrid();
+    updateResults();
   });
 
   breederFilter?.addEventListener("change", () => {
     activeBreeder = breederFilter.value || "";
     syncFilterUi();
-    renderGrid();
+    updateResults();
   });
 
   clearFilters?.addEventListener("click", () => {
@@ -454,7 +588,7 @@
     activeGenerations.clear();
     activeBreeder = "";
     syncFilterUi();
-    renderGrid();
+    updateResults();
   });
 
   document.querySelector(".home-entries")?.addEventListener("click", event => {
@@ -467,7 +601,7 @@
     const button = event.target.closest("[data-explore-jump]");
     if (!button) return;
     setExplore(button.dataset.exploreJump);
-    showHomePanel("cultivars", true);
+    showHomePanel("cultivars", false);
   });
 
   window.addEventListener("popstate", () => {
@@ -497,7 +631,7 @@
         setCount(`overview-${key}`, count);
       }
       setupDetailedFilters();
-      renderGrid();
+      updateResults();
 
       const initialId = new URL(location.href).searchParams.get("strain");
       if (initialId) {
@@ -508,6 +642,7 @@
       console.error(error);
       dataState.textContent = "DATA ERROR";
       dataState.classList.add("is-error");
+      resultLabel.hidden = false;
       resultLabel.textContent = "読み込み失敗";
       grid.innerHTML = `<div class="error-box">MASTER runtime dataを読み込めませんでした。runtime/catalog.json の生成状態を確認してください。</div>`;
     }
