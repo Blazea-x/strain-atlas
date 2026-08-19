@@ -25,6 +25,7 @@ jobs:
       GH_TOKEN: ${{ github.token }}
       ARTIFACT_ID: '9350233070'
       GENERATION_RUN_ID: '32209110570'
+      ARTIFACT_DIR: /tmp/v2-generation-artifact
       EXPECTED_CANDIDATE_SHA256: '5ac510338fa552225c77ddcd2b3a92a4d1b2e3ada3c4c7411fec5fc365388bb0'
       PROMOTION_REPORT: /tmp/dr-grinspoon-promotion-report.json
 
@@ -45,6 +46,16 @@ jobs:
 
       - name: Install image dependency
         run: python -m pip install --disable-pip-version-check --no-cache-dir 'Pillow>=10,<12'
+
+      - name: Download already-generated one-shot artifact
+        shell: bash
+        run: |
+          rm -rf "$ARTIFACT_DIR"
+          mkdir -p "$ARTIFACT_DIR"
+          gh run download "$GENERATION_RUN_ID" --repo "$GITHUB_REPOSITORY" --name "image-production-v2-dr-grinspoon-malawi-$GENERATION_RUN_ID" --dir "$ARTIFACT_DIR"
+          test -f "$ARTIFACT_DIR/dr-grinspoon__one-shot.jpg"
+          test -f "$ARTIFACT_DIR/preflight-generation-summary.json"
+          echo 'EXISTING ARTIFACT DOWNLOADED. OPENAI REQUESTS: 0'
 
       - name: Promote reviewed Dr Grinspoon artifact only
         working-directory: master
@@ -95,7 +106,7 @@ jobs:
         shell: bash
         run: |
           python - <<'PY'
-          import json,hashlib
+          import json
           from pathlib import Path
           from PIL import Image
           root=Path('master'); main=Path('main-shell')
@@ -125,14 +136,9 @@ jobs:
           print(json.dumps(report))
           PY
 
-      - name: Prove only intended formal target changed
+      - name: Prove final local tree clean
         working-directory: master
-        shell: bash
-        run: |
-          BASE="$(git merge-base HEAD origin/master-migration)"
-          echo "Local final commits:" && git --no-pager log --oneline "$BASE"..HEAD
-          git status --porcelain
-          test -z "$(git status --porcelain)"
+        run: test -z "$(git status --porcelain)"
 
       - name: Push two local promotion commits atomically by fast-forward
         working-directory: master
