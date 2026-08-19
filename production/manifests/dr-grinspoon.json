@@ -33,12 +33,12 @@
   "expectedInboxFilename": "dr-grinspoon.jpg",
   "expectedPrimaryPath": "strains/dr-grinspoon/images/generated/primary.webp",
   "generatedAt": "2026-08-19T02:35:34Z",
-  "approvalStatus": "approved",
-  "approvedAt": "2026-08-19T02:51:13Z",
-  "approvalType": "assistant-visual-review",
-  "approvedManifestRevision": 2,
-  "approvedAttempt": 1,
-  "approvedSourceSha256": "5ac510338fa552225c77ddcd2b3a92a4d1b2e3ada3c4c7411fec5fc365388bb0",
+  "approvalStatus": "rejected",
+  "approvedAt": null,
+  "approvalType": null,
+  "approvedManifestRevision": null,
+  "approvedAttempt": null,
+  "approvedSourceSha256": null,
   "imageInboxCommit": null,
   "imageProcessingCommit": "d19445c659d128a1f411bfa79b75d4fce1580823",
   "processedPrimaryBlobSha": "887dc0449d029bc3cc31efb17b065cf3476fbefd",
@@ -141,6 +141,18 @@
       "action": "PRODUCTION_COMMIT_BOUND",
       "status": "recorded",
       "note": "Formal WebP, visuals linkage and runtime were prepared in local processing commit d19445c659d128a1f411bfa79b75d4fce1580823; this provenance was bound before the two-commit fast-forward push."
+    },
+    {
+      "at": "2026-08-19T03:22:45Z",
+      "action": "HUMAN_VISUAL_REVIEW",
+      "status": "rejected",
+      "note": "Human production review rejected the current Dr Grinspoon primary. The prior assistant VISUAL_QA PASS was insufficient and is retained only as AI-review history. Production WebP SHA-256 0d5c13e2aab448722eeb799e03f5c9256fe259c19f363928961fbc6b29fd9d3a was withdrawn; generation history and digests are retained as rejected-candidate provenance. Any future regeneration must create a new candidate, and any future candidate may reach production only after approvalType human-visual-review is bound to the current manifest revision and attempt."
+    },
+    {
+      "at": "2026-08-19T03:22:45Z",
+      "action": "PRODUCTION_WITHDRAWAL",
+      "status": "recorded",
+      "note": "Removed the rejected primary from production and cleared the Dr Grinspoon visuals linkage. Publication state is intentionally unchanged; current grandfathered publication does not require a primary image under the existing audit policy."
     }
   ]
 }

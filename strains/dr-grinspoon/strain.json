@@ -79,17 +79,7 @@
     "text": "カンナビス擁護者・研究者・著者であるDr. Lester Grinspoonへの敬意を表して命名された。",
     "note": "Barney's Farm公式Descriptionに基づく。"
   },
-  "visuals": [
-    {
-      "role": "primary",
-      "src": "strains/dr-grinspoon/images/generated/primary.webp",
-      "alt": "Dr Grinspoonの細長いサティバ株姿と、細い茎・節に沿って疎に分かれたビーズ状の花姿を公式形態情報に基づいて表現したAI生成参考ビジュアル",
-      "rights": "AI-generated project asset for Cannabis Strain Wisdom; prompt derived from cited breeder-official morphology evidence.",
-      "scope": "cultivar",
-      "aiGenerated": true,
-      "sourceType": "aiGenerated"
-    }
-  ],
+  "visuals": [],
   "checkedAt": "2026-08-17",
   "updatedAt": "2026-08-19"
 }
