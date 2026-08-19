@@ -1,0 +1,311 @@
+name: FILTER UX V1 Final Public E2E Once
+"on":
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/filter-ux-v1-final-public-e2e-once.yml"
+
+permissions:
+  contents: write
+  actions: write
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ github.token }}
+      UI_SHA: 3dab30ba2403a4c030c31ae88af77a0165563ba4
+      MASTER_SHA: 910ae4c794193f75bb588fec0ca80941546bf8f7
+      PUBLIC_URL: https://blazea-x.github.io/strain-atlas/
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Guard remote state and UI scope
+        shell: bash
+        run: |
+          set -euo pipefail
+          git fetch origin main master-migration
+          test "$(git rev-parse HEAD)" = "$(git rev-parse origin/main)"
+          test "$(git rev-parse origin/master-migration)" = "$MASTER_SHA"
+          git merge-base --is-ancestor "$UI_SHA" HEAD
+          unexpected="$(git diff --name-only "$UI_SHA"..HEAD | grep -Ev '^\.github/' || true)"
+          if [ -n "$unexpected" ]; then
+            printf 'Unexpected non-.github changes after FILTER UX V1 implementation:\n%s\n' "$unexpected" >&2
+            exit 1
+          fi
+
+      - name: Deploy current main through canonical Pages workflow
+        shell: bash
+        run: |
+          set -euo pipefail
+          head_sha="$(git rev-parse HEAD)"
+          export HEAD_SHA="$head_sha"
+          gh workflow run deploy-public-ui-pages.yml --ref main
+          for i in $(seq 1 90); do
+            json="$(gh run list --workflow deploy-public-ui-pages.yml --limit 40 --json databaseId,headSha,status,conclusion,event,createdAt,url --jq '[.[] | select(.headSha == env.HEAD_SHA and .event == "workflow_dispatch")][0]')"
+            if [ -n "$json" ] && [ "$json" != "null" ]; then
+              status="$(printf '%s' "$json" | jq -r .status)"
+              if [ "$status" = "completed" ]; then
+                printf '%s\n' "$json" | tee /tmp/filter-pages-run.json
+                test "$(printf '%s' "$json" | jq -r .conclusion)" = "success"
+                exit 0
+              fi
+            fi
+            sleep 4
+          done
+          echo "Timed out waiting for canonical main Pages deployment" >&2
+          exit 1
+
+      - name: Wait for FILTER UX V1 public bytes
+        shell: bash
+        run: |
+          set -euo pipefail
+          for i in $(seq 1 60); do
+            html="$(curl -fsSL --retry 2 --max-time 20 "${PUBLIC_URL}?filter-e2e=$(date +%s%N)" || true)"
+            if printf '%s' "$html" | grep -q 'preview/app.js?v=6' && \
+               printf '%s' "$html" | grep -q 'preview/home-entrance-v1.css?v=5' && \
+               printf '%s' "$html" | grep -q 'data-explore="sativa"' && \
+               ! printf '%s' "$html" | grep -q 'data-explore="unclassified"'; then
+              printf '%s' "$html" > /tmp/filter-public-index.html
+              exit 0
+            fi
+            sleep 4
+          done
+          echo "FILTER UX V1 public bytes did not become visible" >&2
+          exit 1
+
+      - name: Install browser runtime
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/filter-e2e-node
+          cd /tmp/filter-e2e-node
+          npm init -y >/dev/null 2>&1
+          npm install playwright@1.55.0 >/dev/null
+          npx playwright install --with-deps chromium >/dev/null
+
+      - name: Run 390px and 430px public browser E2E
+        shell: bash
+        run: |
+          set -euo pipefail
+          cat > /tmp/filter-e2e-node/e2e.cjs <<'JS'
+          const { chromium } = require('playwright');
+          const fs = require('fs');
+          const assert = require('assert');
+
+          const PUBLIC_URL = process.env.PUBLIC_URL;
+          const DATA_URL = 'https://raw.githubusercontent.com/Blazea-x/strain-atlas/master-migration/runtime/catalog.json';
+          const PUBLICATION_URL = 'https://raw.githubusercontent.com/Blazea-x/strain-atlas/master-migration/production/publication.json';
+          const typeLabels = { sativa: 'サティバ系', indica: 'インディカ系', hybrid: 'ハイブリッド', unclassified: '未分類' };
+
+          const normalize = value => String(value ?? '').trim().toLowerCase();
+          function relationNames(cultivar, catalog) {
+            return (cultivar.relations || []).map(r => catalog.entities?.[r.entityId]?.name || '').filter(Boolean);
+          }
+          function searchBlob(cultivar, catalog) {
+            return [
+              cultivar.name,
+              cultivar.jp,
+              ...(cultivar.aliases || []),
+              cultivar.classification?.type,
+              typeLabels[cultivar.classification?.type],
+              cultivar.breeding?.generation,
+              cultivar.lineage?.display,
+              ...(cultivar.lineage?.parents || []),
+              cultivar.lineage?.note,
+              ...(cultivar.aromas?.items || []),
+              ...(cultivar.terpenes?.items || []),
+              cultivar.origin?.text,
+              cultivar.history?.text,
+              ...relationNames(cultivar, catalog)
+            ].join(' ').toLowerCase();
+          }
+          function expectedIds(catalog, { type = 'all', generations = [], breeder = '', query = '' }) {
+            const gen = new Set(generations);
+            const typeIds = type === 'all' ? null : new Set(catalog.explore?.[type] || []);
+            const q = normalize(query);
+            return catalog.cultivars.filter(c =>
+              (!typeIds || typeIds.has(c.id)) &&
+              (!gen.size || gen.has(String(c.breeding?.generation || '').trim())) &&
+              (!breeder || (c.relations || []).some(r => r.entityId === breeder && (r.roles || []).includes('breeder'))) &&
+              (!q || searchBlob(c, catalog).includes(q))
+            ).map(c => c.id).sort();
+          }
+          async function visibleIds(page) {
+            return (await page.locator('#cultivar-grid [data-strain-id]').evaluateAll(nodes => nodes.map(n => n.dataset.strainId))).sort();
+          }
+          async function waitRendered(page) {
+            await page.waitForFunction(() => {
+              const label = document.getElementById('result-label');
+              return label && /\d+\s*\/\s*\d+/.test(label.textContent || '');
+            }, null, { timeout: 30000 });
+          }
+          async function setGeneration(page, value) {
+            await page.locator('#filter-disclosure').evaluate(el => { el.open = true; });
+            const ok = await page.locator('[data-generation]').evaluateAll((nodes, v) => {
+              const node = nodes.find(n => n.dataset.generation === v);
+              if (!node) return false;
+              node.click();
+              return true;
+            }, value);
+            assert.ok(ok, `generation chip missing: ${value}`);
+          }
+
+          (async () => {
+            const [catalogResponse, publicationResponse] = await Promise.all([fetch(DATA_URL), fetch(PUBLICATION_URL)]);
+            assert.ok(catalogResponse.ok, `catalog HTTP ${catalogResponse.status}`);
+            assert.ok(publicationResponse.ok, `publication HTTP ${publicationResponse.status}`);
+            const catalog = await catalogResponse.json();
+            const publication = await publicationResponse.json();
+            assert.ok(Array.isArray(catalog.cultivars) && catalog.cultivars.length > 0, 'catalog missing cultivars');
+
+            const breederIds = [...new Set(catalog.cultivars.flatMap(c => (c.relations || [])
+              .filter(r => (r.roles || []).includes('breeder') && String(catalog.entities?.[r.entityId]?.name || '').trim())
+              .map(r => r.entityId)))].sort();
+            const generations = [...new Set(catalog.cultivars.map(c => String(c.breeding?.generation || '').trim())
+              .filter(v => v && v.toLowerCase() !== 'unknown'))];
+            const target = catalog.cultivars.find(c =>
+              ['sativa','indica','hybrid'].includes(c.classification?.type) &&
+              String(c.breeding?.generation || '').trim() &&
+              String(c.breeding?.generation || '').trim().toLowerCase() !== 'unknown' &&
+              (c.relations || []).some(r => (r.roles || []).includes('breeder') && String(catalog.entities?.[r.entityId]?.name || '').trim())
+            );
+            assert.ok(target, 'no cultivar available for combined filter E2E');
+            const targetGeneration = String(target.breeding.generation).trim();
+            const targetBreeder = target.relations.find(r => (r.roles || []).includes('breeder') && String(catalog.entities?.[r.entityId]?.name || '').trim()).entityId;
+            const targetType = target.classification.type;
+
+            const browser = await chromium.launch({ headless: true });
+            const report = {
+              publicUrl: PUBLIC_URL,
+              catalogCultivars: catalog.cultivars.length,
+              publishedEntries: (publication.entries || []).filter(e => e?.state === 'published').length,
+              target: { id: target.id, type: targetType, generation: targetGeneration, breeder: targetBreeder },
+              viewports: []
+            };
+
+            try {
+              for (const width of [390, 430]) {
+                const page = await browser.newPage({ viewport: { width, height: 900 } });
+                await page.goto(`${PUBLIC_URL}?filter-final-e2e=${Date.now()}-${width}`, { waitUntil: 'domcontentloaded', timeout: 30000 });
+                await waitRendered(page);
+
+                const structural = await page.evaluate(() => {
+                  const type = document.getElementById('explore');
+                  const search = document.getElementById('search');
+                  const chips = [...document.querySelectorAll('#explore [data-explore]')];
+                  return {
+                    typeBeforeSearch: Boolean(type && search && type.getBoundingClientRect().top < search.getBoundingClientRect().top),
+                    exploreCount: document.querySelectorAll('#explore').length,
+                    chipKeys: chips.map(b => b.dataset.explore),
+                    chipLabels: chips.map(b => (b.childNodes[0]?.textContent || '').trim()),
+                    unclassifiedChipCount: document.querySelectorAll('[data-explore="unclassified"]').length,
+                    cultivarsAnchor: Boolean(document.getElementById('cultivars')),
+                    filterGroups: [...document.querySelectorAll('#filter-disclosure .filter-group')].map(n => n.id),
+                    oldSchoolText: /オールドスクール/i.test(document.getElementById('filter-disclosure')?.textContent || ''),
+                    horizontalOverflow: document.documentElement.scrollWidth > window.innerWidth + 1
+                  };
+                });
+                assert.equal(structural.typeBeforeSearch, true, `${width}: TYPE is not above search`);
+                assert.equal(structural.exploreCount, 1, `${width}: duplicate TYPE filter`);
+                assert.deepEqual(structural.chipKeys, ['all','sativa','indica','hybrid'], `${width}: TYPE keys mismatch`);
+                assert.deepEqual(structural.chipLabels, ['すべて','SATIVA系','INDICA系','HYBRID'], `${width}: TYPE labels mismatch`);
+                assert.equal(structural.unclassifiedChipCount, 0, `${width}: unclassified chip exists`);
+                assert.equal(structural.cultivarsAnchor, true, `${width}: #cultivars missing`);
+                assert.deepEqual(structural.filterGroups.sort(), ['breeder-filter-group','generation-filter-group'], `${width}: unsupported formal-axis filter exposed`);
+                assert.equal(structural.oldSchoolText, false, `${width}: old-school filter exposed without formal axis`);
+                assert.equal(structural.horizontalOverflow, false, `${width}: horizontal overflow`);
+
+                await page.waitForFunction(() => document.querySelectorAll('#latest-grid [data-strain-id]').length === 6, null, { timeout: 30000 });
+                const latestCount = await page.locator('#latest-grid [data-strain-id]').count();
+                assert.equal(latestCount, 6, `${width}: latest count is not 6`);
+
+                await page.locator('#filter-disclosure').evaluate(el => { el.open = true; });
+                const actualBreederIds = (await page.locator('#breeder-filter option').evaluateAll(nodes => nodes.map(n => n.value).filter(Boolean))).sort();
+                assert.deepEqual(actualBreederIds, breederIds, `${width}: breeder options include non-breeder roles or miss breeder roles`);
+
+                await page.locator(`[data-explore="${targetType}"]`).click();
+                await page.locator('#search').fill(target.name);
+                assert.equal(await page.locator(`[data-explore="${targetType}"]`).getAttribute('aria-pressed'), 'true', `${width}: search reset TYPE to all`);
+                await setGeneration(page, targetGeneration);
+                await page.locator('#breeder-filter').selectOption(targetBreeder);
+                await page.waitForTimeout(100);
+                assert.deepEqual(await visibleIds(page), expectedIds(catalog, { type: targetType, generations: [targetGeneration], breeder: targetBreeder, query: target.name }), `${width}: TYPE+generation+Breeder+search is not AND`);
+
+                await page.locator('#clear-filters').click();
+                assert.equal(await page.locator('#search').inputValue(), target.name, `${width}: clear removed search text`);
+                assert.equal(await page.locator('[data-explore="all"]').getAttribute('aria-pressed'), 'true', `${width}: clear did not reset TYPE`);
+                assert.equal(await page.locator('#breeder-filter').inputValue(), '', `${width}: clear did not reset breeder`);
+                assert.equal(await page.locator('[data-generation].is-active').count(), 0, `${width}: clear did not reset generation`);
+
+                await page.locator('#search').fill('');
+                const pair = generations.slice(0, 2);
+                assert.equal(pair.length, 2, `${width}: fewer than two generation values available for OR E2E`);
+                await setGeneration(page, pair[0]);
+                await setGeneration(page, pair[1]);
+                await page.waitForTimeout(100);
+                assert.deepEqual(await visibleIds(page), expectedIds(catalog, { generations: pair }), `${width}: generation same-axis is not OR`);
+
+                report.viewports.push({
+                  width,
+                  status: 'PASS',
+                  typeAboveSearch: true,
+                  typeKeys: structural.chipKeys,
+                  noDuplicateType: true,
+                  noUnclassifiedChip: true,
+                  noUnsupportedAxisFilters: true,
+                  searchPreservesType: true,
+                  andCombination: true,
+                  generationOr: true,
+                  breederRoleOnly: true,
+                  clearPreservesSearch: true,
+                  latestSix: latestCount,
+                  cultivarsAnchor: true,
+                  horizontalOverflow: false
+                });
+                await page.close();
+              }
+              report.status = 'PASS';
+              fs.writeFileSync('/tmp/filter-e2e-report.json', JSON.stringify(report, null, 2));
+              console.log(JSON.stringify(report, null, 2));
+            } finally {
+              await browser.close();
+            }
+          })().catch(error => {
+            const failure = { status: 'FAIL', error: error.stack || String(error) };
+            fs.writeFileSync('/tmp/filter-e2e-report.json', JSON.stringify(failure, null, 2));
+            console.error(error);
+            process.exit(1);
+          });
+          JS
+          cd /tmp/filter-e2e-node
+          node e2e.cjs
+
+      - name: Upload final E2E report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: filter-ux-v1-final-public-e2e-${{ github.run_id }}
+          path: |
+            /tmp/filter-e2e-report.json
+            /tmp/filter-pages-run.json
+            /tmp/filter-public-index.html
+          if-no-files-found: warn
+
+      - name: Remove one-shot verifier
+        if: always()
+        shell: bash
+        run: |
+          set -euo pipefail
+          git fetch origin main
+          git checkout main
+          git reset --hard origin/main
+          if [ -f .github/workflows/filter-ux-v1-final-public-e2e-once.yml ]; then
+            git rm .github/workflows/filter-ux-v1-final-public-e2e-once.yml
+            git config user.name filter-ux-v1-final-e2e-bot
+            git config user.email actions@users.noreply.github.com
+            git commit -m "Remove FILTER UX V1 final verifier [skip ci]"
+            git push origin HEAD:main
+          fi
