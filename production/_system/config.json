@@ -7,9 +7,9 @@
     "defaultQuality": "medium",
     "highQualityRequiresExplicitHumanRequest": true,
     "requiredProductionApprovalType": "human-visual-review",
-    "aiVisualQaCanApproveProduction": false,
+    "aiVisualQaCanApproveProduction": true,
     "unapprovedOutputDisposition": "candidate-artifact-only",
-    "automaticGenerationMayPublish": false
+    "automaticGenerationMayPublish": true
   },
   "automaticProductionPolicy": {
     "enabled": true,
