@@ -4,12 +4,13 @@
   "publicationPolicyDefault": "cultivar",
   "maxConcurrentRetry": 1,
   "imageGenerationPolicy": {
+    "policyScope": "legacy-manual-review-route",
     "defaultQuality": "medium",
     "highQualityRequiresExplicitHumanRequest": true,
     "requiredProductionApprovalType": "human-visual-review",
-    "aiVisualQaCanApproveProduction": true,
+    "aiVisualQaCanApproveProduction": false,
     "unapprovedOutputDisposition": "candidate-artifact-only",
-    "automaticGenerationMayPublish": true
+    "automaticGenerationMayPublish": false
   },
   "automaticProductionPolicy": {
     "enabled": true,
