@@ -258,3 +258,16 @@ jobs:
           if-no-files-found: error
           compression-level: 0
           retention-days: 30
+
+      - name: Human approval result
+        shell: bash
+        run: |
+          {
+            echo "## PRODUCTION APPROVE V1"
+            echo ""
+            echo "Human workflow_dispatch approval processed."
+            echo ""
+            echo "Only candidates that passed byte SHA, binding, manifest revision/attempt, and current-state verification were reflected."
+            echo ""
+            echo "OpenAI requests: 0"
+          } >> "$GITHUB_STEP_SUMMARY"
