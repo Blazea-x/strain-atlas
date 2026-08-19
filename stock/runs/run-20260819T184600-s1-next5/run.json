@@ -1,0 +1,38 @@
+{
+  "schemaVersion": "AUTO_STOCK_V1",
+  "runId": "run-20260819T184600-s1-next5",
+  "status": "SUCCESS",
+  "startedAt": "2026-08-19T18:46:00+09:00",
+  "baseSha": "f63eb7442a124f44e5a6f47d3b16820e7a539b63",
+  "mainHeadAtStart": "67d1be91db6aba8051eb28f3af4ad03f139e5e6e",
+  "attempt": 1,
+  "previousAttempts": [],
+  "items": [
+    "stock/items/apple-fritter-s1.json",
+    "stock/items/chemdog-1-s1.json",
+    "stock/items/chemdog-4-s1.json",
+    "stock/items/granddaddy-purple-s1.json",
+    "stock/items/hp13-s1.json"
+  ],
+  "transaction": {
+    "commitCount": 1,
+    "refUpdateCount": 1,
+    "forceUsed": false,
+    "method": "blob-tree-commit-ref-update"
+  },
+  "audit": {
+    "baseMatchedBeforeWrite": true,
+    "allChangedFilesUnderStock": true,
+    "mainUnchanged": true,
+    "protectedTreesUnchanged": true,
+    "changedFiles": [
+      "stock/items/apple-fritter-s1.json",
+      "stock/items/chemdog-1-s1.json",
+      "stock/items/chemdog-4-s1.json",
+      "stock/items/granddaddy-purple-s1.json",
+      "stock/items/hp13-s1.json",
+      "stock/runs/run-20260819T184600-s1-next5/run.json"
+    ],
+    "reason": "Prepared transaction contains only stock/** paths. END_SHA, commitSha and mainHeadAtEnd are intentionally not embedded because the run record is part of the same one-commit transaction; authoritative END/main results are verified by remote post-write audit."
+  }
+}
