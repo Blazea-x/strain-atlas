@@ -32,6 +32,17 @@
     "strawberry-banana-s1": "Original Strawberry BananaからS1へ",
     "super-lemon-haze": "2008・2009年の主要カップで1位"
   };
+  const validExploreValues = new Set(["sativa", "indica", "hybrid"]);
+  const ownedFilterParams = ["type", "generation", "breeder", "q"];
+  const detailHistoryMarker = "__cswDetailEntry";
+  const nativePushState = history.pushState.bind(history);
+  history.pushState = (state, title, url) => {
+    const currentUrl = new URL(location.href);
+    const nextUrl = url === undefined || url === null ? new URL(location.href) : new URL(String(url), location.href);
+    const opensDetail = !currentUrl.searchParams.has("strain") && nextUrl.searchParams.has("strain");
+    const nextState = opensDetail ? { ...(state || {}), [detailHistoryMarker]: true } : state;
+    return nativePushState(nextState, title, url);
+  };
 
   const grid = document.getElementById("cultivar-grid");
   const search = document.getElementById("search");
@@ -63,6 +74,8 @@
   let activeHomePanel = null;
   let savedScrollY = 0;
   let suppressCloseHistory = false;
+  let availableGenerations = new Set();
+  let availableBreeders = new Set();
 
   const esc = value => String(value ?? "").replace(/[&<>"']/g, ch => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[ch]));
   const asset = src => /^https?:\/\//i.test(src || "") ? src : ASSET_BASE + String(src || "").replace(/^\/+/, "");
@@ -172,30 +185,33 @@
     ]).join(" ").toLowerCase();
   };
 
-  const inExplore = cultivar => activeExplore === "all" || (catalog?.explore?.[activeExplore] || []).includes(cultivar.id);
-  const inGeneration = cultivar => !activeGenerations.size || activeGenerations.has(String(cultivar.breeding?.generation || "").trim());
-  const inBreeder = cultivar => !activeBreeder || (cultivar.relations || []).some(relation =>
-    relation.entityId === activeBreeder && (relation.roles || []).includes("breeder")
+  function filterState(query = currentQuery(), explore = activeExplore) {
+    return {
+      explore,
+      generations: new Set(activeGenerations),
+      breeder: activeBreeder,
+      query: String(query || "").trim().toLowerCase()
+    };
+  }
+
+  const inExplore = (cultivar, explore) => explore === "all" || (catalog?.explore?.[explore] || []).includes(cultivar.id);
+  const inGeneration = (cultivar, generations) => !generations.size || generations.has(String(cultivar.breeding?.generation || "").trim());
+  const inBreeder = (cultivar, breeder) => !breeder || (cultivar.relations || []).some(relation =>
+    relation.entityId === breeder && (relation.roles || []).includes("breeder")
   );
-  const matchesFilters = (cultivar, query) =>
-    inExplore(cultivar) &&
-    inGeneration(cultivar) &&
-    inBreeder(cultivar) &&
-    (!query || searchBlob(cultivar).includes(query));
+  const matchesFilters = (cultivar, state) =>
+    inExplore(cultivar, state.explore) &&
+    inGeneration(cultivar, state.generations) &&
+    inBreeder(cultivar, state.breeder) &&
+    (!state.query || searchBlob(cultivar).includes(state.query));
 
   const currentQuery = () => (search?.value || "").trim();
-  const getVisibleCultivars = query => {
-    const normalizedQuery = String(query || "").toLowerCase();
-    return catalog?.cultivars?.filter(cultivar => matchesFilters(cultivar, normalizedQuery)) || [];
-  };
-  const resultModeFor = query => {
-    const isResultMode =
-      activeExplore !== "all" ||
-      activeGenerations.size > 0 ||
-      Boolean(activeBreeder) ||
-      Boolean(query);
-    return isResultMode;
-  };
+  const getVisibleCultivars = (state = filterState()) => catalog?.cultivars?.filter(cultivar => matchesFilters(cultivar, state)) || [];
+  const resultModeFor = query =>
+    activeExplore !== "all" ||
+    activeGenerations.size > 0 ||
+    Boolean(activeBreeder) ||
+    Boolean(query);
 
   function generationSortKey(value) {
     const text = String(value || "").trim();
@@ -270,6 +286,7 @@
       .map(cultivar => String(cultivar.breeding?.generation || "").trim())
       .filter(value => value && value.toLowerCase() !== "unknown"))]
       .sort(compareGeneration);
+    availableGenerations = new Set(generations);
     if (generationOptions) {
       generationOptions.innerHTML = generations.map(value =>
         `<button type="button" class="generation-chip" data-generation="${esc(value)}" aria-pressed="false">${esc(value)}</button>`
@@ -287,6 +304,7 @@
       }
     }
     const breederEntries = [...breeders.entries()].sort((a, b) => a[1].localeCompare(b[1], "ja"));
+    availableBreeders = new Set(breederEntries.map(([id]) => id));
     if (breederFilter) {
       breederFilter.innerHTML = `<option value="">すべてのBreeder</option>${breederEntries.map(([id, name]) =>
         `<option value="${esc(id)}">${esc(name)}</option>`
@@ -294,7 +312,6 @@
     }
     if (breederFilterGroup) breederFilterGroup.hidden = breederEntries.length === 0;
     ensureResultButton();
-    syncFilterUi();
   }
 
   function showHomePanel(target, scroll = false) {
@@ -309,6 +326,77 @@
       button.setAttribute("aria-pressed", active ? "true" : "false");
     });
     if (scroll) requestAnimationFrame(() => homeContent?.scrollIntoView({ behavior: "smooth", block: "start" }));
+  }
+
+  function firstValidParam(params, name, validator) {
+    for (const raw of params.getAll(name)) {
+      const value = String(raw || "").trim();
+      if (validator(value)) return value;
+    }
+    return "";
+  }
+
+  function firstQueryParam(params) {
+    for (const raw of params.getAll("q")) {
+      const value = String(raw || "").trim();
+      if (value) return value;
+    }
+    return "";
+  }
+
+  function readUrlFilterState(url = new URL(location.href)) {
+    const params = url.searchParams;
+    const explore = firstValidParam(params, "type", value => validExploreValues.has(value)) || "all";
+    const generations = [...new Set(params.getAll("generation")
+      .map(value => String(value || "").trim())
+      .filter(value => availableGenerations.has(value)))]
+      .sort(compareGeneration);
+    const breeder = firstValidParam(params, "breeder", value => availableBreeders.has(value));
+    const query = firstQueryParam(params);
+    return { explore, generations, breeder, query };
+  }
+
+  function canonicalFilterUrl() {
+    const url = new URL(location.href);
+    for (const name of ownedFilterParams) url.searchParams.delete(name);
+    if (activeExplore !== "all") url.searchParams.append("type", activeExplore);
+    [...activeGenerations].sort(compareGeneration).forEach(value => url.searchParams.append("generation", value));
+    if (activeBreeder) url.searchParams.append("breeder", activeBreeder);
+    const query = currentQuery();
+    if (query) url.searchParams.append("q", query);
+    return url;
+  }
+
+  function syncFilterUrl() {
+    const url = canonicalFilterUrl();
+    if (url.href === location.href) return;
+    history.replaceState(history.state, "", url);
+  }
+
+  function applyUrlState({ canonicalize = false } = {}) {
+    const state = readUrlFilterState();
+    activeExplore = state.explore;
+    activeGenerations.clear();
+    state.generations.forEach(value => activeGenerations.add(value));
+    activeBreeder = state.breeder;
+    if (search) search.value = state.query;
+    if (canonicalize) syncFilterUrl();
+  }
+
+  function setCount(id, value) {
+    const node = document.getElementById(id);
+    if (node) node.textContent = String(value ?? 0);
+  }
+
+  function updateTypeFacetCounts(state) {
+    const nonTypeState = { ...state, explore: "all" };
+    const eligible = catalog.cultivars.filter(cultivar => matchesFilters(cultivar, nonTypeState));
+    const eligibleIds = new Set(eligible.map(cultivar => cultivar.id));
+    setCount("count-all", eligible.length);
+    for (const key of ["sativa", "indica", "hybrid"]) {
+      const count = (catalog.explore?.[key] || []).reduce((total, id) => total + (eligibleIds.has(id) ? 1 : 0), 0);
+      setCount(`count-${key}`, count);
+    }
   }
 
   function updateResultHeading(visible, query, isResultMode) {
@@ -396,22 +484,25 @@
     empty.hidden = visible.length !== 0;
   }
 
-  function updateResults({ scrollToResults = false } = {}) {
+  function updateResults({ scrollToResults = false, writeHistory = true } = {}) {
     if (!catalog) return { query: currentQuery(), visible: [], isResultMode: false };
     const query = currentQuery();
-    const visible = getVisibleCultivars(query);
+    const state = filterState(query);
+    const visible = getVisibleCultivars(state);
     const isResultMode = resultModeFor(query);
+    updateTypeFacetCounts(state);
+    syncFilterUi();
     if (latestSection) latestSection.hidden = isResultMode;
     updateResultHeading(visible, query, isResultMode);
     renderGrid(visible);
+    if (writeHistory) syncFilterUrl();
     if (scrollToResults && isResultMode) requestAnimationFrame(scrollResultsIntoView);
     return { query, visible, isResultMode };
   }
 
   function setExplore(key) {
-    activeExplore = ["all", "sativa", "indica", "hybrid"].includes(key) ? key : "all";
-    syncFilterUi();
-    return updateResults({ scrollToResults: true });
+    activeExplore = validExploreValues.has(key) ? key : "all";
+    return updateResults({ scrollToResults: true, writeHistory: true });
   }
 
   const chips = (items, kind) => items?.length
@@ -491,38 +582,57 @@
 
   function openDetail(id, updateHistory = true) {
     const cultivar = catalog?.cultivars?.find(item => item.id === id);
-    if (!cultivar) return;
-    savedScrollY = window.scrollY;
+    if (!cultivar) return false;
+    if (!dialog.open) savedScrollY = window.scrollY;
     renderDetail(cultivar);
     if (!dialog.open) dialog.showModal();
     if (updateHistory) {
       const url = new URL(location.href);
       url.searchParams.set("strain", id);
-      history.pushState({ strain: id }, "", url);
+      const state = { ...(history.state || {}), strain: id, [detailHistoryMarker]: true };
+      history.pushState(state, "", url);
     }
+    return true;
   }
 
-  function closeDetail(updateHistory = true) {
+  function closeDetail(updateHistory = false) {
     if (!dialog.open) return;
     suppressCloseHistory = !updateHistory;
     dialog.close();
   }
 
-  dialog.addEventListener("close", () => {
-    if (!suppressCloseHistory) {
-      const url = new URL(location.href);
-      if (url.searchParams.has("strain")) {
-        url.searchParams.delete("strain");
-        history.pushState({}, "", url);
-      }
+  function requestDetailClose() {
+    if (!dialog.open) return;
+    const url = new URL(location.href);
+    if (!url.searchParams.has("strain")) {
+      closeDetail(false);
+      return;
     }
+    if (history.state?.[detailHistoryMarker] === true) {
+      history.back();
+      return;
+    }
+    url.searchParams.delete("strain");
+    const state = { ...(history.state || {}) };
+    delete state.strain;
+    delete state[detailHistoryMarker];
+    history.replaceState(state, "", url);
+    closeDetail(false);
+  }
+
+  dialog.addEventListener("cancel", event => {
+    event.preventDefault();
+    requestDetailClose();
+  });
+
+  dialog.addEventListener("close", () => {
     suppressCloseHistory = false;
     requestAnimationFrame(() => window.scrollTo(0, savedScrollY));
   });
 
   detailShell.addEventListener("click", event => {
     if (event.target.closest(".close-detail")) {
-      closeDetail(true);
+      requestDetailClose();
       return;
     }
     const button = event.target.closest("[data-detail-toggle]");
@@ -548,7 +658,7 @@
     search.setAttribute("enterkeyhint", "search");
     const handleSearchChange = () => {
       if (currentQuery() && activeHomePanel !== "cultivars") showHomePanel("cultivars", false);
-      updateResults();
+      updateResults({ writeHistory: true });
     };
     search.addEventListener("input", handleSearchChange);
     search.addEventListener("search", handleSearchChange);
@@ -556,7 +666,7 @@
       if (event.key !== "Enter" || event.isComposing) return;
       event.preventDefault();
       search.blur();
-      const state = updateResults();
+      const state = updateResults({ writeHistory: true });
       if (state.isResultMode) requestAnimationFrame(scrollResultsIntoView);
     });
   }
@@ -570,25 +680,23 @@
     const button = event.target.closest("[data-generation]");
     if (!button) return;
     const generation = button.dataset.generation || "";
-    if (!generation) return;
+    if (!availableGenerations.has(generation)) return;
     if (activeGenerations.has(generation)) activeGenerations.delete(generation);
     else activeGenerations.add(generation);
-    syncFilterUi();
-    updateResults();
+    updateResults({ writeHistory: true });
   });
 
   breederFilter?.addEventListener("change", () => {
-    activeBreeder = breederFilter.value || "";
-    syncFilterUi();
-    updateResults();
+    const value = breederFilter.value || "";
+    activeBreeder = availableBreeders.has(value) ? value : "";
+    updateResults({ writeHistory: true });
   });
 
   clearFilters?.addEventListener("click", () => {
     activeExplore = "all";
     activeGenerations.clear();
     activeBreeder = "";
-    syncFilterUi();
-    updateResults();
+    updateResults({ writeHistory: true });
   });
 
   document.querySelector(".home-entries")?.addEventListener("click", event => {
@@ -605,15 +713,13 @@
   });
 
   window.addEventListener("popstate", () => {
+    if (!catalog) return;
+    applyUrlState({ canonicalize: true });
+    updateResults({ writeHistory: false });
     const id = new URL(location.href).searchParams.get("strain");
-    if (id) openDetail(id, false);
-    else if (dialog.open) closeDetail(false);
+    if (id && openDetail(id, false)) return;
+    if (dialog.open) closeDetail(false);
   });
-
-  function setCount(id, value) {
-    const node = document.getElementById(id);
-    if (node) node.textContent = String(value ?? 0);
-  }
 
   async function boot() {
     try {
@@ -627,17 +733,14 @@
       setCount("entry-cultivar-count", catalog.counts?.cultivars);
       for (const key of ["sativa", "indica", "hybrid", "unclassified"]) {
         const count = catalog.explore?.[key]?.length || 0;
-        setCount(`count-${key}`, count);
         setCount(`overview-${key}`, count);
       }
       setupDetailedFilters();
-      updateResults();
+      applyUrlState({ canonicalize: true });
+      updateResults({ writeHistory: false });
 
       const initialId = new URL(location.href).searchParams.get("strain");
-      if (initialId) {
-        showHomePanel("cultivars", false);
-        openDetail(initialId, false);
-      }
+      if (initialId) openDetail(initialId, false);
     } catch (error) {
       console.error(error);
       dataState.textContent = "DATA ERROR";
