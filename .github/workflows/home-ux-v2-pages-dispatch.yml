@@ -69,3 +69,5 @@ jobs:
       - name: Fail if Pages deployment failed
         if: env.WATCH_STATUS != '0'
         run: exit 1
+
+# HOME UX V2 deploy retry after detail race fix
