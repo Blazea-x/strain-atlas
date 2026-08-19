@@ -29,22 +29,46 @@ export function nextManifestVersion(current, nextVisualPreparation) {
   if (current.visualPreparationHash === hash) return {revision:current.revision,attempt:current.attempt+1,visualPreparationHash:hash};
   return {revision:current.revision+1,attempt:1,visualPreparationHash:hash};
 }
-export function approvalMatches(manifest) {
+export function humanApprovalMatches(manifest) {
   const requiredType = CONFIG.imageGenerationPolicy?.requiredProductionApprovalType || 'human-visual-review';
-  return manifest.approvalStatus === 'approved' && manifest.approvalType === requiredType && manifest.approvedManifestRevision === manifest.revision && manifest.approvedAttempt === manifest.attempt;
+  return Boolean(manifest)
+    && manifest.approvalStatus === 'approved'
+    && manifest.approvalType === requiredType
+    && manifest.approvedManifestRevision === manifest.revision
+    && manifest.approvedAttempt === manifest.attempt;
+}
+export function autoApprovalMatches(manifest) {
+  const policy = CONFIG.automaticProductionPolicy || {};
+  return Boolean(manifest)
+    && policy.enabled === true
+    && manifest.approvalStatus === (policy.autoApprovalStatus || 'auto-approved')
+    && manifest.approvalType === (policy.aiVisualQaApprovalType || 'ai-visual-qa')
+    && manifest.approvedManifestRevision === manifest.revision
+    && manifest.approvedAttempt === manifest.attempt
+    && manifest.aiVisualQa?.status === 'PASS';
+}
+export function approvalMatches(manifest) {
+  return humanApprovalMatches(manifest) || autoApprovalMatches(manifest);
+}
+export function dataFirstPublicationEnabled() {
+  const policy = CONFIG.automaticProductionPolicy || {};
+  return policy.enabled === true && policy.dataFirstPublication === true;
 }
 export function evaluateCultivarPublicationGate({strain,manifest,primaryExists=false,sourceEntityClosureValid=false,visualLinkageValid=false,cultivarValidationPass=false}={}) {
   const primary=(strain?.visuals||[]).filter(v=>v.role==='primary');
+  const noVisual=primary.length===0 && (strain?.visuals||[]).length===0;
+  const visualRequired=primary.length>0;
   const checks={
     formalStrainDataValid:Boolean(strain?.id&&strain?.name),
     sourceEntityClosureValid:Boolean(sourceEntityClosureValid),
-    primaryVisualExists:primary.length===1&&Boolean(primaryExists),
-    humanApprovalCurrent:Boolean(manifest&&approvalMatches(manifest)),
-    visualLinkageValid:primary.length===1&&Boolean(visualLinkageValid),
-    cultivarValidationPass:Boolean(cultivarValidationPass)
+    cultivarValidationPass:Boolean(cultivarValidationPass),
+    visualCardinalityValid:primary.length<=1,
+    visualPolicyValid: visualRequired
+      ? Boolean(primaryExists && approvalMatches(manifest) && visualLinkageValid)
+      : Boolean(noVisual && dataFirstPublicationEnabled())
   };
   const blockers=Object.entries(checks).filter(([,ok])=>!ok).map(([name])=>name);
-  return {ok:blockers.length===0,checks,blockers};
+  return {ok:blockers.length===0,checks,blockers,mode:visualRequired?'image-bearing':'data-first-no-image'};
 }
 export function inferStablePhase({strain, publicationEntry, manifest, primaryExists}) {
   if (!strain) return 'STOCKED';
