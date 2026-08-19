@@ -1,3 +1,4 @@
+# IMAGE-GATED validation trigger
 name: Build MASTER runtime catalog
 
 on:
