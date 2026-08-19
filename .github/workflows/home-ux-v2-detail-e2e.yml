@@ -5,6 +5,7 @@ on:
     branches: [main]
     paths:
       - ".github/workflows/home-ux-v2-detail-e2e.yml"
+  workflow_dispatch:
 
 permissions:
   contents: write
