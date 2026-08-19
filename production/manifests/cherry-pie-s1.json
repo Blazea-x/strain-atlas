@@ -29,18 +29,18 @@
   "expectedInboxFilename": "cherry-pie-s1.jpg",
   "expectedPrimaryPath": "strains/cherry-pie-s1/images/generated/primary.webp",
   "generatedAt": null,
-  "approvalStatus": "pending",
-  "approvedAt": null,
-  "approvalType": "human-visual-review",
-  "approvedManifestRevision": null,
-  "approvedAttempt": null,
-  "approvedSourceSha256": null,
-  "imageInboxCommit": null,
-  "imageProcessingCommit": null,
-  "processedPrimaryBlobSha": null,
-  "processedPrimarySha256": null,
-  "width": null,
-  "height": null,
+  "approvalStatus": "auto-approved",
+  "approvedAt": "2026-08-19T12:35:32Z",
+  "approvalType": "ai-visual-qa",
+  "approvedManifestRevision": 1,
+  "approvedAttempt": 1,
+  "approvedSourceSha256": "e178c24fa776012da01a1ffbdfeb671f1cd8529b8c24f1b11cb0622d194b1e32",
+  "imageInboxCommit": "not-applicable:production-auto-publish-v1-direct",
+  "imageProcessingCommit": "8cac036304055dd9b9d1276fa567cca5c6c06f21",
+  "processedPrimaryBlobSha": "f0fffb37ac5f7186e2e21e7dc8cd519c476f1f97",
+  "processedPrimarySha256": "653f5c5f9998127dfafd011446e16ae778601c4406004fffb5e3f19966feb82b",
+  "width": 1024,
+  "height": 1536,
   "audit": [
     {
       "severity": "INFO",
@@ -48,6 +48,102 @@
       "at": "2026-08-19T12:33:09Z",
       "productionPhase": "IMAGE_PENDING",
       "note": "Created by PRODUCTION START V1. Candidate output is review-only and cannot publish."
+    },
+    {
+      "severity": "INFO",
+      "code": "AI_VISUAL_QA_PASS_AUTO_APPROVAL",
+      "at": "2026-08-19T12:35:32Z",
+      "approvalType": "ai-visual-qa",
+      "qaEngine": "local-clip-semantic-v1",
+      "qaModel": "openai/clip-vit-base-patch32",
+      "candidateSha256": "e178c24fa776012da01a1ffbdfeb671f1cd8529b8c24f1b11cb0622d194b1e32"
+    },
+    {
+      "severity": "INFO",
+      "code": "PRIMARY_PROCESSED_INTERNAL",
+      "at": "2026-08-19T12:35:32Z",
+      "processingRoute": "production-auto-publish-v1-direct",
+      "processedPrimarySha256": "653f5c5f9998127dfafd011446e16ae778601c4406004fffb5e3f19966feb82b",
+      "width": 1024,
+      "height": 1536
     }
-  ]
+  ],
+  "processingRoute": "production-auto-publish-v1-direct",
+  "processingSourceArtifact": "production-review-32253204982",
+  "aiVisualQa": {
+    "strainId": "cherry-pie-s1",
+    "status": "PASS",
+    "engine": "local-clip-semantic-v1",
+    "model": "openai/clip-vit-base-patch32",
+    "reason": null,
+    "checks": [
+      {
+        "id": "image_decode",
+        "pass": true,
+        "width": 1024,
+        "height": 1536,
+        "variance": 971.67,
+        "meanLuma": 71.611
+      },
+      {
+        "id": "cannabis_natural",
+        "pass": true,
+        "positive": 0.321,
+        "negative": 0.25002,
+        "margin": 0.07098,
+        "requiredMargin": 0.004
+      },
+      {
+        "id": "plant_structure",
+        "pass": true,
+        "positive": 0.25948,
+        "negative": 0.23509,
+        "margin": 0.02439,
+        "requiredMargin": 0.002
+      },
+      {
+        "id": "general_botanical_plausibility",
+        "pass": true,
+        "positive": 0.28609,
+        "negative": 0.226,
+        "margin": 0.06009,
+        "requiredMargin": 0.001
+      },
+      {
+        "id": "no_fruit_or_berries",
+        "pass": true,
+        "positive": 0.30816,
+        "negative": 0.24164,
+        "margin": 0.06652,
+        "requiredMargin": 0.002
+      },
+      {
+        "id": "no_unwanted_objects",
+        "pass": true,
+        "positive": 0.29571,
+        "negative": 0.25447,
+        "margin": 0.04124,
+        "requiredMargin": 0.002
+      },
+      {
+        "id": "primary_visual_usable",
+        "pass": true,
+        "positive": 0.293,
+        "negative": 0.16678,
+        "margin": 0.12622,
+        "requiredMargin": 0.001
+      },
+      {
+        "id": "evidence_alignment",
+        "pass": true,
+        "mode": "NOT_APPLICABLE",
+        "status": "NOT_APPLICABLE",
+        "reason": "OFFICIAL_VISUAL_REFERENCE_UNAVAILABLE_OR_INSUFFICIENT"
+      }
+    ],
+    "evidenceAlignmentMode": "NOT_APPLICABLE",
+    "evidenceText": "",
+    "failedChecks": [],
+    "failClosed": true
+  }
 }

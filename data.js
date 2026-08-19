@@ -186,6 +186,55 @@ window.STRAINS=[
     "reviews": []
   },
   {
+    "id": "bubblegum-s1",
+    "name": "Bubblegum S1",
+    "jp": "",
+    "type": {
+      "key": "unknown",
+      "label": "未分類"
+    },
+    "aliases": [],
+    "identity": {
+      "scope": "cultivar",
+      "note": "品種一般の情報。特定ロット・製品・フェノタイプを示すものではありません。"
+    },
+    "lineage": {
+      "display": "Bubblegum (Indiana cut) × Bubblegum (Indiana cut)",
+      "parents": [
+        "Bubblegum (Indiana cut)"
+      ],
+      "note": "Humboldt CSI's official Bubblegum S1 page identifies the line as Bubblegum (Indiana cut) × Bubblegum (Indiana cut). Together with the official S1 designation, this is treated as a selfed S1 line; no additional ancestry is inferred."
+    },
+    "aromas": [],
+    "breeder": {
+      "name": "Humboldt CSI",
+      "era": ""
+    },
+    "terpenes": [],
+    "originHistory": "",
+    "history": "",
+    "confidence": {
+      "display": "LINEAGE A",
+      "note": "正本データの項目別confidenceを表示"
+    },
+    "visuals": [
+      {
+        "role": "primary",
+        "src": "strains/bubblegum-s1/images/generated/primary.webp",
+        "alt": "Bubblegum S1の公式S1同定情報を基礎に、公式形態画像が不足しているため未確認の品種固有形態を付加せず作成するAI生成の植物学的参考ビジュアル",
+        "rights": "AI-generated project asset for Cannabis Strain Wisdom. No third-party image is copied; the prompt uses an identity-grounded fallback because reliable official cultivar visual evidence is unavailable or insufficient.",
+        "scope": "cultivar",
+        "aiGenerated": true,
+        "sourceType": "aiGenerated",
+        "label": "VISUAL REFERENCE"
+      }
+    ],
+    "sourceIds": [
+      "humboldt-csi-bubblegum-s1"
+    ],
+    "reviews": []
+  },
+  {
     "id": "california-octane",
     "name": "California Octane",
     "jp": "",
@@ -300,6 +349,104 @@ window.STRAINS=[
       "dna-eu-cataract-kush",
       "seedfinder-cataract-kush",
       "leafly-cataract-kush"
+    ],
+    "reviews": []
+  },
+  {
+    "id": "chemdog-d-s1",
+    "name": "Chemdog D S1",
+    "jp": "",
+    "type": {
+      "key": "unknown",
+      "label": "未分類"
+    },
+    "aliases": [],
+    "identity": {
+      "scope": "cultivar",
+      "note": "品種一般の情報。特定ロット・製品・フェノタイプを示すものではありません。"
+    },
+    "lineage": {
+      "display": "Chemdog D × Chemdog D",
+      "parents": [
+        "Chemdog D"
+      ],
+      "note": "Humboldt CSI's official Chemdog D S1 page lists Chemdog D × Chemdog D. Together with the official S1 designation, this is treated as a selfed S1 line; no additional ancestry is inferred."
+    },
+    "aromas": [],
+    "breeder": {
+      "name": "Humboldt CSI",
+      "era": ""
+    },
+    "terpenes": [],
+    "originHistory": "",
+    "history": "",
+    "confidence": {
+      "display": "LINEAGE A",
+      "note": "正本データの項目別confidenceを表示"
+    },
+    "visuals": [
+      {
+        "role": "primary",
+        "src": "strains/chemdog-d-s1/images/generated/primary.webp",
+        "alt": "Chemdog D S1の公式S1同定情報を基礎に、公式形態画像が不足しているため未確認の品種固有形態を付加せず作成するAI生成の植物学的参考ビジュアル",
+        "rights": "AI-generated project asset for Cannabis Strain Wisdom. No third-party image is copied; the prompt uses an identity-grounded fallback because reliable official cultivar visual evidence is unavailable or insufficient.",
+        "scope": "cultivar",
+        "aiGenerated": true,
+        "sourceType": "aiGenerated",
+        "label": "VISUAL REFERENCE"
+      }
+    ],
+    "sourceIds": [
+      "humboldt-csi-chemdog-d-s1"
+    ],
+    "reviews": []
+  },
+  {
+    "id": "cherry-pie-s1",
+    "name": "Cherry Pie S1",
+    "jp": "",
+    "type": {
+      "key": "unknown",
+      "label": "未分類"
+    },
+    "aliases": [],
+    "identity": {
+      "scope": "cultivar",
+      "note": "品種一般の情報。特定ロット・製品・フェノタイプを示すものではありません。"
+    },
+    "lineage": {
+      "display": "Cherry Pie × Cherry Pie",
+      "parents": [
+        "Cherry Pie"
+      ],
+      "note": "Humboldt CSI's official Cherry Pie S1 page lists Cherry Pie × Cherry Pie. Together with the official S1 designation, this is treated as a selfed S1 line; no additional ancestry is inferred."
+    },
+    "aromas": [],
+    "breeder": {
+      "name": "Humboldt CSI",
+      "era": ""
+    },
+    "terpenes": [],
+    "originHistory": "",
+    "history": "",
+    "confidence": {
+      "display": "LINEAGE A",
+      "note": "正本データの項目別confidenceを表示"
+    },
+    "visuals": [
+      {
+        "role": "primary",
+        "src": "strains/cherry-pie-s1/images/generated/primary.webp",
+        "alt": "Cherry Pie S1の公式S1同定情報を基礎に、公式形態画像が不足しているため未確認の品種固有形態を付加せず作成するAI生成の植物学的参考ビジュアル",
+        "rights": "AI-generated project asset for Cannabis Strain Wisdom. No third-party image is copied; the prompt uses an identity-grounded fallback because reliable official cultivar visual evidence is unavailable or insufficient.",
+        "scope": "cultivar",
+        "aiGenerated": true,
+        "sourceType": "aiGenerated",
+        "label": "VISUAL REFERENCE"
+      }
+    ],
+    "sourceIds": [
+      "humboldt-csi-cherry-pie-s1"
     ],
     "reviews": []
   },
@@ -465,6 +612,104 @@ window.STRAINS=[
     ],
     "sourceIds": [
       "dutch-passion-durban-poison"
+    ],
+    "reviews": []
+  },
+  {
+    "id": "durban-poison-s1",
+    "name": "Durban Poison S1",
+    "jp": "",
+    "type": {
+      "key": "unknown",
+      "label": "未分類"
+    },
+    "aliases": [],
+    "identity": {
+      "scope": "cultivar",
+      "note": "品種一般の情報。特定ロット・製品・フェノタイプを示すものではありません。"
+    },
+    "lineage": {
+      "display": "Durban Poison × Durban Poison",
+      "parents": [
+        "Durban Poison"
+      ],
+      "note": "Humboldt CSI's official Durban Poison S1 page lists Durban Poison × Durban Poison. Together with the official S1 designation, this is treated as a selfed S1 line; no additional ancestry is inferred."
+    },
+    "aromas": [],
+    "breeder": {
+      "name": "Humboldt CSI",
+      "era": ""
+    },
+    "terpenes": [],
+    "originHistory": "",
+    "history": "",
+    "confidence": {
+      "display": "LINEAGE A",
+      "note": "正本データの項目別confidenceを表示"
+    },
+    "visuals": [
+      {
+        "role": "primary",
+        "src": "strains/durban-poison-s1/images/generated/primary.webp",
+        "alt": "Durban Poison S1の公式S1同定情報を基礎に、公式形態画像が不足しているため未確認の品種固有形態を付加せず作成するAI生成の植物学的参考ビジュアル",
+        "rights": "AI-generated project asset for Cannabis Strain Wisdom. No third-party image is copied; the prompt uses an identity-grounded fallback because reliable official cultivar visual evidence is unavailable or insufficient.",
+        "scope": "cultivar",
+        "aiGenerated": true,
+        "sourceType": "aiGenerated",
+        "label": "VISUAL REFERENCE"
+      }
+    ],
+    "sourceIds": [
+      "humboldt-csi-durban-poison-s1"
+    ],
+    "reviews": []
+  },
+  {
+    "id": "f1-durb-s1",
+    "name": "F1 Durb S1",
+    "jp": "",
+    "type": {
+      "key": "unknown",
+      "label": "未分類"
+    },
+    "aliases": [],
+    "identity": {
+      "scope": "cultivar",
+      "note": "品種一般の情報。特定ロット・製品・フェノタイプを示すものではありません。"
+    },
+    "lineage": {
+      "display": "F1 Durb × F1 Durb",
+      "parents": [
+        "F1 Durb"
+      ],
+      "note": "Humboldt CSI's official F1 Durb S1 page lists F1 Durb × F1 Durb. Together with the official S1 designation, this is treated as a selfed S1 line; no additional ancestry is inferred."
+    },
+    "aromas": [],
+    "breeder": {
+      "name": "Humboldt CSI",
+      "era": ""
+    },
+    "terpenes": [],
+    "originHistory": "",
+    "history": "",
+    "confidence": {
+      "display": "LINEAGE A",
+      "note": "正本データの項目別confidenceを表示"
+    },
+    "visuals": [
+      {
+        "role": "primary",
+        "src": "strains/f1-durb-s1/images/generated/primary.webp",
+        "alt": "F1 Durb S1の公式S1同定情報を基礎に、公式形態画像が不足しているため未確認の品種固有形態を付加せず作成するAI生成の植物学的参考ビジュアル",
+        "rights": "AI-generated project asset for Cannabis Strain Wisdom. No third-party image is copied; the prompt uses an identity-grounded fallback because reliable official cultivar visual evidence is unavailable or insufficient.",
+        "scope": "cultivar",
+        "aiGenerated": true,
+        "sourceType": "aiGenerated",
+        "label": "VISUAL REFERENCE"
+      }
+    ],
+    "sourceIds": [
+      "humboldt-csi-f1-durb-s1"
     ],
     "reviews": []
   },

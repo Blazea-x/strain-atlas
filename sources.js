@@ -330,6 +330,71 @@ window.SOURCES={
       "breeding"
     ]
   },
+  "humboldt-csi-bubblegum-s1": {
+    "name": "Humboldt CSI — Bubblegum S1",
+    "url": "https://www.humboldtcsi.com/product/bubblegum-s1/",
+    "type": "primary",
+    "typeLabel": "一次情報",
+    "checked": "2026-08-19",
+    "supports": [
+      "lineage",
+      "breeder",
+      "generation",
+      "breeding"
+    ]
+  },
+  "humboldt-csi-chemdog-d-s1": {
+    "name": "Humboldt CSI — Chemdog D S1",
+    "url": "https://www.humboldtcsi.com/product/chemdog-d/",
+    "type": "primary",
+    "typeLabel": "一次情報",
+    "checked": "2026-08-19",
+    "supports": [
+      "lineage",
+      "breeder",
+      "generation",
+      "breeding"
+    ]
+  },
+  "humboldt-csi-cherry-pie-s1": {
+    "name": "Humboldt CSI — Cherry Pie S1",
+    "url": "https://www.humboldtcsi.com/product/cherry-pie-s1/",
+    "type": "primary",
+    "typeLabel": "一次情報",
+    "checked": "2026-08-19",
+    "supports": [
+      "lineage",
+      "breeder",
+      "generation",
+      "breeding"
+    ]
+  },
+  "humboldt-csi-durban-poison-s1": {
+    "name": "Humboldt CSI — Durban Poison S1",
+    "url": "https://www.humboldtcsi.com/product/durban-poison-s1/",
+    "type": "primary",
+    "typeLabel": "一次情報",
+    "checked": "2026-08-19",
+    "supports": [
+      "lineage",
+      "breeder",
+      "generation",
+      "breeding"
+    ]
+  },
+  "humboldt-csi-f1-durb-s1": {
+    "name": "Humboldt CSI — F1 Durb S1",
+    "url": "https://www.humboldtcsi.com/product/f1-durb-s1/",
+    "type": "primary",
+    "typeLabel": "一次情報",
+    "checked": "2026-08-19",
+    "supports": [
+      "lineage",
+      "breeder",
+      "generation",
+      "breeding"
+    ]
+  },
   "humboldt-csi-gorilla-glue-4-s1": {
     "name": "Humboldt CSI — Gorilla Glue 4 S1",
     "url": "https://humboldtcsi.com/product/gorilla-glue-4-s1/",

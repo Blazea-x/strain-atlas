@@ -4,17 +4,17 @@
   "runId": "content-production-start-32253204982",
   "mode": "new-publication",
   "publicationPolicy": "cultivar",
-  "status": "ACTIVE",
+  "status": "SUCCESS",
   "startedAt": "2026-08-19T12:33:09Z",
-  "updatedAt": "2026-08-19T12:33:09Z",
-  "finishedAt": null,
+  "updatedAt": "2026-08-19T12:35:32Z",
+  "finishedAt": "2026-08-19T12:35:32Z",
   "cancelledAt": null,
   "baseSha": "8b43f9d261c193b39a56b0ab9aa4f85c0bb2d59c",
-  "currentBaseSha": "8b43f9d261c193b39a56b0ab9aa4f85c0bb2d59c",
+  "currentBaseSha": "8cac036304055dd9b9d1276fa567cca5c6c06f21",
   "attempt": 1,
   "previousAttempts": [],
   "mainHeadAtStart": "cd13dfa2c8f15a79f8cb0668361c75aa089b84f0",
-  "mainHeadAtEnd": null,
+  "mainHeadAtEnd": "cd13dfa2c8f15a79f8cb0668361c75aa089b84f0",
   "publishedIdsAtStart": [
     "bangi-haze",
     "bubba-kush-s1",
@@ -66,13 +66,23 @@
       "sourceStockBlobSha": "aeba58b2d6245371adbb1100aebc6edf74cf29b4",
       "productionStrainPath": "strains/bubblegum-s1/strain.json",
       "publicationEntryId": "bubblegum-s1",
-      "productionPhase": "IMAGE_PENDING",
-      "previousStablePhase": "IMAGE_PENDING",
+      "productionPhase": "PUBLISHED",
+      "previousStablePhase": "PUBLISHED",
       "manifestId": "content-production-start-32253204982-bubblegum-s1-image",
       "manifestRevision": 1,
       "promotedAt": "2026-08-19T12:33:09Z",
       "promotionCommit": null,
-      "approval": null,
+      "approval": {
+        "status": "auto-approved",
+        "approvalType": "ai-visual-qa",
+        "approvedAt": "2026-08-19T12:35:32Z",
+        "candidateSha256": "6abe547fd3ab5af3d9f07b6ba48e267ef950a2650fadbd0c5c772b72d051d96f",
+        "aiVisualQa": {
+          "status": "PASS",
+          "engine": "local-clip-semantic-v1",
+          "model": "openai/clip-vit-base-patch32"
+        }
+      },
       "commits": {
         "dataCommit": null,
         "imageInboxCommit": null,
@@ -95,6 +105,27 @@
           "fromPhase": "DATA_READY",
           "toPhase": "IMAGE_PENDING",
           "at": "2026-08-19T12:33:09Z"
+        },
+        {
+          "severity": "INFO",
+          "code": "PHASE_TRANSITION",
+          "fromPhase": "IMAGE_PENDING",
+          "toPhase": "IMAGE_READY",
+          "at": "2026-08-19T12:35:32Z"
+        },
+        {
+          "severity": "INFO",
+          "code": "PHASE_TRANSITION",
+          "fromPhase": "IMAGE_READY",
+          "toPhase": "VISUAL_LINKED",
+          "at": "2026-08-19T12:35:32Z"
+        },
+        {
+          "severity": "INFO",
+          "code": "PHASE_TRANSITION",
+          "fromPhase": "VISUAL_LINKED",
+          "toPhase": "PUBLISHED",
+          "at": "2026-08-19T12:35:32Z"
         }
       ]
     },
@@ -104,13 +135,23 @@
       "sourceStockBlobSha": "5ef45e24588abea410fb52bd80aa4bed1819125e",
       "productionStrainPath": "strains/chemdog-d-s1/strain.json",
       "publicationEntryId": "chemdog-d-s1",
-      "productionPhase": "IMAGE_PENDING",
-      "previousStablePhase": "IMAGE_PENDING",
+      "productionPhase": "PUBLISHED",
+      "previousStablePhase": "PUBLISHED",
       "manifestId": "content-production-start-32253204982-chemdog-d-s1-image",
       "manifestRevision": 1,
       "promotedAt": "2026-08-19T12:33:09Z",
       "promotionCommit": null,
-      "approval": null,
+      "approval": {
+        "status": "auto-approved",
+        "approvalType": "ai-visual-qa",
+        "approvedAt": "2026-08-19T12:35:32Z",
+        "candidateSha256": "dfd69028f15209b4412abe6701338c13d74ea351c297140519b0edaaa0c4ec44",
+        "aiVisualQa": {
+          "status": "PASS",
+          "engine": "local-clip-semantic-v1",
+          "model": "openai/clip-vit-base-patch32"
+        }
+      },
       "commits": {
         "dataCommit": null,
         "imageInboxCommit": null,
@@ -133,6 +174,27 @@
           "fromPhase": "DATA_READY",
           "toPhase": "IMAGE_PENDING",
           "at": "2026-08-19T12:33:09Z"
+        },
+        {
+          "severity": "INFO",
+          "code": "PHASE_TRANSITION",
+          "fromPhase": "IMAGE_PENDING",
+          "toPhase": "IMAGE_READY",
+          "at": "2026-08-19T12:35:32Z"
+        },
+        {
+          "severity": "INFO",
+          "code": "PHASE_TRANSITION",
+          "fromPhase": "IMAGE_READY",
+          "toPhase": "VISUAL_LINKED",
+          "at": "2026-08-19T12:35:32Z"
+        },
+        {
+          "severity": "INFO",
+          "code": "PHASE_TRANSITION",
+          "fromPhase": "VISUAL_LINKED",
+          "toPhase": "PUBLISHED",
+          "at": "2026-08-19T12:35:32Z"
         }
       ]
     },
@@ -142,13 +204,23 @@
       "sourceStockBlobSha": "1edc5cdc9cbbb6a75c23bc6aac3fcf0d5c981e72",
       "productionStrainPath": "strains/cherry-pie-s1/strain.json",
       "publicationEntryId": "cherry-pie-s1",
-      "productionPhase": "IMAGE_PENDING",
-      "previousStablePhase": "IMAGE_PENDING",
+      "productionPhase": "PUBLISHED",
+      "previousStablePhase": "PUBLISHED",
       "manifestId": "content-production-start-32253204982-cherry-pie-s1-image",
       "manifestRevision": 1,
       "promotedAt": "2026-08-19T12:33:09Z",
       "promotionCommit": null,
-      "approval": null,
+      "approval": {
+        "status": "auto-approved",
+        "approvalType": "ai-visual-qa",
+        "approvedAt": "2026-08-19T12:35:32Z",
+        "candidateSha256": "e178c24fa776012da01a1ffbdfeb671f1cd8529b8c24f1b11cb0622d194b1e32",
+        "aiVisualQa": {
+          "status": "PASS",
+          "engine": "local-clip-semantic-v1",
+          "model": "openai/clip-vit-base-patch32"
+        }
+      },
       "commits": {
         "dataCommit": null,
         "imageInboxCommit": null,
@@ -171,6 +243,27 @@
           "fromPhase": "DATA_READY",
           "toPhase": "IMAGE_PENDING",
           "at": "2026-08-19T12:33:09Z"
+        },
+        {
+          "severity": "INFO",
+          "code": "PHASE_TRANSITION",
+          "fromPhase": "IMAGE_PENDING",
+          "toPhase": "IMAGE_READY",
+          "at": "2026-08-19T12:35:32Z"
+        },
+        {
+          "severity": "INFO",
+          "code": "PHASE_TRANSITION",
+          "fromPhase": "IMAGE_READY",
+          "toPhase": "VISUAL_LINKED",
+          "at": "2026-08-19T12:35:32Z"
+        },
+        {
+          "severity": "INFO",
+          "code": "PHASE_TRANSITION",
+          "fromPhase": "VISUAL_LINKED",
+          "toPhase": "PUBLISHED",
+          "at": "2026-08-19T12:35:32Z"
         }
       ]
     },
@@ -180,13 +273,23 @@
       "sourceStockBlobSha": "a10005d7cc36fccbaf5d0536f7fd1727ad8ec0bc",
       "productionStrainPath": "strains/durban-poison-s1/strain.json",
       "publicationEntryId": "durban-poison-s1",
-      "productionPhase": "IMAGE_PENDING",
-      "previousStablePhase": "IMAGE_PENDING",
+      "productionPhase": "PUBLISHED",
+      "previousStablePhase": "PUBLISHED",
       "manifestId": "content-production-start-32253204982-durban-poison-s1-image",
       "manifestRevision": 1,
       "promotedAt": "2026-08-19T12:33:09Z",
       "promotionCommit": null,
-      "approval": null,
+      "approval": {
+        "status": "auto-approved",
+        "approvalType": "ai-visual-qa",
+        "approvedAt": "2026-08-19T12:35:32Z",
+        "candidateSha256": "9bdba9adabc0618431cf78a3a20d44087ad5745186d9265d2790ee17f60ab39d",
+        "aiVisualQa": {
+          "status": "PASS",
+          "engine": "local-clip-semantic-v1",
+          "model": "openai/clip-vit-base-patch32"
+        }
+      },
       "commits": {
         "dataCommit": null,
         "imageInboxCommit": null,
@@ -209,6 +312,27 @@
           "fromPhase": "DATA_READY",
           "toPhase": "IMAGE_PENDING",
           "at": "2026-08-19T12:33:09Z"
+        },
+        {
+          "severity": "INFO",
+          "code": "PHASE_TRANSITION",
+          "fromPhase": "IMAGE_PENDING",
+          "toPhase": "IMAGE_READY",
+          "at": "2026-08-19T12:35:32Z"
+        },
+        {
+          "severity": "INFO",
+          "code": "PHASE_TRANSITION",
+          "fromPhase": "IMAGE_READY",
+          "toPhase": "VISUAL_LINKED",
+          "at": "2026-08-19T12:35:32Z"
+        },
+        {
+          "severity": "INFO",
+          "code": "PHASE_TRANSITION",
+          "fromPhase": "VISUAL_LINKED",
+          "toPhase": "PUBLISHED",
+          "at": "2026-08-19T12:35:32Z"
         }
       ]
     },
@@ -218,13 +342,23 @@
       "sourceStockBlobSha": "d431da661419635b0dec0d31d2509be8c2781217",
       "productionStrainPath": "strains/f1-durb-s1/strain.json",
       "publicationEntryId": "f1-durb-s1",
-      "productionPhase": "IMAGE_PENDING",
-      "previousStablePhase": "IMAGE_PENDING",
+      "productionPhase": "PUBLISHED",
+      "previousStablePhase": "PUBLISHED",
       "manifestId": "content-production-start-32253204982-f1-durb-s1-image",
       "manifestRevision": 1,
       "promotedAt": "2026-08-19T12:33:09Z",
       "promotionCommit": null,
-      "approval": null,
+      "approval": {
+        "status": "auto-approved",
+        "approvalType": "ai-visual-qa",
+        "approvedAt": "2026-08-19T12:35:32Z",
+        "candidateSha256": "3227974f451a42d820517b1aa443aba52ca5102b7af8fb973b957e3322378230",
+        "aiVisualQa": {
+          "status": "PASS",
+          "engine": "local-clip-semantic-v1",
+          "model": "openai/clip-vit-base-patch32"
+        }
+      },
       "commits": {
         "dataCommit": null,
         "imageInboxCommit": null,
@@ -247,6 +381,27 @@
           "fromPhase": "DATA_READY",
           "toPhase": "IMAGE_PENDING",
           "at": "2026-08-19T12:33:09Z"
+        },
+        {
+          "severity": "INFO",
+          "code": "PHASE_TRANSITION",
+          "fromPhase": "IMAGE_PENDING",
+          "toPhase": "IMAGE_READY",
+          "at": "2026-08-19T12:35:32Z"
+        },
+        {
+          "severity": "INFO",
+          "code": "PHASE_TRANSITION",
+          "fromPhase": "IMAGE_READY",
+          "toPhase": "VISUAL_LINKED",
+          "at": "2026-08-19T12:35:32Z"
+        },
+        {
+          "severity": "INFO",
+          "code": "PHASE_TRANSITION",
+          "fromPhase": "VISUAL_LINKED",
+          "toPhase": "PUBLISHED",
+          "at": "2026-08-19T12:35:32Z"
         }
       ]
     }
@@ -254,7 +409,56 @@
   "pagesDeploymentRunId": null,
   "pagesDeploymentUrl": null,
   "displayVerifiedAt": null,
-  "publicationSetAtEnd": null,
+  "publicationSetAtEnd": [
+    "bangi-haze",
+    "bubba-kush-s1",
+    "bubble-gum",
+    "bubblegum-s1",
+    "california-octane",
+    "cataract-kush",
+    "chemdog-d-s1",
+    "cherry-pie-s1",
+    "chocolope-256",
+    "dr-grinspoon",
+    "durban-poison",
+    "durban-poison-s1",
+    "f1-durb-s1",
+    "frisian-duck",
+    "gorilla-glue-4-s1",
+    "jager-s1",
+    "kali-mist",
+    "laughing-buddha",
+    "malawi",
+    "og-kush",
+    "panama",
+    "shaman",
+    "shiva-skunk",
+    "strawberry-banana-s1",
+    "super-lemon-haze",
+    "t-1000-s1",
+    "the-og-18",
+    "trainwreck-s1",
+    "triangle-kush-s1",
+    "warlock",
+    "wedding-cake",
+    "wedding-cake-s1",
+    "zamaldelica"
+  ],
   "recovery": null,
-  "auditSummary": null
+  "auditSummary": {
+    "mode": "auto",
+    "autoPublishedWithImage": [
+      "bubblegum-s1",
+      "chemdog-d-s1",
+      "cherry-pie-s1",
+      "durban-poison-s1",
+      "f1-durb-s1"
+    ],
+    "dataFirstRetainedUnpublished": [],
+    "backlogRetained": [],
+    "failedTargets": [],
+    "aiVisualQaApprovalType": "ai-visual-qa",
+    "finalValidationRequired": true,
+    "imageGatedPublicVisibility": true
+  }
 }

@@ -29,18 +29,18 @@
   "expectedInboxFilename": "durban-poison-s1.jpg",
   "expectedPrimaryPath": "strains/durban-poison-s1/images/generated/primary.webp",
   "generatedAt": null,
-  "approvalStatus": "pending",
-  "approvedAt": null,
-  "approvalType": "human-visual-review",
-  "approvedManifestRevision": null,
-  "approvedAttempt": null,
-  "approvedSourceSha256": null,
-  "imageInboxCommit": null,
-  "imageProcessingCommit": null,
-  "processedPrimaryBlobSha": null,
-  "processedPrimarySha256": null,
-  "width": null,
-  "height": null,
+  "approvalStatus": "auto-approved",
+  "approvedAt": "2026-08-19T12:35:32Z",
+  "approvalType": "ai-visual-qa",
+  "approvedManifestRevision": 1,
+  "approvedAttempt": 1,
+  "approvedSourceSha256": "9bdba9adabc0618431cf78a3a20d44087ad5745186d9265d2790ee17f60ab39d",
+  "imageInboxCommit": "not-applicable:production-auto-publish-v1-direct",
+  "imageProcessingCommit": "8cac036304055dd9b9d1276fa567cca5c6c06f21",
+  "processedPrimaryBlobSha": "984b4dde03ee86b593446f92d21a90ee81f1de82",
+  "processedPrimarySha256": "81e2193fc0bb73180c74824900327cd6efbbfadbbb1a1e793ae54765ae1b4140",
+  "width": 1024,
+  "height": 1536,
   "audit": [
     {
       "severity": "INFO",
@@ -48,6 +48,102 @@
       "at": "2026-08-19T12:33:09Z",
       "productionPhase": "IMAGE_PENDING",
       "note": "Created by PRODUCTION START V1. Candidate output is review-only and cannot publish."
+    },
+    {
+      "severity": "INFO",
+      "code": "AI_VISUAL_QA_PASS_AUTO_APPROVAL",
+      "at": "2026-08-19T12:35:32Z",
+      "approvalType": "ai-visual-qa",
+      "qaEngine": "local-clip-semantic-v1",
+      "qaModel": "openai/clip-vit-base-patch32",
+      "candidateSha256": "9bdba9adabc0618431cf78a3a20d44087ad5745186d9265d2790ee17f60ab39d"
+    },
+    {
+      "severity": "INFO",
+      "code": "PRIMARY_PROCESSED_INTERNAL",
+      "at": "2026-08-19T12:35:32Z",
+      "processingRoute": "production-auto-publish-v1-direct",
+      "processedPrimarySha256": "81e2193fc0bb73180c74824900327cd6efbbfadbbb1a1e793ae54765ae1b4140",
+      "width": 1024,
+      "height": 1536
     }
-  ]
+  ],
+  "processingRoute": "production-auto-publish-v1-direct",
+  "processingSourceArtifact": "production-review-32253204982",
+  "aiVisualQa": {
+    "strainId": "durban-poison-s1",
+    "status": "PASS",
+    "engine": "local-clip-semantic-v1",
+    "model": "openai/clip-vit-base-patch32",
+    "reason": null,
+    "checks": [
+      {
+        "id": "image_decode",
+        "pass": true,
+        "width": 1024,
+        "height": 1536,
+        "variance": 3393.327,
+        "meanLuma": 102.592
+      },
+      {
+        "id": "cannabis_natural",
+        "pass": true,
+        "positive": 0.32192,
+        "negative": 0.25345,
+        "margin": 0.06847,
+        "requiredMargin": 0.004
+      },
+      {
+        "id": "plant_structure",
+        "pass": true,
+        "positive": 0.26446,
+        "negative": 0.23678,
+        "margin": 0.02768,
+        "requiredMargin": 0.002
+      },
+      {
+        "id": "general_botanical_plausibility",
+        "pass": true,
+        "positive": 0.29763,
+        "negative": 0.22612,
+        "margin": 0.07151,
+        "requiredMargin": 0.001
+      },
+      {
+        "id": "no_fruit_or_berries",
+        "pass": true,
+        "positive": 0.30929,
+        "negative": 0.23453,
+        "margin": 0.07476,
+        "requiredMargin": 0.002
+      },
+      {
+        "id": "no_unwanted_objects",
+        "pass": true,
+        "positive": 0.29139,
+        "negative": 0.25082,
+        "margin": 0.04057,
+        "requiredMargin": 0.002
+      },
+      {
+        "id": "primary_visual_usable",
+        "pass": true,
+        "positive": 0.30374,
+        "negative": 0.1647,
+        "margin": 0.13904,
+        "requiredMargin": 0.001
+      },
+      {
+        "id": "evidence_alignment",
+        "pass": true,
+        "mode": "NOT_APPLICABLE",
+        "status": "NOT_APPLICABLE",
+        "reason": "OFFICIAL_VISUAL_REFERENCE_UNAVAILABLE_OR_INSUFFICIENT"
+      }
+    ],
+    "evidenceAlignmentMode": "NOT_APPLICABLE",
+    "evidenceText": "",
+    "failedChecks": [],
+    "failClosed": true
+  }
 }

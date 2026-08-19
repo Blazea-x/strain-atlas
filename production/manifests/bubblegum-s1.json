@@ -29,18 +29,18 @@
   "expectedInboxFilename": "bubblegum-s1.jpg",
   "expectedPrimaryPath": "strains/bubblegum-s1/images/generated/primary.webp",
   "generatedAt": null,
-  "approvalStatus": "pending",
-  "approvedAt": null,
-  "approvalType": "human-visual-review",
-  "approvedManifestRevision": null,
-  "approvedAttempt": null,
-  "approvedSourceSha256": null,
-  "imageInboxCommit": null,
-  "imageProcessingCommit": null,
-  "processedPrimaryBlobSha": null,
-  "processedPrimarySha256": null,
-  "width": null,
-  "height": null,
+  "approvalStatus": "auto-approved",
+  "approvedAt": "2026-08-19T12:35:32Z",
+  "approvalType": "ai-visual-qa",
+  "approvedManifestRevision": 1,
+  "approvedAttempt": 1,
+  "approvedSourceSha256": "6abe547fd3ab5af3d9f07b6ba48e267ef950a2650fadbd0c5c772b72d051d96f",
+  "imageInboxCommit": "not-applicable:production-auto-publish-v1-direct",
+  "imageProcessingCommit": "8cac036304055dd9b9d1276fa567cca5c6c06f21",
+  "processedPrimaryBlobSha": "77efd357a19f84c0652fc06733db8ef00b16a798",
+  "processedPrimarySha256": "a26baf8271d3d14b4a91e5955de5881d19e0ecd8bc739bba25230416ef021773",
+  "width": 1024,
+  "height": 1536,
   "audit": [
     {
       "severity": "INFO",
@@ -48,6 +48,102 @@
       "at": "2026-08-19T12:33:09Z",
       "productionPhase": "IMAGE_PENDING",
       "note": "Created by PRODUCTION START V1. Candidate output is review-only and cannot publish."
+    },
+    {
+      "severity": "INFO",
+      "code": "AI_VISUAL_QA_PASS_AUTO_APPROVAL",
+      "at": "2026-08-19T12:35:32Z",
+      "approvalType": "ai-visual-qa",
+      "qaEngine": "local-clip-semantic-v1",
+      "qaModel": "openai/clip-vit-base-patch32",
+      "candidateSha256": "6abe547fd3ab5af3d9f07b6ba48e267ef950a2650fadbd0c5c772b72d051d96f"
+    },
+    {
+      "severity": "INFO",
+      "code": "PRIMARY_PROCESSED_INTERNAL",
+      "at": "2026-08-19T12:35:32Z",
+      "processingRoute": "production-auto-publish-v1-direct",
+      "processedPrimarySha256": "a26baf8271d3d14b4a91e5955de5881d19e0ecd8bc739bba25230416ef021773",
+      "width": 1024,
+      "height": 1536
     }
-  ]
+  ],
+  "processingRoute": "production-auto-publish-v1-direct",
+  "processingSourceArtifact": "production-review-32253204982",
+  "aiVisualQa": {
+    "strainId": "bubblegum-s1",
+    "status": "PASS",
+    "engine": "local-clip-semantic-v1",
+    "model": "openai/clip-vit-base-patch32",
+    "reason": null,
+    "checks": [
+      {
+        "id": "image_decode",
+        "pass": true,
+        "width": 1024,
+        "height": 1536,
+        "variance": 1330.513,
+        "meanLuma": 94.936
+      },
+      {
+        "id": "cannabis_natural",
+        "pass": true,
+        "positive": 0.32454,
+        "negative": 0.24706,
+        "margin": 0.07749,
+        "requiredMargin": 0.004
+      },
+      {
+        "id": "plant_structure",
+        "pass": true,
+        "positive": 0.26795,
+        "negative": 0.23111,
+        "margin": 0.03685,
+        "requiredMargin": 0.002
+      },
+      {
+        "id": "general_botanical_plausibility",
+        "pass": true,
+        "positive": 0.29615,
+        "negative": 0.23136,
+        "margin": 0.0648,
+        "requiredMargin": 0.001
+      },
+      {
+        "id": "no_fruit_or_berries",
+        "pass": true,
+        "positive": 0.31099,
+        "negative": 0.23374,
+        "margin": 0.07726,
+        "requiredMargin": 0.002
+      },
+      {
+        "id": "no_unwanted_objects",
+        "pass": true,
+        "positive": 0.29568,
+        "negative": 0.25088,
+        "margin": 0.0448,
+        "requiredMargin": 0.002
+      },
+      {
+        "id": "primary_visual_usable",
+        "pass": true,
+        "positive": 0.30446,
+        "negative": 0.17702,
+        "margin": 0.12744,
+        "requiredMargin": 0.001
+      },
+      {
+        "id": "evidence_alignment",
+        "pass": true,
+        "mode": "NOT_APPLICABLE",
+        "status": "NOT_APPLICABLE",
+        "reason": "OFFICIAL_VISUAL_REFERENCE_UNAVAILABLE_OR_INSUFFICIENT"
+      }
+    ],
+    "evidenceAlignmentMode": "NOT_APPLICABLE",
+    "evidenceText": "",
+    "failedChecks": [],
+    "failClosed": true
+  }
 }

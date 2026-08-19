@@ -29,18 +29,18 @@
   "expectedInboxFilename": "chemdog-d-s1.jpg",
   "expectedPrimaryPath": "strains/chemdog-d-s1/images/generated/primary.webp",
   "generatedAt": null,
-  "approvalStatus": "pending",
-  "approvedAt": null,
-  "approvalType": "human-visual-review",
-  "approvedManifestRevision": null,
-  "approvedAttempt": null,
-  "approvedSourceSha256": null,
-  "imageInboxCommit": null,
-  "imageProcessingCommit": null,
-  "processedPrimaryBlobSha": null,
-  "processedPrimarySha256": null,
-  "width": null,
-  "height": null,
+  "approvalStatus": "auto-approved",
+  "approvedAt": "2026-08-19T12:35:32Z",
+  "approvalType": "ai-visual-qa",
+  "approvedManifestRevision": 1,
+  "approvedAttempt": 1,
+  "approvedSourceSha256": "dfd69028f15209b4412abe6701338c13d74ea351c297140519b0edaaa0c4ec44",
+  "imageInboxCommit": "not-applicable:production-auto-publish-v1-direct",
+  "imageProcessingCommit": "8cac036304055dd9b9d1276fa567cca5c6c06f21",
+  "processedPrimaryBlobSha": "31a9b6be236af83a83dc71a69c00106709d781b6",
+  "processedPrimarySha256": "b449a71437ebc66d2b3b6c1b6477a899ed6fce5dafd390ef53b290c66b918e50",
+  "width": 1024,
+  "height": 1536,
   "audit": [
     {
       "severity": "INFO",
@@ -48,6 +48,102 @@
       "at": "2026-08-19T12:33:09Z",
       "productionPhase": "IMAGE_PENDING",
       "note": "Created by PRODUCTION START V1. Candidate output is review-only and cannot publish."
+    },
+    {
+      "severity": "INFO",
+      "code": "AI_VISUAL_QA_PASS_AUTO_APPROVAL",
+      "at": "2026-08-19T12:35:32Z",
+      "approvalType": "ai-visual-qa",
+      "qaEngine": "local-clip-semantic-v1",
+      "qaModel": "openai/clip-vit-base-patch32",
+      "candidateSha256": "dfd69028f15209b4412abe6701338c13d74ea351c297140519b0edaaa0c4ec44"
+    },
+    {
+      "severity": "INFO",
+      "code": "PRIMARY_PROCESSED_INTERNAL",
+      "at": "2026-08-19T12:35:32Z",
+      "processingRoute": "production-auto-publish-v1-direct",
+      "processedPrimarySha256": "b449a71437ebc66d2b3b6c1b6477a899ed6fce5dafd390ef53b290c66b918e50",
+      "width": 1024,
+      "height": 1536
     }
-  ]
+  ],
+  "processingRoute": "production-auto-publish-v1-direct",
+  "processingSourceArtifact": "production-review-32253204982",
+  "aiVisualQa": {
+    "strainId": "chemdog-d-s1",
+    "status": "PASS",
+    "engine": "local-clip-semantic-v1",
+    "model": "openai/clip-vit-base-patch32",
+    "reason": null,
+    "checks": [
+      {
+        "id": "image_decode",
+        "pass": true,
+        "width": 1024,
+        "height": 1536,
+        "variance": 711.107,
+        "meanLuma": 62.856
+      },
+      {
+        "id": "cannabis_natural",
+        "pass": true,
+        "positive": 0.32579,
+        "negative": 0.25147,
+        "margin": 0.07432,
+        "requiredMargin": 0.004
+      },
+      {
+        "id": "plant_structure",
+        "pass": true,
+        "positive": 0.26801,
+        "negative": 0.24374,
+        "margin": 0.02426,
+        "requiredMargin": 0.002
+      },
+      {
+        "id": "general_botanical_plausibility",
+        "pass": true,
+        "positive": 0.29184,
+        "negative": 0.23683,
+        "margin": 0.05501,
+        "requiredMargin": 0.001
+      },
+      {
+        "id": "no_fruit_or_berries",
+        "pass": true,
+        "positive": 0.31119,
+        "negative": 0.24493,
+        "margin": 0.06626,
+        "requiredMargin": 0.002
+      },
+      {
+        "id": "no_unwanted_objects",
+        "pass": true,
+        "positive": 0.29117,
+        "negative": 0.25741,
+        "margin": 0.03376,
+        "requiredMargin": 0.002
+      },
+      {
+        "id": "primary_visual_usable",
+        "pass": true,
+        "positive": 0.29523,
+        "negative": 0.17203,
+        "margin": 0.1232,
+        "requiredMargin": 0.001
+      },
+      {
+        "id": "evidence_alignment",
+        "pass": true,
+        "mode": "NOT_APPLICABLE",
+        "status": "NOT_APPLICABLE",
+        "reason": "OFFICIAL_VISUAL_REFERENCE_UNAVAILABLE_OR_INSUFFICIENT"
+      }
+    ],
+    "evidenceAlignmentMode": "NOT_APPLICABLE",
+    "evidenceText": "",
+    "failedChecks": [],
+    "failClosed": true
+  }
 }

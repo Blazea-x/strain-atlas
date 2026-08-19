@@ -1,14 +1,14 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-19T10:59:35.506Z",
+  "generatedAt": "2026-08-19T12:35:35.918Z",
   "sourceOfTruth": {
     "cultivars": "strains/<id>/strain.json",
     "sources": "sources/*.json",
     "entities": "entities/*.json"
   },
   "counts": {
-    "cultivars": 28,
-    "sources": 48,
+    "cultivars": 33,
+    "sources": 53,
     "entities": 12
   },
   "explore": {
@@ -41,6 +41,11 @@
     ],
     "unclassified": [
       "bubba-kush-s1",
+      "bubblegum-s1",
+      "chemdog-d-s1",
+      "cherry-pie-s1",
+      "durban-poison-s1",
+      "f1-durb-s1",
       "gorilla-glue-4-s1",
       "jager-s1",
       "t-1000-s1",
@@ -374,6 +379,82 @@
     },
     {
       "schemaVersion": 1,
+      "id": "bubblegum-s1",
+      "status": "review",
+      "name": "Bubblegum S1",
+      "jp": null,
+      "aliases": [],
+      "classification": {
+        "type": "unknown"
+      },
+      "breeding": {
+        "generation": "S1",
+        "method": "selfed"
+      },
+      "lineage": {
+        "status": "confirmed",
+        "confidence": "A",
+        "basis": "breederOfficial",
+        "sourceRefs": [
+          "humboldt-csi-bubblegum-s1"
+        ],
+        "display": "Bubblegum (Indiana cut) × Bubblegum (Indiana cut)",
+        "parents": [
+          "Bubblegum (Indiana cut)"
+        ],
+        "note": "Humboldt CSI's official Bubblegum S1 page identifies the line as Bubblegum (Indiana cut) × Bubblegum (Indiana cut). Together with the official S1 designation, this is treated as a selfed S1 line; no additional ancestry is inferred."
+      },
+      "relations": [
+        {
+          "entityId": "humboldt-csi",
+          "roles": [
+            "breeder",
+            "seedCompany"
+          ],
+          "status": "confirmed",
+          "confidence": "A",
+          "basis": "breederOfficial",
+          "sourceRefs": [
+            "humboldt-csi-bubblegum-s1"
+          ]
+        }
+      ],
+      "aromas": {
+        "status": "unknown",
+        "items": [],
+        "note": "Customer-review or parent-cut aroma observations are not generalized to the complete Bubblegum S1 line."
+      },
+      "terpenes": {
+        "status": "unknown",
+        "items": [],
+        "note": "The official Bubblegum S1 page does not provide a cultivar-specific lot terpene profile or COA for the S1 line."
+      },
+      "origin": {
+        "status": "unknown",
+        "text": "",
+        "note": "The official Bubblegum S1 page identifies the Indiana cut used for the self-cross but does not state the S1 line's exact creation location; no location is inferred."
+      },
+      "history": {
+        "status": "unknown",
+        "text": "",
+        "note": "The official Bubblegum S1 page does not provide a sufficiently bounded cultivar-specific release chronology; no secondary history is imported."
+      },
+      "visuals": [
+        {
+          "role": "primary",
+          "src": "strains/bubblegum-s1/images/generated/primary.webp",
+          "alt": "Bubblegum S1の公式S1同定情報を基礎に、公式形態画像が不足しているため未確認の品種固有形態を付加せず作成するAI生成の植物学的参考ビジュアル",
+          "rights": "AI-generated project asset for Cannabis Strain Wisdom. No third-party image is copied; the prompt uses an identity-grounded fallback because reliable official cultivar visual evidence is unavailable or insufficient.",
+          "scope": "cultivar",
+          "aiGenerated": true,
+          "sourceType": "aiGenerated"
+        }
+      ],
+      "checkedAt": "2026-08-19",
+      "updatedAt": "2026-08-19"
+    },
+    {
+      "schemaVersion": 1,
       "id": "california-octane",
       "status": "review",
       "name": "California Octane",
@@ -567,6 +648,158 @@
       ],
       "checkedAt": "2026-08-17",
       "updatedAt": "2026-08-17"
+    },
+    {
+      "schemaVersion": 1,
+      "id": "chemdog-d-s1",
+      "status": "review",
+      "name": "Chemdog D S1",
+      "jp": null,
+      "aliases": [],
+      "classification": {
+        "type": "unknown"
+      },
+      "breeding": {
+        "generation": "S1",
+        "method": "selfed"
+      },
+      "lineage": {
+        "status": "confirmed",
+        "confidence": "A",
+        "basis": "breederOfficial",
+        "sourceRefs": [
+          "humboldt-csi-chemdog-d-s1"
+        ],
+        "display": "Chemdog D × Chemdog D",
+        "parents": [
+          "Chemdog D"
+        ],
+        "note": "Humboldt CSI's official Chemdog D S1 page lists Chemdog D × Chemdog D. Together with the official S1 designation, this is treated as a selfed S1 line; no additional ancestry is inferred."
+      },
+      "relations": [
+        {
+          "entityId": "humboldt-csi",
+          "roles": [
+            "breeder",
+            "seedCompany"
+          ],
+          "status": "confirmed",
+          "confidence": "A",
+          "basis": "breederOfficial",
+          "sourceRefs": [
+            "humboldt-csi-chemdog-d-s1"
+          ]
+        }
+      ],
+      "aromas": {
+        "status": "unknown",
+        "items": [],
+        "note": "Descriptive claims about the source cut are not generalized to the complete Chemdog D S1 line."
+      },
+      "terpenes": {
+        "status": "unknown",
+        "items": [],
+        "note": "The official Chemdog D S1 page does not provide a cultivar-specific lot terpene profile or COA for the S1 line."
+      },
+      "origin": {
+        "status": "unknown",
+        "text": "",
+        "note": "The official Chemdog D S1 page does not state the S1 line's exact creation location; no location is inferred."
+      },
+      "history": {
+        "status": "unknown",
+        "text": "",
+        "note": "The official Chemdog D S1 page does not provide a sufficiently bounded cultivar-specific release chronology; no secondary history is imported."
+      },
+      "visuals": [
+        {
+          "role": "primary",
+          "src": "strains/chemdog-d-s1/images/generated/primary.webp",
+          "alt": "Chemdog D S1の公式S1同定情報を基礎に、公式形態画像が不足しているため未確認の品種固有形態を付加せず作成するAI生成の植物学的参考ビジュアル",
+          "rights": "AI-generated project asset for Cannabis Strain Wisdom. No third-party image is copied; the prompt uses an identity-grounded fallback because reliable official cultivar visual evidence is unavailable or insufficient.",
+          "scope": "cultivar",
+          "aiGenerated": true,
+          "sourceType": "aiGenerated"
+        }
+      ],
+      "checkedAt": "2026-08-19",
+      "updatedAt": "2026-08-19"
+    },
+    {
+      "schemaVersion": 1,
+      "id": "cherry-pie-s1",
+      "status": "review",
+      "name": "Cherry Pie S1",
+      "jp": null,
+      "aliases": [],
+      "classification": {
+        "type": "unknown"
+      },
+      "breeding": {
+        "generation": "S1",
+        "method": "selfed"
+      },
+      "lineage": {
+        "status": "confirmed",
+        "confidence": "A",
+        "basis": "breederOfficial",
+        "sourceRefs": [
+          "humboldt-csi-cherry-pie-s1"
+        ],
+        "display": "Cherry Pie × Cherry Pie",
+        "parents": [
+          "Cherry Pie"
+        ],
+        "note": "Humboldt CSI's official Cherry Pie S1 page lists Cherry Pie × Cherry Pie. Together with the official S1 designation, this is treated as a selfed S1 line; no additional ancestry is inferred."
+      },
+      "relations": [
+        {
+          "entityId": "humboldt-csi",
+          "roles": [
+            "breeder",
+            "seedCompany"
+          ],
+          "status": "confirmed",
+          "confidence": "A",
+          "basis": "breederOfficial",
+          "sourceRefs": [
+            "humboldt-csi-cherry-pie-s1"
+          ]
+        }
+      ],
+      "aromas": {
+        "status": "unknown",
+        "items": [],
+        "note": "No cultivar-wide aroma claims are imported from parent names or unrelated descriptions for the complete Cherry Pie S1 line."
+      },
+      "terpenes": {
+        "status": "unknown",
+        "items": [],
+        "note": "The official Cherry Pie S1 page does not provide a cultivar-specific lot terpene profile or COA for the S1 line."
+      },
+      "origin": {
+        "status": "unknown",
+        "text": "",
+        "note": "The official Cherry Pie S1 page does not state the S1 line's exact creation location; no location is inferred."
+      },
+      "history": {
+        "status": "unknown",
+        "text": "",
+        "note": "The official Cherry Pie S1 page does not provide a sufficiently bounded cultivar-specific release chronology; no secondary history is imported."
+      },
+      "visuals": [
+        {
+          "role": "primary",
+          "src": "strains/cherry-pie-s1/images/generated/primary.webp",
+          "alt": "Cherry Pie S1の公式S1同定情報を基礎に、公式形態画像が不足しているため未確認の品種固有形態を付加せず作成するAI生成の植物学的参考ビジュアル",
+          "rights": "AI-generated project asset for Cannabis Strain Wisdom. No third-party image is copied; the prompt uses an identity-grounded fallback because reliable official cultivar visual evidence is unavailable or insufficient.",
+          "scope": "cultivar",
+          "aiGenerated": true,
+          "sourceType": "aiGenerated"
+        }
+      ],
+      "checkedAt": "2026-08-19",
+      "updatedAt": "2026-08-19"
     },
     {
       "schemaVersion": 1,
@@ -852,6 +1085,158 @@
         }
       ],
       "checkedAt": "2026-08-17",
+      "updatedAt": "2026-08-19"
+    },
+    {
+      "schemaVersion": 1,
+      "id": "durban-poison-s1",
+      "status": "review",
+      "name": "Durban Poison S1",
+      "jp": null,
+      "aliases": [],
+      "classification": {
+        "type": "unknown"
+      },
+      "breeding": {
+        "generation": "S1",
+        "method": "selfed"
+      },
+      "lineage": {
+        "status": "confirmed",
+        "confidence": "A",
+        "basis": "breederOfficial",
+        "sourceRefs": [
+          "humboldt-csi-durban-poison-s1"
+        ],
+        "display": "Durban Poison × Durban Poison",
+        "parents": [
+          "Durban Poison"
+        ],
+        "note": "Humboldt CSI's official Durban Poison S1 page lists Durban Poison × Durban Poison. Together with the official S1 designation, this is treated as a selfed S1 line; no additional ancestry is inferred."
+      },
+      "relations": [
+        {
+          "entityId": "humboldt-csi",
+          "roles": [
+            "breeder",
+            "seedCompany"
+          ],
+          "status": "confirmed",
+          "confidence": "A",
+          "basis": "breederOfficial",
+          "sourceRefs": [
+            "humboldt-csi-durban-poison-s1"
+          ]
+        }
+      ],
+      "aromas": {
+        "status": "unknown",
+        "items": [],
+        "note": "The breeder's description of the source cut is not generalized into cultivar-wide aroma claims for every plant in the Durban Poison S1 line."
+      },
+      "terpenes": {
+        "status": "unknown",
+        "items": [],
+        "note": "The breeder mentions terpinolene for the source cut, but no cultivar-specific lot COA or bounded S1-line terpene dataset is provided, so no S1-wide terpene profile is asserted."
+      },
+      "origin": {
+        "status": "unknown",
+        "text": "",
+        "note": "The official Durban Poison S1 page does not state the S1 line's exact creation location; no location is inferred."
+      },
+      "history": {
+        "status": "unknown",
+        "text": "",
+        "note": "The official Durban Poison S1 page describes the source cut but does not provide a sufficiently bounded S1-line release chronology; no secondary history is imported."
+      },
+      "visuals": [
+        {
+          "role": "primary",
+          "src": "strains/durban-poison-s1/images/generated/primary.webp",
+          "alt": "Durban Poison S1の公式S1同定情報を基礎に、公式形態画像が不足しているため未確認の品種固有形態を付加せず作成するAI生成の植物学的参考ビジュアル",
+          "rights": "AI-generated project asset for Cannabis Strain Wisdom. No third-party image is copied; the prompt uses an identity-grounded fallback because reliable official cultivar visual evidence is unavailable or insufficient.",
+          "scope": "cultivar",
+          "aiGenerated": true,
+          "sourceType": "aiGenerated"
+        }
+      ],
+      "checkedAt": "2026-08-19",
+      "updatedAt": "2026-08-19"
+    },
+    {
+      "schemaVersion": 1,
+      "id": "f1-durb-s1",
+      "status": "review",
+      "name": "F1 Durb S1",
+      "jp": null,
+      "aliases": [],
+      "classification": {
+        "type": "unknown"
+      },
+      "breeding": {
+        "generation": "S1",
+        "method": "selfed"
+      },
+      "lineage": {
+        "status": "confirmed",
+        "confidence": "A",
+        "basis": "breederOfficial",
+        "sourceRefs": [
+          "humboldt-csi-f1-durb-s1"
+        ],
+        "display": "F1 Durb × F1 Durb",
+        "parents": [
+          "F1 Durb"
+        ],
+        "note": "Humboldt CSI's official F1 Durb S1 page lists F1 Durb × F1 Durb. Together with the official S1 designation, this is treated as a selfed S1 line; no additional ancestry is inferred."
+      },
+      "relations": [
+        {
+          "entityId": "humboldt-csi",
+          "roles": [
+            "breeder",
+            "seedCompany"
+          ],
+          "status": "confirmed",
+          "confidence": "A",
+          "basis": "breederOfficial",
+          "sourceRefs": [
+            "humboldt-csi-f1-durb-s1"
+          ]
+        }
+      ],
+      "aromas": {
+        "status": "unknown",
+        "items": [],
+        "note": "The official F1 Durb S1 page does not provide bounded cultivar-wide aroma descriptors for the complete S1 line."
+      },
+      "terpenes": {
+        "status": "unknown",
+        "items": [],
+        "note": "The official F1 Durb S1 page does not provide a cultivar-specific lot terpene profile or COA for the S1 line."
+      },
+      "origin": {
+        "status": "unknown",
+        "text": "",
+        "note": "The official F1 Durb S1 page identifies the source cut context but does not state the S1 line's exact creation location; no location is inferred."
+      },
+      "history": {
+        "status": "unknown",
+        "text": "",
+        "note": "The official page notes limited seed production from a reversal using Cookie Monster's F1 Durb cut, but no sufficiently bounded release chronology is asserted for this atlas entry."
+      },
+      "visuals": [
+        {
+          "role": "primary",
+          "src": "strains/f1-durb-s1/images/generated/primary.webp",
+          "alt": "F1 Durb S1の公式S1同定情報を基礎に、公式形態画像が不足しているため未確認の品種固有形態を付加せず作成するAI生成の植物学的参考ビジュアル",
+          "rights": "AI-generated project asset for Cannabis Strain Wisdom. No third-party image is copied; the prompt uses an identity-grounded fallback because reliable official cultivar visual evidence is unavailable or insufficient.",
+          "scope": "cultivar",
+          "aiGenerated": true,
+          "sourceType": "aiGenerated"
+        }
+      ],
+      "checkedAt": "2026-08-19",
       "updatedAt": "2026-08-19"
     },
     {
@@ -3253,6 +3638,91 @@
       "publishedAt": null,
       "checkedAt": "2026-08-19",
       "note": "Official Humboldt CSI product page used to confirm the Bubba Kush S1 identity, S1 designation, same-cultivar cross (Bubba Kush × Bubba Kush), feminized seed listing, and Humboldt CSI association. No unsupported aroma, terpene, classification, or cultivar-wide morphology claims are imported."
+    },
+    "humboldt-csi-bubblegum-s1": {
+      "schemaVersion": 1,
+      "id": "humboldt-csi-bubblegum-s1",
+      "publisher": "Humboldt CSI",
+      "title": "Bubblegum S1",
+      "url": "https://www.humboldtcsi.com/product/bubblegum-s1/",
+      "sourceType": "breederOfficial",
+      "supports": [
+        "lineage",
+        "breeder",
+        "generation",
+        "breeding"
+      ],
+      "publishedAt": null,
+      "checkedAt": "2026-08-19",
+      "note": "Official Humboldt CSI product page identifies Bubblegum S1 as Bubblegum (Indiana cut) × Bubblegum (Indiana cut) and lists feminized seeds. The current page exposes an awaiting-product-image placeholder, so no cultivar-specific visual morphology is extracted."
+    },
+    "humboldt-csi-chemdog-d-s1": {
+      "schemaVersion": 1,
+      "id": "humboldt-csi-chemdog-d-s1",
+      "publisher": "Humboldt CSI",
+      "title": "Chemdog D S1",
+      "url": "https://www.humboldtcsi.com/product/chemdog-d/",
+      "sourceType": "breederOfficial",
+      "supports": [
+        "lineage",
+        "breeder",
+        "generation",
+        "breeding"
+      ],
+      "publishedAt": null,
+      "checkedAt": "2026-08-19",
+      "note": "Official Humboldt CSI product page identifies Chemdog D S1 as Chemdog D × Chemdog D and lists feminized seeds. The current page exposes an awaiting-product-image placeholder, so no cultivar-specific visual morphology is extracted."
+    },
+    "humboldt-csi-cherry-pie-s1": {
+      "schemaVersion": 1,
+      "id": "humboldt-csi-cherry-pie-s1",
+      "publisher": "Humboldt CSI",
+      "title": "Cherry Pie S1",
+      "url": "https://www.humboldtcsi.com/product/cherry-pie-s1/",
+      "sourceType": "breederOfficial",
+      "supports": [
+        "lineage",
+        "breeder",
+        "generation",
+        "breeding"
+      ],
+      "publishedAt": null,
+      "checkedAt": "2026-08-19",
+      "note": "Official Humboldt CSI product page identifies Cherry Pie S1 as Cherry Pie × Cherry Pie and lists feminized seeds. The current page exposes an awaiting-product-image placeholder, so no cultivar-specific visual morphology is extracted."
+    },
+    "humboldt-csi-durban-poison-s1": {
+      "schemaVersion": 1,
+      "id": "humboldt-csi-durban-poison-s1",
+      "publisher": "Humboldt CSI",
+      "title": "Durban Poison S1",
+      "url": "https://www.humboldtcsi.com/product/durban-poison-s1/",
+      "sourceType": "breederOfficial",
+      "supports": [
+        "lineage",
+        "breeder",
+        "generation",
+        "breeding"
+      ],
+      "publishedAt": null,
+      "checkedAt": "2026-08-19",
+      "note": "Official Humboldt CSI product page identifies Durban Poison S1 as Durban Poison × Durban Poison and lists feminized seeds. Source-cut chemistry language is not generalized to the complete S1 line. The current page exposes an awaiting-product-image placeholder, so no cultivar-specific visual morphology is extracted."
+    },
+    "humboldt-csi-f1-durb-s1": {
+      "schemaVersion": 1,
+      "id": "humboldt-csi-f1-durb-s1",
+      "publisher": "Humboldt CSI",
+      "title": "F1 Durb S1",
+      "url": "https://www.humboldtcsi.com/product/f1-durb-s1/",
+      "sourceType": "breederOfficial",
+      "supports": [
+        "lineage",
+        "breeder",
+        "generation",
+        "breeding"
+      ],
+      "publishedAt": null,
+      "checkedAt": "2026-08-19",
+      "note": "Official Humboldt CSI product page identifies F1 Durb S1 as F1 Durb × F1 Durb, states the reversal used Cookie Monster's F1 Durb cut, and lists feminized seeds. The current page exposes an awaiting-product-image placeholder, so no cultivar-specific visual morphology is extracted."
     },
     "humboldt-csi-gorilla-glue-4-s1": {
       "schemaVersion": 1,

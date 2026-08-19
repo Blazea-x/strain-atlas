@@ -29,18 +29,18 @@
   "expectedInboxFilename": "f1-durb-s1.jpg",
   "expectedPrimaryPath": "strains/f1-durb-s1/images/generated/primary.webp",
   "generatedAt": null,
-  "approvalStatus": "pending",
-  "approvedAt": null,
-  "approvalType": "human-visual-review",
-  "approvedManifestRevision": null,
-  "approvedAttempt": null,
-  "approvedSourceSha256": null,
-  "imageInboxCommit": null,
-  "imageProcessingCommit": null,
-  "processedPrimaryBlobSha": null,
-  "processedPrimarySha256": null,
-  "width": null,
-  "height": null,
+  "approvalStatus": "auto-approved",
+  "approvedAt": "2026-08-19T12:35:32Z",
+  "approvalType": "ai-visual-qa",
+  "approvedManifestRevision": 1,
+  "approvedAttempt": 1,
+  "approvedSourceSha256": "3227974f451a42d820517b1aa443aba52ca5102b7af8fb973b957e3322378230",
+  "imageInboxCommit": "not-applicable:production-auto-publish-v1-direct",
+  "imageProcessingCommit": "8cac036304055dd9b9d1276fa567cca5c6c06f21",
+  "processedPrimaryBlobSha": "ce81a869212808c4b04c3b3fe4052490edb46259",
+  "processedPrimarySha256": "f4d6fcc30268768511858d4c3baad91f6717a52e2dfb4ca6493c4894d61e256e",
+  "width": 1024,
+  "height": 1536,
   "audit": [
     {
       "severity": "INFO",
@@ -48,6 +48,102 @@
       "at": "2026-08-19T12:33:09Z",
       "productionPhase": "IMAGE_PENDING",
       "note": "Created by PRODUCTION START V1. Candidate output is review-only and cannot publish."
+    },
+    {
+      "severity": "INFO",
+      "code": "AI_VISUAL_QA_PASS_AUTO_APPROVAL",
+      "at": "2026-08-19T12:35:32Z",
+      "approvalType": "ai-visual-qa",
+      "qaEngine": "local-clip-semantic-v1",
+      "qaModel": "openai/clip-vit-base-patch32",
+      "candidateSha256": "3227974f451a42d820517b1aa443aba52ca5102b7af8fb973b957e3322378230"
+    },
+    {
+      "severity": "INFO",
+      "code": "PRIMARY_PROCESSED_INTERNAL",
+      "at": "2026-08-19T12:35:32Z",
+      "processingRoute": "production-auto-publish-v1-direct",
+      "processedPrimarySha256": "f4d6fcc30268768511858d4c3baad91f6717a52e2dfb4ca6493c4894d61e256e",
+      "width": 1024,
+      "height": 1536
     }
-  ]
+  ],
+  "processingRoute": "production-auto-publish-v1-direct",
+  "processingSourceArtifact": "production-review-32253204982",
+  "aiVisualQa": {
+    "strainId": "f1-durb-s1",
+    "status": "PASS",
+    "engine": "local-clip-semantic-v1",
+    "model": "openai/clip-vit-base-patch32",
+    "reason": null,
+    "checks": [
+      {
+        "id": "image_decode",
+        "pass": true,
+        "width": 1024,
+        "height": 1536,
+        "variance": 817.988,
+        "meanLuma": 84.195
+      },
+      {
+        "id": "cannabis_natural",
+        "pass": true,
+        "positive": 0.33376,
+        "negative": 0.25508,
+        "margin": 0.07869,
+        "requiredMargin": 0.004
+      },
+      {
+        "id": "plant_structure",
+        "pass": true,
+        "positive": 0.26916,
+        "negative": 0.23803,
+        "margin": 0.03113,
+        "requiredMargin": 0.002
+      },
+      {
+        "id": "general_botanical_plausibility",
+        "pass": true,
+        "positive": 0.30072,
+        "negative": 0.23141,
+        "margin": 0.06931,
+        "requiredMargin": 0.001
+      },
+      {
+        "id": "no_fruit_or_berries",
+        "pass": true,
+        "positive": 0.30883,
+        "negative": 0.23483,
+        "margin": 0.07401,
+        "requiredMargin": 0.002
+      },
+      {
+        "id": "no_unwanted_objects",
+        "pass": true,
+        "positive": 0.30072,
+        "negative": 0.25128,
+        "margin": 0.04945,
+        "requiredMargin": 0.002
+      },
+      {
+        "id": "primary_visual_usable",
+        "pass": true,
+        "positive": 0.30714,
+        "negative": 0.16755,
+        "margin": 0.13959,
+        "requiredMargin": 0.001
+      },
+      {
+        "id": "evidence_alignment",
+        "pass": true,
+        "mode": "NOT_APPLICABLE",
+        "status": "NOT_APPLICABLE",
+        "reason": "OFFICIAL_VISUAL_REFERENCE_UNAVAILABLE_OR_INSUFFICIENT"
+      }
+    ],
+    "evidenceAlignmentMode": "NOT_APPLICABLE",
+    "evidenceText": "",
+    "failedChecks": [],
+    "failClosed": true
+  }
 }

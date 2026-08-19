@@ -60,7 +60,17 @@
     "text": "",
     "note": "The official Durban Poison S1 page describes the source cut but does not provide a sufficiently bounded S1-line release chronology; no secondary history is imported."
   },
-  "visuals": [],
+  "visuals": [
+    {
+      "role": "primary",
+      "src": "strains/durban-poison-s1/images/generated/primary.webp",
+      "alt": "Durban Poison S1の公式S1同定情報を基礎に、公式形態画像が不足しているため未確認の品種固有形態を付加せず作成するAI生成の植物学的参考ビジュアル",
+      "rights": "AI-generated project asset for Cannabis Strain Wisdom. No third-party image is copied; the prompt uses an identity-grounded fallback because reliable official cultivar visual evidence is unavailable or insufficient.",
+      "scope": "cultivar",
+      "aiGenerated": true,
+      "sourceType": "aiGenerated"
+    }
+  ],
   "checkedAt": "2026-08-19",
   "updatedAt": "2026-08-19"
 }
