@@ -44,7 +44,7 @@ def qa_one(model, processor, image_path, manifest, device):
             variance=sum(stat.var)/3.0
             decode_ok=w>=512 and h>=512 and variance>35 and 4<mean<251
     except Exception as e:
-        return {"status":"FAIL","engine":ENGINE,"model":MODEL_ID,"reason":"IMAGE_DECODE_FAILED","checks":[{"id":"image_decode","pass":False,"detail":str(e)[:300]}]}
+        return {"status":"FAIL","engine":ENGINE,"model":MODEL_ID,"reason":"IMAGE_DECODE_FAILED","checks":[{"id":"image_decode","pass":False,"detail":str(e)[:300]}],"failClosed":True}
     checks.append({"id":"image_decode","pass":bool(decode_ok),"width":w,"height":h,"variance":round(float(variance),3),"meanLuma":round(float(mean),3)})
 
     groups=[
@@ -83,7 +83,7 @@ def qa_one(model, processor, image_path, manifest, device):
             scores=(iv @ tv.T).detach().cpu().numpy()[0].tolist()
     except Exception as e:
         checks.append({"id":"semantic_model","pass":False,"detail":str(e)[:400]})
-        return {"status":"FAIL","engine":ENGINE,"model":MODEL_ID,"reason":"AI_QA_MODEL_ERROR","checks":checks,"evidenceText":ev}
+        return {"status":"FAIL","engine":ENGINE,"model":MODEL_ID,"reason":"AI_QA_MODEL_ERROR","checks":checks,"evidenceText":ev,"failClosed":True}
 
     for cid,start,np,nn,margin in slices:
         pos=scores[start:start+np]; neg=scores[start+np:start+np+nn]
@@ -97,33 +97,52 @@ def qa_one(model, processor, image_path, manifest, device):
     passed=all(c.get("pass") is True for c in checks)
     return {"status":"PASS" if passed else "FAIL","engine":ENGINE,"model":MODEL_ID,"checks":checks,"evidenceText":ev,"failClosed":True}
 
+def fail_closed_batch(receipt_paths, out, reason, detail):
+    results=[]
+    for rp in receipt_paths:
+        try:
+            receipt=read_json(rp); sid=receipt.get('strainId') or rp.stem
+        except Exception:
+            sid=rp.stem
+        result={"strainId":sid,"status":"FAIL","engine":ENGINE,"model":MODEL_ID,"reason":reason,"checks":[{"id":"qa_engine_available","pass":False,"detail":str(detail)[:500]}],"failClosed":True}
+        write_json(out/f'{sid}.json',result); results.append(result)
+        print(json.dumps({"strainId":sid,"status":"FAIL","engine":ENGINE,"reason":reason}))
+    write_json(out/'summary.json',{"engine":ENGINE,"model":MODEL_ID,"failClosed":True,"batchReason":reason,"results":[{"strainId":x['strainId'],"status":x['status']} for x in results]})
+    return 0
+
 def main():
     ap=argparse.ArgumentParser()
     ap.add_argument('--review-dir', required=True)
     ap.add_argument('--manifest-dir', default='production/manifests')
     ap.add_argument('--out-dir', required=True)
     args=ap.parse_args()
+    review=Path(args.review_dir); out=Path(args.out_dir); out.mkdir(parents=True, exist_ok=True)
+    receipts=review/'receipts'; candidates=review/'candidates'
+    receipt_paths=sorted(receipts.glob('*.json'))
     try:
         import torch
         from transformers import CLIPModel, CLIPProcessor
     except Exception as e:
-        print(f"AI_VISUAL_QA_DEPENDENCY_ERROR: {e}", file=sys.stderr); return 2
+        print(f"AI_VISUAL_QA_DEPENDENCY_ERROR: {e}", file=sys.stderr)
+        return fail_closed_batch(receipt_paths,out,"AI_QA_DEPENDENCY_ERROR",e)
     device='cpu'
-    model=CLIPModel.from_pretrained(MODEL_ID).to(device).eval()
-    processor=CLIPProcessor.from_pretrained(MODEL_ID)
-    review=Path(args.review_dir); out=Path(args.out_dir); out.mkdir(parents=True, exist_ok=True)
-    receipts=review/'receipts'; candidates=review/'candidates'
+    try:
+        model=CLIPModel.from_pretrained(MODEL_ID).to(device).eval()
+        processor=CLIPProcessor.from_pretrained(MODEL_ID)
+    except Exception as e:
+        print(f"AI_VISUAL_QA_MODEL_LOAD_ERROR: {e}", file=sys.stderr)
+        return fail_closed_batch(receipt_paths,out,"AI_QA_MODEL_LOAD_ERROR",e)
     results=[]
-    for rp in sorted(receipts.glob('*.json')):
+    for rp in receipt_paths:
         receipt=read_json(rp); sid=receipt.get('strainId') or rp.stem
         image=candidates/f'{sid}.jpg'; manifest=Path(args.manifest_dir)/f'{sid}.json'
         if not image.exists() or not manifest.exists():
-            result={"strainId":sid,"status":"FAIL","engine":ENGINE,"model":MODEL_ID,"reason":"QA_INPUT_MISSING","checks":[]}
+            result={"strainId":sid,"status":"FAIL","engine":ENGINE,"model":MODEL_ID,"reason":"QA_INPUT_MISSING","checks":[],"failClosed":True}
         else:
             result={"strainId":sid, **qa_one(model,processor,image,read_json(manifest),device)}
         write_json(out/f'{sid}.json',result); results.append(result)
         print(json.dumps({"strainId":sid,"status":result['status'],"engine":ENGINE}))
-    write_json(out/'summary.json',{"engine":ENGINE,"model":MODEL_ID,"results":[{"strainId":x['strainId'],"status":x['status']} for x in results]})
+    write_json(out/'summary.json',{"engine":ENGINE,"model":MODEL_ID,"failClosed":True,"results":[{"strainId":x['strainId'],"status":x['status']} for x in results]})
     return 0
 
 if __name__=='__main__': raise SystemExit(main())
