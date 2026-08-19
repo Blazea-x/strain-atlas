@@ -2,6 +2,8 @@
    Presentation-only evolution of HOME ENTRANCE V1.
    Production data and runtime generation remain read-only. */
 
+/* Detail close restores the exact catalog position instead of inheriting the legacy smooth-scroll animation. */
+html{scroll-behavior:auto}
 .preview-head{display:none}
 .shell{padding-top:8px;padding-bottom:76px}
 .home-visual{padding-top:0;padding-bottom:8px}
