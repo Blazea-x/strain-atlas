@@ -1,0 +1,25 @@
+name: PRODUCTION APPROVE V1
+
+on:
+  workflow_dispatch:
+    inputs:
+      production_run_id:
+        description: "STEP 1 production run id, e.g. content-production-start-123456789"
+        required: true
+        type: string
+      approved_candidates:
+        description: "Human-approved candidates: strainId:approvalBindingSha256, comma/newline separated"
+        required: true
+        type: string
+
+permissions:
+  contents: write
+  actions: read
+
+jobs:
+  approve:
+    uses: Blazea-x/strain-atlas/.github/workflows/production-approve-v1.yml@master-migration
+    with:
+      production_run_id: ${{ inputs.production_run_id }}
+      approved_candidates: ${{ inputs.approved_candidates }}
+    secrets: inherit
