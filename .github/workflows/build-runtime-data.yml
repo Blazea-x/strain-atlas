@@ -39,6 +39,14 @@ jobs:
         with:
           node-version: "22"
 
+      - name: Verify withdrawn Dr Grinspoon primary SHA-256
+        run: |
+          git show 84f4040c8a6e59943d3253b5c05a40e3ae527740:strains/dr-grinspoon/images/generated/primary.webp > /tmp/dr-grinspoon-withdrawn.webp
+          ACTUAL_SHA256="$(sha256sum /tmp/dr-grinspoon-withdrawn.webp | awk '{print $1}')"
+          test "$ACTUAL_SHA256" = "0d5c13e2aab448722eeb799e03f5c9256fe259c19f363928961fbc6b29fd9d3a"
+          test "$(git hash-object /tmp/dr-grinspoon-withdrawn.webp)" = "887dc0449d029bc3cc31efb17b065cf3476fbefd"
+          echo "Dr Grinspoon withdrawn primary digest verified"
+
       - name: Checkout main for read-only protection audit
         uses: actions/checkout@v4
         with:
