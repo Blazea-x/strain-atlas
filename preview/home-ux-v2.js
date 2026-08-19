@@ -135,7 +135,7 @@
   function renderFooter() {
     if (!catalogMeta || !catalog) return;
     const counts = catalog.counts || {};
-    catalogMeta.innerHTML = `<div class="catalog-footer-brand">Cannabis Strain Wisdom</div><div class="catalog-footer-counts">${esc(counts.cultivars ?? catalog.cultivars.length)} 品種 · ${esc(counts.sources ?? 0)} 出典 · ${esc(counts.entities ?? 0)} 関連組織・ブリーダー</div><nav class="catalog-footer-links" aria-label="ページ内リンク"><a href="#site-title">このサイトについて</a><a href="#cultivars">情報源・方針</a><a href="#legal-alert">重要なお知らせ</a></nav>`;
+    catalogMeta.innerHTML = `<div class="catalog-footer-brand">Cannabis Strain Wisdom</div><div class="catalog-footer-counts">${esc(counts.cultivars ?? catalog.cultivars.length)} 品種 · ${esc(counts.sources ?? 0)} 出典 · ${esc(counts.entities ?? 0)} 関連組織・ブリーダー</div><nav class="catalog-footer-links" aria-label="ページ内リンク"><a href="#site-title">このサイトについて</a><a href="#cultivars">品種一覧</a><a href="#legal-alert">重要なお知らせ</a></nav>`;
   }
 
   function openLatestDetail(id) {
