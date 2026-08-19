@@ -20,6 +20,8 @@ on:
       - "scripts/audit-content-production.mjs"
       - "scripts/content-production-state.mjs"
       - ".github/workflows/build-runtime-data.yml"
+  pull_request:
+    branches: [master-migration]
   workflow_dispatch:
 
 permissions:
