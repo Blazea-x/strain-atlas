@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "id": "humboldt-csi-granddaddy-purple-s1",
+  "publisher": "Humboldt CSI",
+  "title": "GrandDaddy Purple S1",
+  "url": "https://humboldtcsi.com/product/granddaddy-purple-s1/",
+  "sourceType": "breederOfficial",
+  "supports": [
+    "lineage",
+    "breeder",
+    "generation",
+    "breeding"
+  ],
+  "publishedAt": null,
+  "checkedAt": "2026-08-19",
+  "note": "Official Humboldt CSI product page identifies GrandDaddy Purple S1 as GrandDaddy Purple × GrandDaddy Purple and describes it as S1s of the original clone. No unsupported cultivar-wide visual morphology is added."
+}

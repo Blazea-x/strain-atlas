@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "id": "humboldt-csi-chemdog-1-s1",
+  "publisher": "Humboldt CSI",
+  "title": "Chemdog #1 S1",
+  "url": "https://www.humboldtcsi.com/product/chemdog-1-s1/",
+  "sourceType": "breederOfficial",
+  "supports": [
+    "lineage",
+    "breeder",
+    "generation",
+    "breeding"
+  ],
+  "publishedAt": null,
+  "checkedAt": "2026-08-19",
+  "note": "Official Humboldt CSI product page identifies Chemdog #1 S1 as Chemdog #1 × Chemdog #1 and lists feminized seeds. Parent-cut notes are not generalized into cultivar-wide visual morphology for the S1 line."
+}

@@ -1,0 +1,53 @@
+{
+  "schemaVersion": 1,
+  "manifestVersion": 1,
+  "manifestId": "content-production-start-32240921338-hp13-s1-image",
+  "runId": "content-production-start-32240921338",
+  "strainId": "hp13-s1",
+  "revision": 1,
+  "attempt": 1,
+  "sourceStockPath": "stock/items/hp13-s1.json",
+  "sourceStockBlobSha": "a76fa3afad7a7340cbc6208e5a200791eec1b438",
+  "visualPreparationHash": "eff21f447262736c1d30408601deea028704e890684e9938c5d32ed3e9b1be0c",
+  "generatedFromManifestVersion": null,
+  "promptSnapshot": "Photorealistic botanical reference image of one mature flowering cannabis plant representing HP13 S1, complete plant visible, neutral natural light, realistic botany. Do not assert cultivar-specific architecture, branching pattern, internode spacing, leaf width, flower shape, flower density, coloration, or resin/trichome intensity beyond ordinary natural cannabis morphology unless directly supported by the cited official cultivar page. No labels, logos, packaging, people, smoke, consumption context, text, or invented signature coloration.",
+  "evidenceSnapshot": [
+    {
+      "description": "Humboldt CSI's official HP13 S1 page confirms cultivar identity and S1/selfed parentage. The generation prompt intentionally avoids unsupported cultivar-wide morphology claims.",
+      "sourceIds": [
+        "humboldt-csi-hp13-s1"
+      ]
+    }
+  ],
+  "visualMetadataSnapshot": {
+    "alt": "HP13 S1の公式S1同定情報を基礎に、未確認の品種固有形態を付加せず作成するAI生成の植物学的参考ビジュアル",
+    "rights": "AI-generated project asset for Cannabis Strain Wisdom. No third-party image is copied; the prompt is constrained to claims supported by the cited official cultivar page.",
+    "scope": "cultivar",
+    "aiGenerated": true,
+    "sourceType": "aiGenerated"
+  },
+  "expectedInboxFilename": "hp13-s1.jpg",
+  "expectedPrimaryPath": "strains/hp13-s1/images/generated/primary.webp",
+  "generatedAt": null,
+  "approvalStatus": "pending",
+  "approvedAt": null,
+  "approvalType": "human-visual-review",
+  "approvedManifestRevision": null,
+  "approvedAttempt": null,
+  "approvedSourceSha256": null,
+  "imageInboxCommit": null,
+  "imageProcessingCommit": null,
+  "processedPrimaryBlobSha": null,
+  "processedPrimarySha256": null,
+  "width": null,
+  "height": null,
+  "audit": [
+    {
+      "severity": "INFO",
+      "code": "MANIFEST_CREATED",
+      "at": "2026-08-19T10:05:33Z",
+      "productionPhase": "IMAGE_PENDING",
+      "note": "Created by PRODUCTION START V1. Candidate output is review-only and cannot publish."
+    }
+  ]
+}

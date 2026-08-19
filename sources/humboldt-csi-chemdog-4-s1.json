@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "id": "humboldt-csi-chemdog-4-s1",
+  "publisher": "Humboldt CSI",
+  "title": "Chemdog #4 S1",
+  "url": "https://www.humboldtcsi.com/product/chemdog-4-s1/",
+  "sourceType": "breederOfficial",
+  "supports": [
+    "lineage",
+    "breeder",
+    "generation",
+    "breeding"
+  ],
+  "publishedAt": null,
+  "checkedAt": "2026-08-19",
+  "note": "Official Humboldt CSI product page identifies Chemdog #4 S1 as Chemdog #4 × Chemdog #4 and lists feminized seeds. No unsupported cultivar-wide visual morphology is added."
+}

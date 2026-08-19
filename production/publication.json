@@ -211,6 +211,46 @@
       "bootstrapMasterSha": null,
       "unpublishedAt": null,
       "unpublicationReason": null
+    },
+    {
+      "strainId": "apple-fritter-s1",
+      "state": "pending",
+      "origin": "content-production",
+      "introducedByRun": "content-production-start-32240921338",
+      "publishedAt": null,
+      "bootstrapMasterSha": null
+    },
+    {
+      "strainId": "chemdog-1-s1",
+      "state": "pending",
+      "origin": "content-production",
+      "introducedByRun": "content-production-start-32240921338",
+      "publishedAt": null,
+      "bootstrapMasterSha": null
+    },
+    {
+      "strainId": "chemdog-4-s1",
+      "state": "pending",
+      "origin": "content-production",
+      "introducedByRun": "content-production-start-32240921338",
+      "publishedAt": null,
+      "bootstrapMasterSha": null
+    },
+    {
+      "strainId": "granddaddy-purple-s1",
+      "state": "pending",
+      "origin": "content-production",
+      "introducedByRun": "content-production-start-32240921338",
+      "publishedAt": null,
+      "bootstrapMasterSha": null
+    },
+    {
+      "strainId": "hp13-s1",
+      "state": "pending",
+      "origin": "content-production",
+      "introducedByRun": "content-production-start-32240921338",
+      "publishedAt": null,
+      "bootstrapMasterSha": null
     }
   ]
 }

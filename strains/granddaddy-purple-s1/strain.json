@@ -1,0 +1,66 @@
+{
+  "schemaVersion": 1,
+  "id": "granddaddy-purple-s1",
+  "status": "review",
+  "name": "GrandDaddy Purple S1",
+  "jp": null,
+  "aliases": [],
+  "classification": {
+    "type": "unknown"
+  },
+  "breeding": {
+    "generation": "S1",
+    "method": "selfed"
+  },
+  "lineage": {
+    "status": "confirmed",
+    "confidence": "A",
+    "basis": "breederOfficial",
+    "sourceRefs": [
+      "humboldt-csi-granddaddy-purple-s1"
+    ],
+    "display": "GrandDaddy Purple × GrandDaddy Purple",
+    "parents": [
+      "GrandDaddy Purple"
+    ],
+    "note": "Humboldt CSI's official GrandDaddy Purple S1 page lists the cultivar as GrandDaddy Purple × GrandDaddy Purple. Together with the official S1 designation, this is treated as a selfed S1 line. No unstated ancestry is copied from the parent cultivar."
+  },
+  "relations": [
+    {
+      "entityId": "humboldt-csi",
+      "roles": [
+        "breeder",
+        "seedCompany"
+      ],
+      "status": "confirmed",
+      "confidence": "A",
+      "basis": "breederOfficial",
+      "sourceRefs": [
+        "humboldt-csi-granddaddy-purple-s1"
+      ]
+    }
+  ],
+  "aromas": {
+    "status": "unknown",
+    "items": [],
+    "note": "The official GrandDaddy Purple S1 product page is not used to generalize parent-cut aroma claims to the complete S1 line."
+  },
+  "terpenes": {
+    "status": "unknown",
+    "items": [],
+    "note": "The official GrandDaddy Purple S1 product page does not provide a cultivar-specific lot terpene profile or COA for the S1 line."
+  },
+  "origin": {
+    "status": "unknown",
+    "text": "",
+    "note": "The official GrandDaddy Purple S1 page does not state the S1 line's exact creation location; no inferred location is added."
+  },
+  "history": {
+    "status": "unknown",
+    "text": "",
+    "note": "The official GrandDaddy Purple S1 page does not provide a sufficiently bounded cultivar-specific release chronology for this atlas entry; no secondary history is imported."
+  },
+  "visuals": [],
+  "checkedAt": "2026-08-19",
+  "updatedAt": "2026-08-19"
+}

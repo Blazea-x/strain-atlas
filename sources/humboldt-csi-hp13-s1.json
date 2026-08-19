@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "id": "humboldt-csi-hp13-s1",
+  "publisher": "Humboldt CSI",
+  "title": "HP13 S1",
+  "url": "https://humboldtcsi.com/product/hp13-s1/",
+  "sourceType": "breederOfficial",
+  "supports": [
+    "lineage",
+    "breeder",
+    "generation",
+    "breeding"
+  ],
+  "publishedAt": null,
+  "checkedAt": "2026-08-19",
+  "note": "Official Humboldt CSI product page identifies HP13 S1 as HP13 × HP13 and describes it as S1s of the original heirloom clone. No unsupported cultivar-wide visual morphology is added."
+}

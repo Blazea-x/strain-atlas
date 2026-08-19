@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "id": "humboldt-csi-apple-fritter-s1",
+  "publisher": "Humboldt CSI",
+  "title": "Apple Fritter S1",
+  "url": "https://www.humboldtcsi.com/product/apple-fritter-s1/",
+  "sourceType": "breederOfficial",
+  "supports": [
+    "lineage",
+    "breeder",
+    "generation",
+    "breeding"
+  ],
+  "publishedAt": null,
+  "checkedAt": "2026-08-19",
+  "note": "Official Humboldt CSI product page identifies Apple Fritter S1 as Apple Fritter × Apple Fritter and lists feminized seeds. The page also warns of instability under heavy indoor stress; that caveat is not generalized into visual morphology."
+}
