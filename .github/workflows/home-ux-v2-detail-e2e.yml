@@ -1,0 +1,83 @@
+name: HOME UX V2 Detail E2E
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/home-ux-v2-detail-e2e.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    env:
+      SITE_URL: https://blazea-x.github.io/strain-atlas/
+    steps:
+      - uses: actions/checkout@v4
+      - name: Confirm deployed index is current
+        run: |
+          curl -fsSL "${SITE_URL}?detail-e2e=${GITHUB_RUN_ID}" -o /tmp/public-index.html
+          test "$(sha256sum index.html | cut -d' ' -f1)" = "$(sha256sum /tmp/public-index.html | cut -d' ' -f1)"
+          grep -q 'home-ux-v2.js?v=3' /tmp/public-index.html
+      - name: Install Selenium
+        run: python -m pip install --disable-pip-version-check --quiet selenium
+      - name: Run detail browser checks
+        env:
+          RUN_ID: ${{ github.run_id }}
+        run: |
+          python - <<'PY'
+          import json,os,time,traceback
+          from pathlib import Path
+          from selenium import webdriver
+          from selenium.webdriver.chrome.options import Options
+          from selenium.webdriver.chrome.service import Service
+          from selenium.webdriver.common.by import By
+          from selenium.webdriver.support.ui import WebDriverWait
+          SITE=os.environ['SITE_URL']; OUT=Path('home-ux-v2-detail-e2e'); OUT.mkdir(exist_ok=True)
+          r={'runId':os.environ['RUN_ID'],'site':SITE,'checks':{},'errors':[]}
+          o=Options(); o.add_argument('--headless=new'); o.add_argument('--no-sandbox'); o.add_argument('--disable-dev-shm-usage'); o.add_argument('--window-size=390,844')
+          d=webdriver.Chrome(service=Service('/usr/bin/chromedriver'),options=o); w=WebDriverWait(d,25)
+          def rec(name,fn):
+            try:r['checks'][name]={'pass':True,'detail':fn()}
+            except Exception as e:r['checks'][name]={'pass':False,'detail':f'{type(e).__name__}: {e}'};r['errors'].append(name)
+          def load(url=SITE):
+            d.get(url); w.until(lambda x:len(x.find_elements(By.CSS_SELECTOR,'#cultivar-grid [data-strain-id]'))==38)
+          def search(q):
+            d.execute_script("const s=document.getElementById('search');s.value=arguments[0];s.dispatchEvent(new Event('input',{bubbles:true}));",q);time.sleep(.3)
+          def open_card(sid):
+            c=d.find_element(By.CSS_SELECTOR,f'#cultivar-grid [data-strain-id="{sid}"]');d.execute_script('arguments[0].scrollIntoView({block:"center"})',c);y=d.execute_script('return scrollY');d.execute_script('arguments[0].click()',c);w.until(lambda x:x.find_element(By.ID,'detail-dialog').get_attribute('open') is not None);return y
+          try:
+            def direct():
+              load(SITE+'?strain=ak-47');w.until(lambda x:x.find_element(By.ID,'detail-dialog').get_attribute('open') is not None);formal=w.until(lambda x:x.find_element(By.CSS_SELECTOR,'.detail-registered-name').text);heading=d.find_element(By.CSS_SELECTOR,'.detail-hero-copy h2').text;assert formal=='正式登録名: AK-47';assert 'AK-47' in heading and 'F1' in heading;return {'formal':formal,'heading':heading}
+            rec('direct-ak47',direct)
+            def wedding():
+              load();search('Wedding Cake S1');y=open_card('wedding-cake-s1');formal=w.until(lambda x:x.find_element(By.CSS_SELECTOR,'.detail-registered-name').text);txt=d.find_element(By.ID,'detail-shell').text;assert formal=='正式登録名: Wedding Cake S1';assert 'Wedding Cake' in txt and 'S1' in txt and '系譜 / LINEAGE' in txt and '出典 / SOURCES' in txt;d.save_screenshot(str(OUT/'wedding-cake-s1-detail.png'));d.execute_script('arguments[0].click()',d.find_element(By.CSS_SELECTOR,'.close-detail'));w.until(lambda x:x.find_element(By.ID,'detail-dialog').get_attribute('open') is None);time.sleep(.2);delta=abs(d.execute_script('return scrollY')-y);assert delta<40,delta;return {'formal':formal,'scrollDelta':delta}
+            rec('wedding-cake-s1-detail',wedding)
+            def full_fields():
+              load();search('Super Lemon Haze');open_card('super-lemon-haze');txt=d.find_element(By.ID,'detail-shell').text;required=['系譜 / LINEAGE','香り / AROMA','テルペン / TERPENE','歴史 / HISTORY','出典 / SOURCES'];assert all(x in txt for x in required),[x for x in required if x not in txt];links=len(d.find_elements(By.CSS_SELECTOR,'.source-link'));assert links>=1;return {'labels':required,'sourceLinks':links}
+            rec('full-detail-fields',full_fields)
+          except Exception:r['errors'].append('unexpected-abort');r['traceback']=traceback.format_exc()
+          finally:r['pass']=not r['errors'] and all(v['pass'] for v in r['checks'].values());(OUT/'result.json').write_text(json.dumps(r,ensure_ascii=False,indent=2));d.quit()
+          PY
+      - name: Upload detail artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: home-ux-v2-detail-e2e-${{ github.run_id }}
+          path: home-ux-v2-detail-e2e/
+      - name: Persist result
+        if: always()
+        run: |
+          mkdir -p .github/home-ux-v2-e2e
+          cp home-ux-v2-detail-e2e/result.json .github/home-ux-v2-e2e/detail.json
+          git config user.name 'home-ux-v2-e2e-bot'
+          git config user.email 'actions@users.noreply.github.com'
+          git pull --rebase origin main
+          git add .github/home-ux-v2-e2e/detail.json
+          git commit -m 'Record HOME UX V2 detail E2E [skip ci]'
+          git push origin HEAD:main
+      - name: Enforce result
+        if: always()
+        run: python -c "import json; assert json.load(open('home-ux-v2-detail-e2e/result.json'))['pass']"
