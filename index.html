@@ -10,6 +10,7 @@
   <link rel="stylesheet" href="preview/home-layout.css?v=2">
   <link rel="stylesheet" href="preview/home-viewport.css?v=2">
   <link rel="stylesheet" href="preview/home-entrance-v1.css?v=5">
+  <link rel="stylesheet" href="preview/site-trust-v1.css?v=1">
 </head>
 <body>
   <div class="data-state" id="data-state" hidden>LOADING</div>
@@ -53,6 +54,12 @@
     </section>
 
     <div class="home-content" id="home-content">
+      <section class="home-section trust-updates" id="updates" aria-labelledby="updates-title">
+        <div class="home-section-head"><div><span class="section-kicker">UPDATES</span><h2 id="updates-title">お知らせ</h2><p>サイト機能・データ表示・運用方針の更新</p></div></div>
+        <div class="updates-state" id="updates-state">お知らせを確認しています</div>
+        <div class="updates-list" id="updates-list" aria-live="polite"></div>
+      </section>
+
       <section class="home-section latest-section" aria-labelledby="latest-title">
         <div class="home-section-head"><div><span class="section-kicker">RECENTLY PUBLISHED</span><h2 id="latest-title">新着の品種</h2><p>最近アーカイブに追加された品種</p></div><span class="section-count" id="latest-count">6件</span></div>
         <div class="latest-state" id="latest-state">新着情報を確認しています</div>
@@ -66,10 +73,56 @@
         <section class="cultivar-grid" id="cultivar-grid" aria-live="polite"></section>
         <div class="empty" id="empty" hidden>該当する品種はありません。</div>
       </section>
+
+      <section class="home-section trust-about" id="about" aria-labelledby="about-title">
+        <div class="home-section-head"><div><span class="section-kicker">ABOUT THIS ARCHIVE</span><h2 id="about-title">この図鑑について</h2><p>情報の読み方と、このアーカイブが扱う範囲</p></div></div>
+        <p class="trust-about-intro">必要な項目だけ開いて確認できます。検索・絞り込み中も、結果一覧の後ろから同じ説明へアクセスできます。</p>
+        <div class="about-accordion">
+          <details class="about-item">
+            <summary><span class="about-label">データと出典について</span><span class="about-code">EVIDENCE &amp; SOURCES</span></summary>
+            <div class="about-body">
+              <p>各品種の詳細には、系譜・起源・香り・歴史などの記述に使用した出典へのリンクを掲載しています。</p>
+              <p>ブリーダーや公式ブランド、公式資料などの一次情報を優先し、一次情報だけでは確認できない内容については信頼できる二次資料も参照します。</p>
+              <p>出典によって内容が異なる場合は、ひとつの説を事実として固定せず、確認できた根拠と確度を分けて表示します。詳細画面のSOURCESから、実際に参照した情報源を確認できます。</p>
+              <p><strong>A / B / C / UNKNOWN</strong> は、情報の根拠や確認状況を示すための表示です。確度の高い情報と、資料間で食い違いがある情報、十分な根拠を確認できていない情報を同じ扱いにしないために使用しています。UNKNOWNは「存在しない」という意味ではなく、現時点で十分な根拠を確認できていない状態を示します。</p>
+              <p class="about-note">詳しい根拠は各項目に紐づくSOURCESから確認できます。外部資料は公開元の更新等により内容が変更される場合があります。</p>
+            </div>
+          </details>
+
+          <details class="about-item">
+            <summary><span class="about-label">掲載画像について</span><span class="about-code">VISUAL POLICY</span></summary>
+            <div class="about-body">
+              <p>掲載画像には、AI生成による参考ビジュアルを含みます。</p>
+              <p>品種ごとの公開情報や確認できた形態的特徴を参考に制作していますが、特定の実物個体を撮影した写真とは限りません。画像は品種の視覚的理解を補助するための参考資料です。</p>
+              <p>画像だけを根拠に、品種の同定や性質を断定するものではありません。</p>
+              <p><strong>AI生成による参考ビジュアルは、系譜・起源・香り・テルペン・歴史などの事実確認に使用する出典ではありません。</strong>画像の内容を根拠として情報の確度を上げたり、未確認の品種情報を補完することはありません。</p>
+              <p class="about-note">品種情報の根拠は、各項目に紐づくSOURCESと確認済みデータを基準とします。</p>
+            </div>
+          </details>
+
+          <details class="about-item">
+            <summary><span class="about-label">品種情報について</span><span class="about-code">CULTIVAR INFORMATION</span></summary>
+            <div class="about-body">
+              <p>同じ品種名でも、ブリーダー・系統・世代によって遺伝的背景や特徴が異なる場合があります。</p>
+              <p>また、形態・香りなどの表現は、個体や環境によって変化します。</p>
+              <p>本サイトでは、確認できた系統・出典を基準に記録しており、すべての個体に同じ特徴が現れることを保証するものではありません。</p>
+            </div>
+          </details>
+
+          <details class="about-item">
+            <summary><span class="about-label">訂正・更新について</span><span class="about-code">CORRECTIONS &amp; UPDATES</span></summary>
+            <div class="about-body">
+              <p>新しい一次情報や、より信頼性の高い資料が確認できた場合は、既存情報を更新することがあります。</p>
+              <p>系譜・起源・歴史などに異なる説が確認された場合も、出典を再確認したうえで、確度表示や記述を見直します。</p>
+              <p>本サイトでは、一度掲載した情報を固定された事実として扱わず、確認できる根拠に応じて更新します。</p>
+            </div>
+          </details>
+        </div>
+      </section>
     </div>
 
     <footer class="catalog-meta" id="catalog-meta"></footer>
   </main>
   <dialog class="detail-dialog" id="detail-dialog"><div class="detail-shell" id="detail-shell"></div></dialog>
-  <script src="preview/app.js?v=8" defer></script><script src="preview/home-hero-v1.js?v=2" defer></script><script src="preview/detail-gallery.js?v=1" defer></script><script src="preview/home-ux-v2.js?v=5" defer></script>
+  <script src="preview/app.js?v=8" defer></script><script src="preview/home-hero-v1.js?v=2" defer></script><script src="preview/detail-gallery.js?v=1" defer></script><script src="preview/home-ux-v2.js?v=5" defer></script><script src="preview/site-trust-v1.js?v=1" defer></script>
 </body></html>
