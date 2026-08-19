@@ -120,11 +120,11 @@ jobs:
           done
           export SITE_UNDER_TEST="${SITE%/}/?verify=browser-$(date +%s%N)"
           cat >/tmp/cdp_verify.py <<'PY'
-          import base64, json, os, time, urllib.request
+          import json, os, time, urllib.request
           import websocket
 
           targets=json.load(urllib.request.urlopen('http://127.0.0.1:9222/json/list'))
-          ws=websocket.create_connection(targets[0]['webSocketDebuggerUrl'], timeout=30)
+          ws=websocket.create_connection(targets[0]['webSocketDebuggerUrl'], timeout=20)
           seq=0
           def send(method, params=None):
               global seq
@@ -189,11 +189,6 @@ jobs:
           media=ev("document.querySelector('[data-content-panel=\"media\"]')?.hidden===false")
           ev("document.querySelector('.legal-alert').open=true")
           legal_open=ev("document.querySelector('.legal-alert')?.open===true")
-          ev("document.querySelector('[data-home-target=\"explore\"]')?.click()")
-          time.sleep(.4)
-          shot=send('Page.captureScreenshot', {'format':'png','captureBeyondViewport':False,'fromSurface':True})
-          with open('/tmp/home-entrance-v1-live.png','wb') as fh:
-              fh.write(base64.b64decode(shot['data']))
           result={'initial':initial,'search':search,'detail':detail,'explore':explore,'media':media,'legalOpen':legal_open}
           with open('/tmp/ui.json','w',encoding='utf-8') as fh:
               json.dump(result,fh,ensure_ascii=False,indent=2)
@@ -229,6 +224,12 @@ jobs:
             (.legalOpen == true)
           ' /tmp/ui.json >/dev/null
 
+          kill "$chrome_pid" 2>/dev/null || true
+          trap - EXIT
+          timeout 45s "$browser" --headless=new --no-sandbox --disable-gpu --window-size=390,844 --virtual-time-budget=12000 --run-all-compositor-stages-before-draw --user-data-dir=/tmp/csw-shot --screenshot=/tmp/home-entrance-v1-live.png "$SITE_UNDER_TEST" >/tmp/screenshot.log 2>&1
+          test -s /tmp/home-entrance-v1-live.png
+          file /tmp/home-entrance-v1-live.png | grep -qi 'PNG image'
+
       - name: Build final verification report
         env:
           SITE: ${{ steps.pages.outputs.site }}
@@ -242,7 +243,6 @@ jobs:
           DEPLOY_RUN_ID: ${{ steps.pages.outputs.deploy_run_id }}
           DEPLOY_RUN_NAME: ${{ steps.pages.outputs.deploy_run_name }}
           DEPLOY_RUN_CONCLUSION: ${{ steps.pages.outputs.deploy_run_conclusion }}
-          ARTIFACT_COUNT: ${{ steps.pages.outputs.artifact_count }}
           ARTIFACT_SUMMARY: ${{ steps.pages.outputs.artifact_summary }}
           CULTIVAR_COUNT: ${{ steps.assets.outputs.cultivar_count }}
           SOURCE_COUNT: ${{ steps.assets.outputs.source_count }}
