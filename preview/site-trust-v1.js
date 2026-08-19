@@ -6,12 +6,20 @@
   const updatesSection = document.getElementById("updates");
   const updatesList = document.getElementById("updates-list");
   const updatesState = document.getElementById("updates-state");
+  const updatesSummaryMeta = document.getElementById("updates-summary-meta");
   const latestSection = document.querySelector(".latest-section");
   const catalogMeta = document.getElementById("catalog-meta");
 
+  function updatesFooterLink() {
+    return catalogMeta?.querySelector('.catalog-footer-links a[href="#updates"]') || null;
+  }
+
   function syncHomeOnlyVisibility() {
     if (!updatesSection) return;
-    updatesSection.hidden = Boolean(latestSection?.hidden);
+    const hidden = Boolean(latestSection?.hidden);
+    updatesSection.hidden = hidden;
+    const link = updatesFooterLink();
+    if (link) link.hidden = hidden;
   }
 
   function normalizeEntry(entry, index) {
@@ -30,9 +38,20 @@
     return date.replace(/-/g, ".");
   }
 
+  function renderSummary(entries) {
+    if (!updatesSummaryMeta) return;
+    if (!entries.length) {
+      updatesSummaryMeta.textContent = "0件";
+      return;
+    }
+    updatesSummaryMeta.textContent = `最新 ${formatDate(entries[0].date)} ・ ${entries.length}件`;
+  }
+
   function renderUpdates(entries) {
     if (!updatesList || !updatesState) return;
     updatesList.replaceChildren();
+    renderSummary(entries);
+
     if (!entries.length) {
       updatesState.textContent = "現在お知らせはありません";
       updatesState.hidden = false;
@@ -65,6 +84,7 @@
       row.append(meta, copy);
       fragment.appendChild(row);
     });
+
     updatesList.appendChild(fragment);
     updatesState.hidden = true;
   }
@@ -91,10 +111,12 @@
   function patchFooterLinks() {
     const nav = catalogMeta?.querySelector(".catalog-footer-links");
     if (!nav) return;
+
     const links = [
       ["#updates", "お知らせ"],
       ["#about", "この図鑑について"]
     ];
+
     links.forEach(([href, label]) => {
       if (nav.querySelector(`a[href="${href}"]`)) return;
       const link = document.createElement("a");
@@ -102,6 +124,8 @@
       link.textContent = label;
       nav.appendChild(link);
     });
+
+    syncHomeOnlyVisibility();
   }
 
   if (latestSection) {
