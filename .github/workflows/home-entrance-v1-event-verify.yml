@@ -1,0 +1,184 @@
+name: HOME ENTRANCE V1 EVENT VERIFY
+
+on:
+  issues:
+    types: [edited]
+
+permissions:
+  contents: read
+  actions: read
+  pages: read
+  issues: write
+  deployments: read
+
+jobs:
+  verify-public-site:
+    if: github.event.issue.number == 13
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Verify Pages source and deployment
+        id: pages
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          repo="$GITHUB_REPOSITORY"
+          pages="$(gh api "repos/$repo/pages")"
+          site="$(jq -r '.html_url' <<<"$pages")"
+          build_type="$(jq -r '.build_type // "unknown"' <<<"$pages")"
+          source_branch="$(jq -r '.source.branch // ""' <<<"$pages")"
+          source_path="$(jq -r '.source.path // ""' <<<"$pages")"
+          printf 'site=%s\n' "$site" >> "$GITHUB_OUTPUT"
+          printf 'build_type=%s\n' "$build_type" >> "$GITHUB_OUTPUT"
+          printf 'source_branch=%s\n' "$source_branch" >> "$GITHUB_OUTPUT"
+          printf 'source_path=%s\n' "$source_path" >> "$GITHUB_OUTPUT"
+
+          deployment_id=""; deployment_sha=""; deployment_state=""
+          for _ in $(seq 1 48); do
+            deployments="$(gh api "repos/$repo/deployments?environment=github-pages&per_page=10")"
+            deployment_id="$(jq -r '.[0].id // empty' <<<"$deployments")"
+            deployment_sha="$(jq -r '.[0].sha // empty' <<<"$deployments")"
+            if [[ -n "$deployment_id" ]]; then
+              deployment_state="$(gh api "repos/$repo/deployments/$deployment_id/statuses?per_page=20" --jq '.[0].state // "unknown"')"
+            fi
+            if [[ "$deployment_state" == success && "$deployment_sha" == "$GITHUB_SHA" ]]; then break; fi
+            sleep 10
+          done
+          [[ "$deployment_state" == success && "$deployment_sha" == "$GITHUB_SHA" ]]
+          printf 'deployment_id=%s\n' "$deployment_id" >> "$GITHUB_OUTPUT"
+          printf 'deployment_sha=%s\n' "$deployment_sha" >> "$GITHUB_OUTPUT"
+          printf 'deployment_state=%s\n' "$deployment_state" >> "$GITHUB_OUTPUT"
+
+          runs="$(gh api "repos/$repo/actions/runs?per_page=100")"
+          pages_run="$(jq -c '[.workflow_runs[] | select(((.path // "") | contains("pages-build-deployment")) or ((.name // "") | ascii_downcase | contains("pages build")))] | first // {}' <<<"$runs")"
+          printf 'pages_run_id=%s\n' "$(jq -r '.id // empty' <<<"$pages_run")" >> "$GITHUB_OUTPUT"
+          printf 'pages_run_name=%s\n' "$(jq -r '.name // empty' <<<"$pages_run")" >> "$GITHUB_OUTPUT"
+          printf 'pages_run_path=%s\n' "$(jq -r '.path // empty' <<<"$pages_run")" >> "$GITHUB_OUTPUT"
+          printf 'pages_run_sha=%s\n' "$(jq -r '.head_sha // empty' <<<"$pages_run")" >> "$GITHUB_OUTPUT"
+          printf 'pages_run_conclusion=%s\n' "$(jq -r '.conclusion // empty' <<<"$pages_run")" >> "$GITHUB_OUTPUT"
+          pages_run_id="$(jq -r '.id // empty' <<<"$pages_run")"
+          if [[ -n "$pages_run_id" ]]; then
+            artifacts="$(gh api "repos/$repo/actions/runs/$pages_run_id/artifacts?per_page=100")"
+            printf 'artifact_count=%s\n' "$(jq -r '.total_count // 0' <<<"$artifacts")" >> "$GITHUB_OUTPUT"
+            printf 'artifact_names=%s\n' "$(jq -r '[.artifacts[].name] | join(", ")' <<<"$artifacts")" >> "$GITHUB_OUTPUT"
+          else
+            printf 'artifact_count=0\nartifact_names=\n' >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Verify public UI in headless Chrome
+        id: ui
+        env:
+          SITE: ${{ steps.pages.outputs.site }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          site="${SITE%/}/"
+          for _ in $(seq 1 30); do
+            if curl -fsSL -H 'Cache-Control: no-cache' "${site}?verify=${GITHUB_SHA}-$(date +%s%N)" -o /tmp/live.html \
+              && grep -q 'EDUCATIONAL ARCHIVE' /tmp/live.html \
+              && grep -q 'preview/home-entrance-v1.css?v=2' /tmp/live.html \
+              && grep -q 'preview/home-hero-v1.js?v=2' /tmp/live.html \
+              && ! grep -q 'MASTER PREVIEW' /tmp/live.html; then break; fi
+            sleep 10
+          done
+          grep -q 'EDUCATIONAL ARCHIVE' /tmp/live.html
+          ! grep -q 'MASTER PREVIEW' /tmp/live.html
+
+          curl -fsSL -H 'Cache-Control: no-cache' "https://raw.githubusercontent.com/Blazea-x/strain-atlas/master-migration/runtime/catalog.json?verify=${GITHUB_SHA}" -o /tmp/catalog.json
+          jq -e '.counts.cultivars > 0 and (.cultivars | any(.id == "bubble-gum" and (.visuals | any(.role == "primary"))))' /tmp/catalog.json >/dev/null
+          count="$(jq -r '.counts.cultivars' /tmp/catalog.json)"
+          bubble_src="$(jq -r '.cultivars[] | select(.id == "bubble-gum") | .visuals[] | select(.role == "primary") | .src' /tmp/catalog.json | head -n1)"
+          curl -fsSL -H 'Cache-Control: no-cache' "https://raw.githubusercontent.com/Blazea-x/strain-atlas/master-migration/${bubble_src}?verify=${GITHUB_SHA}" -o /tmp/bubble.webp
+          file /tmp/bubble.webp | grep -qi 'Web/P image\|WebP'
+
+          browser="$(command -v google-chrome || command -v chromium || command -v chromium-browser || true)"
+          [[ -n "$browser" ]]
+          "$browser" --headless=new --no-sandbox --disable-gpu --remote-debugging-port=9222 --user-data-dir=/tmp/csw-chrome about:blank >/tmp/chrome.log 2>&1 &
+          chrome_pid=$!
+          trap 'kill "$chrome_pid" 2>/dev/null || true' EXIT
+          for _ in $(seq 1 30); do
+            curl -fsS http://127.0.0.1:9222/json/list >/tmp/targets.json 2>/dev/null && jq -e 'length > 0' /tmp/targets.json >/dev/null && break
+            sleep 1
+          done
+          export SITE_UNDER_TEST="${site}?verify=${GITHUB_SHA}-browser"
+          cat >/tmp/cdp.mjs <<'NODE'
+          import fs from 'node:fs';
+          const targets=await (await fetch('http://127.0.0.1:9222/json/list')).json();
+          const u=targets[0]?.webSocketDebuggerUrl;
+          if(!u||typeof WebSocket==='undefined') throw new Error('WebSocket unavailable');
+          const ws=new WebSocket(u), pending=new Map(); let seq=0;
+          ws.onmessage=e=>{const m=JSON.parse(e.data);if(m.id&&pending.has(m.id)){const p=pending.get(m.id);pending.delete(m.id);m.error?p.reject(new Error(m.error.message)):p.resolve(m.result)}};
+          await new Promise((r,j)=>{ws.onopen=r;ws.onerror=j});
+          const send=(method,params={})=>new Promise((resolve,reject)=>{const id=++seq;pending.set(id,{resolve,reject});ws.send(JSON.stringify({id,method,params}))});
+          const wait=ms=>new Promise(r=>setTimeout(r,ms));
+          const ev=async expression=>(await send('Runtime.evaluate',{expression,returnByValue:true,awaitPromise:true})).result?.value;
+          await send('Page.enable'); await send('Runtime.enable');
+          await send('Emulation.setDeviceMetricsOverride',{width:390,height:844,deviceScaleFactor:2,mobile:true});
+          await send('Page.navigate',{url:process.env.SITE_UNDER_TEST}); await wait(12000);
+          const initial=await ev(`(()=>({masterPreview:document.body.innerText.includes('MASTER PREVIEW'),title:document.querySelector('#site-title')?.innerText||'',archive:document.body.innerText.includes('EDUCATIONAL ARCHIVE'),heroReady:document.querySelector('#home-hero-image')?.classList.contains('is-ready')||false,heroSrc:document.querySelector('#home-hero-image')?.currentSrc||'',heroCaption:document.querySelector('#home-hero-caption')?.innerText||'',searchHeight:document.querySelector('#search')?.getBoundingClientRect().height||0,explore:!!document.querySelector('[data-home-target="explore"]'),media:!!document.querySelector('[data-home-target="media"]'),legal:!!document.querySelector('.legal-alert'),legalLinks:document.querySelectorAll('.legal-alert-sources a').length,cards:document.querySelectorAll('.cultivar-card').length,dataState:document.querySelector('#data-state')?.textContent||''}))()`);
+          await ev(`(()=>{const s=document.querySelector('#search');s.value='Bubble Gum';s.dispatchEvent(new Event('input',{bubbles:true}));return true})()`); await wait(800);
+          const search=await ev(`(()=>({panel:document.querySelector('[data-content-panel="cultivars"]')?.hidden===false,first:document.querySelector('.cultivar-card .tile-name')?.innerText||'',cards:document.querySelectorAll('.cultivar-card').length}))()`);
+          await ev(`document.querySelector('.cultivar-card')?.click()`); await wait(800);
+          const detail=await ev(`(()=>({open:document.querySelector('#detail-dialog')?.open||false,topbar:document.querySelector('.detail-topbar')?.innerText||''}))()`);
+          await ev(`document.querySelector('.close-detail')?.click()`); await wait(300);
+          await ev(`document.querySelector('[data-home-target="explore"]')?.click()`); await wait(400);
+          const explore=await ev(`document.querySelector('[data-content-panel="explore"]')?.hidden===false`);
+          await ev(`document.querySelector('[data-home-target="media"]')?.click()`); await wait(400);
+          const media=await ev(`document.querySelector('[data-content-panel="media"]')?.hidden===false`);
+          await ev(`document.querySelector('.legal-alert').open=true`);
+          const legalOpen=await ev(`document.querySelector('.legal-alert')?.open===true`);
+          await ev(`document.querySelector('[data-home-target="explore"]')?.click()`); await wait(300);
+          const shot=await send('Page.captureScreenshot',{format:'png',captureBeyondViewport:false,fromSurface:true});
+          fs.writeFileSync('/tmp/home.png',Buffer.from(shot.data,'base64'));
+          fs.writeFileSync('/tmp/ui.json',JSON.stringify({initial,search,detail,explore,media,legalOpen},null,2));
+          ws.close();
+NODE
+          node /tmp/cdp.mjs
+          cat /tmp/ui.json
+          jq -e '(.initial.masterPreview==false) and (.initial.title|contains("Cannabis")) and (.initial.archive==true) and (.initial.heroReady==true) and (.initial.heroCaption|contains("ARCHIVE VISUAL")) and (.initial.heroCaption|contains("Bubble Gum")) and (.initial.searchHeight>=50) and (.initial.explore==true) and (.initial.media==true) and (.initial.legal==true) and (.initial.legalLinks>=3) and (.initial.cards>0) and (.initial.dataState=="MASTER DATA") and (.search.panel==true) and (.search.first=="Bubble Gum") and (.detail.open==true) and (.detail.topbar|contains("Bubble Gum")) and (.explore==true) and (.media==true) and (.legalOpen==true)' /tmp/ui.json >/dev/null
+          printf 'count=%s\n' "$count" >> "$GITHUB_OUTPUT"
+          printf 'bubble_src=%s\n' "$bubble_src" >> "$GITHUB_OUTPUT"
+
+      - name: Create report
+        env:
+          SITE: ${{ steps.pages.outputs.site }}
+          BUILD_TYPE: ${{ steps.pages.outputs.build_type }}
+          SOURCE_BRANCH: ${{ steps.pages.outputs.source_branch }}
+          SOURCE_PATH: ${{ steps.pages.outputs.source_path }}
+          DEPLOYMENT_ID: ${{ steps.pages.outputs.deployment_id }}
+          DEPLOYMENT_SHA: ${{ steps.pages.outputs.deployment_sha }}
+          DEPLOYMENT_STATE: ${{ steps.pages.outputs.deployment_state }}
+          PAGES_RUN_ID: ${{ steps.pages.outputs.pages_run_id }}
+          PAGES_RUN_NAME: ${{ steps.pages.outputs.pages_run_name }}
+          PAGES_RUN_PATH: ${{ steps.pages.outputs.pages_run_path }}
+          PAGES_RUN_SHA: ${{ steps.pages.outputs.pages_run_sha }}
+          PAGES_RUN_CONCLUSION: ${{ steps.pages.outputs.pages_run_conclusion }}
+          ARTIFACT_COUNT: ${{ steps.pages.outputs.artifact_count }}
+          ARTIFACT_NAMES: ${{ steps.pages.outputs.artifact_names }}
+          COUNT: ${{ steps.ui.outputs.count }}
+          BUBBLE_SRC: ${{ steps.ui.outputs.bubble_src }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          jq -n --arg status 'PUBLIC SITE VISUAL CONFIRMED' --arg site "$SITE" --arg run "$GITHUB_RUN_ID" --arg sha "$GITHUB_SHA" --arg build "$BUILD_TYPE" --arg branch "$SOURCE_BRANCH" --arg path "$SOURCE_PATH" --arg did "$DEPLOYMENT_ID" --arg dsha "$DEPLOYMENT_SHA" --arg dstate "$DEPLOYMENT_STATE" --arg prid "$PAGES_RUN_ID" --arg prname "$PAGES_RUN_NAME" --arg prpath "$PAGES_RUN_PATH" --arg prsha "$PAGES_RUN_SHA" --arg prcon "$PAGES_RUN_CONCLUSION" --arg ac "$ARTIFACT_COUNT" --arg an "$ARTIFACT_NAMES" --arg count "$COUNT" --arg bubble "$BUBBLE_SRC" --slurpfile ui /tmp/ui.json '{status:$status,siteUrl:$site,verifier:{runId:$run,sha:$sha},pages:{buildType:$build,source:{branch:$branch,path:$path},deployment:{id:$did,sha:$dsha,state:$dstate},workflow:{runId:$prid,name:$prname,path:$prpath,headSha:$prsha,conclusion:$prcon},artifacts:{count:($ac|tonumber),names:$an}},runtime:{cultivarCount:($count|tonumber),bubbleGumPrimary:$bubble},ui:$ui[0]}' > /tmp/report.json
+          cat /tmp/report.json
+
+      - name: Upload evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: home-entrance-v1-event-verification
+          path: |
+            /tmp/report.json
+            /tmp/ui.json
+            /tmp/home.png
+          retention-days: 7
+
+      - name: Post result
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          body="$(printf 'PUBLIC SITE VISUAL CONFIRMED\n\nVerifier run: %s\nVerifier SHA: %s\n\n```json\n%s\n```' "$GITHUB_RUN_ID" "$GITHUB_SHA" "$(cat /tmp/report.json)")"
+          gh api -X POST "repos/$GITHUB_REPOSITORY/issues/13/comments" -f body="$body" >/dev/null
