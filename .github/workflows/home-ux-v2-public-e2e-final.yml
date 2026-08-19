@@ -1,0 +1,134 @@
+name: HOME UX V2 Public E2E Final
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/home-ux-v2-public-e2e-final.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    env:
+      SITE_URL: https://blazea-x.github.io/strain-atlas/
+      EXPECTED_MASTER_SHA: 910ae4c794193f75bb588fec0ca80941546bf8f7
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Selenium
+        run: |
+          google-chrome --version
+          chromedriver --version
+          python -m pip install --disable-pip-version-check --quiet selenium
+
+      - name: Run remaining public E2E checks
+        env:
+          RUN_ID: ${{ github.run_id }}
+        run: |
+          python - <<'PY'
+          import json, os, time, traceback, urllib.request
+          from pathlib import Path
+          from selenium import webdriver
+          from selenium.webdriver.chrome.options import Options
+          from selenium.webdriver.chrome.service import Service
+          from selenium.webdriver.common.by import By
+          from selenium.webdriver.support.ui import WebDriverWait
+
+          SITE=os.environ['SITE_URL']; OUT=Path('home-ux-v2-e2e-final'); OUT.mkdir(exist_ok=True)
+          result={'runId':os.environ['RUN_ID'],'site':SITE,'checks':{},'errors':[]}
+          def get_json(url):
+              req=urllib.request.Request(url,headers={'User-Agent':'home-ux-v2-e2e-final'})
+              with urllib.request.urlopen(req,timeout=30) as r:return json.load(r)
+          cat=get_json('https://raw.githubusercontent.com/Blazea-x/strain-atlas/master-migration/runtime/catalog.json')
+          pub=get_json('https://raw.githubusercontent.com/Blazea-x/strain-atlas/master-migration/production/publication.json')
+          result['counts']=cat['counts']
+          runtime={c['id'] for c in cat['cultivars']}
+          ranked=[]
+          for i,e in enumerate(pub['entries']):
+              if e.get('state')=='published' and e.get('strainId') in runtime:
+                  ranked.append((e.get('publishedAt') or '',i,e['strainId']))
+          ranked.sort(key=lambda x:(x[0] != '',x[0],x[1],x[2]),reverse=True)
+          expected_latest=[x[2] for x in ranked[:6]]
+          result['expectedLatest']=expected_latest
+
+          opts=Options(); opts.add_argument('--headless=new'); opts.add_argument('--no-sandbox'); opts.add_argument('--disable-dev-shm-usage'); opts.add_argument('--window-size=390,844')
+          d=webdriver.Chrome(service=Service('/usr/bin/chromedriver'),options=opts); w=WebDriverWait(d,25)
+          def ids(sel):return [x.get_attribute('data-strain-id') for x in d.find_elements(By.CSS_SELECTOR,sel)]
+          def load(url=SITE,wid=390,hei=844,latest=True):
+              d.set_window_size(wid,hei); d.get(url); w.until(lambda x:len(x.find_elements(By.CSS_SELECTOR,'#cultivar-grid [data-strain-id]'))==cat['counts']['cultivars'])
+              if latest:w.until(lambda x:len(x.find_elements(By.CSS_SELECTOR,'#latest-grid [data-strain-id]'))==6)
+          def js_click(sel):
+              e=d.find_element(By.CSS_SELECTOR,sel); d.execute_script('arguments[0].click()',e); time.sleep(.2)
+          def search(q):
+              d.execute_script("const s=document.getElementById('search');s.value=arguments[0];s.dispatchEvent(new Event('input',{bubbles:true}));",q); time.sleep(.3); return ids('#cultivar-grid [data-strain-id]')
+          def record(name,fn):
+              try: result['checks'][name]={'pass':True,'detail':fn()}
+              except Exception as e: result['checks'][name]={'pass':False,'detail':f'{type(e).__name__}: {e}'}; result['errors'].append(name)
+
+          try:
+              load(); d.save_screenshot(str(OUT/'public-home-390.png'))
+              d.set_window_size(1280,900); d.save_screenshot(str(OUT/'public-home-desktop.png'))
+              record('latest-six',lambda: ids('#latest-grid [data-strain-id]') if ids('#latest-grid [data-strain-id]')==expected_latest else (_ for _ in ()).throw(AssertionError(ids('#latest-grid [data-strain-id]'))))
+              record('all-count',lambda: len(ids('#cultivar-grid [data-strain-id]')) if len(ids('#cultivar-grid [data-strain-id]'))==38 else (_ for _ in ()).throw(AssertionError('not 38')))
+              def filt():
+                  js_click('[data-explore="sativa"]'); n=len(ids('#cultivar-grid [data-strain-id]')); assert n==len(cat['explore']['sativa']); js_click('[data-explore="all"]'); assert len(ids('#cultivar-grid [data-strain-id]'))==38; return {'sativa':n,'all':38}
+              record('filter',filt)
+              expected={'Bubble Gum':'bubble-gum','Wedding Cake':'wedding-cake-s1','Humboldt CSI':'wedding-cake-s1','S1':'f1-durb-s1','Kush':'bubba-kush-s1'}
+              def searches():
+                  out={}
+                  for q,target in expected.items():
+                      found=search(q); assert target in found,(q,target,found); out[q]={'count':len(found),'target':target}
+                  assert len(search(''))==38; return out
+              record('search-five-and-clear',searches)
+              def full_catalog_search():
+                  js_click('[data-explore="sativa"]'); found=search('Wedding Cake S1'); assert 'wedding-cake-s1' in found; assert 'is-active' in d.find_element(By.CSS_SELECTOR,'[data-explore="all"]').get_attribute('class'); return found
+              record('search-resets-filter',full_catalog_search)
+              def identity(q,sid,name,gen):
+                  search(q); c=d.find_element(By.CSS_SELECTOR,f'#cultivar-grid [data-strain-id="{sid}"]'); a=c.find_element(By.CSS_SELECTOR,'.tile-display-name').text; b=c.find_element(By.CSS_SELECTOR,'.generation-badge').text; assert (a,b)==(name,gen),(a,b); return {'name':a,'generation':b}
+              record('Wedding Cake S1',lambda:identity('Wedding Cake S1','wedding-cake-s1','Wedding Cake','S1'))
+              record('Bubba Kush S1',lambda:identity('Bubba Kush S1','bubba-kush-s1','Bubba Kush','S1'))
+              record('F1 Durb S1',lambda:identity('F1 Durb S1','f1-durb-s1','F1 Durb','S1'))
+              record('AK-47 F1',lambda:identity('AK-47','ak-47','AK-47','F1'))
+              def detail():
+                  search('Wedding Cake S1'); c=d.find_element(By.CSS_SELECTOR,'#cultivar-grid [data-strain-id="wedding-cake-s1"]'); d.execute_script('arguments[0].scrollIntoView({block:"center"})',c); y=d.execute_script('return scrollY'); d.execute_script('arguments[0].click()',c); w.until(lambda x:x.find_element(By.ID,'detail-dialog').get_attribute('open') is not None); txt=d.find_element(By.ID,'detail-shell').text; formal=d.find_element(By.CSS_SELECTOR,'.detail-registered-name').text; assert formal=='正式登録名: Wedding Cake S1'; assert all(x in txt for x in ['系譜 / LINEAGE','香り / AROMA','テルペン / TERPENE','歴史 / HISTORY','出典 / SOURCES']); d.execute_script('arguments[0].click()',d.find_element(By.CSS_SELECTOR,'.close-detail')); w.until(lambda x:x.find_element(By.ID,'detail-dialog').get_attribute('open') is None); time.sleep(.2); delta=abs(d.execute_script('return scrollY')-y); assert delta<40,delta; return {'formal':formal,'scrollDelta':delta}
+              record('detail-and-scroll',detail)
+              def deep():
+                  load(SITE+'?strain=ak-47',latest=False); w.until(lambda x:x.find_element(By.ID,'detail-dialog').get_attribute('open') is not None); formal=w.until(lambda x:x.find_element(By.CSS_SELECTOR,'.detail-registered-name').text); assert formal=='正式登録名: AK-47'; return formal
+              record('direct-deep-link',deep)
+              def footer():
+                  load(); t=d.find_element(By.ID,'catalog-meta').text; assert '38 品種' in t and '58 出典' in t and '12 関連組織・ブリーダー' in t; return t
+              record('footer',footer)
+              def pubfail():
+                  d.execute_cdp_cmd('Network.enable',{}); d.execute_cdp_cmd('Network.setBlockedURLs',{'urls':['*production/publication.json*']}); load(SITE+'?publication-failure=e2e',latest=False); w.until(lambda x:'新着情報を取得できません' in x.find_element(By.ID,'latest-state').text); assert len(ids('#cultivar-grid [data-strain-id]'))==38; assert d.find_element(By.ID,'site-title').is_displayed() and d.find_element(By.ID,'search').is_displayed(); msg=d.find_element(By.ID,'latest-state').text; d.execute_cdp_cmd('Network.setBlockedURLs',{'urls':[]}); return msg
+              record('publication-failure-fail-closed',pubfail)
+          except Exception:
+              result['errors'].append('unexpected-abort'); result['traceback']=traceback.format_exc()
+          finally:
+              result['pass']=not result['errors'] and all(v['pass'] for v in result['checks'].values()); (OUT/'result.json').write_text(json.dumps(result,ensure_ascii=False,indent=2)); d.quit()
+          PY
+
+      - name: Upload E2E artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: home-ux-v2-public-e2e-final-${{ github.run_id }}
+          path: home-ux-v2-e2e-final/
+
+      - name: Persist result pointer
+        if: always()
+        run: |
+          mkdir -p .github/home-ux-v2-e2e
+          cp home-ux-v2-e2e-final/result.json .github/home-ux-v2-e2e/final.json
+          git config user.name 'home-ux-v2-e2e-bot'
+          git config user.email 'actions@users.noreply.github.com'
+          git pull --rebase origin main
+          git add .github/home-ux-v2-e2e/final.json
+          git commit -m 'Record final HOME UX V2 public E2E [skip ci]'
+          git push origin HEAD:main
+
+      - name: Enforce result
+        if: always()
+        run: python -c "import json; assert json.load(open('home-ux-v2-e2e-final/result.json'))['pass']"
