@@ -1,0 +1,112 @@
+{
+  "runId": "32291267011",
+  "site": "https://blazea-x.github.io/strain-atlas/",
+  "latest": [
+    "mazar",
+    "jack-herer",
+    "golden-tiger",
+    "ak-47",
+    "acapulco-gold",
+    "f1-durb-s1"
+  ],
+  "checks": {
+    "home-390": {
+      "pass": true,
+      "detail": "PASS"
+    },
+    "brand-bubble-legal": {
+      "pass": true,
+      "detail": "PASS"
+    },
+    "latest-six-stable": {
+      "pass": true,
+      "detail": [
+        "mazar",
+        "jack-herer",
+        "golden-tiger",
+        "ak-47",
+        "acapulco-gold",
+        "f1-durb-s1"
+      ]
+    },
+    "home-430-two-column": {
+      "pass": true,
+      "detail": [
+        507,
+        507,
+        739
+      ]
+    },
+    "desktop": {
+      "pass": true,
+      "detail": "PASS"
+    },
+    "filter": {
+      "pass": true,
+      "detail": {
+        "sativa": 13,
+        "all": 38
+      }
+    },
+    "search-all-catalog": {
+      "pass": true,
+      "detail": {
+        "Bubble Gum": 2,
+        "Wedding Cake": 2,
+        "Humboldt CSI": 12,
+        "S1": 14,
+        "Kush": 7
+      }
+    },
+    "generation-wedding": {
+      "pass": true,
+      "detail": [
+        "Wedding Cake",
+        "S1"
+      ]
+    },
+    "generation-bubba": {
+      "pass": true,
+      "detail": [
+        "Bubba Kush",
+        "S1"
+      ]
+    },
+    "generation-f1-durb": {
+      "pass": true,
+      "detail": [
+        "F1 Durb",
+        "S1"
+      ]
+    },
+    "generation-ak47": {
+      "pass": true,
+      "detail": [
+        "AK-47",
+        "F1"
+      ]
+    },
+    "detail-scroll": {
+      "pass": false,
+      "detail": "AssertionError: 44"
+    },
+    "deep-link-and-detail-fields": {
+      "pass": true,
+      "detail": [
+        "系譜 / LINEAGE",
+        "香り / AROMA",
+        "テルペン / TERPENE",
+        "歴史 / HISTORY",
+        "出典 / SOURCES"
+      ]
+    },
+    "publication-fail-closed": {
+      "pass": true,
+      "detail": "新着情報を取得できません"
+    }
+  },
+  "errors": [
+    "detail-scroll"
+  ],
+  "pass": false
+}
