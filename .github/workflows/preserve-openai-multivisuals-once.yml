@@ -29,7 +29,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          EXPECTED_BASE="f307f10657a1e0fbe3b5eb9d1ea1553cebbfcda1"
+          EXPECTED_BASE="a7095198aa3966457d6ecb79818a98848a3a7759"
           test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
           test "$(git rev-parse HEAD^)" = "$EXPECTED_BASE"
           git fetch origin master-migration
