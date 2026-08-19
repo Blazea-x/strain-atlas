@@ -13,7 +13,7 @@
     "jp": {"type":["string","null"]},
     "aliases": {"type":"array","items":{"type":"string","minLength":1},"uniqueItems":true},
     "classification": {"type":"object","additionalProperties":false,"required":["type"],"properties":{"type":{"enum":["sativa","indica","hybrid","sativa-dominant-hybrid","indica-dominant-hybrid","balanced-hybrid","unknown"]}}},
-    "breeding": {"type":"object","additionalProperties":false,"required":["generation"],"properties":{"generation":{"enum":["S1","F1","F2","BX1","IBL","unknown","other"]},"method":{"type":["string","null"]}}},
+    "breeding": {"type":"object","additionalProperties":false,"required":["generation"],"properties":{"generation":{"type":"string","pattern":"^(?:S1|F[1-9][0-9]*|BX[1-9][0-9]*|IBL|unknown|other)$"},"method":{"type":["string","null"]}}},
     "lineage": {"$ref":"#/$defs/lineageClaim"},
     "relations": {"type":"array","items":{"$ref":"#/$defs/relation"}},
     "aromas": {"$ref":"#/$defs/listClaim"},
