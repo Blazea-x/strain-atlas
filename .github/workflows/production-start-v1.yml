@@ -8,12 +8,7 @@ on:
         required: true
         default: "5"
         type: choice
-        options:
-          - "1"
-          - "2"
-          - "3"
-          - "4"
-          - "5"
+        options: ["1", "2", "3", "4", "5"]
       generate_images:
         description: Generate one medium-quality candidate per selected cultivar
         required: true
@@ -45,18 +40,14 @@ jobs:
     outputs:
       selected_count: ${{ steps.plan.outputs.selected_count }}
     steps:
-      - name: Checkout latest master-migration
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
         with:
           ref: master-migration
           fetch-depth: 0
           persist-credentials: false
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: "22"
-
       - name: Fetch protected heads
         shell: bash
         run: |
@@ -65,10 +56,8 @@ jobs:
           test "$(git rev-parse HEAD)" = "$(git rev-parse origin/master-migration)"
           echo "BASE_SHA=$(git rev-parse HEAD)" >> "$GITHUB_ENV"
           echo "MAIN_HEAD=$(git rev-parse origin/main)" >> "$GITHUB_ENV"
-
       - name: Existing MASTER validation
         run: node scripts/validate-master-data.mjs
-
       - name: Create Phase A checkpoint
         id: plan
         shell: bash
@@ -86,23 +75,15 @@ jobs:
           SELECTED="$(node -e "const p=require(process.argv[1]);process.stdout.write(String(p.selectedCount))" "$OUT/plan.json")"
           echo "selected_count=$SELECTED" >> "$GITHUB_OUTPUT"
           cp "$OUT/plan.json" "$RUNNER_TEMP/plan.json"
-
-      - name: Upload Phase A checkpoint
-        uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v4
         with:
           name: production-start-plan-${{ github.run_id }}
           path: ${{ runner.temp }}/plan.json
           if-no-files-found: error
           compression-level: 0
           retention-days: 30
-
       - name: Require at least one promotable cultivar
-        shell: bash
-        run: |
-          test "${{ steps.plan.outputs.selected_count }}" -gt 0 || {
-            echo "No production-promotable AUTO STOCK cultivar is available. Safe stop."
-            exit 1
-          }
+        run: test "${{ steps.plan.outputs.selected_count }}" -gt 0
 
   phase-b:
     name: PHASE B / atomic formal-data promotion
@@ -116,23 +97,17 @@ jobs:
       matrix: ${{ steps.outputs.outputs.matrix }}
       phase_b_commit: ${{ steps.outputs.outputs.phase_b_commit }}
     steps:
-      - name: Checkout master-migration with write credentials
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
         with:
           ref: master-migration
           fetch-depth: 0
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: "22"
-
-      - name: Download Phase A checkpoint
-        uses: actions/download-artifact@v4
+      - uses: actions/download-artifact@v4
         with:
           name: production-start-plan-${{ github.run_id }}
           path: ${{ runner.temp }}/phase-a
-
       - name: Phase B BASE_SHA guard, one retry maximum, atomic commit
         shell: bash
         env:
@@ -144,104 +119,61 @@ jobs:
           CHECKPOINT="$RUNNER_TEMP/phase-b-checkpoint.json"
           FINAL_PLAN="$RUNNER_TEMP/phase-b-plan.json"
           cp "$PLAN" "$FINAL_PLAN"
-
           git config user.name "strain-atlas-bot"
           git config user.email "actions@users.noreply.github.com"
-
           for ATTEMPT in 1 2; do
             git fetch --no-tags origin master-migration:refs/remotes/origin/master-migration main:refs/remotes/origin/main
             REMOTE_HEAD="$(git rev-parse origin/master-migration)"
             MAIN_HEAD="$(git rev-parse origin/main)"
             BASE_SHA="$(node -e "const p=require(process.argv[1]);process.stdout.write(p.baseSha)" "$FINAL_PLAN")"
-
             if [ "$REMOTE_HEAD" != "$BASE_SHA" ]; then
-              if [ "$ATTEMPT" -ge 2 ]; then
-                echo "BASE_SHA changed twice. Safe stop; force is forbidden."
-                exit 75
-              fi
+              if [ "$ATTEMPT" -ge 2 ]; then echo "BASE_SHA changed twice. Safe stop; force is forbidden."; exit 75; fi
               git reset --hard "$REMOTE_HEAD"
               git clean -fd -- strains sources entities production
-              node scripts/one-click-production-v1.mjs phase-a \
-                --batch-size="$BATCH_SIZE" \
-                --generate-images="$GENERATE_IMAGES" \
-                --workflow-run-id="$GITHUB_RUN_ID" \
-                --source-head="$REMOTE_HEAD" \
-                --main-head="$MAIN_HEAD" \
-                --out="$FINAL_PLAN" >/dev/null
+              node scripts/one-click-production-v1.mjs phase-a --batch-size="$BATCH_SIZE" --generate-images="$GENERATE_IMAGES" --workflow-run-id="$GITHUB_RUN_ID" --source-head="$REMOTE_HEAD" --main-head="$MAIN_HEAD" --out="$FINAL_PLAN" >/dev/null
               test "$(node -e "const p=require(process.argv[1]);process.stdout.write(String(p.selectedCount))" "$FINAL_PLAN")" -gt 0
               continue
             fi
-
             git reset --hard "$REMOTE_HEAD"
             git clean -fd -- strains sources entities production
-
-            node scripts/one-click-production-v1.mjs phase-b \
-              --plan="$FINAL_PLAN" \
-              --apply \
-              --out="$CHECKPOINT" >/dev/null
-
+            node scripts/one-click-production-v1.mjs phase-b --plan="$FINAL_PLAN" --apply --out="$CHECKPOINT" >/dev/null
             node scripts/validate-master-data.mjs
             rm -rf "$RUNNER_TEMP/main-audit"
             git worktree add --detach "$RUNNER_TEMP/main-audit" origin/main
             node scripts/audit-content-production.mjs --main-dir="$RUNNER_TEMP/main-audit"
             git worktree remove "$RUNNER_TEMP/main-audit" --force
-
             git add strains sources entities production
-            if git diff --cached --quiet; then
-              echo "Phase B produced no formal-data transaction. Safe stop."
-              exit 1
-            fi
+            test -n "$(git diff --cached --name-only)" || { echo "Phase B produced no formal-data transaction."; exit 1; }
             git commit -m "PRODUCTION START V1 Phase B $GITHUB_RUN_ID [skip ci]"
-
             git fetch --no-tags origin master-migration:refs/remotes/origin/master-migration
             HEAD_BEFORE_PUSH="$(git rev-parse origin/master-migration)"
             if [ "$HEAD_BEFORE_PUSH" != "$REMOTE_HEAD" ]; then
-              if [ "$ATTEMPT" -ge 2 ]; then
-                echo "BASE_SHA changed twice before push. Safe stop; force is forbidden."
-                exit 75
-              fi
+              if [ "$ATTEMPT" -ge 2 ]; then echo "BASE_SHA changed twice before push. Safe stop; force is forbidden."; exit 75; fi
               git reset --hard "$HEAD_BEFORE_PUSH"
               git clean -fd -- strains sources entities production
               MAIN_HEAD="$(git rev-parse origin/main)"
-              node scripts/one-click-production-v1.mjs phase-a \
-                --batch-size="$BATCH_SIZE" \
-                --generate-images="$GENERATE_IMAGES" \
-                --workflow-run-id="$GITHUB_RUN_ID" \
-                --source-head="$HEAD_BEFORE_PUSH" \
-                --main-head="$MAIN_HEAD" \
-                --out="$FINAL_PLAN" >/dev/null
+              node scripts/one-click-production-v1.mjs phase-a --batch-size="$BATCH_SIZE" --generate-images="$GENERATE_IMAGES" --workflow-run-id="$GITHUB_RUN_ID" --source-head="$HEAD_BEFORE_PUSH" --main-head="$MAIN_HEAD" --out="$FINAL_PLAN" >/dev/null
               test "$(node -e "const p=require(process.argv[1]);process.stdout.write(String(p.selectedCount))" "$FINAL_PLAN")" -gt 0
               continue
             fi
-
             git push origin HEAD:master-migration
             PHASE_B_COMMIT="$(git rev-parse HEAD)"
             node - "$CHECKPOINT" "$PHASE_B_COMMIT" <<'NODE'
-          const fs = require('fs');
-          const [file, commit] = process.argv.slice(2);
-          const x = JSON.parse(fs.readFileSync(file, 'utf8'));
-          x.phaseBCommit = commit;
-          x.phaseBWriteMode = 'ATOMIC_COMMIT_RETAINED';
-          fs.writeFileSync(file, JSON.stringify(x, null, 2) + '\n');
+          const fs=require('fs');const [file,commit]=process.argv.slice(2);const x=JSON.parse(fs.readFileSync(file,'utf8'));x.phaseBCommit=commit;x.phaseBWriteMode='ATOMIC_COMMIT_RETAINED';fs.writeFileSync(file,JSON.stringify(x,null,2)+'\n');
           NODE
             break
           done
-
           test -s "$CHECKPOINT"
           cp "$FINAL_PLAN" "$RUNNER_TEMP/final-plan.json"
-
       - name: Publish Phase B outputs
         id: outputs
         shell: bash
         run: |
-          set -euo pipefail
           CHECKPOINT="$RUNNER_TEMP/phase-b-checkpoint.json"
           echo "production_run_id=$(node -e "const p=require(process.argv[1]);process.stdout.write(p.productionRunId)" "$CHECKPOINT")" >> "$GITHUB_OUTPUT"
           echo "phase_b_commit=$(node -e "const p=require(process.argv[1]);process.stdout.write(p.phaseBCommit)" "$CHECKPOINT")" >> "$GITHUB_OUTPUT"
           echo "matrix=$(node scripts/one-click-production-v1.mjs matrix --phase-b="$CHECKPOINT")" >> "$GITHUB_OUTPUT"
-
-      - name: Upload Phase B checkpoint
-        uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v4
         with:
           name: production-start-phase-b-${{ github.run_id }}
           path: |
@@ -262,24 +194,18 @@ jobs:
     permissions:
       contents: read
     steps:
-      - name: Checkout exact formal Phase B state
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
         with:
           ref: ${{ needs.phase-b.outputs.phase_b_commit }}
           fetch-depth: 1
           persist-credentials: false
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: "22"
-
-      - name: Download Phase B checkpoint
-        uses: actions/download-artifact@v4
+      - uses: actions/download-artifact@v4
         with:
           name: production-start-phase-b-${{ github.run_id }}
           path: ${{ runner.temp }}/phase-b
-
       - name: Generate exactly one medium candidate, no retry
         id: candidate
         shell: bash
@@ -289,18 +215,13 @@ jobs:
           set -euo pipefail
           CANDIDATE_DIR="$RUNNER_TEMP/candidate-${{ matrix.strainId }}"
           FAILURE_DIR="$RUNNER_TEMP/failure-${{ matrix.strainId }}"
-          node scripts/one-click-production-v1.mjs candidate \
-            --phase-b="$RUNNER_TEMP/phase-b/phase-b-checkpoint.json" \
-            --strain-id="${{ matrix.strainId }}" \
-            --generate-images="${{ inputs.generate_images }}" \
-            --out="$CANDIDATE_DIR" \
-            --failure-out="$FAILURE_DIR/failure.json"
+          node scripts/one-click-production-v1.mjs candidate --phase-b="$RUNNER_TEMP/phase-b/phase-b-checkpoint.json" --strain-id="${{ matrix.strainId }}" --generate-images="${{ inputs.generate_images }}" --out="$CANDIDATE_DIR" --failure-out="$FAILURE_DIR/failure.json"
           if test -f "$CANDIDATE_DIR/candidate.jpg" && test -f "$CANDIDATE_DIR/receipt.json"; then
+            node scripts/production-auto-publish-v1.mjs normalize-receipt --receipt="$CANDIDATE_DIR/receipt.json" >/dev/null
             echo "created=true" >> "$GITHUB_OUTPUT"
           else
             echo "created=false" >> "$GITHUB_OUTPUT"
           fi
-
       - name: Upload individual candidate artifact immediately
         if: steps.candidate.outputs.created == 'true'
         uses: actions/upload-artifact@v4
@@ -310,7 +231,6 @@ jobs:
           if-no-files-found: error
           compression-level: 0
           retention-days: 30
-
       - name: Upload candidate failure checkpoint
         if: steps.candidate.outputs.created != 'true'
         uses: actions/upload-artifact@v4
@@ -321,81 +241,146 @@ jobs:
           compression-level: 0
           retention-days: 30
 
-  aggregate:
-    name: PHASE C AGGREGATE / review package / STOP
+  finalize:
+    name: AUTO-PUBLISH / semantic QA / final build once
     needs: [phase-b, phase-c]
     if: always() && needs.phase-b.result == 'success'
     runs-on: ubuntu-latest
-    timeout-minutes: 8
+    timeout-minutes: 30
     permissions:
-      contents: read
+      contents: write
+      actions: read
     steps:
-      - name: Checkout exact Phase B implementation
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
         with:
-          ref: ${{ needs.phase-b.outputs.phase_b_commit }}
-          fetch-depth: 1
-          persist-credentials: false
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+          ref: master-migration
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
         with:
           node-version: "22"
-
-      - name: Install contact-sheet dependency
-        run: python3 -m pip install --disable-pip-version-check --no-cache-dir 'Pillow>=10,<12'
-
-      - name: Download Phase B checkpoint
-        uses: actions/download-artifact@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install image and local AI QA dependencies
+        run: |
+          python -m pip install --disable-pip-version-check "Pillow==11.3.0" "transformers>=4.44,<6"
+          python -m pip install --disable-pip-version-check --index-url https://download.pytorch.org/whl/cpu "torch>=2.4,<3"
+      - uses: actions/download-artifact@v4
         with:
           name: production-start-phase-b-${{ github.run_id }}
           path: ${{ runner.temp }}/phase-b
-
-      - name: Download individual candidate artifacts
+      - name: Download candidate artifacts
         continue-on-error: true
         uses: actions/download-artifact@v4
         with:
           pattern: candidate-${{ github.run_id }}-*
           path: ${{ runner.temp }}/candidates
-
       - name: Download candidate failure checkpoints
         continue-on-error: true
         uses: actions/download-artifact@v4
         with:
           pattern: candidate-failure-${{ github.run_id }}-*
           path: ${{ runner.temp }}/failures
-
-      - name: Build mobile-first review package
+      - name: Build immutable review package for provenance
         shell: bash
         run: |
           set -euo pipefail
           REVIEW="$RUNNER_TEMP/production-review-${GITHUB_RUN_ID}"
-          node scripts/one-click-production-v1.mjs aggregate \
-            --phase-b="$RUNNER_TEMP/phase-b/phase-b-checkpoint.json" \
-            --candidates-root="$RUNNER_TEMP/candidates" \
-            --failures-root="$RUNNER_TEMP/failures" \
-            --out="$REVIEW" >/dev/null
-          test -f "$REVIEW/contact-sheet.jpg"
+          node scripts/one-click-production-v1.mjs aggregate --phase-b="$RUNNER_TEMP/phase-b/phase-b-checkpoint.json" --candidates-root="$RUNNER_TEMP/candidates" --failures-root="$RUNNER_TEMP/failures" --out="$REVIEW" >/dev/null
           test -f "$REVIEW/review-package.json"
-          test -f "$REVIEW/summary.md"
-          test "$(node -e "const p=require(process.argv[1]);process.stdout.write(p.checkpoint)" "$REVIEW/review-package.json")" = "WAITING_HUMAN_REVIEW"
-
-      - name: Upload review artifact
+      - name: Resolve production mode
+        id: mode
+        shell: bash
+        run: echo "value=$(node -e "const c=require('./production/_system/config.json');process.stdout.write(c.automaticProductionPolicy?.publicationModeDefault||'review')")" >> "$GITHUB_OUTPUT"
+      - name: Review mode stop
+        if: steps.mode.outputs.value != 'auto'
+        run: echo "publicationModeDefault is review; automatic publication skipped." >> "$GITHUB_STEP_SUMMARY"
+      - name: Run fail-closed local semantic AI visual QA once for the batch
+        if: steps.mode.outputs.value == 'auto'
+        shell: bash
+        run: |
+          set -euo pipefail
+          PHASE_B_COMMIT="${{ needs.phase-b.outputs.phase_b_commit }}"
+          QA_MANIFESTS="$RUNNER_TEMP/qa-manifests"
+          mkdir -p "$QA_MANIFESTS"
+          node - "$RUNNER_TEMP/phase-b/phase-b-checkpoint.json" <<'NODE' > "$RUNNER_TEMP/ids.txt"
+          const fs=require('fs');const x=JSON.parse(fs.readFileSync(process.argv[2],'utf8'));for(const i of x.items)console.log(i.strainId);
+          NODE
+          while read -r ID; do git show "$PHASE_B_COMMIT:production/manifests/$ID.json" > "$QA_MANIFESTS/$ID.json"; done < "$RUNNER_TEMP/ids.txt"
+          python scripts/ai-visual-qa-v1.py --review-dir="$RUNNER_TEMP/production-review-${GITHUB_RUN_ID}" --manifest-dir="$QA_MANIFESTS" --out-dir="$RUNNER_TEMP/visual-qa"
+      - name: Auto-publish eligible images and data-first fallback, BASE_SHA guard max one retry
+        if: steps.mode.outputs.value == 'auto'
+        id: publish
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "strain-atlas-auto-publish-bot"
+          git config user.email "actions@users.noreply.github.com"
+          EXPECTED_BASE="${{ needs.phase-b.outputs.phase_b_commit }}"
+          CHECKPOINT="$RUNNER_TEMP/auto-publish-result.json"
+          FINAL_COMMIT=""
+          for ATTEMPT in 1 2; do
+            git fetch --no-tags origin master-migration:refs/remotes/origin/master-migration main:refs/remotes/origin/main
+            REMOTE_HEAD="$(git rev-parse origin/master-migration)"
+            MAIN_HEAD="$(git rev-parse origin/main)"
+            if [ "$REMOTE_HEAD" != "$EXPECTED_BASE" ]; then
+              if [ "$ATTEMPT" -ge 2 ]; then echo "BASE_SHA changed twice. Safe stop; force is forbidden."; exit 75; fi
+              EXPECTED_BASE="$REMOTE_HEAD"
+            fi
+            git reset --hard "$REMOTE_HEAD"
+            git clean -fdx
+            node scripts/production-auto-publish-v1.mjs apply \
+              --phase-b="$RUNNER_TEMP/phase-b/phase-b-checkpoint.json" \
+              --review-dir="$RUNNER_TEMP/production-review-${GITHUB_RUN_ID}" \
+              --qa-root="$RUNNER_TEMP/visual-qa" \
+              --base-sha="$REMOTE_HEAD" \
+              --main-head="$MAIN_HEAD" \
+              --stage-root="$RUNNER_TEMP/auto-publish-stage" \
+              --out="$CHECKPOINT" >/dev/null
+            node scripts/build-runtime-data.mjs
+            rm -rf "$RUNNER_TEMP/main-audit"
+            git worktree add --detach "$RUNNER_TEMP/main-audit" origin/main
+            node scripts/validate-master-data.mjs
+            node scripts/validate-cultivar-publication.mjs
+            node scripts/audit-content-production.mjs --main-dir="$RUNNER_TEMP/main-audit"
+            git worktree remove "$RUNNER_TEMP/main-audit" --force
+            git add -- strains production runtime data.js sources.js
+            BAD="$(git diff --cached --name-only | grep -Ev '^(strains/[^/]+/strain\.json|strains/[^/]+/images/generated/primary\.webp|production/manifests/[^/]+\.json|production/publication\.json|production/runs/[^/]+\.json|runtime/catalog\.json|data\.js|sources\.js)$' || true)"
+            test -z "$BAD" || { echo "Forbidden AUTO-PUBLISH path(s):"; echo "$BAD"; exit 1; }
+            git fetch --no-tags origin master-migration:refs/remotes/origin/master-migration
+            HEAD_BEFORE_PUSH="$(git rev-parse origin/master-migration)"
+            if [ "$HEAD_BEFORE_PUSH" != "$REMOTE_HEAD" ]; then
+              if [ "$ATTEMPT" -ge 2 ]; then echo "BASE_SHA changed twice before push. Safe stop; force is forbidden."; exit 75; fi
+              EXPECTED_BASE="$HEAD_BEFORE_PUSH"
+              continue
+            fi
+            git commit -m "PRODUCTION AUTO-PUBLISH V1 $GITHUB_RUN_ID [skip ci]"
+            git push origin HEAD:master-migration
+            FINAL_COMMIT="$(git rev-parse HEAD)"
+            break
+          done
+          test -n "$FINAL_COMMIT"
+          echo "final_commit=$FINAL_COMMIT" >> "$GITHUB_OUTPUT"
+      - name: Upload review, QA, and auto-publish checkpoints
         uses: actions/upload-artifact@v4
         with:
-          name: production-review-${{ github.run_id }}
-          path: ${{ runner.temp }}/production-review-${{ github.run_id }}/
-          if-no-files-found: error
+          name: production-auto-publish-${{ github.run_id }}
+          path: |
+            ${{ runner.temp }}/production-review-${{ github.run_id }}/
+            ${{ runner.temp }}/visual-qa/
+            ${{ runner.temp }}/auto-publish-result.json
+          if-no-files-found: warn
           compression-level: 0
           retention-days: 30
-
-      - name: STOP FOR HUMAN REVIEW
+      - name: Result summary
         shell: bash
         run: |
           {
             echo "## PRODUCTION START V1"
             echo ""
-            echo "**WAITING_HUMAN_REVIEW**"
+            echo "Publication mode: **${{ steps.mode.outputs.value }}**"
             echo ""
-            echo "No approval, primary.webp linking, visuals registration, publication opening, runtime build, or site publication is performed by this workflow."
+            echo "Image generation policy: gpt-image-2 / medium / n=1 / max 1 request per cultivar / retry 0."
+            echo ""
+            echo "AI visual QA is local semantic inference and does not create an additional OpenAI API request."
           } >> "$GITHUB_STEP_SUMMARY"
