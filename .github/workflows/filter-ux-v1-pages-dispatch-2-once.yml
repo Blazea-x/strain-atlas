@@ -1,0 +1,74 @@
+name: FILTER UX V1 Pages Dispatch 2 Once
+"on":
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/filter-ux-v1-pages-dispatch-2-once.yml"
+permissions:
+  contents: write
+  actions: write
+jobs:
+  dispatch:
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ github.token }}
+      TARGET_SHA: 4174053a2b1f4fe180b98ad5e6e3fc6e06e9b048
+      TEMP_BRANCH: filter-ux-v1-pages-e2e-ref
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Dispatch clean FILTER UX V1 ref
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git ls-remote origin refs/heads/$TEMP_BRANCH | cut -f1)" = "$TARGET_SHA"
+          gh workflow run deploy-public-ui-pages.yml --ref "$TEMP_BRANCH"
+          for i in $(seq 1 60); do
+            json="$(gh run list --workflow deploy-public-ui-pages.yml --limit 30 --json databaseId,headSha,status,conclusion,event,createdAt,url --jq '[.[] | select(.headSha == env.TARGET_SHA and .event == "workflow_dispatch")][0]')"
+            if [ -n "$json" ] && [ "$json" != "null" ]; then
+              status="$(printf '%s' "$json" | jq -r .status)"
+              if [ "$status" = "completed" ]; then
+                conclusion="$(printf '%s' "$json" | jq -r .conclusion)"
+                printf '%s\n' "$json" > .github/filter-ux-v1-pages-run.json
+                test "$conclusion" = "success"
+                exit 0
+              fi
+            fi
+            sleep 4
+          done
+          exit 1
+      - name: Persist Pages run result
+        if: always()
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ -f .github/filter-ux-v1-pages-run.json ]; then
+            git config user.name filter-ux-v1-pages-bot
+            git config user.email actions@users.noreply.github.com
+            git add .github/filter-ux-v1-pages-run.json
+            git commit -m "Record FILTER UX V1 Pages run [skip ci]"
+            git pull --rebase origin main
+            git push origin HEAD:main
+          fi
+      - name: Delete temporary deployment ref
+        if: always()
+        shell: bash
+        run: |
+          set -euo pipefail
+          git push origin --delete "$TEMP_BRANCH" || true
+      - name: Remove dispatcher
+        if: always()
+        shell: bash
+        run: |
+          set -euo pipefail
+          git fetch origin main
+          git checkout main
+          git reset --hard origin/main
+          if [ -f .github/workflows/filter-ux-v1-pages-dispatch-2-once.yml ]; then
+            git rm .github/workflows/filter-ux-v1-pages-dispatch-2-once.yml
+            git config user.name filter-ux-v1-pages-bot
+            git config user.email actions@users.noreply.github.com
+            git commit -m "Remove FILTER UX V1 Pages dispatcher 2 [skip ci]"
+            git push origin HEAD:main
+          fi
