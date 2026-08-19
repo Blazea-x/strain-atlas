@@ -1,0 +1,188 @@
+/* HOME ENTRANCE V1
+   Presentation-only layer for the public UI.
+   Production data, runtime generation and cultivar cards remain untouched. */
+
+.preview-head{display:none}
+.shell{padding-top:8px}
+.home-visual{padding-top:0}
+
+.home-hero{
+  position:relative;
+  min-height:242px;
+  overflow:hidden;
+  isolation:isolate;
+  border:1px solid rgba(217,182,93,.16);
+  border-radius:20px;
+  background:
+    radial-gradient(circle at 72% 26%,rgba(91,132,77,.17),transparent 34%),
+    linear-gradient(145deg,#08150f 0%,#030806 58%,#020504 100%);
+  box-shadow:0 22px 50px rgba(0,0,0,.26),inset 0 1px 0 rgba(255,255,255,.025);
+}
+.home-hero-image{
+  position:absolute;
+  inset:0;
+  z-index:-3;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  object-position:center 46%;
+  opacity:0;
+  filter:brightness(.54) saturate(.86) contrast(1.12);
+  transform:scale(1.025);
+  transition:opacity .35s ease;
+}
+.home-hero-image.is-ready{opacity:1}
+.home-hero::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  z-index:-2;
+  background:
+    linear-gradient(90deg,rgba(2,8,5,.91) 0%,rgba(3,10,6,.73) 43%,rgba(3,9,6,.28) 72%,rgba(2,6,4,.54) 100%),
+    linear-gradient(0deg,rgba(2,7,4,.93) 0%,rgba(2,7,4,.18) 52%,rgba(2,7,4,.32) 100%);
+}
+.home-hero::after{
+  content:"";
+  position:absolute;
+  inset:auto 0 0;
+  z-index:-1;
+  height:42%;
+  background:linear-gradient(0deg,rgba(3,10,6,.96),transparent);
+}
+.home-hero-content{
+  display:flex;
+  min-height:242px;
+  flex-direction:column;
+  justify-content:flex-end;
+  padding:22px 17px 44px;
+}
+.home-hero-kicker{
+  margin-bottom:8px;
+  color:#d4bd75;
+  font-size:8px;
+  font-weight:900;
+  letter-spacing:.2em;
+}
+.home-hero-title{
+  max-width:520px;
+  margin:0;
+  color:#f5f1df;
+  font-size:31px;
+  font-weight:760;
+  line-height:.96;
+  letter-spacing:-.035em;
+  text-wrap:balance;
+  text-shadow:0 4px 24px rgba(0,0,0,.36);
+}
+.home-hero-title span{display:block;color:#e6d08c;font-weight:640}
+.home-hero-summary{
+  max-width:520px;
+  margin:10px 0 0;
+  color:#c5cec8;
+  font-size:10px;
+  line-height:1.65;
+}
+.home-stance{
+  display:flex;
+  max-width:620px;
+  gap:8px;
+  align-items:flex-start;
+  margin-top:11px;
+  padding-top:10px;
+  border-top:1px solid rgba(255,255,255,.1);
+}
+.home-stance strong{
+  flex:0 0 auto;
+  color:#d9bf71;
+  font-size:6.5px;
+  font-weight:950;
+  letter-spacing:.12em;
+  line-height:1.5;
+}
+.home-stance span{
+  color:#aab5ae;
+  font-size:7.5px;
+  line-height:1.55;
+}
+.home-hero-caption{
+  position:absolute;
+  right:11px;
+  bottom:10px;
+  max-width:45%;
+  overflow:hidden;
+  color:rgba(211,220,214,.58);
+  font-size:6px;
+  font-weight:850;
+  letter-spacing:.11em;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+
+/* Search becomes the primary action and visually bridges hero to content. */
+.home-search{
+  position:relative;
+  z-index:4;
+  margin:-27px 11px 11px;
+}
+.home-search::before{
+  content:"⌕";
+  position:absolute;
+  left:15px;
+  top:50%;
+  z-index:2;
+  color:#d8c376;
+  font-size:24px;
+  line-height:1;
+  transform:translateY(-52%) rotate(-14deg);
+  pointer-events:none;
+}
+.search-wrap.home-search input{
+  height:56px;
+  padding:0 16px 0 44px;
+  border:1px solid rgba(217,182,93,.36);
+  border-radius:15px;
+  background:rgba(5,16,10,.96);
+  color:#f5f2e5;
+  font-size:15px;
+  box-shadow:0 15px 34px rgba(0,0,0,.35),inset 0 1px 0 rgba(255,255,255,.04);
+  backdrop-filter:blur(16px);
+  -webkit-backdrop-filter:blur(16px);
+}
+.search-wrap.home-search input::placeholder{color:#89978f}
+.search-wrap.home-search input:focus{
+  border-color:rgba(231,201,112,.62);
+  box-shadow:0 15px 34px rgba(0,0,0,.35),0 0 0 2px rgba(217,182,93,.08),inset 0 1px 0 rgba(255,255,255,.04);
+}
+
+/* Keep the detailed legal material present, but quieter than the archive/search hierarchy. */
+.legal-alert{
+  margin:0 3px 10px;
+  border-color:rgba(222,177,78,.2);
+  border-radius:12px;
+  background:linear-gradient(145deg,rgba(49,37,17,.27),rgba(10,18,12,.72));
+}
+.legal-alert summary{min-height:44px;padding:7px 9px}
+.legal-alert-icon{font-size:12px}
+.legal-alert-copy strong{font-size:9px}
+.legal-alert-copy small{font-size:7px;color:#9f9b89}
+.legal-alert-action{background:rgba(222,177,78,.055);font-size:6.5px}
+.legal-alert[open] .legal-alert-action::after{font-size:6.5px}
+
+.home-entries{margin-top:0}
+
+@media(min-width:700px){
+  .shell{padding-top:14px}
+  .home-hero{min-height:360px;border-radius:24px}
+  .home-hero-content{min-height:360px;padding:36px 34px 62px}
+  .home-hero-kicker{font-size:9px}
+  .home-hero-title{font-size:48px;max-width:680px}
+  .home-hero-summary{font-size:12px;max-width:650px}
+  .home-stance{gap:12px;margin-top:15px;padding-top:13px}
+  .home-stance strong{font-size:7.5px}
+  .home-stance span{font-size:9px}
+  .home-hero-caption{right:16px;bottom:14px;font-size:7px}
+  .home-search{width:min(720px,calc(100% - 44px));margin:-31px auto 14px}
+  .search-wrap.home-search input{height:62px;padding-left:49px;border-radius:17px;font-size:17px}
+  .home-search::before{left:17px;font-size:27px}
+  .legal-alert{margin-left:8px;margin-right:8px}
+}
