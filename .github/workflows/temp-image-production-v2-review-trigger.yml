@@ -21,6 +21,7 @@ jobs:
       OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
       GH_TOKEN: ${{ github.token }}
       ORIGINAL_PUSH_SHA: 639f6087c796ac61787682aff377850165fb1e55
+      ORIGINAL_PUSH_RUN_ID: 32208320621
       WORKFLOW_FILE: image-production-v2-dr-grinspoon-malawi-preflight.yml
 
     steps:
@@ -37,6 +38,38 @@ jobs:
           ref: ${{ github.event.pull_request.head.ref }}
           path: review
           persist-credentials: true
+
+      - name: Prove original failed run never reached a job
+        shell: bash
+        run: |
+          python - <<'PY'
+          import os, json, urllib.request
+          repo = os.environ['GITHUB_REPOSITORY']
+          token = os.environ['GH_TOKEN']
+          run_id = os.environ['ORIGINAL_PUSH_RUN_ID']
+          headers = {
+              'Authorization': f'Bearer {token}',
+              'Accept': 'application/vnd.github+json',
+              'X-GitHub-Api-Version': '2022-11-28',
+              'User-Agent': 'strain-atlas-image-production-v2',
+          }
+          def get(url):
+              req = urllib.request.Request(url, headers=headers)
+              with urllib.request.urlopen(req, timeout=30) as r:
+                  return json.load(r)
+          run = get(f'https://api.github.com/repos/{repo}/actions/runs/{run_id}')
+          jobs = get(f'https://api.github.com/repos/{repo}/actions/runs/{run_id}/jobs')
+          arts = get(f'https://api.github.com/repos/{repo}/actions/runs/{run_id}/artifacts')
+          zero_jobs = int(jobs.get('total_count', len(jobs.get('jobs', [])))) == 0
+          zero_artifacts = int(arts.get('total_count', len(arts.get('artifacts', [])))) == 0
+          instant_failure = run.get('status') == 'completed' and run.get('conclusion') == 'failure' and run.get('created_at') == run.get('updated_at')
+          if not (zero_jobs and zero_artifacts and instant_failure):
+              raise SystemExit('SAFE-STOP: prior run cannot be proven pre-execution; generation remains blocked')
+          with open(os.environ['GITHUB_ENV'], 'a', encoding='utf-8') as env:
+              env.write('ORIGINAL_PUSH_SHA=PREEXECUTION_FAILURE_CONFIRMED_NO_GENERATION\n')
+          print('PRIOR PUSH RUN: PRE-EXECUTION FAILURE CONFIRMED')
+          print('PRIOR OPENAI GENERATIONS: 0')
+          PY
 
       - name: Install generation dependencies
         run: python -m pip install --disable-pip-version-check --no-cache-dir 'openai>=1.100,<3' 'Pillow>=10,<12'
