@@ -1,0 +1,25 @@
+name: PRODUCTION IMAGE REJECT V1
+
+on:
+  workflow_dispatch:
+    inputs:
+      strain_id:
+        description: Cultivar strain id whose current primary image should be rejected
+        required: true
+        type: string
+      expected_primary_sha256:
+        description: Optional safety pin for current primary SHA-256
+        required: false
+        default: ""
+        type: string
+
+jobs:
+  launch:
+    name: Launch master-migration PRODUCTION IMAGE REJECT V1
+    permissions:
+      contents: write
+    uses: Blazea-x/strain-atlas/.github/workflows/production-image-reject-v1.yml@master-migration
+    with:
+      strain_id: ${{ inputs.strain_id }}
+      expected_primary_sha256: ${{ inputs.expected_primary_sha256 }}
+    secrets: inherit
