@@ -1,0 +1,70 @@
+name: Deploy public UI to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+  issues:
+    types: [edited]
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+  actions: read
+
+concurrency:
+  group: github-pages-public-ui
+  cancel-in-progress: true
+
+jobs:
+  build:
+    if: github.event_name != 'issues' || github.event.issue.number == 13
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout public UI shell
+        uses: actions/checkout@v4
+
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v6
+
+      - name: Stage public UI artifact
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p _site
+          rsync -a \
+            --exclude='.git/' \
+            --exclude='.github/' \
+            --exclude='_site/' \
+            ./ _site/
+          touch _site/.nojekyll
+          test -f _site/index.html
+          test -f _site/preview/app.js
+          test -f _site/preview/home-entrance-v1.css
+          test -f _site/preview/home-hero-v1.js
+          grep -q 'EDUCATIONAL ARCHIVE' _site/index.html
+          ! grep -q 'MASTER PREVIEW' _site/index.html
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v5
+        with:
+          path: _site
+          include-hidden-files: true
+
+  deploy:
+    if: github.event_name != 'issues' || github.event.issue.number == 13
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    permissions:
+      pages: write
+      id-token: write
+      actions: read
+    steps:
+      - name: Deploy public UI
+        id: deployment
+        uses: actions/deploy-pages@v5
