@@ -252,10 +252,10 @@ jobs:
     permissions:
       contents: read
     steps:
-      - name: Checkout formal Phase B state
+      - name: Checkout exact formal Phase B state
         uses: actions/checkout@v4
         with:
-          ref: master-migration
+          ref: ${{ needs.phase-b.outputs.phase_b_commit }}
           fetch-depth: 1
           persist-credentials: false
 
@@ -320,10 +320,10 @@ jobs:
     permissions:
       contents: read
     steps:
-      - name: Checkout implementation
+      - name: Checkout exact Phase B implementation
         uses: actions/checkout@v4
         with:
-          ref: master-migration
+          ref: ${{ needs.phase-b.outputs.phase_b_commit }}
           fetch-depth: 1
           persist-credentials: false
 
