@@ -1,0 +1,67 @@
+{
+  "pipeline": "IMAGE PRODUCTION PIPELINE V2 PROMPT PREFLIGHT ONE-SHOT",
+  "sourceCommit": "e0527ddd0958525e69a5616551ba5d15cf87171b",
+  "workflowRunId": 32208973322,
+  "checks": {
+    "drId": true,
+    "drPublished": true,
+    "drVisualsEmpty": true,
+    "drManifestMatches": true,
+    "drPriorReviewNeedsReview": true,
+    "drPriorFailureRecorded": true,
+    "drSourceFormal": true,
+    "drEntityFormal": true,
+    "drRuntimePresent": true,
+    "mwId": true,
+    "mwPublished": true,
+    "mwSinglePrimary": true,
+    "mwPrimaryPathExpected": true,
+    "mwBrokenPrimaryExists": true,
+    "mwBrokenPrimaryConfirmed": true,
+    "mwSourceFormal": true,
+    "mwIndependentSourceFormal": true,
+    "mwEntityFormal": true,
+    "mwRuntimePresent": true
+  },
+  "preflight": {
+    "dr-grinspoon": {
+      "status": "PASS",
+      "prompt": "1. CULTIVAR IDENTITY\nPhotorealistic botanical documentary photograph of one mature living female Dr Grinspoon cannabis plant. Pure heirloom 100% Sativa. The plant must remain unmistakably cannabis.\n\n2. PLANT ARCHITECTURE\nTall and thin overall plant architecture with slender stems and an open, delicate structure. Keep enough of the complete plant visible to read the vertical architecture and thin branching stems clearly.\n\n3. FLOWER STRUCTURE / DISTRIBUTION\nShow small individual cannabis calyxes as sparse, separated floral sites attached close along thin stems and at stem nodes. Leave clearly visible exposed stem segments between floral sites. Visible cannabis pistils should emerge from individual calyxes. Mature floral sites can show green to reddish-brown coloration. The unusual bead-like impression must come from separated individual cannabis calyxes following the stems, never from a separate hanging bunch or a fruit-like cluster.\n\n4. LEAF MORPHOLOGY\nUse realistic mature sativa cannabis foliage consistent with the 100% Sativa identity. Keep foliage botanically plausible and secondary enough that the unusual stem-borne floral pattern remains readable.\n\n5. OVERALL SILHOUETTE\nTall, slender, open and lightly built rather than squat, dense or bushy. Preserve visible negative space between branches and flower sites.\n\n6. BOTANICAL DISTINCTIVE FEATURES\nThe defining feature is the unusual compact green and reddish-brown bead-like cannabis flower impression along thin stems, while each unit still reads as cannabis calyx tissue with pistils. It must look unusual but botanically credible, never like an ornamental or fruiting plant.\n\n7. COMPOSITION / CAMERA\nOne plant only. Single continuous photographic frame. Frame the complete plant or nearly complete plant, not a macro bud close-up. Neutral documentary camera perspective with enough detail to inspect calyxes, pistils, stems, branching and overall architecture.\n\n8. LIGHTING / BACKGROUND\nNatural photographic lighting, neutral non-distracting horticultural or botanical-reference background, realistic color and depth. No dramatic fantasy grading.\n\n9. NEGATIVE CONSTRAINTS\nNo grapes, no berries, no fruit clusters, no hanging bunches, no pendulous racemes, no hop-like cones, no catkins, no non-cannabis fruits. No dense chunky indica-style colas. No fantasy plant, ornamental flowers, male pollen sacs, duplicated branches, impossible branching, fused or deformed leaves, plastic/CGI appearance, illustration, painting, collage, split frame, text, labels, watermark, hands, jars, smoke or harvested buds.",
+      "sourceIds": [
+        "barneys-farm-dr-grinspoon"
+      ],
+      "revisionNote": "Prior wording coupled 'bead-like', 'clusters', and 'hang loosely', encouraging a grape/berry bunch interpretation. Revised wording locates separated individual cannabis calyxes along stems and nodes, preserves exposed stem segments and visible cannabis pistils, and forbids fruit/bunch/raceme interpretations."
+    },
+    "malawi": {
+      "status": "PASS",
+      "prompt": "1. CULTIVAR IDENTITY\nPhotorealistic botanical documentary photograph of one mature living female Malawi cannabis plant representing the ACE Seeds Malawi P4 landrace line from Malawi, Central Africa, identified as 100% Sativa and derived from Old Malawi Killer x 3rd generation Malawis.\n\n2. PLANT ARCHITECTURE\nShow a sativa structure with medium node length and strong branching. The branching architecture must be clearly readable rather than hidden by a close crop.\n\n3. FLOWER STRUCTURE / DISTRIBUTION\nShow mature dense cannabis flowers distributed naturally on the strongly branched plant. Flowers must retain realistic cannabis calyx and pistil anatomy. Make the heavy resin expression visible through conspicuous, large glandular trichomes without turning the flowers into crystalline fantasy objects.\n\n4. LEAF MORPHOLOGY\nUse natural, botanically plausible mature cannabis sativa foliage. The formal Malawi source does not specify a cultivar-specific leaflet width, so do not invent an extreme narrow-leaf or broad-leaf trait, unusual coloration, mutation or decorative leaf form.\n\n5. OVERALL SILHOUETTE\nA clearly branched 100% sativa silhouette with medium internodal spacing and enough open structure to see the branch network, balanced with the source-described dense mature flowers.\n\n6. BOTANICAL DISTINCTIVE FEATURES\nPrioritize the combination of strong branching, medium node length, dense flowers and conspicuous resin/trichome development. Keep all structures recognizably cannabis and physically plausible.\n\n7. COMPOSITION / CAMERA\nOne plant only. Single continuous photographic frame. Show the complete plant or enough of the complete flowering architecture for use as a primary botanical reference visual. No isolated harvested bud macro.\n\n8. LIGHTING / BACKGROUND\nNatural neutral photographic lighting and a non-distracting botanical or horticultural background. Realistic color, texture and depth.\n\n9. NEGATIVE CONSTRAINTS\nNo fantasy cannabis, no ornamental flowers, no fruit, no berries, no non-cannabis flower structures, no squat compact indica-dominant silhouette, no invented purple coloration, no male pollen sacs, no duplicated branches, impossible branching, fused or deformed leaves, plastic/CGI appearance, illustration, painting, collage, split frame, text, labels, watermark, hands, jars, smoke or harvested buds.",
+      "sourceIds": [
+        "ace-seeds-malawi",
+        "seedfinder-malawi"
+      ],
+      "revisionNote": "Existing primary.webp is treated only as a broken byte object and is not used as visual reference. Prompt is rebuilt from formal source-backed identity and ACE Seeds morphology: 100% sativa, medium node length, strong branching, dense flowers and conspicuous trichomes. No unsupported cultivar-specific leaflet width is added.",
+      "brokenPrimary": {
+        "path": "strains/malawi/images/generated/primary.webp",
+        "byteLength": 14997,
+        "gitBlobSha": "462e60b566b1fe6afd5b4e0e2d8df72b8beb2cec",
+        "sha256": "9efc6c2914bea4bf05968d9f2ae378f0efb080dd4a61d4b6f045be87d4a840f7",
+        "hasValidWebpSignature": false
+      }
+    }
+  },
+  "priorRunGuard": {
+    "runId": 32208320621,
+    "status": "completed",
+    "conclusion": "failure",
+    "headSha": "639f6087c796ac61787682aff377850165fb1e55",
+    "decision": "NO_NEW_OPENAI_REQUEST"
+  },
+  "results": [],
+  "successfulImages": 0,
+  "estimatedTotalCostUsd": 0.0,
+  "productionMutationCount": 0,
+  "mainMutationCount": 0,
+  "humanVisualReview": "REQUIRED",
+  "productionPromotion": "NOT PERFORMED",
+  "safeStopReason": "A prior push workflow run exists or cannot be ruled out, but no reusable artifact was available. No new OpenAI request was sent."
+}
