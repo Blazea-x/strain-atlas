@@ -26,7 +26,25 @@ jobs:
           node-version: "22"
 
       - name: Run 38 cultivar renderer smoke
-        run: node scripts/detail-renderer-smoke-temp.mjs
+        shell: bash
+        run: |
+          set +e
+          node scripts/detail-renderer-smoke-temp.mjs > /tmp/detail-smoke.log 2>&1
+          status=$?
+          set -e
+          if [ "$status" -ne 0 ]; then
+            SMOKE_STATUS="$status" node - <<'NODE'
+          const fs = require('node:fs');
+          fs.mkdirSync('tmp', { recursive: true });
+          fs.writeFileSync('tmp/detail-smoke-result.json', JSON.stringify({
+            passed: false,
+            exitCode: Number(process.env.SMOKE_STATUS || 1),
+            log: fs.readFileSync('/tmp/detail-smoke.log', 'utf8')
+          }, null, 2) + '\n');
+          NODE
+          fi
+          cat /tmp/detail-smoke.log
+          cat tmp/detail-smoke-result.json
 
       - name: Record smoke result
         shell: bash
