@@ -1,44 +1,79 @@
-/* Public cultivar detail standard. Presentation only; canonical data stays on master-migration. */
-.detail-shell{overflow-x:hidden}
+/* DETAIL VISUAL CONVERGENCE V1. Presentation only; canonical data stays on master-migration. */
+.detail-shell{width:min(100%,980px);overflow-x:hidden;background:linear-gradient(180deg,#06100c 0%,#040b08 58%,#020604 100%)}
 .detail-shell>.status-grid{display:none!important}
 .detail-shell:not(:has(.detail-public-v1)) .detail-sub{visibility:hidden}
-.detail-shell .detail-topbar{min-height:56px;padding:8px 12px}
-.detail-shell .detail-topbar strong{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:14px;line-height:1.3}
-.detail-shell .close-detail{width:44px;height:44px;flex:0 0 44px;font-size:22px}
-.detail-shell .detail-hero-copy{padding:18px 14px 12px}
-.detail-shell .detail-hero h2{font-size:clamp(28px,8vw,38px);line-height:1.08;letter-spacing:-.02em;overflow-wrap:anywhere}
-.detail-shell .detail-sub{margin-top:7px;color:#b0bcb5;font-size:15px;line-height:1.55}
-.detail-public-v1{width:100%;min-width:0;padding:0 12px 40px}
-.public-basics,.public-detail-sections{display:grid;grid-template-columns:minmax(0,1fr);gap:10px}
-.public-basics{padding:4px 0 16px}
-.public-detail-sections{padding-top:2px}
-.public-card{min-width:0;overflow:hidden;border:1px solid rgba(217,182,93,.15);border-radius:15px;background:linear-gradient(145deg,rgba(15,34,24,.72),rgba(7,18,12,.9));box-shadow:inset 0 1px 0 rgba(255,255,255,.025)}
-.public-basic-card{border-color:rgba(217,182,93,.2)}
-.public-card-label{display:block;color:var(--accent-gold);font-size:13px;font-weight:850;line-height:1.3;letter-spacing:.04em}
-.public-card-value{display:block;margin-top:6px;color:var(--text);font-size:18px;font-weight:780;line-height:1.45;overflow-wrap:anywhere}
-.public-card:not(.public-detail-action){padding:15px 14px}
+.detail-shell .detail-topbar{min-height:56px;padding:6px 12px;background:rgba(3,9,6,.88);border-bottom-color:rgba(217,182,93,.09)}
+.detail-topbar-public{gap:12px}
+.detail-topbar-line{display:block;width:44px;height:1px;background:linear-gradient(90deg,rgba(217,182,93,.52),rgba(217,182,93,0))}
+.detail-shell .close-detail{width:44px;height:44px;flex:0 0 44px;margin-left:auto;border-color:rgba(217,182,93,.14);background:rgba(255,255,255,.025);color:#f4f1e7;font-size:22px;line-height:1}
+.detail-shell .close-detail:focus-visible,.public-detail-toggle:focus-visible,.public-source-link:focus-visible{outline:2px solid rgba(233,207,126,.82);outline-offset:2px}
+
+.public-detail-hero{display:grid;min-width:0;border-bottom:1px solid rgba(217,182,93,.11);background:radial-gradient(circle at 76% 16%,rgba(78,119,75,.13),transparent 34%),#07100b}
+.public-hero-media{position:relative;min-width:0;overflow:hidden;aspect-ratio:16/10;max-height:min(42vh,300px);background:#08120d}
+.public-hero-media::after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(180deg,transparent 64%,rgba(4,11,7,.25))}
+.detail-shell .public-hero-media img{display:block;width:100%;height:100%;max-height:none;object-fit:cover}
+.detail-shell .public-hero-copy{min-width:0;padding:20px 14px 22px}
+.public-hero-kicker{display:block;margin-bottom:8px;color:rgba(217,182,93,.74);font-family:Georgia,"Times New Roman",serif;font-size:11px;line-height:1;letter-spacing:.16em}
+.detail-shell .public-hero-copy h2{margin:0;max-width:100%;color:#f4f0e4;font-size:clamp(31px,9vw,44px);font-weight:760;line-height:1.03;letter-spacing:-.035em;overflow-wrap:anywhere}
+.detail-shell .public-hero-copy .detail-sub{margin-top:9px;color:#aab8b0;font-size:15px;line-height:1.5;overflow-wrap:anywhere}
+.public-detail-hero-no-visual .public-hero-copy{padding-top:34px;padding-bottom:34px}
+
+.detail-public-v1{width:100%;min-width:0;padding:0 12px 44px}
+.public-region{min-width:0;padding:26px 0 0}
+.public-region+.public-region{margin-top:24px;border-top:1px solid rgba(217,182,93,.1)}
+.public-region-head{display:flex;align-items:flex-end;justify-content:space-between;gap:14px;margin:0 2px 14px}
+.public-region-head h3{margin:0;color:#edf0e9;font-size:18px;font-weight:760;line-height:1.2;letter-spacing:.01em}
+.public-region-kicker{order:2;color:rgba(217,182,93,.76);font-family:Georgia,"Times New Roman",serif;font-size:15px;font-weight:700;line-height:1;letter-spacing:.12em}
+
+.public-spec-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+.public-spec-grid[data-spec-count="1"]{grid-template-columns:minmax(0,1fr)}
+.public-spec-grid[data-spec-count="3"]>.public-spec-card:last-child{grid-column:1/-1}
+.public-card{min-width:0;overflow:hidden;border:1px solid rgba(217,182,93,.14);border-radius:16px;background:linear-gradient(145deg,rgba(15,34,24,.72),rgba(6,16,10,.9));box-shadow:inset 0 1px 0 rgba(255,255,255,.025),0 12px 32px rgba(0,0,0,.11)}
+.public-spec-card{min-height:108px;padding:14px 13px;border-color:rgba(217,182,93,.18);background:linear-gradient(155deg,rgba(18,39,27,.72),rgba(7,18,12,.92))}
+.public-card-label{display:block;color:#d8bd70;font-size:12px;font-weight:820;line-height:1.35;letter-spacing:.045em}
+.public-card-value{display:block;margin-top:8px;color:#f1f0e9;font-size:17px;font-weight:760;line-height:1.4;overflow-wrap:anywhere;word-break:normal}
+.public-section-head{display:flex;min-width:0;align-items:flex-start;justify-content:space-between;gap:8px}
+.public-grade{display:inline-flex;flex:0 0 auto;align-items:center;justify-content:center;min-height:25px;padding:4px 8px;border:1px solid currentColor;border-radius:999px;font-size:11px;font-weight:800;line-height:1;white-space:nowrap}
+.public-grade.grade-a{color:#86d395}.public-grade.grade-b{color:#dfbf67}.public-grade.grade-c{color:#da997b}
+.public-breeder-values{display:grid;gap:10px;margin-top:8px}
+.public-breeder-value{display:flex;min-width:0;align-items:flex-start;justify-content:space-between;gap:8px}
+.public-breeder-value .public-card-value{min-width:0;flex:1;margin-top:0}
+.public-breeder-value .public-grade{margin-top:1px}
+.public-cannabinoid-value{font-size:23px;line-height:1.25}
+.public-cannabinoid-values{display:grid;margin-top:9px}
+.public-cannabinoid-row{display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:8px;padding:8px 0;border-top:1px solid rgba(255,255,255,.07)}
+.public-cannabinoid-row:first-child{border-top:0;padding-top:1px}
+.public-cannabinoid-name{color:#aab8b0;font-size:12px;font-weight:800;letter-spacing:.04em}
+.public-cannabinoid-row .public-cannabinoid-value{margin-top:0}
+.public-cannabinoid-note{margin:9px 2px 0;color:#85968c;font-size:11px;line-height:1.55}
+
+.public-profile-stack{display:grid;gap:9px}
+.public-profile-card{background:linear-gradient(145deg,rgba(13,31,21,.72),rgba(5,14,9,.92))}
+.public-card:not(.public-detail-action):not(.public-spec-card){padding:15px 14px}
+.public-profile .public-static-card{min-height:68px}
 .public-detail-toggle{appearance:none;display:flex;width:100%;min-height:76px;align-items:center;justify-content:space-between;gap:12px;padding:14px;border:0;background:transparent;color:inherit;text-align:left}
 .public-card-copy{display:block;min-width:0;flex:1}
-.public-source-only .public-detail-toggle{min-height:56px;padding:12px 14px}
-.public-source-only-copy{display:flex;align-items:center;justify-content:space-between;gap:10px}
-.public-source-only .public-card-copy .public-grade{margin-top:0}
-.public-chevron{flex:0 0 auto;color:#d9c270;font-size:20px;line-height:1;transform-origin:center;transition:transform .16s ease}
+.public-card-copy .public-card-value{font-size:16px}
+.public-card-copy .public-grade{margin-top:9px}
+.public-chevron{flex:0 0 auto;color:#d7be72;font-size:20px;line-height:1;transform-origin:center;transition:transform .16s ease}
 .public-detail-action.open .public-chevron{transform:rotate(180deg)}
-.public-detail-deep{display:none;padding:0 14px 15px;border-top:1px solid rgba(255,255,255,.07);color:#dce4df;font-size:16px;line-height:1.75;overflow-wrap:anywhere}
+.public-detail-deep{display:none;padding:0 14px 15px;border-top:1px solid rgba(255,255,255,.07);color:#dce4df;font-size:15px;line-height:1.78;overflow-wrap:anywhere}
 .public-detail-action.open .public-detail-deep{display:block}
 .public-detail-deep>p{margin:14px 0 0}
 .public-detail-deep>p:last-child{margin-bottom:0}
-.public-deep-card .public-card-value{font-size:17px}
-.public-section-head{display:flex;align-items:center;justify-content:space-between;gap:10px}
-.public-grade{display:inline-flex;align-items:center;min-height:28px;padding:4px 9px;border:1px solid currentColor;border-radius:999px;font-size:12px;font-weight:800;line-height:1;white-space:nowrap}
-.public-grade.grade-a{color:#8bd59a}.public-grade.grade-b{color:#e5c66f}.public-grade.grade-c{color:#dfa080}
-.public-card-copy .public-grade{margin-top:9px}
-.public-breeder-values{display:grid;gap:9px;margin-top:6px}
-.public-breeder-value{display:flex;min-width:0;align-items:center;justify-content:space-between;gap:10px}
-.public-breeder-value .public-card-value{min-width:0;flex:1;margin-top:0}
-.public-breeder-value .public-grade{flex:0 0 auto}
-.public-chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
-.public-chip{display:inline-flex;align-items:center;min-height:34px;padding:7px 10px;border:1px solid rgba(105,169,120,.22);border-radius:999px;background:rgba(105,169,120,.08);color:#d6e8da;font-size:14px;line-height:1.25;overflow-wrap:anywhere}
+.public-chips{display:flex;flex-wrap:wrap;gap:7px;margin-top:12px}
+.public-chip{display:inline-flex;max-width:100%;align-items:center;min-height:34px;padding:7px 10px;border:1px solid rgba(129,157,139,.3);border-radius:999px;background:rgba(82,111,91,.12);color:#d6e3d9;font-size:13px;line-height:1.25;overflow-wrap:anywhere}
+
+.public-aroma-chip{border-color:var(--aroma-border);background:var(--aroma-bg);color:var(--aroma-text)}
+.public-aroma-chip.aroma-sweet{--aroma-border:rgba(213,166,93,.44);--aroma-bg:rgba(147,99,35,.18);--aroma-text:#f3dfbd}
+.public-aroma-chip.aroma-floral{--aroma-border:rgba(176,137,194,.44);--aroma-bg:rgba(111,74,132,.18);--aroma-text:#eadcf0}
+.public-aroma-chip.aroma-citrus{--aroma-border:rgba(207,184,86,.46);--aroma-bg:rgba(149,119,32,.18);--aroma-text:#f3e9b8}
+.public-aroma-chip.aroma-fruit{--aroma-border:rgba(197,126,135,.44);--aroma-bg:rgba(133,69,79,.18);--aroma-text:#f1d8dc}
+.public-aroma-chip.aroma-forest{--aroma-border:rgba(96,177,137,.44);--aroma-bg:rgba(39,117,79,.18);--aroma-text:#d7eee1}
+.public-aroma-chip.aroma-earth{--aroma-border:rgba(170,151,104,.44);--aroma-bg:rgba(110,91,48,.18);--aroma-text:#ece3cb}
+.public-aroma-chip.aroma-spice{--aroma-border:rgba(197,133,91,.44);--aroma-bg:rgba(135,76,42,.18);--aroma-text:#f0d9c8}
+.public-aroma-chip.aroma-sharp{--aroma-border:rgba(97,157,181,.44);--aroma-bg:rgba(49,101,124,.18);--aroma-text:#d7e8ee}
+.public-aroma-chip.aroma-neutral{--aroma-border:rgba(129,157,139,.3);--aroma-bg:rgba(82,111,91,.12);--aroma-text:#d6e3d9}
 
 .public-terpene-chip{border-color:var(--terpene-border);background:var(--terpene-bg);color:var(--terpene-text)}
 .public-terpene-chip.tone-1{--terpene-border:rgba(111,190,136,.42);--terpene-bg:rgba(54,132,82,.18);--terpene-text:#d7f0df}
@@ -50,28 +85,49 @@
 .public-terpene-chip.tone-7{--terpene-border:rgba(191,127,112,.44);--terpene-bg:rgba(130,72,59,.18);--terpene-text:#f0d9d3}
 .public-terpene-chip.tone-8{--terpene-border:rgba(100,151,191,.44);--terpene-bg:rgba(54,98,135,.18);--terpene-text:#d7e6f2}
 .public-terpene-chip.tone-9{--terpene-border:rgba(166,150,112,.44);--terpene-bg:rgba(111,91,51,.18);--terpene-text:#ede4cf}
-.public-cannabinoid-values{display:grid;margin-top:12px}
-.public-cannabinoid-row{display:grid;grid-template-columns:minmax(44px,auto) minmax(0,1fr) auto;align-items:center;gap:10px;padding:10px 0;border-top:1px solid rgba(255,255,255,.07)}
-.public-cannabinoid-row:first-child{border-top:0;padding-top:2px}
-.public-cannabinoid-name{color:#aebbb4;font-size:13px;font-weight:800;letter-spacing:.04em}
-.public-cannabinoid-value{color:var(--text);font-size:22px;line-height:1.3}
-.public-cannabinoid-evidence{display:flex;align-items:center;justify-content:flex-end;gap:7px;min-width:0}
-.public-cannabinoid-evidence small{max-width:160px;color:#aebbb4;font-size:11px;line-height:1.35;text-align:right;overflow-wrap:anywhere}
-.public-cannabinoid-note{margin:10px 0 0;color:#aebbb4;font-size:12px;line-height:1.6}
+
+.public-sources-region{padding-bottom:4px}
+.public-sources-card{border-color:rgba(217,182,93,.2);background:linear-gradient(145deg,rgba(18,30,21,.74),rgba(8,13,10,.94))}
+.public-sources-card .public-detail-toggle{min-height:70px}
 .public-source-list{display:grid;gap:8px;margin-top:14px}
 .public-source-link{display:block;min-height:50px;padding:11px 12px;border:1px solid rgba(217,182,93,.13);border-radius:11px;background:rgba(255,255,255,.025);color:#ecd27c;text-decoration:none;overflow-wrap:anywhere}
-.public-source-link span{display:block;margin-bottom:4px;color:#aebbb4;font-size:12px;font-weight:700}
-.public-source-link strong{display:block;color:#ead383;font-size:15px;line-height:1.45}
+.public-source-link span{display:block;margin-bottom:4px;color:#9faea6;font-size:11px;font-weight:700}
+.public-source-link strong{display:block;color:#ead383;font-size:14px;line-height:1.45}
 .public-source-link strong i{font-style:normal;font-weight:700}
-.public-breeder-detail{padding-top:14px}
-.public-breeder-detail+.public-breeder-detail{margin-top:14px;border-top:1px solid rgba(255,255,255,.07)}
-.public-breeder-head{display:flex;align-items:center;justify-content:space-between;gap:10px}
-.public-breeder-head strong{font-size:16px;line-height:1.45;overflow-wrap:anywhere}
-.public-breeder-grade-only{justify-content:flex-end}
+
+@media(max-width:370px){
+  .detail-public-v1{padding-left:10px;padding-right:10px}
+  .public-spec-grid{gap:7px}
+  .public-spec-card{min-height:104px;padding:12px 11px}
+  .public-card-value{font-size:16px}
+  .public-cannabinoid-value{font-size:21px}
+  .public-grade{min-height:24px;padding-inline:7px;font-size:10px}
+  .public-chip{font-size:12px}
+}
+
 @media(min-width:700px){
-  .detail-public-v1{padding-left:18px;padding-right:18px}
-  .public-basics,.public-detail-sections{gap:12px}
+  .detail-public-v1{padding-left:24px;padding-right:24px;padding-bottom:56px}
+  .public-region{padding-top:32px}
+  .public-region+.public-region{margin-top:30px}
+  .public-region-head{margin-bottom:17px}
+  .public-region-head h3{font-size:20px}
+  .public-region-kicker{font-size:17px}
+  .public-spec-grid{gap:11px}
+  .public-spec-card{min-height:116px;padding:16px}
+  .public-card:not(.public-detail-action):not(.public-spec-card){padding:17px 16px}
   .public-detail-toggle{min-height:82px;padding:16px}
-  .public-card:not(.public-detail-action){padding:16px}
   .public-detail-deep{padding:0 16px 16px}
+}
+
+@media(min-width:820px){
+  .public-detail-hero{grid-template-columns:minmax(0,1.16fr) minmax(300px,.84fr);min-height:390px}
+  .public-hero-media{height:390px;max-height:none;aspect-ratio:auto}
+  .detail-shell .public-hero-copy{display:flex;min-height:390px;flex-direction:column;justify-content:flex-end;padding:34px 32px 36px;border-left:1px solid rgba(217,182,93,.1)}
+  .detail-shell .public-hero-copy h2{font-size:clamp(42px,5.4vw,64px)}
+  .public-spec-grid{grid-template-columns:repeat(4,minmax(0,1fr))}
+  .public-spec-grid[data-spec-count="1"]{grid-template-columns:minmax(0,1fr)}
+  .public-spec-grid[data-spec-count="2"]{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .public-spec-grid[data-spec-count="3"]{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .public-spec-grid[data-spec-count="3"]>.public-spec-card:last-child{grid-column:auto}
+  .public-profile-stack{gap:11px}
 }
