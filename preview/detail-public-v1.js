@@ -281,8 +281,10 @@
   function safeLineageValue(cultivar) {
     if (!cultivar.lineage || cultivar.lineage.status === "unknown") return "";
     const parents = (cultivar.lineage.parents || []).filter(Boolean);
-    if (parents.length >= 2) return parents.map(esc).join(" × ");
     const display = String(cultivar.lineage.display || "").trim();
+    const displayCrossParts = display.split("×").map(part => part.trim()).filter(Boolean);
+    if (displayCrossParts.length >= 2 && displayCrossParts.length > parents.length) return esc(display);
+    if (parents.length >= 2) return parents.map(esc).join(" × ");
     if (display) return esc(display);
     if (parents.length === 1) return esc(parents[0]);
     return "";
