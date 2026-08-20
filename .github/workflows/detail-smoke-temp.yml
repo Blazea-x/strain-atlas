@@ -25,6 +25,24 @@ jobs:
         with:
           node-version: "22"
 
+      - name: Normalize remaining Japanese fuel-diesel label in presentation only
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          path = Path('preview/detail-public-v1.js')
+          text = path.read_text()
+          label_old = '    fuel: "フューエル",\n'
+          label_new = '    fuel: "フューエル",\n    "fuel / diesel": "フューエル / ディーゼル",\n'
+          tone_old = '"fuel", "gas / fuel"]);'
+          tone_new = '"fuel", "fuel / diesel", "gas / fuel"]);'
+          if label_old not in text or tone_old not in text:
+              raise SystemExit('expected presentation anchors not found')
+          text = text.replace(label_old, label_new, 1).replace(tone_old, tone_new, 1)
+          path.write_text(text)
+          PY
+          node --check preview/detail-public-v1.js
+
       - name: Run 38 cultivar renderer smoke
         shell: bash
         run: |
@@ -46,12 +64,12 @@ jobs:
           cat /tmp/detail-smoke.log
           cat tmp/detail-smoke-result.json
 
-      - name: Record smoke result
+      - name: Record tested renderer and smoke result
         shell: bash
         run: |
           set -euo pipefail
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add tmp/detail-smoke-result.json
-          git commit -m "Record temporary detail smoke result"
+          git add preview/detail-public-v1.js tmp/detail-smoke-result.json
+          git commit -m "Record passing detail smoke renderer"
           git push

@@ -69,6 +69,9 @@ assert(/public-chip public-aroma-chip aroma-earth">アーシー<\/span>/.test(og
 const strawberryBananaS1 = await render("strawberry-banana-s1");
 assert(/public-card-value">Original Strawberry Banana \(selfed S1\)<\/div>/.test(strawberryBananaS1), "Strawberry Banana S1 canonical lineage.display missing");
 
+const theOg18 = await render("the-og-18");
+assert(/public-chip public-aroma-chip aroma-sharp">フューエル \/ ディーゼル<\/span>/.test(theOg18), "The OG #18 fuel/diesel tone mismatch");
+
 const result = {
   passed: true,
   catalogCount: catalog?.counts?.cultivars,
@@ -77,7 +80,8 @@ const result = {
     mazar: { canonicalTitle: true, duplicateAuxiliaryName: false, lineage: "Skunk #1 × Afghani" },
     bangiHaze: { lineage: "F8 stabilized Congolese/Nepalese hybrid" },
     ogKush: { aromaTones: { "レモン": "aroma-citrus", "パイン": "aroma-forest", "フューエル": "aroma-sharp", "アーシー": "aroma-earth" } },
-    strawberryBananaS1: { lineage: "Original Strawberry Banana (selfed S1)" }
+    strawberryBananaS1: { lineage: "Original Strawberry Banana (selfed S1)" },
+    theOg18: { aromaTones: { "フューエル / ディーゼル": "aroma-sharp" } }
   },
   masterCatalogBlob: "37b3994a19dfe061629053c2e4509428e65e7a40"
 };
