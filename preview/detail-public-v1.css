@@ -39,6 +39,25 @@
 .public-breeder-value .public-grade{flex:0 0 auto}
 .public-chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
 .public-chip{display:inline-flex;align-items:center;min-height:34px;padding:7px 10px;border:1px solid rgba(105,169,120,.22);border-radius:999px;background:rgba(105,169,120,.08);color:#d6e8da;font-size:14px;line-height:1.25;overflow-wrap:anywhere}
+
+.public-terpene-chip{border-color:var(--terpene-border);background:var(--terpene-bg);color:var(--terpene-text)}
+.public-terpene-chip.tone-1{--terpene-border:rgba(111,190,136,.42);--terpene-bg:rgba(54,132,82,.18);--terpene-text:#d7f0df}
+.public-terpene-chip.tone-2{--terpene-border:rgba(101,177,170,.42);--terpene-bg:rgba(42,119,114,.18);--terpene-text:#d5efec}
+.public-terpene-chip.tone-3{--terpene-border:rgba(179,153,101,.42);--terpene-bg:rgba(126,96,40,.18);--terpene-text:#efe5cd}
+.public-terpene-chip.tone-4{--terpene-border:rgba(197,171,91,.44);--terpene-bg:rgba(141,109,34,.18);--terpene-text:#f2e6bd}
+.public-terpene-chip.tone-5{--terpene-border:rgba(132,173,104,.42);--terpene-bg:rgba(78,123,47,.18);--terpene-text:#e0eed6}
+.public-terpene-chip.tone-6{--terpene-border:rgba(167,139,184,.44);--terpene-bg:rgba(106,74,128,.18);--terpene-text:#eadcf0}
+.public-terpene-chip.tone-7{--terpene-border:rgba(191,127,112,.44);--terpene-bg:rgba(130,72,59,.18);--terpene-text:#f0d9d3}
+.public-terpene-chip.tone-8{--terpene-border:rgba(100,151,191,.44);--terpene-bg:rgba(54,98,135,.18);--terpene-text:#d7e6f2}
+.public-terpene-chip.tone-9{--terpene-border:rgba(166,150,112,.44);--terpene-bg:rgba(111,91,51,.18);--terpene-text:#ede4cf}
+.public-cannabinoid-values{display:grid;margin-top:12px}
+.public-cannabinoid-row{display:grid;grid-template-columns:minmax(44px,auto) minmax(0,1fr) auto;align-items:center;gap:10px;padding:10px 0;border-top:1px solid rgba(255,255,255,.07)}
+.public-cannabinoid-row:first-child{border-top:0;padding-top:2px}
+.public-cannabinoid-name{color:#aebbb4;font-size:13px;font-weight:800;letter-spacing:.04em}
+.public-cannabinoid-value{color:var(--text);font-size:22px;line-height:1.3}
+.public-cannabinoid-evidence{display:flex;align-items:center;justify-content:flex-end;gap:7px;min-width:0}
+.public-cannabinoid-evidence small{max-width:160px;color:#aebbb4;font-size:11px;line-height:1.35;text-align:right;overflow-wrap:anywhere}
+.public-cannabinoid-note{margin:10px 0 0;color:#aebbb4;font-size:12px;line-height:1.6}
 .public-source-list{display:grid;gap:8px;margin-top:14px}
 .public-source-link{display:block;min-height:50px;padding:11px 12px;border:1px solid rgba(217,182,93,.13);border-radius:11px;background:rgba(255,255,255,.025);color:#ecd27c;text-decoration:none;overflow-wrap:anywhere}
 .public-source-link span{display:block;margin-bottom:4px;color:#aebbb4;font-size:12px;font-weight:700}

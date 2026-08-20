@@ -64,6 +64,30 @@
     resins: "レジン"
   });
 
+  const terpeneToneMap = Object.freeze({
+    "alpha-pinene": "tone-1",
+    "beta-pinene": "tone-2",
+    myrcene: "tone-3",
+    "beta-myrcene": "tone-3",
+    limonene: "tone-4",
+    terpinolene: "tone-5",
+    linalool: "tone-6",
+    caryophyllene: "tone-7",
+    "beta-caryophyllene": "tone-7",
+    ocimene: "tone-8",
+    "trans-ocimene": "tone-8",
+    guaiol: "tone-9"
+  });
+  const terpeneTonePalette = Object.freeze(["tone-1", "tone-2", "tone-3", "tone-4", "tone-5", "tone-6", "tone-7", "tone-8", "tone-9"]);
+  const normalizeCompound = value => String(value || "").trim().toLowerCase();
+  const terpeneTone = value => {
+    const compound = normalizeCompound(value);
+    if (terpeneToneMap[compound]) return terpeneToneMap[compound];
+    let hash = 0;
+    for (const ch of compound) hash = ((hash * 31) + ch.codePointAt(0)) >>> 0;
+    return terpeneTonePalette[hash % terpeneTonePalette.length];
+  };
+
   const esc = value => String(value ?? "").replace(/[&<>"']/g, ch => ({
     "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
   }[ch]));
@@ -138,7 +162,8 @@
 
   function sourceRefsFor(cultivar) {
     const refs = [];
-    for (const claim of [cultivar.lineage, cultivar.aromas, cultivar.terpenes, cultivar.origin, cultivar.history]) {
+    const cannabinoidClaims = Object.values(cultivar.cannabinoids || {});
+    for (const claim of [cultivar.lineage, cultivar.aromas, cultivar.terpenes, ...cannabinoidClaims, cultivar.origin, cultivar.history]) {
       refs.push(...(claim?.sourceRefs || []));
     }
     for (const relation of cultivar.relations || []) refs.push(...(relation.sourceRefs || []));
@@ -247,9 +272,62 @@
     if (!items.length) return "";
     const chips = items.map(item => {
       const shown = kind === "aroma" ? displayAroma(item) : String(item);
-      return `<span class="public-chip">${esc(shown)}</span>`;
+      const chipClass = kind === "terpene" ? `public-chip public-terpene-chip ${terpeneTone(item)}` : "public-chip";
+      return `<span class="${chipClass}">${esc(shown)}</span>`;
     }).join("");
     return `<section class="public-card public-sensory-card"><div class="public-section-head"><span class="public-card-label">${esc(label)}</span>${gradeBadge(claim)}</div><div class="public-chips">${chips}</div></section>`;
+  }
+
+  const percentText = value => typeof value === "number" && Number.isFinite(value) ? String(value) : "";
+
+  function cannabinoidMeasurementText(measurement) {
+    if (!measurement || measurement.unit !== "%") return "";
+    const approximate = measurement.approximate ? "約" : "";
+    if (measurement.kind === "range") {
+      const min = percentText(measurement.min);
+      const max = percentText(measurement.max);
+      return min && max ? `${approximate}${min}〜${max}%` : "";
+    }
+    const value = percentText(measurement.value);
+    if (!value) return "";
+    if (measurement.kind === "single") return `${approximate}${value}%`;
+    if (measurement.kind === "maximum") return `最大${approximate}${value}%`;
+    if (measurement.kind === "less-than") return `${approximate}${value}%未満`;
+    return "";
+  }
+
+  const normalizedSourceRefs = claim => [...new Set(claim?.sourceRefs || [])].sort().join("|");
+  const evidenceSourceNames = (catalog, claim) => [...new Set((claim?.sourceRefs || []).map(id => {
+    const source = catalog?.sources?.[id];
+    return String(source?.publisher || source?.title || "").trim();
+  }).filter(Boolean))].join(" / ");
+
+  function cannabinoidCard(catalog, cultivar) {
+    const rows = [["THC", cultivar.cannabinoids?.thc], ["CBD", cultivar.cannabinoids?.cbd]].map(([label, claim]) => ({
+      label,
+      claim,
+      value: claim?.status === "unknown" ? "" : cannabinoidMeasurementText(claim?.measurement)
+    })).filter(row => row.value);
+    if (!rows.length) return "";
+
+    const first = rows[0];
+    const sharedConfidence = rows.length === 1 || rows.every(row => row.claim?.confidence === first.claim?.confidence);
+    const sharedSources = rows.length === 1 || rows.every(row => normalizedSourceRefs(row.claim) === normalizedSourceRefs(first.claim));
+    const sharedGrade = sharedConfidence ? gradeBadge(first.claim) : "";
+    const values = rows.map(row => {
+      const rowGrade = sharedConfidence ? "" : gradeBadge(row.claim);
+      const sourceNames = sharedSources ? "" : evidenceSourceNames(catalog, row.claim);
+      const evidence = rowGrade || sourceNames
+        ? `<span class="public-cannabinoid-evidence">${rowGrade}${sourceNames ? `<small>${esc(sourceNames)}</small>` : ""}</span>`
+        : "";
+      return `<div class="public-cannabinoid-row"><span class="public-cannabinoid-name">${esc(row.label)}</span><strong class="public-cannabinoid-value">${esc(row.value)}</strong>${evidence}</div>`;
+    }).join("");
+
+    return `<section class="public-card public-cannabinoid-card">
+      <div class="public-section-head"><span class="public-card-label">カンナビノイド</span>${sharedGrade}</div>
+      <div class="public-cannabinoid-values">${values}</div>
+      <p class="public-cannabinoid-note">含有量は個体・栽培条件・分析ロット等により変動します。</p>
+    </section>`;
   }
 
   function renderPublicDetail(catalog, cultivar) {
@@ -269,6 +347,7 @@
     const lineage = lineageCard(cultivar);
     const aromas = sensoryCard("香り", cultivar.aromas, "aroma");
     const terpenes = sensoryCard("テルペン", cultivar.terpenes, "terpene");
+    const cannabinoids = cannabinoidCard(catalog, cultivar);
     const history = textClaimCard(cultivar, "history", "歴史", cultivar.history);
     const sources = allSources.length
       ? publicCard("sources", "出典", `出典 ${allSources.length}件`, sourceLinks(allSources), "", "public-deep-card public-sources-card")
@@ -282,7 +361,7 @@
       </section>
       <main class="detail-public-v1" data-public-detail-id="${esc(cultivar.id)}">
         ${basics ? `<section class="public-basics" aria-label="基本情報">${basics}</section>` : ""}
-        <section class="public-detail-sections" aria-label="品種情報">${origin}${lineage}${aromas}${terpenes}${history}${sources}</section>
+        <section class="public-detail-sections" aria-label="品種情報">${origin}${lineage}${aromas}${terpenes}${cannabinoids}${history}${sources}</section>
       </main>
     `;
   }
