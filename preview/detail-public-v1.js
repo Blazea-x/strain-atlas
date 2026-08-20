@@ -78,6 +78,14 @@
     ? `<span class="public-grade grade-${claim.confidence.toLowerCase()}">根拠 ${esc(claim.confidence)}</span>`
     : "";
 
+  const normalizeIdentityValue = value => String(value ?? "").trim().replace(/[\s\u3000]+/g, " ");
+  const auxiliaryName = cultivar => {
+    const raw = String(cultivar?.jp ?? "").trim();
+    if (!raw) return "";
+    const comparisonValue = raw.replace(/^(?:正式登録名|Official name)\s*[:：]\s*/i, "");
+    return normalizeIdentityValue(comparisonValue) === normalizeIdentityValue(cultivar?.name) ? "" : raw;
+  };
+
   let catalogPromise;
   const getCatalog = () => {
     if (!catalogPromise) {
@@ -140,20 +148,42 @@
     );
   }
 
+  function uniqueSourcesWithinSection(sources) {
+    const seenUrls = new Set();
+    return (sources || []).filter(source => {
+      const url = String(source?.url || "");
+      if (!url || seenUrls.has(url)) return false;
+      seenUrls.add(url);
+      return true;
+    });
+  }
+
   function sourceLinks(sources) {
-    if (!sources.length) return "";
-    return `<div class="public-source-list">${sources.map(source => `<a class="public-source-link" href="${esc(source.url)}" target="_blank" rel="noopener noreferrer"><span>情報源を確認</span><strong>${esc(source.publisher || source.title || "公式資料")}</strong>${source.title && source.publisher ? `<small>${esc(source.title)}</small>` : ""}</a>`).join("")}</div>`;
+    const uniqueSources = uniqueSourcesWithinSection(sources);
+    if (!uniqueSources.length) return "";
+    return `<div class="public-source-list">${uniqueSources.map(source => {
+      const title = String(source.title || "").trim();
+      const publisher = String(source.publisher || "").trim();
+      const identity = [title, publisher && publisher !== title ? publisher : ""].filter(Boolean).join(" | ") || "公式資料";
+      return `<a class="public-source-link" href="${esc(source.url)}" target="_blank" rel="noopener noreferrer"><span>情報源</span><strong>${esc(identity)} <i aria-hidden="true">↗</i></strong></a>`;
+    }).join("")}</div>`;
   }
 
   function disclosure(kind, label, value, deep, grade = "", extraClass = "") {
-    if (!value) return "";
-    if (!deep) {
+    const hasValue = Boolean(String(value || "").trim());
+    const hasDeep = Boolean(String(deep || "").trim());
+    if (!hasValue && !hasDeep) return "";
+    if (!hasDeep) {
       return `<section class="public-card ${extraClass}"><div class="public-card-label">${esc(label)}</div><div class="public-card-value">${value}</div>${grade}</section>`;
     }
     const id = `public-detail-${kind}`;
-    return `<section class="public-card public-detail-action ${extraClass}" data-detail-action>
-      <button class="public-detail-toggle" type="button" aria-expanded="false" aria-controls="${id}" data-detail-toggle>
-        <span class="public-card-copy"><span class="public-card-label">${esc(label)}</span><span class="public-card-value">${value}</span>${grade}</span>
+    const sourceOnly = !hasValue;
+    const closedLabel = sourceOnly ? `${label}の情報源を表示` : `${label}の詳細を表示`;
+    const openLabel = sourceOnly ? `${label}の情報源を閉じる` : `${label}の詳細を閉じる`;
+    const copyClass = sourceOnly ? "public-card-copy public-source-only-copy" : "public-card-copy";
+    return `<section class="public-card public-detail-action ${sourceOnly ? "public-source-only " : ""}${extraClass}" data-detail-action>
+      <button class="public-detail-toggle" type="button" aria-expanded="false" aria-controls="${id}" aria-label="${esc(closedLabel)}" data-closed-label="${esc(closedLabel)}" data-open-label="${esc(openLabel)}" data-detail-toggle>
+        <span class="${copyClass}"><span class="public-card-label">${esc(label)}</span>${hasValue ? `<span class="public-card-value">${value}</span>` : ""}${grade}</span>
         <span class="public-chevron" aria-hidden="true">⌄</span>
       </button>
       <div class="public-detail-deep" id="${id}">${deep}</div>
@@ -171,7 +201,14 @@
     if (!rows.length) return null;
     const value = rows.map(row => esc(row.name)).join(" / ");
     const hasDeep = rows.some(row => row.sources.length || ["A", "B", "C"].includes(row.relation?.confidence));
-    const deep = hasDeep ? rows.map(row => `<div class="public-breeder-detail"><div class="public-breeder-head"><strong>${esc(row.name)}</strong>${gradeBadge(row.relation)}</div>${sourceLinks(row.sources)}</div>`).join("") : "";
+    const multipleRows = rows.length > 1;
+    const deep = hasDeep ? rows.map(row => {
+      const grade = gradeBadge(row.relation);
+      const head = multipleRows
+        ? `<div class="public-breeder-head"><strong>${esc(row.name)}</strong>${grade}</div>`
+        : grade ? `<div class="public-breeder-head public-breeder-grade-only">${grade}</div>` : "";
+      return `<div class="public-breeder-detail">${head}${sourceLinks(row.sources)}</div>`;
+    }).join("") : "";
     return { value, deep };
   }
 
@@ -188,12 +225,9 @@
   function textClaimCard(catalog, cultivar, kind, label, claim) {
     if (!claim || claim.status === "unknown") return "";
     const text = String(claim.text || "").trim();
-    const japaneseText = text && hasJapanese(text) ? `<p>${esc(text)}</p>` : "";
+    const value = text && hasJapanese(text) ? esc(text) : "";
     const sources = sourcesForRefs(catalog, claim.sourceRefs || []);
-    const deep = `${japaneseText}${sourceLinks(sources)}`;
-    if (!deep) return "";
-    const summary = japaneseText ? "詳細を見る" : "情報源を確認";
-    return disclosure(kind, label, esc(summary), deep, gradeBadge(claim), "public-deep-card");
+    return disclosure(kind, label, value, sourceLinks(sources), gradeBadge(claim), "public-deep-card");
   }
 
   function lineageCard(catalog, cultivar) {
@@ -204,8 +238,7 @@
     const japaneseNote = note && hasJapanese(note) ? `<p>${esc(note)}</p>` : "";
     const sources = sourcesForRefs(catalog, claim.sourceRefs || []);
     const deep = `${japaneseNote}${sourceLinks(sources)}`;
-    if (!value && !deep) return "";
-    return disclosure("lineage", "系譜", value || "情報源を確認", deep, gradeBadge(claim), "public-deep-card");
+    return disclosure("lineage", "系譜", value, deep, gradeBadge(claim), "public-deep-card");
   }
 
   function sensoryCard(label, claim, kind) {
@@ -223,6 +256,7 @@
     const type = displayType(cultivar);
     const generation = displayGeneration(cultivar);
     const breeder = breederBasics(catalog, cultivar);
+    const auxiliary = auxiliaryName(cultivar);
     const typeSources = type ? sourcesSupporting(catalog, cultivar, ["classification", "type"]) : [];
     const generationSources = generation ? sourcesSupporting(catalog, cultivar, ["breeding", "generation"]) : [];
     const allSources = sourcesForRefs(catalog, sourceRefsFor(cultivar));
@@ -246,7 +280,7 @@
       <div class="detail-topbar"><strong>${esc(cultivar.name)}</strong><button class="close-detail" type="button" aria-label="詳細を閉じる">×</button></div>
       <section class="detail-hero">
         ${visual ? `<img src="${esc(asset(visual.src))}" alt="${esc(visual.alt || "")}">` : ""}
-        <div class="detail-hero-copy"><h2>${esc(cultivar.name)}</h2>${cultivar.jp ? `<div class="detail-sub">${esc(cultivar.jp)}</div>` : ""}</div>
+        <div class="detail-hero-copy"><h2>${esc(cultivar.name)}</h2>${auxiliary ? `<div class="detail-sub">${esc(auxiliary)}</div>` : ""}</div>
       </section>
       <main class="detail-public-v1" data-public-detail-id="${esc(cultivar.id)}">
         ${basics ? `<section class="public-basics" aria-label="基本情報">${basics}</section>` : ""}
@@ -283,6 +317,8 @@
     const open = !box.classList.contains("open");
     box.classList.toggle("open", open);
     button.setAttribute("aria-expanded", open ? "true" : "false");
+    const accessibleLabel = open ? button.dataset.openLabel : button.dataset.closedLabel;
+    if (accessibleLabel) button.setAttribute("aria-label", accessibleLabel);
   }, true);
 
   const observer = new MutationObserver(schedule);
