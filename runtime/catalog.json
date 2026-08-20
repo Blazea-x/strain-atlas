@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-20T12:32:28.787Z",
+  "generatedAt": "2026-08-20T13:13:55.644Z",
   "sourceOfTruth": {
     "cultivars": "strains/<id>/strain.json",
     "sources": "sources/*.json",
@@ -2248,6 +2248,23 @@
         "items": [],
         "note": "No named cultivar-specific terpene compound panel was verified from the checked official source; no compounds are inferred from aroma words."
       },
+      "cannabinoids": {
+        "thc": {
+          "status": "confirmed",
+          "confidence": "A",
+          "basis": "breederOfficial",
+          "sourceRefs": [
+            "dutch-passion-mazar"
+          ],
+          "measurement": {
+            "kind": "single",
+            "unit": "%",
+            "value": 20,
+            "approximate": true
+          },
+          "note": "Dutch Passion states that Mazar reaches around 20% THC when grown in good conditions; higher percentages may be possible in expert hands."
+        }
+      },
       "origin": {
         "status": "confirmed",
         "confidence": "A",
@@ -2286,8 +2303,8 @@
           "sourceType": "aiGenerated"
         }
       ],
-      "checkedAt": "2026-08-19",
-      "updatedAt": "2026-08-19"
+      "checkedAt": "2026-08-20",
+      "updatedAt": "2026-08-20"
     },
     {
       "schemaVersion": 1,
@@ -4057,11 +4074,12 @@
         "aromas",
         "origin",
         "history",
+        "cannabinoids",
         "visualMorphology"
       ],
       "publishedAt": null,
-      "checkedAt": "2026-08-19",
-      "note": "Official cultivar page used for identity, breeding/lineage and text-grounded morphology. The page exposes cultivar imagery, but the visual pixels were not retrievable in a sufficiently inspectable form in this run, so no image-derived morphology is claimed."
+      "checkedAt": "2026-08-20",
+      "note": "Official cultivar page used for identity, breeding/lineage, cannabinoid evidence and text-grounded morphology. The page exposes cultivar imagery, but the visual pixels were not retrievable in a sufficiently inspectable form in this run, so no image-derived morphology is claimed."
     },
     "dutch-passion-shaman-story": {
       "schemaVersion": 1,

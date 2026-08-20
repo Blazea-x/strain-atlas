@@ -274,7 +274,7 @@ window.SOURCES={
     "url": "https://dutch-passion.com/en/cannabis-seeds/mazar",
     "type": "primary",
     "typeLabel": "一次情報",
-    "checked": "2026-08-19",
+    "checked": "2026-08-20",
     "supports": [
       "lineage",
       "breeder",
@@ -283,6 +283,7 @@ window.SOURCES={
       "aromas",
       "origin",
       "history",
+      "cannabinoids",
       "visualMorphology"
     ]
   },
