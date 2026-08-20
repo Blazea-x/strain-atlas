@@ -1,0 +1,48 @@
+/* Public cultivar detail standard. Presentation only; canonical data stays on master-migration. */
+.detail-shell{overflow-x:hidden}
+.detail-shell .detail-topbar{min-height:56px;padding:8px 12px}
+.detail-shell .detail-topbar strong{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:14px;line-height:1.3}
+.detail-shell .close-detail{width:44px;height:44px;flex:0 0 44px;font-size:22px}
+.detail-shell .detail-hero-copy{padding:18px 14px 12px}
+.detail-shell .detail-hero h2{font-size:clamp(28px,8vw,38px);line-height:1.08;letter-spacing:-.02em;overflow-wrap:anywhere}
+.detail-shell .detail-sub{margin-top:7px;color:#b0bcb5;font-size:15px;line-height:1.55}
+.detail-public-v1{width:100%;min-width:0;padding:0 12px 40px}
+.public-basics,.public-detail-sections{display:grid;grid-template-columns:minmax(0,1fr);gap:10px}
+.public-basics{padding:4px 0 16px}
+.public-detail-sections{padding-top:2px}
+.public-card{min-width:0;overflow:hidden;border:1px solid rgba(217,182,93,.15);border-radius:15px;background:linear-gradient(145deg,rgba(15,34,24,.72),rgba(7,18,12,.9));box-shadow:inset 0 1px 0 rgba(255,255,255,.025)}
+.public-basic-card{border-color:rgba(217,182,93,.2)}
+.public-card-label{display:block;color:var(--accent-gold);font-size:13px;font-weight:850;line-height:1.3;letter-spacing:.04em}
+.public-card-value{display:block;margin-top:6px;color:var(--text);font-size:18px;font-weight:780;line-height:1.45;overflow-wrap:anywhere}
+.public-card:not(.public-detail-action){padding:15px 14px}
+.public-detail-toggle{appearance:none;display:flex;width:100%;min-height:76px;align-items:center;justify-content:space-between;gap:12px;padding:14px;border:0;background:transparent;color:inherit;text-align:left}
+.public-card-copy{display:block;min-width:0;flex:1}
+.public-chevron{flex:0 0 auto;color:#d9c270;font-size:20px;line-height:1;transform-origin:center;transition:transform .16s ease}
+.public-detail-action.open .public-chevron{transform:rotate(180deg)}
+.public-detail-deep{display:none;padding:0 14px 15px;border-top:1px solid rgba(255,255,255,.07);color:#dce4df;font-size:16px;line-height:1.75;overflow-wrap:anywhere}
+.public-detail-action.open .public-detail-deep{display:block}
+.public-detail-deep>p{margin:14px 0 0}
+.public-detail-deep>p:last-child{margin-bottom:0}
+.public-deep-card .public-card-value{font-size:17px}
+.public-section-head{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.public-grade{display:inline-flex;align-items:center;min-height:28px;padding:4px 9px;border:1px solid currentColor;border-radius:999px;font-size:12px;font-weight:800;line-height:1;white-space:nowrap}
+.public-grade.grade-a{color:#8bd59a}.public-grade.grade-b{color:#e5c66f}.public-grade.grade-c{color:#dfa080}
+.public-card-copy .public-grade{margin-top:9px}
+.public-chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.public-chip{display:inline-flex;align-items:center;min-height:34px;padding:7px 10px;border:1px solid rgba(105,169,120,.22);border-radius:999px;background:rgba(105,169,120,.08);color:#d6e8da;font-size:14px;line-height:1.25;overflow-wrap:anywhere}
+.public-source-list{display:grid;gap:8px;margin-top:14px}
+.public-source-link{display:block;min-height:50px;padding:11px 12px;border:1px solid rgba(217,182,93,.13);border-radius:11px;background:rgba(255,255,255,.025);color:#ecd27c;text-decoration:none;overflow-wrap:anywhere}
+.public-source-link span{display:block;margin-bottom:4px;color:#aebbb4;font-size:12px;font-weight:700}
+.public-source-link strong{display:block;color:#ead383;font-size:15px;line-height:1.45}
+.public-source-link small{display:block;margin-top:4px;color:#a3b0a8;font-size:13px;line-height:1.5}
+.public-breeder-detail{padding-top:14px}
+.public-breeder-detail+.public-breeder-detail{margin-top:14px;border-top:1px solid rgba(255,255,255,.07)}
+.public-breeder-head{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.public-breeder-head strong{font-size:16px;line-height:1.45;overflow-wrap:anywhere}
+@media(min-width:700px){
+  .detail-public-v1{padding-left:18px;padding-right:18px}
+  .public-basics,.public-detail-sections{gap:12px}
+  .public-detail-toggle{min-height:82px;padding:16px}
+  .public-card:not(.public-detail-action){padding:16px}
+  .public-detail-deep{padding:0 16px 16px}
+}
