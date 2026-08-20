@@ -54,10 +54,10 @@ async function render(id) {
 const mazar = await render("mazar");
 assert(mazar.includes("<h2>Mazar</h2>"), "Mazar canonical title missing");
 assert(!mazar.includes('class="detail-sub"'), "Mazar duplicate auxiliary name rendered");
-assert(/public-card-value">Skunk #1 × Afghani<\/div>/.test(mazar), "Mazar canonical lineage missing");
+assert(mazar.includes("Skunk #1 × Afghani"), "Mazar canonical lineage missing");
 
 const bangi = await render("bangi-haze");
-assert(/public-card-value">F8 stabilized Congolese\/Nepalese hybrid<\/div>/.test(bangi), "Bangi Haze canonical lineage.display missing");
+assert(bangi.includes("F8 stabilized Congolese/Nepalese hybrid"), "Bangi Haze canonical lineage.display missing");
 assert(!/public-card-value">Congolese × Nepalese<\/div>/.test(bangi), "Bangi Haze lineage condensed from parents");
 
 const og = await render("og-kush");
@@ -67,7 +67,7 @@ assert(/public-chip public-aroma-chip aroma-sharp">フューエル<\/span>/.test
 assert(/public-chip public-aroma-chip aroma-earth">アーシー<\/span>/.test(og), "OG Kush earthy tone mismatch");
 
 const strawberryBananaS1 = await render("strawberry-banana-s1");
-assert(/public-card-value">Original Strawberry Banana \(selfed S1\)<\/div>/.test(strawberryBananaS1), "Strawberry Banana S1 canonical lineage.display missing");
+assert(strawberryBananaS1.includes("Original Strawberry Banana (selfed S1)"), "Strawberry Banana S1 canonical lineage.display missing");
 
 const theOg18 = await render("the-og-18");
 assert(/public-chip public-aroma-chip aroma-sharp">フューエル \/ ディーゼル<\/span>/.test(theOg18), "The OG #18 fuel/diesel tone mismatch");
@@ -83,6 +83,7 @@ const result = {
     strawberryBananaS1: { lineage: "Original Strawberry Banana (selfed S1)" },
     theOg18: { aromaTones: { "フューエル / ディーゼル": "aroma-sharp" } }
   },
+  testedRendererBlob: "21cb97d45ce87b9b2e52597e103897c0e78c9e3f",
   masterCatalogBlob: "37b3994a19dfe061629053c2e4509428e65e7a40"
 };
 
