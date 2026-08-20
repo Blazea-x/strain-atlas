@@ -62,6 +62,7 @@
     flowers: "フラワー",
     resins: "レジン",
     fuel: "フューエル",
+    "fuel / diesel": "フューエル / ディーゼル",
     bubblegum: "バブルガム",
     berry: "ベリー",
     banana: "バナナ",
@@ -121,7 +122,7 @@
   registerAromaTone("aroma-forest", ["pine", "fresh forest", "fresh", "wood", "woody"]);
   registerAromaTone("aroma-earth", ["earthy", "earthy hash", "musky", "oil", "resins", "hazy", "coffee", "chestnut", "earthy / musk"]);
   registerAromaTone("aroma-spice", ["spicy", "sweet-spicy", "anisette", "aniseed", "liquorice", "cloves", "incense", "sumac", "savoury", "pepper"]);
-  registerAromaTone("aroma-sharp", ["pungent", "gas", "skunk", "sharp", "strong", "sour", "tangy", "acidic", "fuel", "gas / fuel"]);
+  registerAromaTone("aroma-sharp", ["pungent", "gas", "skunk", "sharp", "strong", "sour", "tangy", "acidic", "fuel", "fuel / diesel", "gas / fuel"]);
   const aromaTone = value => aromaToneMap.get(normalizeSensoryKey(value)) || "aroma-neutral";
 
   const esc = value => String(value ?? "").replace(/[&<>"']/g, ch => ({
