@@ -33,6 +33,10 @@
 .public-grade{display:inline-flex;align-items:center;min-height:28px;padding:4px 9px;border:1px solid currentColor;border-radius:999px;font-size:12px;font-weight:800;line-height:1;white-space:nowrap}
 .public-grade.grade-a{color:#8bd59a}.public-grade.grade-b{color:#e5c66f}.public-grade.grade-c{color:#dfa080}
 .public-card-copy .public-grade{margin-top:9px}
+.public-breeder-values{display:grid;gap:9px;margin-top:6px}
+.public-breeder-value{display:flex;min-width:0;align-items:center;justify-content:space-between;gap:10px}
+.public-breeder-value .public-card-value{min-width:0;flex:1;margin-top:0}
+.public-breeder-value .public-grade{flex:0 0 auto}
 .public-chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
 .public-chip{display:inline-flex;align-items:center;min-height:34px;padding:7px 10px;border:1px solid rgba(105,169,120,.22);border-radius:999px;background:rgba(105,169,120,.08);color:#d6e8da;font-size:14px;line-height:1.25;overflow-wrap:anywhere}
 .public-source-list{display:grid;gap:8px;margin-top:14px}

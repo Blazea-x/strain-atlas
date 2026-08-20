@@ -141,13 +141,6 @@
     return [...new Set(refs || [])].map(id => catalog?.sources?.[id]).filter(source => source?.url);
   }
 
-  function sourcesSupporting(catalog, cultivar, supportedKeys) {
-    const keys = new Set(supportedKeys.map(value => value.toLowerCase()));
-    return sourcesForRefs(catalog, sourceRefsFor(cultivar)).filter(source =>
-      (source.supports || []).some(value => keys.has(String(value).toLowerCase()))
-    );
-  }
-
   function uniqueSourcesWithinSection(sources) {
     const seenUrls = new Set();
     return (sources || []).filter(source => {
@@ -169,21 +162,22 @@
     }).join("")}</div>`;
   }
 
-  function disclosure(kind, label, value, deep, grade = "", extraClass = "") {
+  function publicCard(kind, label, value, deep, grade = "", extraClass = "", keepStatic = false) {
     const hasValue = Boolean(String(value || "").trim());
     const hasDeep = Boolean(String(deep || "").trim());
-    if (!hasValue && !hasDeep) return "";
+    if (!hasValue && !hasDeep && !keepStatic) return "";
     if (!hasDeep) {
-      return `<section class="public-card ${extraClass}"><div class="public-card-label">${esc(label)}</div><div class="public-card-value">${value}</div>${grade}</section>`;
+      return `<section class="public-card public-static-card ${extraClass}">
+        <div class="public-section-head"><span class="public-card-label">${esc(label)}</span>${grade}</div>
+        ${hasValue ? `<div class="public-card-value">${value}</div>` : ""}
+      </section>`;
     }
     const id = `public-detail-${kind}`;
-    const sourceOnly = !hasValue;
-    const closedLabel = sourceOnly ? `${label}の情報源を表示` : `${label}の詳細を表示`;
-    const openLabel = sourceOnly ? `${label}の情報源を閉じる` : `${label}の詳細を閉じる`;
-    const copyClass = sourceOnly ? "public-card-copy public-source-only-copy" : "public-card-copy";
-    return `<section class="public-card public-detail-action ${sourceOnly ? "public-source-only " : ""}${extraClass}" data-detail-action>
+    const closedLabel = `${label}の詳細を表示`;
+    const openLabel = `${label}の詳細を閉じる`;
+    return `<section class="public-card public-detail-action ${extraClass}" data-detail-action>
       <button class="public-detail-toggle" type="button" aria-expanded="false" aria-controls="${id}" aria-label="${esc(closedLabel)}" data-closed-label="${esc(closedLabel)}" data-open-label="${esc(openLabel)}" data-detail-toggle>
-        <span class="${copyClass}"><span class="public-card-label">${esc(label)}</span>${hasValue ? `<span class="public-card-value">${value}</span>` : ""}${grade}</span>
+        <span class="public-card-copy"><span class="public-card-label">${esc(label)}</span>${hasValue ? `<span class="public-card-value">${value}</span>` : ""}${grade}</span>
         <span class="public-chevron" aria-hidden="true">⌄</span>
       </button>
       <div class="public-detail-deep" id="${id}">${deep}</div>
@@ -196,20 +190,18 @@
     const rows = relations.map(relation => {
       const entity = catalog.entities?.[relation.entityId];
       const name = String(entity?.name || relation.entityId || "").trim();
-      return { relation, name, sources: sourcesForRefs(catalog, relation.sourceRefs || []) };
+      return { relation, name };
     }).filter(row => row.name);
-    if (!rows.length) return null;
-    const value = rows.map(row => esc(row.name)).join(" / ");
-    const hasDeep = rows.some(row => row.sources.length || ["A", "B", "C"].includes(row.relation?.confidence));
-    const multipleRows = rows.length > 1;
-    const deep = hasDeep ? rows.map(row => {
-      const grade = gradeBadge(row.relation);
-      const head = multipleRows
-        ? `<div class="public-breeder-head"><strong>${esc(row.name)}</strong>${grade}</div>`
-        : grade ? `<div class="public-breeder-head public-breeder-grade-only">${grade}</div>` : "";
-      return `<div class="public-breeder-detail">${head}${sourceLinks(row.sources)}</div>`;
-    }).join("") : "";
-    return { value, deep };
+    return rows.length ? rows : null;
+  }
+
+  function breederCard(catalog, cultivar) {
+    const rows = breederBasics(catalog, cultivar);
+    if (!rows) return "";
+    return `<section class="public-card public-static-card public-basic-card">
+      <div class="public-card-label">ブリーダー</div>
+      <div class="public-breeder-values">${rows.map(row => `<div class="public-breeder-value"><span class="public-card-value">${esc(row.name)}</span>${gradeBadge(row.relation)}</div>`).join("")}</div>
+    </section>`;
   }
 
   function safeLineageValue(cultivar) {
@@ -222,23 +214,22 @@
     return "";
   }
 
-  function textClaimCard(catalog, cultivar, kind, label, claim) {
+  function textClaimCard(cultivar, kind, label, claim) {
     if (!claim || claim.status === "unknown") return "";
     const text = String(claim.text || "").trim();
     const value = text && hasJapanese(text) ? esc(text) : "";
-    const sources = sourcesForRefs(catalog, claim.sourceRefs || []);
-    return disclosure(kind, label, value, sourceLinks(sources), gradeBadge(claim), "public-deep-card");
+    const grade = gradeBadge(claim);
+    return publicCard(kind, label, value, "", grade, "public-deep-card", Boolean(grade));
   }
 
-  function lineageCard(catalog, cultivar) {
+  function lineageCard(cultivar) {
     const value = safeLineageValue(cultivar);
     const claim = cultivar.lineage;
     if (!claim || claim.status === "unknown") return "";
     const note = String(claim.note || "").trim();
-    const japaneseNote = note && hasJapanese(note) ? `<p>${esc(note)}</p>` : "";
-    const sources = sourcesForRefs(catalog, claim.sourceRefs || []);
-    const deep = `${japaneseNote}${sourceLinks(sources)}`;
-    return disclosure("lineage", "系譜", value, deep, gradeBadge(claim), "public-deep-card");
+    const deep = note && hasJapanese(note) ? `<p>${esc(note)}</p>` : "";
+    const grade = gradeBadge(claim);
+    return publicCard("lineage", "系譜", value, deep, grade, "public-deep-card", Boolean(grade));
   }
 
   function sensoryCard(label, claim, kind) {
@@ -255,25 +246,22 @@
     const visual = primaryVisual(cultivar);
     const type = displayType(cultivar);
     const generation = displayGeneration(cultivar);
-    const breeder = breederBasics(catalog, cultivar);
     const auxiliary = auxiliaryName(cultivar);
-    const typeSources = type ? sourcesSupporting(catalog, cultivar, ["classification", "type"]) : [];
-    const generationSources = generation ? sourcesSupporting(catalog, cultivar, ["breeding", "generation"]) : [];
-    const allSources = sourcesForRefs(catalog, sourceRefsFor(cultivar));
+    const allSources = uniqueSourcesWithinSection(sourcesForRefs(catalog, sourceRefsFor(cultivar)));
 
     const basics = [
-      type ? disclosure("type", "タイプ", esc(type), sourceLinks(typeSources), "", "public-basic-card") : "",
-      generation ? disclosure("generation", "世代", esc(generation), sourceLinks(generationSources), "", "public-basic-card") : "",
-      breeder ? disclosure("breeder", "ブリーダー", breeder.value, breeder.deep, "", "public-basic-card") : ""
+      type ? publicCard("type", "タイプ", esc(type), "", "", "public-basic-card") : "",
+      generation ? publicCard("generation", "世代", esc(generation), "", "", "public-basic-card") : "",
+      breederCard(catalog, cultivar)
     ].filter(Boolean).join("");
 
-    const origin = textClaimCard(catalog, cultivar, "origin", "起源", cultivar.origin);
-    const lineage = lineageCard(catalog, cultivar);
+    const origin = textClaimCard(cultivar, "origin", "起源", cultivar.origin);
+    const lineage = lineageCard(cultivar);
     const aromas = sensoryCard("香り", cultivar.aromas, "aroma");
     const terpenes = sensoryCard("テルペン", cultivar.terpenes, "terpene");
-    const history = textClaimCard(catalog, cultivar, "history", "歴史", cultivar.history);
+    const history = textClaimCard(cultivar, "history", "歴史", cultivar.history);
     const sources = allSources.length
-      ? disclosure("sources", "出典", `出典 ${allSources.length}件`, sourceLinks(allSources), "", "public-deep-card public-sources-card")
+      ? publicCard("sources", "出典", `出典 ${allSources.length}件`, sourceLinks(allSources), "", "public-deep-card public-sources-card")
       : "";
 
     detailShell.innerHTML = `
