@@ -1,0 +1,5 @@
+{
+  "passed": false,
+  "exitCode": 1,
+  "log": "[CSW detail] canonical types [\n  'hybrid',\n  'indica',\n  'indica-dominant-hybrid',\n  'sativa',\n  'sativa-dominant-hybrid',\n  'unknown'\n]\n[CSW detail] canonical generations [ 'F1', 'F3', 'F8', 'S1', 'other', 'unknown' ]\n[CSW detail] renderer smoke failures {\n  total: 38,\n  passed: 37,\n  failures: [\n    {\n      id: 'the-og-18',\n      error: 'unmapped Japanese aroma tone: フューエル / ディーゼル'\n    }\n  ]\n}\nfile:///home/runner/work/strain-atlas/strain-atlas/scripts/detail-renderer-smoke-temp.mjs:37\n  throw new Error(`renderer smoke failed: ${JSON.stringify(smoke)}`);\n        ^\n\nError: renderer smoke failed: {\"total\":38,\"passed\":37,\"failures\":[{\"id\":\"the-og-18\",\"error\":\"unmapped Japanese aroma tone: フューエル / ディーゼル\"}]}\n    at file:///home/runner/work/strain-atlas/strain-atlas/scripts/detail-renderer-smoke-temp.mjs:37:9\n\nNode.js v22.23.2\n"
+}
