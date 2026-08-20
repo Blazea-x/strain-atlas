@@ -20,6 +20,7 @@
     "terpenes": {"$ref":"#/$defs/listClaim"},
     "history": {"$ref":"#/$defs/textClaim"},
     "origin": {"$ref":"#/$defs/textClaim"},
+    "publicContent": {"$ref":"#/$defs/publicContent"},
     "visuals": {"type":"array","items":{"$ref":"#/$defs/visual"}},
     "checkedAt": {"type":"string","format":"date"},
     "updatedAt": {"type":"string","format":"date"}
@@ -48,6 +49,14 @@
       "type":"object","additionalProperties":false,"required":["entityId","roles","status"],
       "properties":{"entityId":{"type":"string","pattern":"^[a-z0-9]+(?:-[a-z0-9]+)*$"},"roles":{"type":"array","minItems":1,"uniqueItems":true,"items":{"enum":["originator","breeder","seedCompany","producer","brand","distributor"]}},"status":{"$ref":"#/$defs/status"},"confidence":{"$ref":"#/$defs/confidence"},"basis":{"$ref":"#/$defs/basis"},"sourceRefs":{"$ref":"#/$defs/sourceRefs"}},
       "allOf":[{"if":{"properties":{"status":{"enum":["confirmed","disputed"]}}},"then":{"required":["confidence","basis","sourceRefs"],"properties":{"sourceRefs":{"minItems":1}}}}]
+    },
+    "publicContent": {
+      "type":"object","additionalProperties":false,"required":["ja"],
+      "properties":{"ja":{"$ref":"#/$defs/publicContentJa"}}
+    },
+    "publicContentJa": {
+      "type":"object","additionalProperties":false,"minProperties":1,
+      "properties":{"origin":{"type":"string","minLength":1},"lineageNote":{"type":"string","minLength":1},"history":{"type":"string","minLength":1}}
     },
     "visual": {
       "type":"object","additionalProperties":false,"required":["role","src","aiGenerated","sourceType","rights","alt","scope"],
