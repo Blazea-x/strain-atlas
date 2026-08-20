@@ -60,7 +60,19 @@
     mango: "マンゴー",
     orange: "オレンジ",
     flowers: "フラワー",
-    resins: "レジン"
+    resins: "レジン",
+    fuel: "フューエル",
+    bubblegum: "バブルガム",
+    berry: "ベリー",
+    banana: "バナナ",
+    pepper: "ペッパー",
+    coffee: "コーヒー",
+    chocolate: "チョコレート",
+    "sweet vanilla": "スイートバニラ",
+    chestnut: "チェスナット",
+    "lemon zest": "レモンゼスト",
+    "earthy / musk": "アーシー / ムスク",
+    "gas / fuel": "ガス / フューエル"
   });
 
   const normalizeSensoryKey = value => String(value || "")
@@ -97,15 +109,19 @@
   };
 
   const aromaToneMap = new Map();
-  const registerAromaTone = (tone, values) => values.forEach(value => aromaToneMap.set(normalizeSensoryKey(value), tone));
-  registerAromaTone("aroma-sweet", ["sweet", "crème", "vanilla", "sweet carrot"]);
+  const registerAromaTone = (tone, values) => values.forEach(value => {
+    aromaToneMap.set(normalizeSensoryKey(value), tone);
+    const localized = aromaLabels[value];
+    if (localized) aromaToneMap.set(normalizeSensoryKey(localized), tone);
+  });
+  registerAromaTone("aroma-sweet", ["sweet", "crème", "vanilla", "sweet carrot", "bubblegum", "chocolate", "sweet vanilla"]);
   registerAromaTone("aroma-floral", ["floral", "flowers"]);
-  registerAromaTone("aroma-citrus", ["lemon", "citrus", "sweet citrus", "ripe mandarin", "orange"]);
-  registerAromaTone("aroma-fruit", ["fruity", "tropical fruit", "exotic fruits", "fresh fruit", "guava", "mango", "strawberry"]);
+  registerAromaTone("aroma-citrus", ["lemon", "citrus", "sweet citrus", "ripe mandarin", "orange", "lemon zest"]);
+  registerAromaTone("aroma-fruit", ["fruity", "tropical fruit", "exotic fruits", "fresh fruit", "guava", "mango", "strawberry", "berry", "banana"]);
   registerAromaTone("aroma-forest", ["pine", "fresh forest", "fresh", "wood", "woody"]);
-  registerAromaTone("aroma-earth", ["earthy", "earthy hash", "musky", "oil", "resins", "hazy"]);
-  registerAromaTone("aroma-spice", ["spicy", "sweet-spicy", "anisette", "aniseed", "liquorice", "cloves", "incense", "sumac", "savoury"]);
-  registerAromaTone("aroma-sharp", ["pungent", "gas", "skunk", "sharp", "strong", "sour", "tangy", "acidic"]);
+  registerAromaTone("aroma-earth", ["earthy", "earthy hash", "musky", "oil", "resins", "hazy", "coffee", "chestnut", "earthy / musk"]);
+  registerAromaTone("aroma-spice", ["spicy", "sweet-spicy", "anisette", "aniseed", "liquorice", "cloves", "incense", "sumac", "savoury", "pepper"]);
+  registerAromaTone("aroma-sharp", ["pungent", "gas", "skunk", "sharp", "strong", "sour", "tangy", "acidic", "fuel", "gas / fuel"]);
   const aromaTone = value => aromaToneMap.get(normalizeSensoryKey(value)) || "aroma-neutral";
 
   const esc = value => String(value ?? "").replace(/[&<>"']/g, ch => ({
@@ -266,10 +282,10 @@
 
   function safeLineageValue(cultivar) {
     if (!cultivar.lineage || cultivar.lineage.status === "unknown") return "";
+    const display = String(cultivar.lineage.display || "").trim();
+    if (display) return esc(display);
     const parents = (cultivar.lineage.parents || []).filter(Boolean);
     if (parents.length >= 2) return parents.map(esc).join(" × ");
-    const display = String(cultivar.lineage.display || "").trim();
-    if (display.includes("×") || hasJapanese(display)) return esc(display);
     if (parents.length === 1) return esc(parents[0]);
     return "";
   }
@@ -434,6 +450,11 @@
         const sourcesStart = markup.indexOf('data-public-region="sources"');
         const profileMarkup = profileStart >= 0 ? markup.slice(profileStart, sourcesStart > profileStart ? sourcesStart : undefined) : "";
         if (profileMarkup.includes("public-source-link")) throw new Error("source link leaked into PROFILE");
+        const canonicalLineageDisplay = cultivar.lineage?.status === "unknown" ? "" : String(cultivar.lineage?.display || "").trim();
+        if (canonicalLineageDisplay && !profileMarkup.includes(esc(canonicalLineageDisplay))) throw new Error("canonical lineage.display missing");
+        for (const aroma of cultivar.aromas?.items || []) {
+          if (hasJapanese(aroma) && aromaTone(aroma) === "aroma-neutral") throw new Error(`unmapped Japanese aroma tone: ${aroma}`);
+        }
         passed += 1;
       } catch (error) {
         failures.push({ id: cultivar?.id || "unknown", error: String(error?.message || error) });
