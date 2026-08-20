@@ -1,7 +1,5 @@
 /* DETAIL VISUAL CONVERGENCE V1. Presentation only; canonical data stays on master-migration. */
 .detail-shell{width:min(100%,980px);overflow-x:hidden;background:linear-gradient(180deg,#06100c 0%,#040b08 58%,#020604 100%)}
-.detail-shell>.status-grid{display:none!important}
-.detail-shell:not(:has(.detail-public-v1)) .detail-sub{visibility:hidden}
 .detail-shell .detail-topbar{min-height:56px;padding:6px 12px;background:rgba(3,9,6,.88);border-bottom-color:rgba(217,182,93,.09)}
 .detail-topbar-public{gap:12px}
 .detail-topbar-line{display:block;width:44px;height:1px;background:linear-gradient(90deg,rgba(217,182,93,.52),rgba(217,182,93,0))}
