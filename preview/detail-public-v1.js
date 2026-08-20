@@ -79,11 +79,15 @@
     : "";
 
   const normalizeIdentityValue = value => String(value ?? "").trim().replace(/[\s\u3000]+/g, " ");
+  const stripKnownNamePrefix = value => normalizeIdentityValue(value).replace(/^(?:正式登録名|Official name)\s*[:：]\s*/i, "");
+  const isCanonicalNameDuplicate = (value, cultivar) => {
+    const candidate = stripKnownNamePrefix(value);
+    const canonical = normalizeIdentityValue(cultivar?.name);
+    return Boolean(candidate && canonical && candidate === canonical);
+  };
   const auxiliaryName = cultivar => {
     const raw = String(cultivar?.jp ?? "").trim();
-    if (!raw) return "";
-    const comparisonValue = raw.replace(/^(?:正式登録名|Official name)\s*[:：]\s*/i, "");
-    return normalizeIdentityValue(comparisonValue) === normalizeIdentityValue(cultivar?.name) ? "" : raw;
+    return !raw || isCanonicalNameDuplicate(raw, cultivar) ? "" : raw;
   };
 
   let catalogPromise;
@@ -277,15 +281,23 @@
     `;
   }
 
+  function publicDetailIsCanonical(cultivar) {
+    const publicRoot = detailShell.querySelector(`.detail-public-v1[data-public-detail-id="${CSS.escape(cultivar.id)}"]`);
+    if (!publicRoot || detailShell.querySelector(":scope > .status-grid")) return false;
+    const sub = detailShell.querySelector(".detail-hero .detail-sub");
+    const expected = auxiliaryName(cultivar);
+    if (!expected) return !sub;
+    return Boolean(sub) && normalizeIdentityValue(sub.textContent) === normalizeIdentityValue(expected);
+  }
+
   let scheduled = false;
   async function enhanceDetail() {
     scheduled = false;
     const id = new URL(location.href).searchParams.get("strain");
     if (!id || !detailShell.children.length) return;
-    if (detailShell.querySelector(`.detail-public-v1[data-public-detail-id="${CSS.escape(id)}"]`)) return;
     const catalog = await getCatalog();
     const cultivar = catalog?.cultivars?.find(item => item.id === id);
-    if (!cultivar) return;
+    if (!cultivar || publicDetailIsCanonical(cultivar)) return;
     renderPublicDetail(catalog, cultivar);
   }
 
