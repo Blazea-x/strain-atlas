@@ -13,9 +13,10 @@
     "aromas",
     "origin",
     "history",
+    "cannabinoids",
     "visualMorphology"
   ],
   "publishedAt": null,
-  "checkedAt": "2026-08-19",
-  "note": "Official cultivar page used for identity, breeding/lineage and text-grounded morphology. The page exposes cultivar imagery, but the visual pixels were not retrievable in a sufficiently inspectable form in this run, so no image-derived morphology is claimed."
+  "checkedAt": "2026-08-20",
+  "note": "Official cultivar page used for identity, breeding/lineage, cannabinoid evidence and text-grounded morphology. The page exposes cultivar imagery, but the visual pixels were not retrievable in a sufficiently inspectable form in this run, so no image-derived morphology is claimed."
 }

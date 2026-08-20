@@ -18,6 +18,7 @@
     "relations": {"type":"array","items":{"$ref":"#/$defs/relation"}},
     "aromas": {"$ref":"#/$defs/listClaim"},
     "terpenes": {"$ref":"#/$defs/listClaim"},
+    "cannabinoids": {"$ref":"#/$defs/cannabinoids"},
     "history": {"$ref":"#/$defs/textClaim"},
     "origin": {"$ref":"#/$defs/textClaim"},
     "publicContent": {"$ref":"#/$defs/publicContent"},
@@ -44,6 +45,23 @@
       "type":"object","additionalProperties":false,"required":["status","text","note"],
       "properties":{"status":{"$ref":"#/$defs/status"},"confidence":{"$ref":"#/$defs/confidence"},"basis":{"$ref":"#/$defs/basis"},"sourceRefs":{"$ref":"#/$defs/sourceRefs"},"text":{"type":"string"},"note":{"type":"string"}},
       "allOf":[{"if":{"properties":{"status":{"enum":["confirmed","disputed"]}}},"then":{"required":["confidence","basis","sourceRefs"],"properties":{"sourceRefs":{"minItems":1}}}}]
+    },
+    "cannabinoids": {
+      "type":"object","additionalProperties":false,
+      "properties":{"thc":{"$ref":"#/$defs/cannabinoidClaim"},"cbd":{"$ref":"#/$defs/cannabinoidClaim"}}
+    },
+    "cannabinoidClaim": {
+      "type":"object","additionalProperties":false,"required":["status","note"],
+      "properties":{"status":{"$ref":"#/$defs/status"},"confidence":{"$ref":"#/$defs/confidence"},"basis":{"$ref":"#/$defs/basis"},"sourceRefs":{"$ref":"#/$defs/sourceRefs"},"measurement":{"$ref":"#/$defs/cannabinoidMeasurement"},"note":{"type":"string"}},
+      "allOf":[{"if":{"properties":{"status":{"enum":["confirmed","disputed"]}}},"then":{"required":["confidence","basis","sourceRefs","measurement"],"properties":{"sourceRefs":{"minItems":1}}}}]
+    },
+    "cannabinoidMeasurement": {
+      "oneOf":[
+        {"type":"object","additionalProperties":false,"required":["kind","unit","value","approximate"],"properties":{"kind":{"const":"single"},"unit":{"const":"%"},"value":{"type":"number","minimum":0,"maximum":100},"approximate":{"type":"boolean"}}},
+        {"type":"object","additionalProperties":false,"required":["kind","unit","min","max","approximate"],"properties":{"kind":{"const":"range"},"unit":{"const":"%"},"min":{"type":"number","minimum":0,"maximum":100},"max":{"type":"number","minimum":0,"maximum":100},"approximate":{"type":"boolean"}}},
+        {"type":"object","additionalProperties":false,"required":["kind","unit","value","approximate"],"properties":{"kind":{"const":"maximum"},"unit":{"const":"%"},"value":{"type":"number","minimum":0,"maximum":100},"approximate":{"type":"boolean"}}},
+        {"type":"object","additionalProperties":false,"required":["kind","unit","value","approximate"],"properties":{"kind":{"const":"less-than"},"unit":{"const":"%"},"value":{"type":"number","minimum":0,"maximum":100},"approximate":{"type":"boolean"}}}
+      ]
     },
     "relation": {
       "type":"object","additionalProperties":false,"required":["entityId","roles","status"],
