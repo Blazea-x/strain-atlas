@@ -7,9 +7,7 @@
   const latestState = document.getElementById("latest-state");
   const latestCount = document.getElementById("latest-count");
   const allGrid = document.getElementById("cultivar-grid");
-  const search = document.getElementById("search");
   const catalogMeta = document.getElementById("catalog-meta");
-  const detailShell = document.getElementById("detail-shell");
 
   let catalog = null;
   let cultivarById = new Map();
@@ -68,7 +66,7 @@
     if (rendered !== latestIds.length) return;
     latestGrid.replaceChildren(fragment);
     latestState?.classList.add("is-ready");
-    latestCount.textContent = `${rendered}件`;
+    if (latestCount) latestCount.textContent = `${rendered}件`;
   }
 
   function sortPublicationEntries(entries, runtimeIds) {
@@ -89,62 +87,6 @@
     if (!label) return;
     const text = label.textContent.trim();
     if (/^\d+\s*\/\s*\d+$/.test(text)) label.textContent = `表示 ${text}`;
-  }
-
-  function localizeDetail(cultivar) {
-    if (!detailShell || !cultivar) return;
-    const identity = displayIdentity(cultivar);
-    const topbarName = detailShell.querySelector(".detail-topbar strong");
-    const heroHeading = detailShell.querySelector(".detail-hero-copy h2");
-    const heroCopy = detailShell.querySelector(".detail-hero-copy");
-    if (topbarName) topbarName.textContent = identity.displayName;
-    if (heroHeading) {
-      heroHeading.classList.add("detail-identity");
-      heroHeading.innerHTML = `<span>${esc(identity.displayName)}</span>${identity.generation ? `<span class="generation-badge">${esc(identity.generation)}</span>` : ""}`;
-    }
-    if (heroCopy && !heroCopy.querySelector(".detail-registered-name")) {
-      const formal = document.createElement("div");
-      formal.className = "detail-registered-name";
-      formal.textContent = `正式登録名: ${identity.formalName}`;
-      heroCopy.appendChild(formal);
-    }
-
-    const labels = new Map([
-      ["TYPE", "タイプ / TYPE"],
-      ["GENERATION", "世代 / GENERATION"],
-      ["BREEDER / ENTITY", "ブリーダー・関連組織 / BREEDER・ENTITY"],
-      ["UPDATED", "更新 / UPDATED"],
-      ["ORIGIN", "起源 / ORIGIN"],
-      ["LINEAGE", "系譜 / LINEAGE"],
-      ["AROMA", "香り / AROMA"],
-      ["TERPENE", "テルペン / TERPENE"],
-      ["HISTORY", "歴史 / HISTORY"],
-      ["SOURCES", "出典 / SOURCES"]
-    ]);
-    detailShell.querySelectorAll(".status-label").forEach(node => {
-      const replacement = labels.get(node.textContent.trim());
-      if (replacement) {
-        node.textContent = replacement;
-        node.classList.add("is-localized");
-      }
-    });
-    detailShell.querySelectorAll("[data-detail-toggle] small").forEach(node => { node.textContent = "詳細"; });
-  }
-
-  function currentDetailCultivar() {
-    if (!catalog || !detailShell) return null;
-    const id = new URL(location.href).searchParams.get("strain");
-    if (id && cultivarById.has(id)) return cultivarById.get(id);
-    const formalName = detailShell.querySelector(".detail-topbar strong")?.textContent?.trim();
-    if (!formalName) return null;
-    return catalog.cultivars.find(item => item.name === formalName) ||
-      catalog.cultivars.find(item => displayIdentity(item).displayName === formalName) ||
-      null;
-  }
-
-  function localizeCurrentDetail() {
-    const cultivar = currentDetailCultivar();
-    if (cultivar) localizeDetail(cultivar);
   }
 
   function renderFooter() {
@@ -178,10 +120,6 @@
   const resultLabel = document.getElementById("result-label");
   if (resultLabel) new MutationObserver(localizeResultLabel).observe(resultLabel, { childList: true, characterData: true, subtree: true });
 
-  if (detailShell) {
-    new MutationObserver(localizeCurrentDetail).observe(detailShell, { childList: true, subtree: false });
-  }
-
   async function bootHomeUxV2() {
     try {
       const response = await fetch(DATA_URL, { cache: "no-store" });
@@ -191,7 +129,6 @@
       cultivarById = new Map(catalog.cultivars.map(cultivar => [cultivar.id, cultivar]));
       renderFooter();
       captureCanonicalCards();
-      localizeCurrentDetail();
     } catch (error) {
       console.warn("HOME UX V2 catalog enhancement unavailable", error);
     }
