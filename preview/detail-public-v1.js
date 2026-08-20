@@ -310,9 +310,19 @@
     })).filter(row => row.value);
     if (!rows.length) return "";
 
+    const cardLabel = rows.length === 1 ? `${rows[0].label}含有量` : "THC / CBD";
+    if (rows.length === 1) {
+      const row = rows[0];
+      return `<section class="public-card public-cannabinoid-card public-basic-card">
+        <div class="public-section-head"><span class="public-card-label">${esc(cardLabel)}</span>${gradeBadge(row.claim)}</div>
+        <strong class="public-card-value public-cannabinoid-value">${esc(row.value)}</strong>
+        <p class="public-cannabinoid-note">含有量は個体・栽培条件・分析ロット等により変動します。</p>
+      </section>`;
+    }
+
     const first = rows[0];
-    const sharedConfidence = rows.length === 1 || rows.every(row => row.claim?.confidence === first.claim?.confidence);
-    const sharedSources = rows.length === 1 || rows.every(row => normalizedSourceRefs(row.claim) === normalizedSourceRefs(first.claim));
+    const sharedConfidence = rows.every(row => row.claim?.confidence === first.claim?.confidence);
+    const sharedSources = rows.every(row => normalizedSourceRefs(row.claim) === normalizedSourceRefs(first.claim));
     const sharedGrade = sharedConfidence ? gradeBadge(first.claim) : "";
     const values = rows.map(row => {
       const rowGrade = sharedConfidence ? "" : gradeBadge(row.claim);
@@ -323,8 +333,8 @@
       return `<div class="public-cannabinoid-row"><span class="public-cannabinoid-name">${esc(row.label)}</span><strong class="public-cannabinoid-value">${esc(row.value)}</strong>${evidence}</div>`;
     }).join("");
 
-    return `<section class="public-card public-cannabinoid-card">
-      <div class="public-section-head"><span class="public-card-label">カンナビノイド</span>${sharedGrade}</div>
+    return `<section class="public-card public-cannabinoid-card public-basic-card">
+      <div class="public-section-head"><span class="public-card-label">${esc(cardLabel)}</span>${sharedGrade}</div>
       <div class="public-cannabinoid-values">${values}</div>
       <p class="public-cannabinoid-note">含有量は個体・栽培条件・分析ロット等により変動します。</p>
     </section>`;
@@ -336,18 +346,19 @@
     const generation = displayGeneration(cultivar);
     const auxiliary = auxiliaryName(cultivar);
     const allSources = uniqueSourcesWithinSection(sourcesForRefs(catalog, sourceRefsFor(cultivar)));
+    const cannabinoids = cannabinoidCard(catalog, cultivar);
 
     const basics = [
       type ? publicCard("type", "タイプ", esc(type), "", "", "public-basic-card") : "",
       generation ? publicCard("generation", "世代", esc(generation), "", "", "public-basic-card") : "",
-      breederCard(catalog, cultivar)
+      breederCard(catalog, cultivar),
+      cannabinoids
     ].filter(Boolean).join("");
 
     const origin = textClaimCard(cultivar, "origin", "起源", cultivar.origin);
     const lineage = lineageCard(cultivar);
     const aromas = sensoryCard("香り", cultivar.aromas, "aroma");
     const terpenes = sensoryCard("テルペン", cultivar.terpenes, "terpene");
-    const cannabinoids = cannabinoidCard(catalog, cultivar);
     const history = textClaimCard(cultivar, "history", "歴史", cultivar.history);
     const sources = allSources.length
       ? publicCard("sources", "出典", `出典 ${allSources.length}件`, sourceLinks(allSources), "", "public-deep-card public-sources-card")
@@ -361,7 +372,7 @@
       </section>
       <main class="detail-public-v1" data-public-detail-id="${esc(cultivar.id)}">
         ${basics ? `<section class="public-basics" aria-label="基本情報">${basics}</section>` : ""}
-        <section class="public-detail-sections" aria-label="品種情報">${origin}${lineage}${aromas}${terpenes}${cannabinoids}${history}${sources}</section>
+        <section class="public-detail-sections" aria-label="品種情報">${origin}${lineage}${aromas}${terpenes}${history}${sources}</section>
       </main>
     `;
   }
