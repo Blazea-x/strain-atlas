@@ -1,5 +1,37 @@
 {
-  "passed": false,
-  "exitCode": 1,
-  "log": "[CSW detail] canonical types [\n  'hybrid',\n  'indica',\n  'indica-dominant-hybrid',\n  'sativa',\n  'sativa-dominant-hybrid',\n  'unknown'\n]\n[CSW detail] canonical generations [ 'F1', 'F3', 'F8', 'S1', 'other', 'unknown' ]\n[CSW detail] renderer smoke PASS 38/38\nfile:///home/runner/work/strain-atlas/strain-atlas/scripts/detail-renderer-smoke-temp.mjs:41\n  if (!condition) throw new Error(message);\n                        ^\n\nError: Mazar canonical lineage missing\n    at assert (file:///home/runner/work/strain-atlas/strain-atlas/scripts/detail-renderer-smoke-temp.mjs:41:25)\n    at file:///home/runner/work/strain-atlas/strain-atlas/scripts/detail-renderer-smoke-temp.mjs:57:1\n\nNode.js v22.23.2\n"
+  "passed": true,
+  "catalogCount": 38,
+  "smoke": {
+    "total": 38,
+    "passed": 38,
+    "failures": []
+  },
+  "representatives": {
+    "mazar": {
+      "canonicalTitle": true,
+      "duplicateAuxiliaryName": false,
+      "lineage": "Skunk #1 × Afghani"
+    },
+    "bangiHaze": {
+      "lineage": "F8 stabilized Congolese/Nepalese hybrid"
+    },
+    "ogKush": {
+      "aromaTones": {
+        "レモン": "aroma-citrus",
+        "パイン": "aroma-forest",
+        "フューエル": "aroma-sharp",
+        "アーシー": "aroma-earth"
+      }
+    },
+    "strawberryBananaS1": {
+      "lineage": "Original Strawberry Banana (selfed S1)"
+    },
+    "theOg18": {
+      "aromaTones": {
+        "フューエル / ディーゼル": "aroma-sharp"
+      }
+    }
+  },
+  "testedRendererBlob": "21cb97d45ce87b9b2e52597e103897c0e78c9e3f",
+  "masterCatalogBlob": "37b3994a19dfe061629053c2e4509428e65e7a40"
 }
