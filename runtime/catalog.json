@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-19T13:06:50.812Z",
+  "generatedAt": "2026-08-20T12:30:45.871Z",
   "sourceOfTruth": {
     "cultivars": "strains/<id>/strain.json",
     "sources": "sources/*.json",
@@ -2267,6 +2267,13 @@
         ],
         "text": "Dutch Passion describes Mazar as an 1980s/1990s classic and states the genetic mix was improved in 1997.",
         "note": "Only bounded history stated by the current official source is retained."
+      },
+      "publicContent": {
+        "ja": {
+          "origin": "Dutch Passionが、選抜したSkunk #1とアフガン系統を交配して開発した品種です。",
+          "lineageNote": "Dutch PassionはMazarをSkunk #1 × Afghaniとし、アフガン系ハッシュプラントの性質を強く持つインディカ優勢系統として説明しています。",
+          "history": "Dutch PassionはMazarを1980〜1990年代のクラシック品種と位置づけ、1997年に遺伝的な組み合わせを改良したとしています。"
+        }
       },
       "visuals": [
         {
