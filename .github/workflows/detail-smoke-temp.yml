@@ -1,0 +1,39 @@
+name: Temporary detail renderer smoke
+
+on:
+  push:
+    branches:
+      - detail-visual-convergence-smoke-20260821
+    paths:
+      - "preview/detail-public-v1.js"
+      - "runtime/smoke-catalog.json"
+      - "scripts/detail-renderer-smoke-temp.mjs"
+      - ".github/workflows/detail-smoke-temp.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout smoke branch
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Run 38 cultivar renderer smoke
+        run: node scripts/detail-renderer-smoke-temp.mjs
+
+      - name: Record smoke result
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add tmp/detail-smoke-result.json
+          git commit -m "Record temporary detail smoke result"
+          git push
