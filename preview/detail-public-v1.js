@@ -89,6 +89,10 @@
     const raw = String(cultivar?.jp ?? "").trim();
     return !raw || isCanonicalNameDuplicate(raw, cultivar) ? "" : raw;
   };
+  const publicJapanese = (cultivar, key) => {
+    const value = cultivar?.publicContent?.ja?.[key];
+    return typeof value === "string" ? value.trim() : "";
+  };
 
   let catalogPromise;
   const getCatalog = () => {
@@ -222,16 +226,18 @@
     if (!claim || claim.status === "unknown") return "";
     const text = String(claim.text || "").trim();
     const value = text && hasJapanese(text) ? esc(text) : "";
+    const prose = publicJapanese(cultivar, kind);
+    const deep = prose ? `<p>${esc(prose)}</p>` : "";
     const grade = gradeBadge(claim);
-    return publicCard(kind, label, value, "", grade, "public-deep-card", Boolean(grade));
+    return publicCard(kind, label, value, deep, grade, "public-deep-card", Boolean(grade));
   }
 
   function lineageCard(cultivar) {
     const value = safeLineageValue(cultivar);
     const claim = cultivar.lineage;
     if (!claim || claim.status === "unknown") return "";
-    const note = String(claim.note || "").trim();
-    const deep = note && hasJapanese(note) ? `<p>${esc(note)}</p>` : "";
+    const prose = publicJapanese(cultivar, "lineageNote");
+    const deep = prose ? `<p>${esc(prose)}</p>` : "";
     const grade = gradeBadge(claim);
     return publicCard("lineage", "系譜", value, deep, grade, "public-deep-card", Boolean(grade));
   }
