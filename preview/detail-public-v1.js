@@ -165,9 +165,6 @@
         })
         .then(catalog => {
           auditMappings(catalog);
-          const smoke = runRendererSmoke(catalog);
-          if (smoke.failures.length) console.warn("[CSW detail] renderer smoke failures", smoke);
-          else console.info(`[CSW detail] renderer smoke PASS ${smoke.passed}/${smoke.total}`);
           return catalog;
         })
         .catch(error => {
@@ -283,10 +280,10 @@
 
   function safeLineageValue(cultivar) {
     if (!cultivar.lineage || cultivar.lineage.status === "unknown") return "";
-    const display = String(cultivar.lineage.display || "").trim();
-    if (display) return esc(display);
     const parents = (cultivar.lineage.parents || []).filter(Boolean);
     if (parents.length >= 2) return parents.map(esc).join(" × ");
+    const display = String(cultivar.lineage.display || "").trim();
+    if (display) return esc(display);
     if (parents.length === 1) return esc(parents[0]);
     return "";
   }
@@ -443,6 +440,7 @@
         const topbarEnd = markup.indexOf("</div>");
         const topbarMarkup = topbarEnd >= 0 ? markup.slice(0, topbarEnd + 6) : "";
         if (topbarMarkup.includes(encodedName)) throw new Error("canonical name leaked into topbar");
+        if (/(?:正式登録名|Official name)\s*[:：]/i.test(markup)) throw new Error("legacy official-name label rendered");
         if (/data-public-region="spec"/.test(markup) && !/data-spec-count="[1-9][0-9]*"/.test(markup)) throw new Error("empty spec region");
         if (/data-public-region="profile"/.test(markup) && !/class="public-profile-stack">\s*<section class="public-card/.test(markup)) throw new Error("empty profile region");
         if (/data-public-region="sources"/.test(markup) && !/public-sources-card/.test(markup)) throw new Error("empty sources region");
@@ -452,7 +450,8 @@
         const profileMarkup = profileStart >= 0 ? markup.slice(profileStart, sourcesStart > profileStart ? sourcesStart : undefined) : "";
         if (profileMarkup.includes("public-source-link")) throw new Error("source link leaked into PROFILE");
         const canonicalLineageDisplay = cultivar.lineage?.status === "unknown" ? "" : String(cultivar.lineage?.display || "").trim();
-        if (canonicalLineageDisplay && !profileMarkup.includes(esc(canonicalLineageDisplay))) throw new Error("canonical lineage.display missing");
+        const lineageParents = (cultivar.lineage?.parents || []).filter(Boolean);
+        if (canonicalLineageDisplay && lineageParents.length < 2 && !profileMarkup.includes(esc(canonicalLineageDisplay))) throw new Error("canonical lineage.display missing");
         for (const aroma of cultivar.aromas?.items || []) {
           if (hasJapanese(aroma) && aromaTone(aroma) === "aroma-neutral") throw new Error(`unmapped Japanese aroma tone: ${aroma}`);
         }
@@ -465,6 +464,16 @@
     window.__CSWDetailRendererSmoke = result;
     return result;
   }
+
+  window.__CSWRunDetailRendererSmoke = async () => {
+    const catalog = await getCatalog();
+    if (!catalog) {
+      const result = { total: 0, passed: 0, failures: [{ id: "catalog", error: "runtime catalog unavailable" }] };
+      window.__CSWDetailRendererSmoke = result;
+      return result;
+    }
+    return runRendererSmoke(catalog);
+  };
 
   function publicDetailIsCanonical(cultivar) {
     const publicRoot = detailShell.querySelector(".detail-public-v1[data-public-detail-id]");
