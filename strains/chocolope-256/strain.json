@@ -55,6 +55,11 @@
     "text": "DNA GeneticsがLemon Skunk 256 (Emerald Cup Winning Cut)とChocolopeを交配して展開するライン。",
     "note": "作出年や具体的な作出地点は公式ページから確認できないため追加しない。"
   },
+  "publicContent": {
+    "ja": {
+      "lineageNote": "DNA Genetics公式ではLemon Skunk 256（Emerald Cup Winning Cut）× Chocolopeと記載されています。F1・F2・BXなどの育種世代は公式ページでは確認できません。"
+    }
+  },
   "visuals": [
     {
       "role": "primary",

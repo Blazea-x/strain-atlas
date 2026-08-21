@@ -81,6 +81,13 @@
     "text": "Serious Seeds states AK-47 was created in 1992 after selection work across multiple lines.",
     "note": "Only bounded history stated by the current official source is retained."
   },
+  "publicContent": {
+    "ja": {
+      "origin": "Serious SeedsがColombian、Mexican、Thai、Afghanのseed stockから作出したと公式に説明しています。",
+      "lineageNote": "Serious Seeds公式では、Colombian、Mexican、Thai、Afghanのseed stockから開発した、サティバ優勢のF1ハイブリッドとされています。",
+      "history": "Serious Seedsは、複数の系統で選抜を行った後、1992年にAK-47を作出したと説明しています。"
+    }
+  },
   "visuals": [
     {
       "role": "primary",

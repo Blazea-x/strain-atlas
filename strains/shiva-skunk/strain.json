@@ -79,6 +79,13 @@
     "text": "Sensi Seeds states the strain was first released in 1987 as NL#5xSK#1 and was renamed Shiva Skunk shortly afterward.",
     "note": "Only dated or descriptive history stated on the current official page is retained."
   },
+  "publicContent": {
+    "ja": {
+      "origin": "Sensi SeedsがNorthern Lights #5とSkunk #1から育種したと公式に説明しています。",
+      "lineageNote": "Sensi Seeds公式ではNorthern Lights #5 × Skunk #1とされています。",
+      "history": "Sensi Seedsは、1987年にNL#5xSK#1として初めてリリースされ、その後まもなくShiva Skunkへ改名されたと説明しています。"
+    }
+  },
   "visuals": [
     {
       "role": "primary",

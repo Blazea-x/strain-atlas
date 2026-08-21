@@ -90,6 +90,11 @@
     "text": "DNA Geneticsの現行ラインとしてL.A. ConfidentialとOG Kushを組み合わせた品種。公式は開発に長い期間を要したと記すが、作出年・初出年は確認できない。",
     "note": "公式に確認できる範囲だけを記載し、具体的な年代は補わない。"
   },
+  "publicContent": {
+    "ja": {
+      "lineageNote": "DNA Genetics公式とSeedFinderはいずれもL.A. ConfidentialとOG Kushの組み合わせを示しています。資料によって表記順が異なるため、ここでは親の組み合わせのみを示し、母父の方向までは断定しません。"
+    }
+  },
   "visuals": [
     {
       "role": "primary",

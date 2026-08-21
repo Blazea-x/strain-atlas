@@ -97,6 +97,13 @@
     "text": "ACE Seeds describes Bangi Haze as a classic strain that has been in its catalogue for almost 20 years; an exact first-release year is not stated on the current page.",
     "note": "Only dated or descriptive history stated on the current official page is retained."
   },
+  "publicContent": {
+    "ja": {
+      "origin": "ACE Seeds公式では、CongoleseとNepaleseの遺伝背景をもとに、スペインのGaliciaで開発・安定化したとされています。",
+      "lineageNote": "ACE Seeds公式では、CongoleseとNepaleseの遺伝背景を組み合わせてF8まで安定化したハイブリッドと説明されています。",
+      "history": "ACE SeedsはBangi Hazeを、カタログで約20年扱ってきたクラシック品種と説明しています。現行ページには初回リリース年の明記はありません。"
+    }
+  },
   "visuals": [
     {
       "role": "primary",

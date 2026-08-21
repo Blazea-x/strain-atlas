@@ -49,6 +49,11 @@
     "text": "1996年、Florida由来のOG Kush系統がLos Angelesへ持ち込まれ、Josh Dが保存・栽培・共有の中心人物となった。1990年代後半にはSouthern Californiaで広まり、1997年にはJosh D自身がNorthern Californiaへ持ち込んだ記録がある。",
     "note": "Josh D本人の公式サイトと、Josh D・B-Real・Kevin Jodreyらへの直接取材を含むLeaflyの系譜記事で主要な時系列を照合。親系統の断定はhistoryから切り離している。"
   },
+  "publicContent": {
+    "ja": {
+      "lineageNote": "親系統は確定していません。Josh D公式は1996年にFloridaからLos Angelesへ持ち込まれたTriangle Kush系統との関連を記録していますが、生物学的な親系統そのものは特定しておらず、Leaflyも親系統を推測的なものとして整理しています。"
+    }
+  },
   "visuals": [
     {"role": "primary", "src": "images/strains/og-kush-appearance.svg", "aiGenerated": true, "sourceType": "aiGenerated", "rights": "Legacy AI-generated site asset; formal rights record pending review.", "alt": "OG KushのAI生成参考ビジュアル", "scope": "cultivar"},
     {"role": "aroma", "src": "images/strains/og-kush-aroma.svg", "aiGenerated": true, "sourceType": "aiGenerated", "rights": "Legacy AI-generated site asset; formal rights record pending review.", "alt": "OG Kushの香りを表現したAI生成イメージ", "scope": "cultivar"}
