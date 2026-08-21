@@ -92,7 +92,9 @@
   },
   "publicContent": {
     "ja": {
-      "lineageNote": "DNA Genetics公式とSeedFinderはいずれもL.A. ConfidentialとOG Kushの組み合わせを示しています。資料によって表記順が異なるため、ここでは親の組み合わせのみを示し、母父の方向までは断定しません。"
+      "lineageNote": "DNA Genetics公式とSeedFinderはいずれもL.A. ConfidentialとOG Kushの組み合わせを示しています。資料によって表記順が異なるため、ここでは親の組み合わせのみを示し、母父の方向までは断定しません。",
+      "aromaNote": "専門データベースでは、パングェント、スカンク、アーシーが香りの表現として掲載されています。",
+      "terpeneNote": "専門データベースでは、Limonene、Pinene、Caryophylleneがテルペンとして挙げられています。"
     }
   },
   "visuals": [
