@@ -57,7 +57,9 @@
   },
   "publicContent": {
     "ja": {
-      "lineageNote": "DNA Genetics公式ではLemon Skunk 256（Emerald Cup Winning Cut）× Chocolopeと記載されています。F1・F2・BXなどの育種世代は公式ページでは確認できません。"
+      "lineageNote": "DNA Genetics公式ではLemon Skunk 256（Emerald Cup Winning Cut）× Chocolopeと記載されています。F1・F2・BXなどの育種世代は公式ページでは確認できません。",
+      "aromaNote": "DNA Genetics公式では、アーシー / ムスク、コーヒー、チョコレート、スイートバニラ、チェスナットの香りが挙げられています。",
+      "terpeneNote": "DNA Genetics公式では、Myrcene、Beta-caryophyllene、Limoneneがテルペンとして挙げられています。"
     }
   },
   "visuals": [

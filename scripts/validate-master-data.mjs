@@ -21,12 +21,12 @@ function validatePublicContent(s,q){
   if(!isObject(ja)){addError(`${q}.publicContent.ja`,'must be an object');return}
   const keys=Object.keys(ja);
   if(!keys.length)addError(`${q}.publicContent.ja`,'must contain at least one public prose field');
-  const allowed=new Set(['origin','lineageNote','history']);
+  const allowed=new Set(['origin','lineageNote','history','aromaNote','terpeneNote']);
   for(const key of keys){
     const z=`${q}.publicContent.ja.${key}`;
     if(!allowed.has(key)){addError(z,'unsupported public prose field');continue}
     if(!hasText(ja[key])){addError(z,'must be a non-empty string');continue}
-    const claim=key==='lineageNote'?s.lineage:s[key];
+    const claim=key==='lineageNote'?s.lineage:key==='aromaNote'?s.aromas:key==='terpeneNote'?s.terpenes:s[key];
     if(!isObject(claim)||claim.status==='unknown')addError(z,'requires a corresponding non-unknown formal claim');
   }
 }
