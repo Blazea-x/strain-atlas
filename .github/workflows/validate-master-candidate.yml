@@ -74,24 +74,13 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          status="$(git status --porcelain=v1 --untracked-files=no)"
           unexpected="$(
-            printf '%s\n' "$status" |
-              awk '
-                NF {
-                  path = substr($0, 4)
-                  if (index(path, " -> ") != 0) {
-                    sub(/^.* -> /, "", path)
-                  }
-                  if (
-                    path != "runtime/catalog.json" &&
-                    path != "data.js" &&
-                    path != "sources.js"
-                  ) {
-                    print $0
-                  }
-                }
-              '
+            {
+              git diff --name-only
+              git diff --cached --name-only
+            } |
+              sort -u |
+              grep -Ev '^(runtime/catalog\.json|data\.js|sources\.js)$' || true
           )"
 
           if [ -n "$unexpected" ]; then
