@@ -1,0 +1,104 @@
+name: Validate MASTER candidate
+
+on:
+  pull_request:
+    branches: [master-migration]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate-candidate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout candidate ref
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Checkout main for read-only protection audit
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          path: .content-production-main-audit
+
+      - name: Validate MASTER data
+        run: node scripts/validate-master-data.mjs
+
+      - name: Validate cultivar-level publication gates
+        run: node scripts/validate-cultivar-publication.mjs
+
+      - name: DATA-FIRST / IMAGE-LATER read-only fixture
+        run: node scripts/test-data-first-pipeline.mjs
+
+      - name: IMAGE backlog read-only smoke check
+        run: node scripts/list-image-backlog.mjs --json
+
+      - name: Build publication-filtered runtime locally
+        run: node scripts/build-runtime-data.mjs
+
+      - name: CONTENT PRODUCTION V1 read-only audit
+        run: node scripts/audit-content-production.mjs --main-dir=.content-production-main-audit
+
+      - name: Runtime sanity summary
+        shell: bash
+        run: |
+          node <<'NODE'
+          const fs = require("fs");
+          const catalogPath = "runtime/catalog.json";
+          const catalog = JSON.parse(fs.readFileSync(catalogPath, "utf8"));
+          const counts = catalog.counts || {};
+          const bytes = fs.statSync(catalogPath).size;
+          const lines = [
+            `cultivars: ${counts.cultivars ?? "unknown"}`,
+            `sources: ${counts.sources ?? "unknown"}`,
+            `entities: ${counts.entities ?? "unknown"}`,
+            `runtime/catalog.json bytes: ${bytes}`,
+          ];
+          console.log(lines.join("\n"));
+          if (process.env.GITHUB_STEP_SUMMARY) {
+            fs.appendFileSync(
+              process.env.GITHUB_STEP_SUMMARY,
+              ["## MASTER candidate runtime sanity", "", ...lines.map((line) => `- ${line}`), ""].join("\n")
+            );
+          }
+          NODE
+
+      - name: Guard against unexpected tracked mutations
+        shell: bash
+        run: |
+          set -euo pipefail
+          status="$(git status --porcelain=v1 --untracked-files=no)"
+          unexpected="$(
+            printf '%s\n' "$status" |
+              awk '
+                NF {
+                  path = substr($0, 4)
+                  if (index(path, " -> ") != 0) {
+                    sub(/^.* -> /, "", path)
+                  }
+                  if (
+                    path != "runtime/catalog.json" &&
+                    path != "data.js" &&
+                    path != "sources.js"
+                  ) {
+                    print $0
+                  }
+                }
+              '
+          )"
+
+          if [ -n "$unexpected" ]; then
+            echo "Unexpected tracked mutations detected:"
+            printf '%s\n' "$unexpected"
+            exit 1
+          fi
+
+          echo "No unexpected tracked mutations."
+          git status --short -- runtime/catalog.json data.js sources.js
