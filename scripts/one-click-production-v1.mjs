@@ -4,6 +4,7 @@ import path from 'node:path';
 import crypto from 'node:crypto';
 import { execFileSync, spawnSync } from 'node:child_process';
 import { canonicalJson, sha256, visualPreparationHash, CONFIG } from './content-production-state.mjs';
+import { evaluateProductionReadiness } from './production-readiness-v1.mjs';
 
 const ROOT = process.cwd();
 const QUALITY = 'medium';
@@ -114,6 +115,8 @@ function productionSnapshot() {
 function candidateConflictReasons(stock, snap) {
   const id = stock.stockId;
   const reasons = [];
+  const readiness = evaluateProductionReadiness(stock.candidate?.strainData);
+  reasons.push(...readiness.reasons);
   if (exists(path.join(ROOT,'strains',id,'strain.json'))) reasons.push('PRODUCTION_DUPLICATE');
   if ((snap.publication.entries || []).some(e => e.strainId === id)) reasons.push('PUBLICATION_DUPLICATE');
   const declared = walkResults(stock.duplicateCheck || {});

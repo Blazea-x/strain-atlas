@@ -4,6 +4,7 @@ import path from 'node:path';
 import process from 'node:process';
 import { execFileSync } from 'node:child_process';
 import { randomBytes } from 'node:crypto';
+import { evaluateProductionReadiness } from '../../scripts/production-readiness-v1.mjs';
 
 const ROOT = process.cwd();
 const SYSTEM_DIR = path.join(ROOT, 'stock', '_system');
@@ -330,6 +331,8 @@ function assertAutoStockImageBoundary(files, config) {
     const stock = readJson(full);
     const nested = stock.candidate?.strainData?.visuals;
     if (stock.status === 'READY' || stock.visualStatus === 'READY' || (Array.isArray(stock.visuals) && stock.visuals.length) || (Array.isArray(nested) && nested.length)) fail('AUTO STOCK V1 cannot create READY images; use IMAGE STOCK V1', { repoPath });
+    const readiness = evaluateProductionReadiness(stock.candidate?.strainData);
+    if (!readiness.ready) fail('AUTO STOCK production-readiness failed', { repoPath, status: readiness.status, reasons: readiness.reasons });
   }
 }
 
