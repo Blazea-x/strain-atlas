@@ -1,7 +1,6 @@
 (() => {
   "use strict";
 
-  const DATA_URL = "https://raw.githubusercontent.com/Blazea-x/strain-atlas/master-migration/runtime/catalog.json";
   const PUBLICATION_URL = "https://raw.githubusercontent.com/Blazea-x/strain-atlas/master-migration/production/publication.json";
   const latestGrid = document.getElementById("latest-grid");
   const latestState = document.getElementById("latest-state");
@@ -122,10 +121,11 @@
 
   async function bootHomeUxV2() {
     try {
-      const response = await fetch(DATA_URL, { cache: "no-store" });
-      if (!response.ok) throw new Error(`runtime catalog HTTP ${response.status}`);
-      catalog = await response.json();
-      if (!Array.isArray(catalog.cultivars)) throw new Error("cultivars array is missing");
+      const sharedCatalogPromise = window.__CSWRuntimeCatalogPromise;
+      if (!sharedCatalogPromise || typeof sharedCatalogPromise.then !== "function") {
+        throw new Error("shared runtime catalog promise is unavailable");
+      }
+      catalog = await sharedCatalogPromise;
       cultivarById = new Map(catalog.cultivars.map(cultivar => [cultivar.id, cultivar]));
       renderFooter();
       captureCanonicalCards();
