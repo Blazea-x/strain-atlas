@@ -58,6 +58,11 @@
     "text": "Reserva PrivadaのOG Kush選抜として展開され、公式商品ページでは2011年Spannabis Hydro 1位、2009年High Times Cannabis Cup Indica 2位、2007年同Indica 3位の受賞歴が記載されている。SeedFinderでも2011年と2009年の主要受賞を確認できる。",
     "note": "受賞歴は公式商品ページを主根拠とし、専門データベースで部分的に照合。2007年分は今回独立した一次アーカイブまでは確認できていないためconfidenceはB。"
   },
+  "publicContent": {
+    "ja": {
+      "lineageNote": "DNA Geneticsの現行ページではOG Kush S1を遺伝背景とし、最初にリリースしたフェミナイズドOG Kush種子から#18を選抜して再フェミナイズしたと説明されています。資料間でS1やBXなどの世代表現が揺れるため、育種世代そのものは確定していません。"
+    }
+  },
   "visuals": [
     {
       "role": "primary",

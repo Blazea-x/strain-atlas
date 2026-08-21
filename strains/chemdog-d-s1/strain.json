@@ -60,6 +60,11 @@
     "text": "",
     "note": "The official Chemdog D S1 page does not provide a sufficiently bounded cultivar-specific release chronology; no secondary history is imported."
   },
+  "publicContent": {
+    "ja": {
+      "lineageNote": "Humboldt CSI公式ではChemdog D × Chemdog Dと記載され、S1表記と合わせてセルフ化したS1ラインとして扱われています。追加の祖先系統は推定しません。"
+    }
+  },
   "visuals": [
     {
       "role": "primary",

@@ -65,6 +65,12 @@
     "text": "Humboldt CSI describes the Jager source cut as a very popular Southern Oregon outdoor cut that originated at Millerville Farms and spread widely.",
     "note": "Retained only as parent-cut background from the official Jager S1 page; the page does not state the S1 line's exact creation date or production location."
   },
+  "publicContent": {
+    "ja": {
+      "lineageNote": "Humboldt CSI公式ではJager × Jagerと記載され、S1表記と合わせてセルフ化したS1ラインとして扱われています。親品種について未記載の系譜は補いません。",
+      "history": "Humboldt CSIは、Jagerの元となったカットについて、Southern Oregonで非常に人気があり、Millerville Farmsに起源を持って広く普及したと説明しています。これは親カットの背景であり、Jager S1自体の作出時期や作出場所を示すものではありません。"
+    }
+  },
   "visuals": [
     {
       "role": "primary",

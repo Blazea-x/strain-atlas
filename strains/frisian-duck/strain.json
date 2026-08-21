@@ -77,6 +77,11 @@
     "text": "Dutch Passionが特徴的なダックフット状の葉形と屋外での目立ちにくさを狙い、長年の選抜育種で作り上げた系統。",
     "note": "公式ページはmany years of careful breedingと説明している。"
   },
+  "publicContent": {
+    "ja": {
+      "lineageNote": "Dutch Passion公式ではFrisian Dew × DucksFootとされています。世代番号は公式ページでは特定されていません。"
+    }
+  },
   "visuals": [
     {
       "role": "primary",

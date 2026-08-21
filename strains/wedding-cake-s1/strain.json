@@ -49,6 +49,11 @@
     "text": "Humboldt CSIがWedding Cake × Wedding Cakeとして展開するfeminized S1 line。",
     "note": "Humboldt CSIの公式背景情報はHumboldt County / Emerald Triangleとの関係を説明しているが、このWedding Cake S1自体の作出地点・作出時期は商品ページでは特定されていない。"
   },
+  "publicContent": {
+    "ja": {
+      "lineageNote": "Humboldt CSI公式ではWedding Cake × Wedding Cakeと記載され、S1表記に基づくセルフ化したS1ラインとして扱われています。ただし、使用されたWedding Cake cutの由来やSeed Junky / Triangle Mints #23との同一性は公式ページでは特定されていません。"
+    }
+  },
   "visuals": [
     {
       "role": "primary",

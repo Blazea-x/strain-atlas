@@ -65,6 +65,12 @@
     "text": "Humboldt CSI states that the mid-to-late-1990s TrainWreck clone has been preserved in its library for over 20 years and is now available in S1 form.",
     "note": "The official page provides bounded parent-clone preservation context; no unsupported chronology is added."
   },
+  "publicContent": {
+    "ja": {
+      "lineageNote": "Humboldt CSI公式ではTrainWreck × TrainWreckと記載され、S1表記と合わせてセルフ化したS1ラインとして扱われています。",
+      "history": "Humboldt CSIは、1990年代半ばから後半のTrainWreck cloneを20年以上ライブラリで維持し、現在はS1 formで提供していると説明しています。"
+    }
+  },
   "visuals": [
     {
       "role": "primary",

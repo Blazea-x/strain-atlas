@@ -80,6 +80,13 @@
     "text": "The official page presents Acapulco Gold as a legacy Mexican/Acapulco cultivar line; no precise creation date is asserted.",
     "note": "Only bounded history stated by the current official source is retained."
   },
+  "publicContent": {
+    "ja": {
+      "origin": "Barney's Farmは、このAcapulco Gold系統を中央アメリカ／メキシコのランドレースの系譜に由来すると説明しています。",
+      "lineageNote": "Barney's Farm公式ではCentral American geneticsとされ、70% sativa / 30% indicaと説明されています。これ以上細かな親系統は推定しません。",
+      "history": "Barney's Farmの現行ページではAcapulco Goldを伝統的なMexican / Acapulco cultivar lineとして紹介していますが、正確な作出時期は示していません。"
+    }
+  },
   "visuals": [
     {
       "role": "primary",

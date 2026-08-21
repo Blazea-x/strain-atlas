@@ -56,6 +56,11 @@
     "text": "2008年・2009年のHigh Times Cannabis Cupで1位を獲得し、その後も複数のカップ受賞歴を持つ。",
     "note": "Green House Seed Co.公式のAWARDS一覧に基づく。"
   },
+  "publicContent": {
+    "ja": {
+      "lineageNote": "Green House Seed Co.公式ではLemon Skunk × Super Silver Hazeとされています。"
+    }
+  },
   "visuals": [
     {"role": "primary", "src": "images/strains/super-lemon-haze-appearance.svg", "aiGenerated": true, "sourceType": "aiGenerated", "rights": "Legacy AI-generated site asset; formal rights record pending review.", "alt": "Super Lemon HazeのAI生成参考ビジュアル", "scope": "cultivar"},
     {"role": "aroma", "src": "images/strains/super-lemon-haze-aroma.svg", "aiGenerated": true, "sourceType": "aiGenerated", "rights": "Legacy AI-generated site asset; formal rights record pending review.", "alt": "Super Lemon Hazeの香りを表現したAI生成イメージ", "scope": "cultivar"}

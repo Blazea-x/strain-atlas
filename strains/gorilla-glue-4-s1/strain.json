@@ -60,6 +60,11 @@
     "text": "",
     "note": "The official Gorilla Glue 4 S1 product page does not state a cultivar-specific release date or development history; no secondary history is imported."
   },
+  "publicContent": {
+    "ja": {
+      "lineageNote": "Humboldt CSI公式ではGorilla Glue 4 × Gorilla Glue 4と記載され、S1表記と合わせてセルフ化したS1ラインとして扱われています。親品種について未記載の系譜は補いません。"
+    }
+  },
   "visuals": [
     {
       "role": "primary",

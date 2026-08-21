@@ -97,6 +97,12 @@
     "text": "ACE Seeds公式沿革の2012年Malawi導入を根拠とする。",
     "note": "2012年のMalawi導入はACE Seeds公式沿革で確認済み。"
   },
+  "publicContent": {
+    "ja": {
+      "origin": "ACE Seeds公式では、起源を中央アフリカのMalawiとしています。",
+      "lineageNote": "ACE SeedsではOld Malawi Killer × 3rd generation Malawisとされ、Malawi由来のP4ランドレースとして説明されています。P4表記はここでは系譜情報として扱い、育種世代の固定値にはしていません。"
+    }
+  },
   "visuals": [
     {
       "role": "primary",

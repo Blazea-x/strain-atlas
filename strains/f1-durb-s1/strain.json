@@ -60,6 +60,11 @@
     "text": "",
     "note": "The official page notes limited seed production from a reversal using Cookie Monster's F1 Durb cut, but no sufficiently bounded release chronology is asserted for this atlas entry."
   },
+  "publicContent": {
+    "ja": {
+      "lineageNote": "Humboldt CSI公式ではF1 Durb × F1 Durbと記載され、S1表記と合わせてセルフ化したS1ラインとして扱われています。追加の祖先系統は推定しません。"
+    }
+  },
   "visuals": [
     {
       "role": "primary",
