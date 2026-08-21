@@ -102,3 +102,5 @@ jobs:
 
           echo "No unexpected tracked mutations."
           git status --short -- runtime/catalog.json data.js sources.js
+
+# Smoke branch no-op marker; not merged.
