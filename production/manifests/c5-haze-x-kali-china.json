@@ -1,0 +1,53 @@
+{
+  "schemaVersion": 1,
+  "manifestVersion": 1,
+  "manifestId": "content-production-start-32530466871-c5-haze-x-kali-china-image",
+  "runId": "content-production-start-32530466871",
+  "strainId": "c5-haze-x-kali-china",
+  "revision": 1,
+  "attempt": 1,
+  "sourceStockPath": "stock/items/c5-haze-x-kali-china.json",
+  "sourceStockBlobSha": "c3452e8fc452c385bd7dbe49fc6e2feb42723131",
+  "visualPreparationHash": "d8789e132459986d8594e0f8d07e2c5eaf22b1c89658b9e55b14696320e3d2e8",
+  "generatedFromManifestVersion": null,
+  "promptSnapshot": "Photorealistic botanical reference image of one mature flowering C5 Haze x Kali China cannabis plant. Show a vigorous, chunky sativa-dominant hybrid with excellent branching and long, heavy mature colas with a high flower-to-leaf ratio; small late-flowering foxtail structures may appear, while purple coloration should be limited to occasional individuals rather than treated as universal. Complete plant visible under neutral botanical light. Do not copy source photography, add labels, people, smoke, or invent phenotype-wide color traits.",
+  "evidenceSnapshot": [
+    {
+      "description": "Chunky sativa-dominant hybrid with excellent branching; late flowering forms long heavy colas with a high flower-to-leaf ratio, small foxtails, and some individuals can show purple hues inherited from Kali China.",
+      "sourceIds": [
+        "ace-seeds-c5-haze-x-kali-china"
+      ]
+    }
+  ],
+  "visualMetadataSnapshot": {
+    "alt": "C5 Haze x Kali Chinaの力強い分枝サティバ優勢構造と長い花房、公式に記載された範囲のフォックステール傾向を表現するAI生成参考ビジュアル",
+    "rights": "AI-generated project asset for Cannabis Strain Wisdom. No third-party image is copied; the prompt is constrained to cultivar-specific morphology supported by the cited official ACE Seeds source.",
+    "scope": "cultivar",
+    "aiGenerated": true,
+    "sourceType": "aiGenerated"
+  },
+  "expectedInboxFilename": "c5-haze-x-kali-china.jpg",
+  "expectedPrimaryPath": "strains/c5-haze-x-kali-china/images/generated/primary.webp",
+  "generatedAt": null,
+  "approvalStatus": "pending",
+  "approvedAt": null,
+  "approvalType": "human-visual-review",
+  "approvedManifestRevision": null,
+  "approvedAttempt": null,
+  "approvedSourceSha256": null,
+  "imageInboxCommit": null,
+  "imageProcessingCommit": null,
+  "processedPrimaryBlobSha": null,
+  "processedPrimarySha256": null,
+  "width": null,
+  "height": null,
+  "audit": [
+    {
+      "severity": "INFO",
+      "code": "MANIFEST_CREATED",
+      "at": "2026-08-21T21:52:28Z",
+      "productionPhase": "IMAGE_PENDING",
+      "note": "Created by PRODUCTION START V1. Candidate output is review-only and cannot publish."
+    }
+  ]
+}

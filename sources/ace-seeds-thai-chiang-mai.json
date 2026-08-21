@@ -1,0 +1,21 @@
+{
+  "schemaVersion": 1,
+  "id": "ace-seeds-thai-chiang-mai",
+  "publisher": "ACE Seeds",
+  "title": "Thai Regular",
+  "url": "https://www.aceseeds.org/en/seeds/thai-regular-seeds/",
+  "sourceType": "breederOfficial",
+  "supports": [
+    "lineage",
+    "breeder",
+    "classification",
+    "breeding",
+    "aromas",
+    "terpenes",
+    "visualMorphology",
+    "origin"
+  ],
+  "publishedAt": null,
+  "checkedAt": "2026-08-22",
+  "note": "ACE Seeds official cultivar page used for the Thai Chiang Mai production-ready stock candidate: lineage, classification/breeding context, cultivar-specific structure, bouquet and named terpene profile plus origin."
+}

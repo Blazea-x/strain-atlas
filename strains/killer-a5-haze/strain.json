@@ -1,0 +1,111 @@
+{
+  "schemaVersion": 1,
+  "id": "killer-a5-haze",
+  "status": "review",
+  "name": "Killer A5 Haze",
+  "jp": null,
+  "aliases": [],
+  "classification": {
+    "type": "sativa-dominant-hybrid"
+  },
+  "breeding": {
+    "generation": "other",
+    "method": "poly hybrid"
+  },
+  "lineage": {
+    "status": "confirmed",
+    "confidence": "A",
+    "basis": "breederOfficial",
+    "sourceRefs": [
+      "ace-seeds-killer-a5-haze"
+    ],
+    "display": "A5 Haze by Neville (Northern Lights #5/Haze A) × Malawi Killer",
+    "parents": [
+      "A5 Haze by Neville",
+      "Malawi Killer"
+    ],
+    "note": "ACE Seeds explicitly identifies Killer A5 Haze as A5 Haze by Neville (Northern Lights #5/Haze A) crossed with Malawi Killer."
+  },
+  "relations": [
+    {
+      "entityId": "ace-seeds",
+      "roles": [
+        "breeder",
+        "seedCompany"
+      ],
+      "status": "confirmed",
+      "confidence": "A",
+      "basis": "breederOfficial",
+      "sourceRefs": [
+        "ace-seeds-killer-a5-haze"
+      ]
+    }
+  ],
+  "aromas": {
+    "status": "confirmed",
+    "confidence": "A",
+    "basis": "breederOfficial",
+    "sourceRefs": [
+      "ace-seeds-killer-a5-haze"
+    ],
+    "items": [
+      "dark incense",
+      "meaty/liver",
+      "organic/rotten",
+      "decomposing flower petals",
+      "resin",
+      "cured wood"
+    ],
+    "note": "Cultivar-specific bouquet descriptors normalized from the ACE Seeds official page without inferring chemical compounds."
+  },
+  "terpenes": {
+    "status": "confirmed",
+    "confidence": "B",
+    "basis": "breederOfficial",
+    "sourceRefs": [
+      "ace-seeds-killer-a5-haze"
+    ],
+    "items": [
+      "beta-myrcene",
+      "alpha-pinene",
+      "limonene",
+      "beta-pinene",
+      "ocimene",
+      "cis-beta-farnesene",
+      "beta-caryophyllene",
+      "trans-phytol",
+      "alpha-bisabolol",
+      "guaiol",
+      "trans-nerolidol",
+      "beta-farnesene",
+      "alpha-farnesene"
+    ],
+    "note": "ACE Seeds publishes a named cultivar-specific terpene profile; confidence remains below A because an independently retrieved laboratory report is not used here."
+  },
+  "origin": {
+    "status": "unknown",
+    "text": "",
+    "note": "The cited official cultivar evidence does not establish a sufficiently bounded creation location for this atlas entry; no location is inferred."
+  },
+  "history": {
+    "status": "confirmed",
+    "confidence": "B",
+    "basis": "breederOfficial",
+    "sourceRefs": [
+      "ace-seeds-about"
+    ],
+    "text": "ACE Seeds states that its 2019 collaboration with Yo Sammy produced its first fruits including Killer A5 Haze (A5 Haze x Malawi).",
+    "note": "Only chronology or development context explicitly stated by ACE Seeds is retained; unstated dates are not inferred."
+  },
+  "publicContent": {
+    "ja": {
+      "lineageNote": "Killer A5 Hazeは、Nevilleが選抜したA5 Haze（Northern Lights #5 × Haze A）に、ACE SeedsのMalawi Killerを交配したポリハイブリッドとして公式に記載されています。",
+      "history": "ACE Seedsは、Yo Sammyとの協働が始まった2019年の最初の成果の一つとしてKiller A5 Haze（A5 Haze × Malawi）を挙げています。現行の公式沿革で確認できる範囲に限定した開発背景です。",
+      "aromaNote": "公式説明では、暗いインセンス系Hazeを軸に、肉やレバーを思わせる濃さ、樹脂、熟成木材、分解した花弁を連想させる有機的なニュアンスが重なる香りとして示されています。",
+      "terpeneNote": "ACE Seeds公式の品種別情報では、beta-myrceneが非常に多く、alpha-pineneが中程度、limoneneとbeta-pineneがそれに続くとされます。さらにbeta-caryophyllene、guaiol、trans-nerolidolなど複数のセスキテルペンも列挙されています。"
+    }
+  },
+  "visuals": [],
+  "checkedAt": "2026-08-22",
+  "updatedAt": "2026-08-22"
+}

@@ -1,0 +1,21 @@
+{
+  "schemaVersion": 1,
+  "id": "ace-seeds-c5-haze-x-kali-china",
+  "publisher": "ACE Seeds",
+  "title": "C5 Haze x Kali China Feminized",
+  "url": "https://www.aceseeds.org/en/seeds/c5-haze-x-kali-china-feminized-seeds/",
+  "sourceType": "breederOfficial",
+  "supports": [
+    "lineage",
+    "breeder",
+    "classification",
+    "breeding",
+    "aromas",
+    "terpenes",
+    "visualMorphology",
+    "history"
+  ],
+  "publishedAt": null,
+  "checkedAt": "2026-08-22",
+  "note": "ACE Seeds official cultivar page used for the C5 Haze x Kali China production-ready stock candidate: lineage, classification/breeding context, cultivar-specific structure, bouquet and named terpene profile plus history."
+}

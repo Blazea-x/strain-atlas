@@ -1,0 +1,109 @@
+{
+  "schemaVersion": 1,
+  "id": "c5-haze-x-kali-china",
+  "status": "review",
+  "name": "C5 Haze x Kali China",
+  "jp": null,
+  "aliases": [],
+  "classification": {
+    "type": "sativa-dominant-hybrid"
+  },
+  "breeding": {
+    "generation": "other",
+    "method": "poly hybrid"
+  },
+  "lineage": {
+    "status": "confirmed",
+    "confidence": "A",
+    "basis": "breederOfficial",
+    "sourceRefs": [
+      "ace-seeds-c5-haze-x-kali-china"
+    ],
+    "display": "C5 Haze F1 (Northern Lights #5 × Haze C) × Kali China elite 4th generation",
+    "parents": [
+      "C5 Haze F1",
+      "Kali China elite 4th generation"
+    ],
+    "note": "ACE Seeds identifies the cross as late-1980s C5 Haze F1 (Northern Lights #5 x Haze C) crossed with Kali China elite 4th generation."
+  },
+  "relations": [
+    {
+      "entityId": "ace-seeds",
+      "roles": [
+        "breeder",
+        "seedCompany"
+      ],
+      "status": "confirmed",
+      "confidence": "A",
+      "basis": "breederOfficial",
+      "sourceRefs": [
+        "ace-seeds-c5-haze-x-kali-china"
+      ]
+    }
+  ],
+  "aromas": {
+    "status": "confirmed",
+    "confidence": "A",
+    "basis": "breederOfficial",
+    "sourceRefs": [
+      "ace-seeds-c5-haze-x-kali-china"
+    ],
+    "items": [
+      "spicy",
+      "lime",
+      "lemon",
+      "grapefruit",
+      "creamy",
+      "incense",
+      "tropical fruit",
+      "hashish",
+      "candy",
+      "melon",
+      "floral",
+      "musky"
+    ],
+    "note": "Cultivar-specific bouquet descriptors normalized from the ACE Seeds official page without inferring chemical compounds."
+  },
+  "terpenes": {
+    "status": "confirmed",
+    "confidence": "B",
+    "basis": "breederOfficial",
+    "sourceRefs": [
+      "ace-seeds-c5-haze-x-kali-china"
+    ],
+    "items": [
+      "beta-myrcene",
+      "alpha-pinene",
+      "beta-pinene",
+      "limonene",
+      "beta-caryophyllene"
+    ],
+    "note": "ACE Seeds publishes a named cultivar-specific terpene profile; confidence remains below A because an independently retrieved laboratory report is not used here."
+  },
+  "origin": {
+    "status": "unknown",
+    "text": "",
+    "note": "The cited official cultivar evidence does not establish a sufficiently bounded creation location for this atlas entry; no location is inferred."
+  },
+  "history": {
+    "status": "confirmed",
+    "confidence": "B",
+    "basis": "breederOfficial",
+    "sourceRefs": [
+      "ace-seeds-c5-haze-x-kali-china"
+    ],
+    "text": "ACE Seeds describes the C5 Haze clone as created in the Netherlands in the late 1980s by Neville Schoenmakers, later preserved by Yo Sammy and shared with ACE Seeds; C5 Haze x Kali China is described as ACE Seeds' first offered hybrid using this clone.",
+    "note": "Only chronology or development context explicitly stated by ACE Seeds is retained; unstated dates are not inferred."
+  },
+  "publicContent": {
+    "ja": {
+      "lineageNote": "C5 Haze x Kali Chinaは、1980年代後半のC5 Haze F1（Northern Lights #5 × Haze C）と、ACE SeedsのKali Chinaエリート第4世代を組み合わせたポリハイブリッドとして公式に記載されています。",
+      "history": "ACE Seedsは、親に使われたC5 HazeクローンをNeville Schoenmakersが1980年代後半のオランダで作出・選抜し、Yo Sammyが保存したものと説明しています。本品種は、そのオリジナルC5クローンを使ってACE Seedsが提供した最初のハイブリッドとされています。",
+      "aromaNote": "公式説明では個体差を明記したうえで、スパイスとライム・レモン・グレープフルーツ系の柑橘を中心に、クリーミーなインセンス、トロピカルフルーツ、ハシシ系の背景が挙げられています。甘いキャンディやメロン、フローラル、ムスク寄りの表現も存在するとされています。",
+      "terpeneNote": "公式テルペン欄ではbeta-myrceneが非常に多く、alpha-pinene、beta-pinene、limoneneがより少量、セスキテルペンとしてbeta-caryophylleneが挙げられています。"
+    }
+  },
+  "visuals": [],
+  "checkedAt": "2026-08-22",
+  "updatedAt": "2026-08-22"
+}

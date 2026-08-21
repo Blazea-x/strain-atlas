@@ -1,0 +1,53 @@
+{
+  "schemaVersion": 1,
+  "manifestVersion": 1,
+  "manifestId": "content-production-start-32530466871-killer-a5-haze-image",
+  "runId": "content-production-start-32530466871",
+  "strainId": "killer-a5-haze",
+  "revision": 1,
+  "attempt": 1,
+  "sourceStockPath": "stock/items/killer-a5-haze.json",
+  "sourceStockBlobSha": "21ccf9616897561238c03c500e0f61f74cfa7bf1",
+  "visualPreparationHash": "71b0a023c75e3bba1f8ce7f76256f43864fe09b2d9175b503cea8d5d8e1ecce9",
+  "generatedFromManifestVersion": null,
+  "promptSnapshot": "Photorealistic botanical reference image of one mature flowering Killer A5 Haze cannabis plant. Show a vigorous branched sativa-dominant structure with medium internode spacing and a contained, manageable overall size; mature flower clusters may show the substantial cola development and resinous Haze/Malawi character described by ACE Seeds, without selecting one phenotype as universal. Natural botanical lighting, complete plant visible. Do not copy source photography, add labels, people, smoke, or invent unsupported color traits.",
+  "evidenceSnapshot": [
+    {
+      "description": "Branched sativa structure with medium internode distance, contained manageable size; phenotype descriptions include large colas, strong flower-to-leaf ratio and resinous expressions.",
+      "sourceIds": [
+        "ace-seeds-killer-a5-haze"
+      ]
+    }
+  ],
+  "visualMetadataSnapshot": {
+    "alt": "Killer A5 Hazeの枝分かれしたサティバ優勢構造と中程度の節間、成熟した花房を公式形態情報に基づいて表現するAI生成参考ビジュアル",
+    "rights": "AI-generated project asset for Cannabis Strain Wisdom. No third-party image is copied; the prompt is constrained to cultivar-specific morphology supported by the cited official ACE Seeds source.",
+    "scope": "cultivar",
+    "aiGenerated": true,
+    "sourceType": "aiGenerated"
+  },
+  "expectedInboxFilename": "killer-a5-haze.jpg",
+  "expectedPrimaryPath": "strains/killer-a5-haze/images/generated/primary.webp",
+  "generatedAt": null,
+  "approvalStatus": "pending",
+  "approvedAt": null,
+  "approvalType": "human-visual-review",
+  "approvedManifestRevision": null,
+  "approvedAttempt": null,
+  "approvedSourceSha256": null,
+  "imageInboxCommit": null,
+  "imageProcessingCommit": null,
+  "processedPrimaryBlobSha": null,
+  "processedPrimarySha256": null,
+  "width": null,
+  "height": null,
+  "audit": [
+    {
+      "severity": "INFO",
+      "code": "MANIFEST_CREATED",
+      "at": "2026-08-21T21:52:28Z",
+      "productionPhase": "IMAGE_PENDING",
+      "note": "Created by PRODUCTION START V1. Candidate output is review-only and cannot publish."
+    }
+  ]
+}

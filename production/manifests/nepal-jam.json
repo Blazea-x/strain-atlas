@@ -1,0 +1,53 @@
+{
+  "schemaVersion": 1,
+  "manifestVersion": 1,
+  "manifestId": "content-production-start-32530466871-nepal-jam-image",
+  "runId": "content-production-start-32530466871",
+  "strainId": "nepal-jam",
+  "revision": 1,
+  "attempt": 1,
+  "sourceStockPath": "stock/items/nepal-jam.json",
+  "sourceStockBlobSha": "37b3baed34eae974b42d6dbc8579dc5c8c433931",
+  "visualPreparationHash": "335172b40e91c9ee1f1a8f98761efc0cc14e8b4df829611a1f85908a04ae41bd",
+  "generatedFromManifestVersion": null,
+  "promptSnapshot": "Photorealistic botanical reference image of one mature flowering Nepal Jam cannabis plant. Show the small-to-medium, columnar growth structure documented by ACE Seeds, with compact overall behavior and realistic mature cannabis flowers. Keep proportions restrained and botanical, without importing unrelated Nepalese or Jamaican traits that are not stated for Nepal Jam itself. Complete plant visible under neutral natural light; no labels, people, smoke, or copied source composition.",
+  "evidenceSnapshot": [
+    {
+      "description": "Small-medium plant with columnar growth; official description emphasizes compact Nepalese behavior retained through breeding.",
+      "sourceIds": [
+        "ace-seeds-nepal-jam"
+      ]
+    }
+  ],
+  "visualMetadataSnapshot": {
+    "alt": "Nepal Jamの小〜中型で柱状にまとまる生育構造を公式形態情報に基づいて表現するAI生成参考ビジュアル",
+    "rights": "AI-generated project asset for Cannabis Strain Wisdom. No third-party image is copied; the prompt is constrained to cultivar-specific morphology supported by the cited official ACE Seeds source.",
+    "scope": "cultivar",
+    "aiGenerated": true,
+    "sourceType": "aiGenerated"
+  },
+  "expectedInboxFilename": "nepal-jam.jpg",
+  "expectedPrimaryPath": "strains/nepal-jam/images/generated/primary.webp",
+  "generatedAt": null,
+  "approvalStatus": "pending",
+  "approvedAt": null,
+  "approvalType": "human-visual-review",
+  "approvedManifestRevision": null,
+  "approvedAttempt": null,
+  "approvedSourceSha256": null,
+  "imageInboxCommit": null,
+  "imageProcessingCommit": null,
+  "processedPrimaryBlobSha": null,
+  "processedPrimarySha256": null,
+  "width": null,
+  "height": null,
+  "audit": [
+    {
+      "severity": "INFO",
+      "code": "MANIFEST_CREATED",
+      "at": "2026-08-21T21:52:28Z",
+      "productionPhase": "IMAGE_PENDING",
+      "note": "Created by PRODUCTION START V1. Candidate output is review-only and cannot publish."
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "id": "ace-seeds-killer-a5-haze",
+  "publisher": "ACE Seeds",
+  "title": "Killer A5 Haze Regular",
+  "url": "https://www.aceseeds.org/en/seeds/killer-a5-haze-regular-seeds/",
+  "sourceType": "breederOfficial",
+  "supports": [
+    "lineage",
+    "breeder",
+    "classification",
+    "breeding",
+    "aromas",
+    "terpenes",
+    "visualMorphology"
+  ],
+  "publishedAt": null,
+  "checkedAt": "2026-08-22",
+  "note": "ACE Seeds official cultivar page used for the Killer A5 Haze production-ready stock candidate: lineage, classification/breeding context, cultivar-specific structure, bouquet and named terpene profile."
+}

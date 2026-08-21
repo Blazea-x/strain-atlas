@@ -1,0 +1,270 @@
+{
+  "schemaVersion": 1,
+  "runVersion": 1,
+  "runId": "content-production-start-32530466871",
+  "mode": "new-publication",
+  "publicationPolicy": "cultivar",
+  "status": "ACTIVE",
+  "startedAt": "2026-08-21T21:52:28Z",
+  "updatedAt": "2026-08-21T21:52:28Z",
+  "finishedAt": null,
+  "cancelledAt": null,
+  "baseSha": "bad09e7a9e3cea549c9833d36bc7c086649b1996",
+  "currentBaseSha": "bad09e7a9e3cea549c9833d36bc7c086649b1996",
+  "attempt": 1,
+  "previousAttempts": [],
+  "mainHeadAtStart": "0b56d48da6abd040191cfd54b680da47fd06130a",
+  "mainHeadAtEnd": null,
+  "publishedIdsAtStart": [
+    "acapulco-gold",
+    "ak-47",
+    "bangi-haze",
+    "bubba-kush-s1",
+    "bubble-gum",
+    "bubblegum-s1",
+    "california-octane",
+    "cataract-kush",
+    "chemdog-d-s1",
+    "cherry-pie-s1",
+    "chocolope-256",
+    "dr-grinspoon",
+    "durban-poison",
+    "durban-poison-s1",
+    "f1-durb-s1",
+    "frisian-duck",
+    "golden-tiger",
+    "gorilla-glue-4-s1",
+    "jack-herer",
+    "jager-s1",
+    "kali-mist",
+    "laughing-buddha",
+    "malawi",
+    "mazar",
+    "og-kush",
+    "panama",
+    "shaman",
+    "shiva-skunk",
+    "strawberry-banana-s1",
+    "super-lemon-haze",
+    "t-1000-s1",
+    "the-og-18",
+    "trainwreck-s1",
+    "triangle-kush-s1",
+    "warlock",
+    "wedding-cake",
+    "wedding-cake-s1",
+    "zamaldelica"
+  ],
+  "targetStrainIds": [
+    "c5-haze-x-kali-china",
+    "killer-a5-haze",
+    "nepal-jam",
+    "thai-chiang-mai",
+    "violeta"
+  ],
+  "expectedPublicationDelta": [
+    "c5-haze-x-kali-china",
+    "killer-a5-haze",
+    "nepal-jam",
+    "thai-chiang-mai",
+    "violeta"
+  ],
+  "items": [
+    {
+      "strainId": "c5-haze-x-kali-china",
+      "sourceStockPath": "stock/items/c5-haze-x-kali-china.json",
+      "sourceStockBlobSha": "c3452e8fc452c385bd7dbe49fc6e2feb42723131",
+      "productionStrainPath": "strains/c5-haze-x-kali-china/strain.json",
+      "publicationEntryId": "c5-haze-x-kali-china",
+      "productionPhase": "IMAGE_PENDING",
+      "previousStablePhase": "IMAGE_PENDING",
+      "manifestId": "content-production-start-32530466871-c5-haze-x-kali-china-image",
+      "manifestRevision": 1,
+      "promotedAt": "2026-08-21T21:52:28Z",
+      "promotionCommit": null,
+      "approval": null,
+      "commits": {
+        "dataCommit": null,
+        "imageInboxCommit": null,
+        "imageProcessingCommit": null,
+        "visualsCommit": null,
+        "publicationCommit": null,
+        "buildCommit": null
+      },
+      "audit": [
+        {
+          "severity": "INFO",
+          "code": "PHASE_TRANSITION",
+          "fromPhase": "STOCKED",
+          "toPhase": "DATA_READY",
+          "at": "2026-08-21T21:52:28Z"
+        },
+        {
+          "severity": "INFO",
+          "code": "PHASE_TRANSITION",
+          "fromPhase": "DATA_READY",
+          "toPhase": "IMAGE_PENDING",
+          "at": "2026-08-21T21:52:28Z"
+        }
+      ]
+    },
+    {
+      "strainId": "killer-a5-haze",
+      "sourceStockPath": "stock/items/killer-a5-haze.json",
+      "sourceStockBlobSha": "21ccf9616897561238c03c500e0f61f74cfa7bf1",
+      "productionStrainPath": "strains/killer-a5-haze/strain.json",
+      "publicationEntryId": "killer-a5-haze",
+      "productionPhase": "IMAGE_PENDING",
+      "previousStablePhase": "IMAGE_PENDING",
+      "manifestId": "content-production-start-32530466871-killer-a5-haze-image",
+      "manifestRevision": 1,
+      "promotedAt": "2026-08-21T21:52:28Z",
+      "promotionCommit": null,
+      "approval": null,
+      "commits": {
+        "dataCommit": null,
+        "imageInboxCommit": null,
+        "imageProcessingCommit": null,
+        "visualsCommit": null,
+        "publicationCommit": null,
+        "buildCommit": null
+      },
+      "audit": [
+        {
+          "severity": "INFO",
+          "code": "PHASE_TRANSITION",
+          "fromPhase": "STOCKED",
+          "toPhase": "DATA_READY",
+          "at": "2026-08-21T21:52:28Z"
+        },
+        {
+          "severity": "INFO",
+          "code": "PHASE_TRANSITION",
+          "fromPhase": "DATA_READY",
+          "toPhase": "IMAGE_PENDING",
+          "at": "2026-08-21T21:52:28Z"
+        }
+      ]
+    },
+    {
+      "strainId": "nepal-jam",
+      "sourceStockPath": "stock/items/nepal-jam.json",
+      "sourceStockBlobSha": "37b3baed34eae974b42d6dbc8579dc5c8c433931",
+      "productionStrainPath": "strains/nepal-jam/strain.json",
+      "publicationEntryId": "nepal-jam",
+      "productionPhase": "IMAGE_PENDING",
+      "previousStablePhase": "IMAGE_PENDING",
+      "manifestId": "content-production-start-32530466871-nepal-jam-image",
+      "manifestRevision": 1,
+      "promotedAt": "2026-08-21T21:52:28Z",
+      "promotionCommit": null,
+      "approval": null,
+      "commits": {
+        "dataCommit": null,
+        "imageInboxCommit": null,
+        "imageProcessingCommit": null,
+        "visualsCommit": null,
+        "publicationCommit": null,
+        "buildCommit": null
+      },
+      "audit": [
+        {
+          "severity": "INFO",
+          "code": "PHASE_TRANSITION",
+          "fromPhase": "STOCKED",
+          "toPhase": "DATA_READY",
+          "at": "2026-08-21T21:52:28Z"
+        },
+        {
+          "severity": "INFO",
+          "code": "PHASE_TRANSITION",
+          "fromPhase": "DATA_READY",
+          "toPhase": "IMAGE_PENDING",
+          "at": "2026-08-21T21:52:28Z"
+        }
+      ]
+    },
+    {
+      "strainId": "thai-chiang-mai",
+      "sourceStockPath": "stock/items/thai-chiang-mai.json",
+      "sourceStockBlobSha": "c9917142255ad163e8890de70f11cde34e8aa107",
+      "productionStrainPath": "strains/thai-chiang-mai/strain.json",
+      "publicationEntryId": "thai-chiang-mai",
+      "productionPhase": "IMAGE_PENDING",
+      "previousStablePhase": "IMAGE_PENDING",
+      "manifestId": "content-production-start-32530466871-thai-chiang-mai-image",
+      "manifestRevision": 1,
+      "promotedAt": "2026-08-21T21:52:28Z",
+      "promotionCommit": null,
+      "approval": null,
+      "commits": {
+        "dataCommit": null,
+        "imageInboxCommit": null,
+        "imageProcessingCommit": null,
+        "visualsCommit": null,
+        "publicationCommit": null,
+        "buildCommit": null
+      },
+      "audit": [
+        {
+          "severity": "INFO",
+          "code": "PHASE_TRANSITION",
+          "fromPhase": "STOCKED",
+          "toPhase": "DATA_READY",
+          "at": "2026-08-21T21:52:28Z"
+        },
+        {
+          "severity": "INFO",
+          "code": "PHASE_TRANSITION",
+          "fromPhase": "DATA_READY",
+          "toPhase": "IMAGE_PENDING",
+          "at": "2026-08-21T21:52:28Z"
+        }
+      ]
+    },
+    {
+      "strainId": "violeta",
+      "sourceStockPath": "stock/items/violeta.json",
+      "sourceStockBlobSha": "ed46743a5ced2fd07ef5c6cba1c291f3e4462c1e",
+      "productionStrainPath": "strains/violeta/strain.json",
+      "publicationEntryId": "violeta",
+      "productionPhase": "IMAGE_PENDING",
+      "previousStablePhase": "IMAGE_PENDING",
+      "manifestId": "content-production-start-32530466871-violeta-image",
+      "manifestRevision": 1,
+      "promotedAt": "2026-08-21T21:52:28Z",
+      "promotionCommit": null,
+      "approval": null,
+      "commits": {
+        "dataCommit": null,
+        "imageInboxCommit": null,
+        "imageProcessingCommit": null,
+        "visualsCommit": null,
+        "publicationCommit": null,
+        "buildCommit": null
+      },
+      "audit": [
+        {
+          "severity": "INFO",
+          "code": "PHASE_TRANSITION",
+          "fromPhase": "STOCKED",
+          "toPhase": "DATA_READY",
+          "at": "2026-08-21T21:52:28Z"
+        },
+        {
+          "severity": "INFO",
+          "code": "PHASE_TRANSITION",
+          "fromPhase": "DATA_READY",
+          "toPhase": "IMAGE_PENDING",
+          "at": "2026-08-21T21:52:28Z"
+        }
+      ]
+    }
+  ],
+  "pagesDeploymentRunId": null,
+  "pagesDeploymentUrl": null,
+  "displayVerifiedAt": null,
+  "publicationSetAtEnd": null,
+  "recovery": null,
+  "auditSummary": null
+}

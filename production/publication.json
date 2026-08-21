@@ -411,6 +411,46 @@
       "bootstrapMasterSha": null,
       "unpublishedAt": null,
       "unpublicationReason": null
+    },
+    {
+      "strainId": "c5-haze-x-kali-china",
+      "state": "pending",
+      "origin": "content-production",
+      "introducedByRun": "content-production-start-32530466871",
+      "publishedAt": null,
+      "bootstrapMasterSha": null
+    },
+    {
+      "strainId": "killer-a5-haze",
+      "state": "pending",
+      "origin": "content-production",
+      "introducedByRun": "content-production-start-32530466871",
+      "publishedAt": null,
+      "bootstrapMasterSha": null
+    },
+    {
+      "strainId": "nepal-jam",
+      "state": "pending",
+      "origin": "content-production",
+      "introducedByRun": "content-production-start-32530466871",
+      "publishedAt": null,
+      "bootstrapMasterSha": null
+    },
+    {
+      "strainId": "thai-chiang-mai",
+      "state": "pending",
+      "origin": "content-production",
+      "introducedByRun": "content-production-start-32530466871",
+      "publishedAt": null,
+      "bootstrapMasterSha": null
+    },
+    {
+      "strainId": "violeta",
+      "state": "pending",
+      "origin": "content-production",
+      "introducedByRun": "content-production-start-32530466871",
+      "publishedAt": null,
+      "bootstrapMasterSha": null
     }
   ]
 }

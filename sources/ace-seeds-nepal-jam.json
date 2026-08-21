@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "id": "ace-seeds-nepal-jam",
+  "publisher": "ACE Seeds",
+  "title": "Nepal Jam Regular",
+  "url": "https://www.aceseeds.org/en/seeds/nepal-jam-regular-seeds/",
+  "sourceType": "breederOfficial",
+  "supports": [
+    "lineage",
+    "breeder",
+    "classification",
+    "breeding",
+    "aromas",
+    "terpenes",
+    "visualMorphology"
+  ],
+  "publishedAt": null,
+  "checkedAt": "2026-08-22",
+  "note": "ACE Seeds official cultivar page used for the Nepal Jam production-ready stock candidate: lineage, classification/breeding context, cultivar-specific structure, bouquet and named terpene profile."
+}

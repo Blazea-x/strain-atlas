@@ -1,0 +1,104 @@
+{
+  "schemaVersion": 1,
+  "id": "violeta",
+  "status": "review",
+  "name": "Violeta",
+  "jp": null,
+  "aliases": [],
+  "classification": {
+    "type": "indica-dominant-hybrid"
+  },
+  "breeding": {
+    "generation": "F1",
+    "method": "F1 hybrid"
+  },
+  "lineage": {
+    "status": "confirmed",
+    "confidence": "A",
+    "basis": "breederOfficial",
+    "sourceRefs": [
+      "ace-seeds-violeta"
+    ],
+    "display": "Purple Malawi × Purple Pakistan Chitral Kush",
+    "parents": [
+      "Purple Malawi",
+      "Purple Pakistan Chitral Kush"
+    ],
+    "note": "ACE Seeds describes Violeta as an F1 hybrid from Purple Malawi crossed with Purple Pakistan Chitral Kush."
+  },
+  "relations": [
+    {
+      "entityId": "ace-seeds",
+      "roles": [
+        "breeder",
+        "seedCompany"
+      ],
+      "status": "confirmed",
+      "confidence": "A",
+      "basis": "breederOfficial",
+      "sourceRefs": [
+        "ace-seeds-violeta"
+      ]
+    }
+  ],
+  "aromas": {
+    "status": "confirmed",
+    "confidence": "A",
+    "basis": "breederOfficial",
+    "sourceRefs": [
+      "ace-seeds-violeta"
+    ],
+    "items": [
+      "balsamic",
+      "forest fruits"
+    ],
+    "note": "Cultivar-specific bouquet descriptors normalized from the ACE Seeds official page without inferring chemical compounds."
+  },
+  "terpenes": {
+    "status": "confirmed",
+    "confidence": "B",
+    "basis": "breederOfficial",
+    "sourceRefs": [
+      "ace-seeds-violeta"
+    ],
+    "items": [
+      "terpinolene",
+      "alpha-pinene",
+      "limonene",
+      "beta-pinene",
+      "trans-ocimene",
+      "linalool",
+      "beta-myrcene",
+      "beta-caryophyllene",
+      "guaiol",
+      "alpha-humulene"
+    ],
+    "note": "ACE Seeds publishes a named cultivar-specific terpene profile; confidence remains below A because an independently retrieved laboratory report is not used here."
+  },
+  "origin": {
+    "status": "unknown",
+    "text": "",
+    "note": "The cited official cultivar evidence does not establish a sufficiently bounded creation location for this atlas entry; no location is inferred."
+  },
+  "history": {
+    "status": "confirmed",
+    "confidence": "B",
+    "basis": "breederOfficial",
+    "sourceRefs": [
+      "ace-seeds-about"
+    ],
+    "text": "ACE Seeds states that Violeta was released in 2014.",
+    "note": "Only chronology or development context explicitly stated by ACE Seeds is retained; unstated dates are not inferred."
+  },
+  "publicContent": {
+    "ja": {
+      "lineageNote": "Violetaは、Purple Malawiを母系に、紫色のPakistan Chitral Kushを交配したF1ハイブリッドとしてACE Seedsが公式に説明しています。",
+      "history": "ACE Seedsの公式沿革では、Violetaは2014年にリリースされた品種として記録されています。ここではその明記された年だけを履歴として採用しています。",
+      "aromaNote": "公式の品種説明では、バルサミックな香りを中心に、森の果実を思わせるフルーティーな背景が重なるとされています。",
+      "terpeneNote": "公式テルペン欄ではterpinoleneが35%と最も多く、alpha-pinene、limonene、beta-pineneが続き、trans-ocimene、linalool、beta-myrceneも少量記載されています。セスキテルペンとしてbeta-caryophyllene、guaiol、alpha-humuleneが挙げられています。"
+    }
+  },
+  "visuals": [],
+  "checkedAt": "2026-08-22",
+  "updatedAt": "2026-08-22"
+}

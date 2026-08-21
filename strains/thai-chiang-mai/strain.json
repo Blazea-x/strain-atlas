@@ -1,0 +1,111 @@
+{
+  "schemaVersion": 1,
+  "id": "thai-chiang-mai",
+  "status": "review",
+  "name": "Thai Chiang Mai",
+  "jp": null,
+  "aliases": [],
+  "classification": {
+    "type": "sativa"
+  },
+  "breeding": {
+    "generation": "other",
+    "method": "P3-P5 preservation line"
+  },
+  "lineage": {
+    "status": "confirmed",
+    "confidence": "A",
+    "basis": "breederOfficial",
+    "sourceRefs": [
+      "ace-seeds-thai-chiang-mai"
+    ],
+    "display": "Pure Chiang Mai Thai sativa, P3-P5 preservation line",
+    "parents": [],
+    "note": "ACE Seeds identifies the line as a pure sativa from Chiang Mai, maintained between the 3rd and 5th generation in its preservation work."
+  },
+  "relations": [
+    {
+      "entityId": "ace-seeds",
+      "roles": [
+        "seedCompany"
+      ],
+      "status": "confirmed",
+      "confidence": "A",
+      "basis": "breederOfficial",
+      "sourceRefs": [
+        "ace-seeds-thai-chiang-mai"
+      ]
+    }
+  ],
+  "aromas": {
+    "status": "confirmed",
+    "confidence": "A",
+    "basis": "breederOfficial",
+    "sourceRefs": [
+      "ace-seeds-thai-chiang-mai"
+    ],
+    "items": [
+      "fresh",
+      "lemon-lime",
+      "wood",
+      "spices",
+      "sweet",
+      "creamy",
+      "perfumed",
+      "floral",
+      "musky",
+      "strawberry"
+    ],
+    "note": "Cultivar-specific bouquet descriptors normalized from the ACE Seeds official page without inferring chemical compounds."
+  },
+  "terpenes": {
+    "status": "confirmed",
+    "confidence": "B",
+    "basis": "breederOfficial",
+    "sourceRefs": [
+      "ace-seeds-thai-chiang-mai"
+    ],
+    "items": [
+      "beta-myrcene",
+      "terpinolene",
+      "beta-pinene",
+      "trans-ocimene",
+      "alpha-pinene",
+      "limonene",
+      "beta-caryophyllene"
+    ],
+    "note": "ACE Seeds publishes a named cultivar-specific terpene profile; confidence remains below A because an independently retrieved laboratory report is not used here."
+  },
+  "origin": {
+    "status": "confirmed",
+    "confidence": "A",
+    "basis": "breederOfficial",
+    "sourceRefs": [
+      "ace-seeds-thai-chiang-mai"
+    ],
+    "text": "Chiang Mai province in northwestern Thailand.",
+    "note": "Limited to the cultivar-specific geographic origin explicitly stated by ACE Seeds."
+  },
+  "history": {
+    "status": "confirmed",
+    "confidence": "B",
+    "basis": "breederOfficial",
+    "sourceRefs": [
+      "ace-seeds-about"
+    ],
+    "text": "ACE Seeds states that it unveiled this old pure Thai from Chiang Mai in 2022.",
+    "note": "Only chronology or development context explicitly stated by ACE Seeds is retained; unstated dates are not inferred."
+  },
+  "publicContent": {
+    "ja": {
+      "origin": "ACE Seeds公式では、この系統はタイ北西部のChiang Mai州に由来する伝統的な純サティバとして説明されています。",
+      "lineageNote": "ACE Seedsは、Chiang Mai由来の純サティバを保存研究の中で複数世代にわたり再生しており、現行ラインをP3-P5（第3〜第5世代）の保存系統として示しています。",
+      "history": "ACE Seedsの公式沿革では、このChiang Mai由来の古い純Thai系統を2022年に公開したと記載されています。",
+      "aromaNote": "公式ページでは三つの香り表現が示され、レモンライム・木・スパイス系、甘くクリーミーでフローラル／ムスク系、そして少数のストロベリー系が確認されています。",
+      "terpeneNote": "公式テルペン欄ではbeta-myrceneとterpinoleneがそれぞれおよそ3分の1を占め、残りをbeta-pinene、trans-ocimene、alpha-pinene、limoneneが分ける構成とされています。セスキテルペンとしてbeta-caryophylleneが挙げられています。"
+    }
+  },
+  "visuals": [],
+  "checkedAt": "2026-08-22",
+  "updatedAt": "2026-08-22"
+}

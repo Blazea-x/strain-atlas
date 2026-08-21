@@ -1,0 +1,105 @@
+{
+  "schemaVersion": 1,
+  "id": "nepal-jam",
+  "status": "review",
+  "name": "Nepal Jam",
+  "jp": null,
+  "aliases": [],
+  "classification": {
+    "type": "sativa-dominant-hybrid"
+  },
+  "breeding": {
+    "generation": "other",
+    "method": "F7-F8 stabilized hybrid"
+  },
+  "lineage": {
+    "status": "confirmed",
+    "confidence": "A",
+    "basis": "breederOfficial",
+    "sourceRefs": [
+      "ace-seeds-nepal-jam"
+    ],
+    "display": "(Nepalese/Jamaica '85) × Nepalese",
+    "parents": [
+      "Nepalese/Jamaica '85",
+      "Nepalese"
+    ],
+    "note": "ACE Seeds lists Nepal Jam as (Nepalese/Jamaica '85) x Nepalese and identifies the current line as an F7-F8 stabilized hybrid."
+  },
+  "relations": [
+    {
+      "entityId": "ace-seeds",
+      "roles": [
+        "breeder",
+        "seedCompany"
+      ],
+      "status": "confirmed",
+      "confidence": "A",
+      "basis": "breederOfficial",
+      "sourceRefs": [
+        "ace-seeds-nepal-jam"
+      ]
+    }
+  ],
+  "aromas": {
+    "status": "confirmed",
+    "confidence": "A",
+    "basis": "breederOfficial",
+    "sourceRefs": [
+      "ace-seeds-nepal-jam"
+    ],
+    "items": [
+      "sweet",
+      "floral",
+      "creamy",
+      "caramelized",
+      "honey"
+    ],
+    "note": "Cultivar-specific bouquet descriptors normalized from the ACE Seeds official page without inferring chemical compounds."
+  },
+  "terpenes": {
+    "status": "confirmed",
+    "confidence": "B",
+    "basis": "breederOfficial",
+    "sourceRefs": [
+      "ace-seeds-nepal-jam"
+    ],
+    "items": [
+      "beta-myrcene",
+      "beta-pinene",
+      "camphene",
+      "alpha-pinene",
+      "linalool",
+      "nerolidol",
+      "beta-caryophyllene",
+      "guaiol"
+    ],
+    "note": "ACE Seeds publishes a named cultivar-specific terpene profile; confidence remains below A because an independently retrieved laboratory report is not used here."
+  },
+  "origin": {
+    "status": "unknown",
+    "text": "",
+    "note": "The cited official cultivar evidence does not establish a sufficiently bounded creation location for this atlas entry; no location is inferred."
+  },
+  "history": {
+    "status": "confirmed",
+    "confidence": "B",
+    "basis": "breederOfficial",
+    "sourceRefs": [
+      "ace-seeds-about"
+    ],
+    "text": "ACE Seeds states that Nepal Jam was included in its first catalogue in 2005.",
+    "note": "Only chronology or development context explicitly stated by ACE Seeds is retained; unstated dates are not inferred."
+  },
+  "publicContent": {
+    "ja": {
+      "lineageNote": "Nepal Jamは、（Nepalese / Jamaica '85）をNepaleseへ戻した系統で、ACE Seedsの現行ページではF7-F8まで安定化されたハイブリッドとして示されています。",
+      "history": "ACE Seedsの公式沿革では、Nepal Jamは2005年の最初のカタログに掲載されたクラシック品種の一つとして挙げられています。",
+      "aromaNote": "公式説明では、甘さとフローラル感を基調に、クリーミー、キャラメル、ハチミツを思わせる香りが組み合わさるとされています。",
+      "terpeneNote": "公式テルペン欄ではbeta-myrceneが非常に多く、beta-pinene、camphene、alpha-pinene、linaloolが少量または痕跡として続きます。セスキテルペンではnerolidolを中心に、beta-caryophylleneとguaiolも挙げられています。"
+    }
+  },
+  "visuals": [],
+  "checkedAt": "2026-08-22",
+  "updatedAt": "2026-08-22"
+}
