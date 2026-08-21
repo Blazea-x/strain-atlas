@@ -310,7 +310,7 @@
     return publicCard(cultivar.id, "lineage", "系譜", value, deep, grade, "public-profile-card", Boolean(grade));
   }
 
-  function sensoryCard(label, claim, kind) {
+  function sensoryCard(cultivar, label, claim, kind, publicKey) {
     const items = claim?.items || [];
     if (!items.length) return "";
     const chips = items.map(item => {
@@ -321,7 +321,20 @@
         : `public-chip public-terpene-chip ${tone}`;
       return `<span class="${chipClass}">${esc(shown)}</span>`;
     }).join("");
-    return `<section class="public-card public-static-card public-sensory-card public-profile-card" data-profile-kind="${esc(kind)}"><div class="public-section-head"><span class="public-card-label">${esc(label)}</span>${gradeBadge(claim)}</div><div class="public-chips">${chips}</div></section>`;
+    const prose = publicJapanese(cultivar, publicKey);
+    if (!prose) {
+      return `<section class="public-card public-static-card public-sensory-card public-profile-card" data-profile-kind="${esc(kind)}"><div class="public-section-head"><span class="public-card-label">${esc(label)}</span>${gradeBadge(claim)}</div><div class="public-chips">${chips}</div></section>`;
+    }
+    const id = `public-detail-${cultivar.id}-${kind}`;
+    const closedLabel = `${label}の詳細を表示`;
+    const openLabel = `${label}の詳細を閉じる`;
+    return `<section class="public-card public-detail-action public-sensory-card public-profile-card" data-detail-action data-profile-kind="${esc(kind)}">
+      <button class="public-detail-toggle" type="button" aria-expanded="false" aria-controls="${esc(id)}" aria-label="${esc(closedLabel)}" data-closed-label="${esc(closedLabel)}" data-open-label="${esc(openLabel)}" data-detail-toggle>
+        <span class="public-card-copy"><span class="public-card-label">${esc(label)}</span><span class="public-chips">${chips}</span>${gradeBadge(claim)}</span>
+        <span class="public-chevron" aria-hidden="true">⌄</span>
+      </button>
+      <div class="public-detail-deep" id="${esc(id)}"><p>${esc(prose)}</p></div>
+    </section>`;
   }
 
   const percentText = value => typeof value === "number" && Number.isFinite(value) ? String(value) : "";
@@ -403,8 +416,8 @@
     const profileCards = [
       textClaimCard(cultivar, "origin", "起源", cultivar.origin),
       lineageCard(cultivar),
-      sensoryCard("香り", cultivar.aromas, "aroma"),
-      sensoryCard("テルペン", cultivar.terpenes, "terpene"),
+      sensoryCard(cultivar, "香り", cultivar.aromas, "aroma", "aromaNote"),
+      sensoryCard(cultivar, "テルペン", cultivar.terpenes, "terpene", "terpeneNote"),
       textClaimCard(cultivar, "history", "歴史", cultivar.history)
     ].filter(Boolean);
     const profileId = `public-profile-title-${cultivar.id}`;
