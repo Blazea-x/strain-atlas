@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-20T13:13:55.644Z",
+  "generatedAt": "2026-08-21T10:39:37.627Z",
   "sourceOfTruth": {
     "cultivars": "strains/<id>/strain.json",
     "sources": "sources/*.json",
@@ -142,6 +142,13 @@
         "text": "The official page presents Acapulco Gold as a legacy Mexican/Acapulco cultivar line; no precise creation date is asserted.",
         "note": "Only bounded history stated by the current official source is retained."
       },
+      "publicContent": {
+        "ja": {
+          "origin": "Barney's Farmは、このAcapulco Gold系統を中央アメリカ／メキシコのランドレースの系譜に由来すると説明しています。",
+          "lineageNote": "Barney's Farm公式ではCentral American geneticsとされ、70% sativa / 30% indicaと説明されています。これ以上細かな親系統は推定しません。",
+          "history": "Barney's Farmの現行ページではAcapulco Goldを伝統的なMexican / Acapulco cultivar lineとして紹介していますが、正確な作出時期は示していません。"
+        }
+      },
       "visuals": [
         {
           "role": "primary",
@@ -238,6 +245,13 @@
         ],
         "text": "Serious Seeds states AK-47 was created in 1992 after selection work across multiple lines.",
         "note": "Only bounded history stated by the current official source is retained."
+      },
+      "publicContent": {
+        "ja": {
+          "origin": "Serious SeedsがColombian、Mexican、Thai、Afghanのseed stockから作出したと公式に説明しています。",
+          "lineageNote": "Serious Seeds公式では、Colombian、Mexican、Thai、Afghanのseed stockから開発した、サティバ優勢のF1ハイブリッドとされています。",
+          "history": "Serious Seedsは、複数の系統で選抜を行った後、1992年にAK-47を作出したと説明しています。"
+        }
       },
       "visuals": [
         {
@@ -352,6 +366,13 @@
         "text": "ACE Seeds describes Bangi Haze as a classic strain that has been in its catalogue for almost 20 years; an exact first-release year is not stated on the current page.",
         "note": "Only dated or descriptive history stated on the current official page is retained."
       },
+      "publicContent": {
+        "ja": {
+          "origin": "ACE Seeds公式では、CongoleseとNepaleseの遺伝背景をもとに、スペインのGaliciaで開発・安定化したとされています。",
+          "lineageNote": "ACE Seeds公式では、CongoleseとNepaleseの遺伝背景を組み合わせてF8まで安定化したハイブリッドと説明されています。",
+          "history": "ACE SeedsはBangi Hazeを、カタログで約20年扱ってきたクラシック品種と説明しています。現行ページには初回リリース年の明記はありません。"
+        }
+      },
       "visuals": [
         {
           "role": "primary",
@@ -427,6 +448,11 @@
         "status": "unknown",
         "text": "",
         "note": "The official Bubba Kush S1 product page does not state a cultivar-specific release date or development history; no secondary history is imported."
+      },
+      "publicContent": {
+        "ja": {
+          "lineageNote": "Humboldt CSI公式ではBubba Kush × Bubba Kushと記載され、S1表記と合わせてセルフ化したS1ラインとして扱われています。親品種について未記載の系譜は補いません。"
+        }
       },
       "visuals": [
         {
@@ -552,6 +578,11 @@
         "text": "Bubble Gumは同名で複数の選抜系統が流通している。Serious SeedsとT.H. Seedsの双方が独自の選抜・安定化系統を展開しており、系譜は単純な1本線では整理できない。",
         "note": "Migrated from legacy data without expanding the claim."
       },
+      "publicContent": {
+        "ja": {
+          "lineageNote": "遺伝的な親系統は確定していません。1990年代にオランダへ渡った後、複数のブリーダーが別々に選抜・安定化したため、同じBubble Gum名でも系統差があります。"
+        }
+      },
       "visuals": [
         {
           "role": "primary",
@@ -636,6 +667,11 @@
         "status": "unknown",
         "text": "",
         "note": "The official Bubblegum S1 page does not provide a sufficiently bounded cultivar-specific release chronology; no secondary history is imported."
+      },
+      "publicContent": {
+        "ja": {
+          "lineageNote": "Humboldt CSI公式ではBubblegum (Indiana cut) × Bubblegum (Indiana cut)と記載され、S1表記と合わせてセルフ化したS1ラインとして扱われています。追加の祖先系統は推定しません。"
+        }
       },
       "visuals": [
         {
@@ -726,6 +762,11 @@
         "status": "unknown",
         "text": "",
         "note": "The official product page labels California Octane an original strain and provides parentals/S3 status, but the reviewed primary sources do not provide a dated cultivar-development history. No history is inferred."
+      },
+      "publicContent": {
+        "ja": {
+          "lineageNote": "Humboldt Seed Company公式では、Dream Queen × I-369 × Papayaと記載され、S3のフェミナイズド・フォトピリオドとして説明されています。"
+        }
       },
       "visuals": [
         {
@@ -833,6 +874,11 @@
         "text": "DNA Geneticsの現行ラインとしてL.A. ConfidentialとOG Kushを組み合わせた品種。公式は開発に長い期間を要したと記すが、作出年・初出年は確認できない。",
         "note": "公式に確認できる範囲だけを記載し、具体的な年代は補わない。"
       },
+      "publicContent": {
+        "ja": {
+          "lineageNote": "DNA Genetics公式とSeedFinderはいずれもL.A. ConfidentialとOG Kushの組み合わせを示しています。資料によって表記順が異なるため、ここでは親の組み合わせのみを示し、母父の方向までは断定しません。"
+        }
+      },
       "visuals": [
         {
           "role": "primary",
@@ -909,6 +955,11 @@
         "text": "",
         "note": "The official Chemdog D S1 page does not provide a sufficiently bounded cultivar-specific release chronology; no secondary history is imported."
       },
+      "publicContent": {
+        "ja": {
+          "lineageNote": "Humboldt CSI公式ではChemdog D × Chemdog Dと記載され、S1表記と合わせてセルフ化したS1ラインとして扱われています。追加の祖先系統は推定しません。"
+        }
+      },
       "visuals": [
         {
           "role": "primary",
@@ -984,6 +1035,11 @@
         "status": "unknown",
         "text": "",
         "note": "The official Cherry Pie S1 page does not provide a sufficiently bounded cultivar-specific release chronology; no secondary history is imported."
+      },
+      "publicContent": {
+        "ja": {
+          "lineageNote": "Humboldt CSI公式ではCherry Pie × Cherry Pieと記載され、S1表記と合わせてセルフ化したS1ラインとして扱われています。追加の祖先系統は推定しません。"
+        }
       },
       "visuals": [
         {
@@ -1081,6 +1137,11 @@
         ],
         "text": "DNA GeneticsがLemon Skunk 256 (Emerald Cup Winning Cut)とChocolopeを交配して展開するライン。",
         "note": "作出年や具体的な作出地点は公式ページから確認できないため追加しない。"
+      },
+      "publicContent": {
+        "ja": {
+          "lineageNote": "DNA Genetics公式ではLemon Skunk 256（Emerald Cup Winning Cut）× Chocolopeと記載されています。F1・F2・BXなどの育種世代は公式ページでは確認できません。"
+        }
       },
       "visuals": [
         {
@@ -1271,6 +1332,13 @@
         "text": "Dutch Passion describes Durban Poison as an old-school cornerstone variety and a long-standing Dutch Passion classic, available in regular and feminized form.",
         "note": "Only dated or descriptive history stated on the current official page is retained."
       },
+      "publicContent": {
+        "ja": {
+          "origin": "Dutch Passionは、この系統を南アフリカのDurbanにさかのぼるものとし、その後の育種で未開示のIndica親を用いたと説明しています。",
+          "lineageNote": "Dutch Passion公式ではDurban × Unknown Indicaと記載されています。Indica側の親は開示されていないため、追加の親系統は推定しません。",
+          "history": "Dutch PassionはDurban Poisonをオールドスクールの基幹品種で、長く扱ってきたクラシック品種と説明し、regularとfeminizedの両形態で展開しています。"
+        }
+      },
       "visuals": [
         {
           "role": "primary",
@@ -1347,6 +1415,11 @@
         "text": "",
         "note": "The official Durban Poison S1 page describes the source cut but does not provide a sufficiently bounded S1-line release chronology; no secondary history is imported."
       },
+      "publicContent": {
+        "ja": {
+          "lineageNote": "Humboldt CSI公式ではDurban Poison × Durban Poisonと記載され、S1表記と合わせてセルフ化したS1ラインとして扱われています。追加の祖先系統は推定しません。"
+        }
+      },
       "visuals": [
         {
           "role": "primary",
@@ -1422,6 +1495,11 @@
         "status": "unknown",
         "text": "",
         "note": "The official page notes limited seed production from a reversal using Cookie Monster's F1 Durb cut, but no sufficiently bounded release chronology is asserted for this atlas entry."
+      },
+      "publicContent": {
+        "ja": {
+          "lineageNote": "Humboldt CSI公式ではF1 Durb × F1 Durbと記載され、S1表記と合わせてセルフ化したS1ラインとして扱われています。追加の祖先系統は推定しません。"
+        }
       },
       "visuals": [
         {
@@ -1516,6 +1594,11 @@
         "text": "Dutch Passionが特徴的なダックフット状の葉形と屋外での目立ちにくさを狙い、長年の選抜育種で作り上げた系統。",
         "note": "公式ページはmany years of careful breedingと説明している。"
       },
+      "publicContent": {
+        "ja": {
+          "lineageNote": "Dutch Passion公式ではFrisian Dew × DucksFootとされています。世代番号は公式ページでは特定されていません。"
+        }
+      },
       "visuals": [
         {
           "role": "primary",
@@ -1605,6 +1688,13 @@
         "text": "ACE Seeds describes the current version as a stronger-Thai-influence refinement of Golden Tiger and labels it F3 semi-stabilized.",
         "note": "Only bounded history stated by the current official source is retained."
       },
+      "publicContent": {
+        "ja": {
+          "origin": "ACE SeedsがMalawiとThaiの親系統から開発したと説明しています。",
+          "lineageNote": "ACE Seeds公式では、2つのThai系統と2つのMalawi親系統を組み合わせた、F3のsemi-stabilized 100% sativa hybridと説明されています。",
+          "history": "ACE Seedsは現行版Golden TigerをThaiの影響をより強めた改良版として説明し、F3 semi-stabilizedとしています。"
+        }
+      },
       "visuals": [
         {
           "role": "primary",
@@ -1680,6 +1770,11 @@
         "status": "unknown",
         "text": "",
         "note": "The official Gorilla Glue 4 S1 product page does not state a cultivar-specific release date or development history; no secondary history is imported."
+      },
+      "publicContent": {
+        "ja": {
+          "lineageNote": "Humboldt CSI公式ではGorilla Glue 4 × Gorilla Glue 4と記載され、S1表記と合わせてセルフ化したS1ラインとして扱われています。親品種について未記載の系譜は補いません。"
+        }
       },
       "visuals": [
         {
@@ -1774,6 +1869,13 @@
         "text": "Sensi Seeds presents Jack Herer as a flagship award-winning cultivar; no precise release year is imported from the checked product page.",
         "note": "Only bounded history stated by the current official source is retained."
       },
+      "publicContent": {
+        "ja": {
+          "origin": "Sensi Seedsが開発し、カンナビス活動家Jack Hererにちなんで命名したと公式に説明しています。",
+          "lineageNote": "Sensi Seeds公式では50/50のsativa / indica hybridとされていますが、確認した製品ページでは親品種の一覧は開示されていません。非公開の親系統は推定しません。",
+          "history": "Sensi SeedsはJack Hererを代表的な受賞品種として紹介していますが、確認した製品ページでは正確なリリース年を示していません。"
+        }
+      },
       "visuals": [
         {
           "role": "primary",
@@ -1854,6 +1956,12 @@
         ],
         "text": "Humboldt CSI describes the Jager source cut as a very popular Southern Oregon outdoor cut that originated at Millerville Farms and spread widely.",
         "note": "Retained only as parent-cut background from the official Jager S1 page; the page does not state the S1 line's exact creation date or production location."
+      },
+      "publicContent": {
+        "ja": {
+          "lineageNote": "Humboldt CSI公式ではJager × Jagerと記載され、S1表記と合わせてセルフ化したS1ラインとして扱われています。親品種について未記載の系譜は補いません。",
+          "history": "Humboldt CSIは、Jagerの元となったカットについて、Southern Oregonで非常に人気があり、Millerville Farmsに起源を持って広く普及したと説明しています。これは親カットの背景であり、Jager S1自体の作出時期や作出場所を示すものではありません。"
+        }
       },
       "visuals": [
         {
@@ -1951,6 +2059,12 @@
         ],
         "text": "Serious Seeds documents multiple breeding revisions; the modern line returned to a more sativa-dominant pattern in the late 1990s and won the 2000 High Times Cannabis Cup sativa category.",
         "note": "Only dated or descriptive history stated on the current official page is retained."
+      },
+      "publicContent": {
+        "ja": {
+          "origin": "Serious Seedsは、祖先系統が米国で栽培されていたことに触れ、東南アジア／カンボジア系の強い背景とアフガニ系の影響を説明しています。ただし、完全な系譜は開示されていません。",
+          "history": "Serious Seedsは複数回の育種上の改訂を記録しており、現代ラインは1990年代後半によりサティバ優勢の形へ戻され、2000年High Times Cannabis Cupのsativa categoryを受賞したとしています。"
+        }
       },
       "visuals": [
         {
@@ -2057,6 +2171,13 @@
         ],
         "text": "The current Barney's Farm page identifies Laughing Buddha as a cup-winning cultivar, but does not provide a precise release year or development chronology.",
         "note": "Only dated or descriptive history stated on the current official page is retained."
+      },
+      "publicContent": {
+        "ja": {
+          "origin": "Barney's Farm公式では、ThaiとJamaicanの遺伝背景から開発したとされています。",
+          "lineageNote": "Barney's Farm公式ではThai × Jamaicanとされ、80% sativa / 20% indicaと説明されています。",
+          "history": "Barney's Farmの現行ページではLaughing Buddhaをカップ受賞歴のある品種と説明していますが、正確なリリース年や開発の時系列は示していません。"
+        }
       },
       "visuals": [
         {
@@ -2170,6 +2291,12 @@
         ],
         "text": "ACE Seeds公式沿革の2012年Malawi導入を根拠とする。",
         "note": "2012年のMalawi導入はACE Seeds公式沿革で確認済み。"
+      },
+      "publicContent": {
+        "ja": {
+          "origin": "ACE Seeds公式では、起源を中央アフリカのMalawiとしています。",
+          "lineageNote": "ACE SeedsではOld Malawi Killer × 3rd generation Malawisとされ、Malawi由来のP4ランドレースとして説明されています。P4表記はここでは系譜情報として扱い、育種世代の固定値にはしていません。"
+        }
       },
       "visuals": [
         {
@@ -2387,6 +2514,11 @@
         "text": "1996年、Florida由来のOG Kush系統がLos Angelesへ持ち込まれ、Josh Dが保存・栽培・共有の中心人物となった。1990年代後半にはSouthern Californiaで広まり、1997年にはJosh D自身がNorthern Californiaへ持ち込んだ記録がある。",
         "note": "Josh D本人の公式サイトと、Josh D・B-Real・Kevin Jodreyらへの直接取材を含むLeaflyの系譜記事で主要な時系列を照合。親系統の断定はhistoryから切り離している。"
       },
+      "publicContent": {
+        "ja": {
+          "lineageNote": "親系統は確定していません。Josh D公式は1996年にFloridaからLos Angelesへ持ち込まれたTriangle Kush系統との関連を記録していますが、生物学的な親系統そのものは特定しておらず、Leaflyも親系統を推測的なものとして整理しています。"
+        }
+      },
       "visuals": [
         {
           "role": "primary",
@@ -2504,6 +2636,13 @@
         "text": "Panama was included in ACE Seeds' first catalog in 2005.",
         "note": "ACE Seeds' current official About page lists Panama among the cultivars in its first 2005 catalog."
       },
+      "publicContent": {
+        "ja": {
+          "origin": "ACE Seeds公式では、この系統の起源をPanamaとしています。",
+          "lineageNote": "ACE SeedsはPanamaを、Panama由来の3つのサティバ系統を組み合わせたハイブリッドと説明しています。個々の親品種名は公表されていません。",
+          "history": "ACE Seedsの公式沿革では、Panamaは2005年の最初のカタログに掲載された品種の一つとされています。"
+        }
+      },
       "visuals": [
         {
           "role": "primary",
@@ -2609,6 +2748,13 @@
         "text": "Developed through years of outdoor selection in the Netherlands from Purple #1 × early Skunk.",
         "note": "Dutch Passion describes decades of Dutch outdoor/greenhouse selection for the cultivar."
       },
+      "publicContent": {
+        "ja": {
+          "origin": "Dutch Passion公式では、オランダでの屋外育種プログラムに由来するとされています。",
+          "lineageNote": "Dutch Passion公式では、Purple #1の雄株と早生のSkunk雌株を交配した、サティバ優勢のF1ハイブリッドと説明されています。",
+          "history": "Dutch Passionは、Purple #1 × early Skunkを基礎に、オランダで長年の屋外選抜を重ねて開発したと説明しています。"
+        }
+      },
       "visuals": [
         {
           "role": "primary",
@@ -2703,6 +2849,13 @@
         ],
         "text": "Sensi Seeds states the strain was first released in 1987 as NL#5xSK#1 and was renamed Shiva Skunk shortly afterward.",
         "note": "Only dated or descriptive history stated on the current official page is retained."
+      },
+      "publicContent": {
+        "ja": {
+          "origin": "Sensi SeedsがNorthern Lights #5とSkunk #1から育種したと公式に説明しています。",
+          "lineageNote": "Sensi Seeds公式ではNorthern Lights #5 × Skunk #1とされています。",
+          "history": "Sensi Seedsは、1987年にNL#5xSK#1として初めてリリースされ、その後まもなくShiva Skunkへ改名されたと説明しています。"
+        }
       },
       "visuals": [
         {
@@ -2811,6 +2964,11 @@
         ],
         "text": "Original Strawberry Bananaをself-pollinationして作られたS1。元系統はCrockett’s Banana KushとSerious Seeds Bubble GumのStrawberry phenotypeを背景に持つ。Original Strawberry Banana側の受賞歴は確認できるが、S1固有の受賞としては登録しない。",
         "note": "OriginalとS1のscopeを分離して記録。"
+      },
+      "publicContent": {
+        "ja": {
+          "lineageNote": "DNA Geneticsの製品欄ではOriginal Strawberry Banana × Strawberry Bananaと表記され、本文ではOriginal Strawberry BananaをセルフポリネーションしたS1と説明されています。元のOriginal Strawberry BananaはCrockett’s Banana Kush × Serious Seeds Bubble GumのStrawberry phenotype由来とされています。"
+        }
       },
       "visuals": [
         {
@@ -2921,6 +3079,11 @@
         "text": "2008年・2009年のHigh Times Cannabis Cupで1位を獲得し、その後も複数のカップ受賞歴を持つ。",
         "note": "Green House Seed Co.公式のAWARDS一覧に基づく。"
       },
+      "publicContent": {
+        "ja": {
+          "lineageNote": "Green House Seed Co.公式ではLemon Skunk × Super Silver Hazeとされています。"
+        }
+      },
       "visuals": [
         {
           "role": "primary",
@@ -3010,6 +3173,12 @@
         ],
         "text": "Humboldt CSI describes T-1000 as a selection from its Old Family Purple hybrid and states that the T-1000 cut is now available in S1 feminized seed form.",
         "note": "The official page gives cultivar development context but not a precise dated release chronology."
+      },
+      "publicContent": {
+        "ja": {
+          "lineageNote": "Humboldt CSI公式ではT-1000 × T-1000と記載され、S1表記と合わせてセルフ化したS1ラインとして扱われています。",
+          "history": "Humboldt CSIはT-1000をOld Family Purple hybridからの選抜と説明し、現在そのT-1000 cutをS1のfeminized seed formで提供しているとしています。"
+        }
       },
       "visuals": [
         {
@@ -3122,6 +3291,11 @@
         "text": "Reserva PrivadaのOG Kush選抜として展開され、公式商品ページでは2011年Spannabis Hydro 1位、2009年High Times Cannabis Cup Indica 2位、2007年同Indica 3位の受賞歴が記載されている。SeedFinderでも2011年と2009年の主要受賞を確認できる。",
         "note": "受賞歴は公式商品ページを主根拠とし、専門データベースで部分的に照合。2007年分は今回独立した一次アーカイブまでは確認できていないためconfidenceはB。"
       },
+      "publicContent": {
+        "ja": {
+          "lineageNote": "DNA Geneticsの現行ページではOG Kush S1を遺伝背景とし、最初にリリースしたフェミナイズドOG Kush種子から#18を選抜して再フェミナイズしたと説明されています。資料間でS1やBXなどの世代表現が揺れるため、育種世代そのものは確定していません。"
+        }
+      },
       "visuals": [
         {
           "role": "primary",
@@ -3203,6 +3377,12 @@
         "text": "Humboldt CSI states that the mid-to-late-1990s TrainWreck clone has been preserved in its library for over 20 years and is now available in S1 form.",
         "note": "The official page provides bounded parent-clone preservation context; no unsupported chronology is added."
       },
+      "publicContent": {
+        "ja": {
+          "lineageNote": "Humboldt CSI公式ではTrainWreck × TrainWreckと記載され、S1表記と合わせてセルフ化したS1ラインとして扱われています。",
+          "history": "Humboldt CSIは、1990年代半ばから後半のTrainWreck cloneを20年以上ライブラリで維持し、現在はS1 formで提供していると説明しています。"
+        }
+      },
       "visuals": [
         {
           "role": "primary",
@@ -3283,6 +3463,12 @@
         ],
         "text": "Humboldt CSI describes repeated reversals of its Triangle Kush mother cut over roughly four years before successfully producing this S1 seed release.",
         "note": "The official page provides breeder-process context but not a precise calendar release date."
+      },
+      "publicContent": {
+        "ja": {
+          "lineageNote": "Humboldt CSI公式ではTriangle Kush × Triangle Kushと記載され、S1表記と合わせてセルフ化したS1ラインとして扱われています。",
+          "history": "Humboldt CSIは、Triangle Kush mother cutを約4年にわたり繰り返しreversalしたのち、このS1 seed releaseに成功したと説明しています。"
+        }
       },
       "visuals": [
         {
@@ -3385,6 +3571,13 @@
         ],
         "text": "Serious Seeds states Warlock debuted in 1997 and won two High Times Cannabis Cup awards at its debut.",
         "note": "Only dated or descriptive history stated on the current official page is retained."
+      },
+      "publicContent": {
+        "ja": {
+          "origin": "Serious Seedsは、WarlockがMagus Geneticsの代表的な品種として生まれ、現在はSerious Seedsが維持していると説明しています。",
+          "lineageNote": "Serious Seeds公式では、SkunkとAfghanistan由来の系統の交配とされています。",
+          "history": "Serious SeedsはWarlockが1997年にデビューし、そのデビュー時にHigh Times Cannabis Cupで2つの賞を獲得したと説明しています。"
+        }
       },
       "visuals": [
         {
@@ -3504,6 +3697,11 @@
         "text": "Wedding CakeはSeed Junky GeneticsのJ BeezyがTriangle Mintsから選抜したphenotypeとして広まり、2018年SoCal High Times Cannabis CupではNew Amsterdam Naturals with CannastarのWedding CakeがBest Hybrid Flower 1位となった。2019年にはLeafly Strain of the Yearに選出された。過去にはGSC × Cherry Pie説も広く流通したが、Leaflyはbreederの説明を優先しTriangle Mints phenotypeとして整理している。",
         "note": "2018年の受賞はcultivarの競技実績として記録し、Seed Junky Genetics自身の受賞とは表現しない。Pink CookiesはLeafly等で別名として使われるが、旧GSC × Cherry Pie系統との混同を避けるため現時点のaliasesから除外した。"
       },
+      "publicContent": {
+        "ja": {
+          "lineageNote": "Wedding CakeはSeed Junky GeneticsのJ BeezyがTriangle Mintsから選抜したphenotypeとして記録され、近年の専門資料ではTriangle Kush × Animal Mintsで概ね一致します。一方で過去にはGSC × Cherry Pie説も広く流通しており、親系統には異説が残ります。"
+        }
+      },
       "visuals": [
         {
           "role": "primary",
@@ -3588,6 +3786,11 @@
         ],
         "text": "Humboldt CSIがWedding Cake × Wedding Cakeとして展開するfeminized S1 line。",
         "note": "Humboldt CSIの公式背景情報はHumboldt County / Emerald Triangleとの関係を説明しているが、このWedding Cake S1自体の作出地点・作出時期は商品ページでは特定されていない。"
+      },
+      "publicContent": {
+        "ja": {
+          "lineageNote": "Humboldt CSI公式ではWedding Cake × Wedding Cakeと記載され、S1表記に基づくセルフ化したS1ラインとして扱われています。ただし、使用されたWedding Cake cutの由来やSeed Junky / Triangle Mints #23との同一性は公式ページでは特定されていません。"
+        }
       },
       "visuals": [
         {
@@ -3700,6 +3903,11 @@
         ],
         "text": "Réunion Island由来Zamalから、強いサイケデリック特性、比較的速い開花、sweet carrotとfloralの香りを持つ母株を選抜し、Golden Tigerで受粉してZamaldelicaが作出された。",
         "note": "ACE Seeds公式Descriptionに基づく。"
+      },
+      "publicContent": {
+        "ja": {
+          "lineageNote": "ACE Seeds公式ではZamal × Malawi/Thaiとされています。説明文では、選抜したZamal母株をGolden Tigerで受粉して作出したと記載されています。"
+        }
       },
       "visuals": [
         {
