@@ -2,6 +2,15 @@
   "use strict";
 
   const DATA_URL = "https://raw.githubusercontent.com/Blazea-x/strain-atlas/master-migration/runtime/catalog.json";
+  const runtimeCatalogPromise = window.__CSWRuntimeCatalogPromise || (
+    window.__CSWRuntimeCatalogPromise = Promise.resolve().then(async () => {
+      const response = await fetch(`${DATA_URL}?t=${Date.now()}`, { cache: "no-store" });
+      if (!response.ok) throw new Error(`runtime catalog HTTP ${response.status}`);
+      const parsedCatalog = await response.json();
+      if (!Array.isArray(parsedCatalog.cultivars)) throw new Error("cultivars array is missing");
+      return parsedCatalog;
+    })
+  );
   const ASSET_BASE = "https://raw.githubusercontent.com/Blazea-x/strain-atlas/master-migration/";
   const typeLabels = {
     "sativa": "SATIVA",
@@ -723,10 +732,7 @@
 
   async function boot() {
     try {
-      const response = await fetch(`${DATA_URL}?t=${Date.now()}`, { cache: "no-store" });
-      if (!response.ok) throw new Error(`runtime catalog HTTP ${response.status}`);
-      catalog = await response.json();
-      if (!Array.isArray(catalog.cultivars)) throw new Error("cultivars array is missing");
+      catalog = await runtimeCatalogPromise;
 
       dataState.textContent = "MASTER DATA";
       catalogMeta.textContent = `${catalog.counts?.cultivars ?? 0} CULTIVARS · ${catalog.counts?.sources ?? 0} SOURCES · ${catalog.counts?.entities ?? 0} ENTITIES`;
