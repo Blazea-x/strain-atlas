@@ -60,7 +60,9 @@
   },
   "publicContent": {
     "ja": {
-      "lineageNote": "DNA Geneticsの現行ページではOG Kush S1を遺伝背景とし、最初にリリースしたフェミナイズドOG Kush種子から#18を選抜して再フェミナイズしたと説明されています。資料間でS1やBXなどの世代表現が揺れるため、育種世代そのものは確定していません。"
+      "lineageNote": "DNA Geneticsの現行ページではOG Kush S1を遺伝背景とし、最初にリリースしたフェミナイズドOG Kush種子から#18を選抜して再フェミナイズしたと説明されています。資料間でS1やBXなどの世代表現が揺れるため、育種世代そのものは確定していません。",
+      "aromaNote": "DNA Genetics / Reserva Privada公式では、サワーとフューエル / ディーゼル系の香りが挙げられています。",
+      "terpeneNote": "専門データベースでは、Limonene、Myrcene、LinaloolがThe OG #18のテルペンとして挙げられています。"
     }
   },
   "visuals": [
