@@ -74,7 +74,7 @@
     },
     "publicContentJa": {
       "type":"object","additionalProperties":false,"minProperties":1,
-      "properties":{"origin":{"type":"string","minLength":1},"lineageNote":{"type":"string","minLength":1},"history":{"type":"string","minLength":1}}
+      "properties":{"origin":{"type":"string","minLength":1},"lineageNote":{"type":"string","minLength":1},"history":{"type":"string","minLength":1},"aromaNote":{"type":"string","minLength":1},"terpeneNote":{"type":"string","minLength":1}}
     },
     "visual": {
       "type":"object","additionalProperties":false,"required":["role","src","aiGenerated","sourceType","rights","alt","scope"],
