@@ -29,18 +29,18 @@
   "expectedInboxFilename": "thai-chiang-mai.jpg",
   "expectedPrimaryPath": "strains/thai-chiang-mai/images/generated/primary.webp",
   "generatedAt": null,
-  "approvalStatus": "pending",
-  "approvedAt": null,
-  "approvalType": "human-visual-review",
-  "approvedManifestRevision": null,
-  "approvedAttempt": null,
-  "approvedSourceSha256": null,
-  "imageInboxCommit": null,
-  "imageProcessingCommit": null,
-  "processedPrimaryBlobSha": null,
-  "processedPrimarySha256": null,
-  "width": null,
-  "height": null,
+  "approvalStatus": "auto-approved",
+  "approvedAt": "2026-08-21T21:54:30Z",
+  "approvalType": "ai-visual-qa",
+  "approvedManifestRevision": 1,
+  "approvedAttempt": 1,
+  "approvedSourceSha256": "ba2b8fce3c1b94eecc5ba675ae0dd29ad159a7f118d2536224144d1bfcd571fd",
+  "imageInboxCommit": "not-applicable:production-auto-publish-v1-direct",
+  "imageProcessingCommit": "79abb4d91e0a38da20e210b019c8e170464d71f0",
+  "processedPrimaryBlobSha": "015c0a468caa22a7b0f9e270cac5d2a2cf800a2b",
+  "processedPrimarySha256": "40d23ccfc9b8c9a7f71393baa3e8768bf685bf1c5e6223620cc8e9a0d3ef564b",
+  "width": 1024,
+  "height": 1536,
   "audit": [
     {
       "severity": "INFO",
@@ -48,6 +48,106 @@
       "at": "2026-08-21T21:52:28Z",
       "productionPhase": "IMAGE_PENDING",
       "note": "Created by PRODUCTION START V1. Candidate output is review-only and cannot publish."
+    },
+    {
+      "severity": "INFO",
+      "code": "AI_VISUAL_QA_PASS_AUTO_APPROVAL",
+      "at": "2026-08-21T21:54:30Z",
+      "approvalType": "ai-visual-qa",
+      "qaEngine": "local-clip-semantic-v1",
+      "qaModel": "openai/clip-vit-base-patch32",
+      "candidateSha256": "ba2b8fce3c1b94eecc5ba675ae0dd29ad159a7f118d2536224144d1bfcd571fd"
+    },
+    {
+      "severity": "INFO",
+      "code": "PRIMARY_PROCESSED_INTERNAL",
+      "at": "2026-08-21T21:54:30Z",
+      "processingRoute": "production-auto-publish-v1-direct",
+      "processedPrimarySha256": "40d23ccfc9b8c9a7f71393baa3e8768bf685bf1c5e6223620cc8e9a0d3ef564b",
+      "width": 1024,
+      "height": 1536
     }
-  ]
+  ],
+  "processingRoute": "production-auto-publish-v1-direct",
+  "processingSourceArtifact": "production-review-32530466871",
+  "aiVisualQa": {
+    "strainId": "thai-chiang-mai",
+    "status": "PASS",
+    "engine": "local-clip-semantic-v1",
+    "model": "openai/clip-vit-base-patch32",
+    "reason": null,
+    "checks": [
+      {
+        "id": "image_decode",
+        "pass": true,
+        "width": 1024,
+        "height": 1536,
+        "variance": 1547.864,
+        "meanLuma": 167.818
+      },
+      {
+        "id": "cannabis_natural",
+        "pass": true,
+        "positive": 0.341,
+        "negative": 0.26194,
+        "margin": 0.07906,
+        "requiredMargin": 0.004
+      },
+      {
+        "id": "plant_structure",
+        "pass": true,
+        "positive": 0.29941,
+        "negative": 0.26145,
+        "margin": 0.03796,
+        "requiredMargin": 0.002
+      },
+      {
+        "id": "general_botanical_plausibility",
+        "pass": true,
+        "positive": 0.33212,
+        "negative": 0.26676,
+        "margin": 0.06536,
+        "requiredMargin": 0.001
+      },
+      {
+        "id": "no_fruit_or_berries",
+        "pass": true,
+        "positive": 0.31439,
+        "negative": 0.21972,
+        "margin": 0.09467,
+        "requiredMargin": 0.002
+      },
+      {
+        "id": "no_unwanted_objects",
+        "pass": true,
+        "positive": 0.31174,
+        "negative": 0.25755,
+        "margin": 0.05419,
+        "requiredMargin": 0.002
+      },
+      {
+        "id": "primary_visual_usable",
+        "pass": true,
+        "positive": 0.35219,
+        "negative": 0.20509,
+        "margin": 0.14709,
+        "requiredMargin": 0.001
+      },
+      {
+        "id": "evidence_alignment",
+        "pass": true,
+        "mode": "REQUIRED",
+        "evidenceScore": 0.32839,
+        "genericScore": 0.34138,
+        "margin": -0.01299,
+        "requiredEvidenceScore": 0.15,
+        "requiredMargin": -0.015,
+        "evidenceText": "Generally tall, slender and elegant tropical sativa with pale narrow leaves, thin very flexible stems, long internodes and strong lateral branching under strong light."
+      }
+    ],
+    "evidenceAlignmentMode": "REQUIRED",
+    "evidenceText": "Generally tall, slender and elegant tropical sativa with pale narrow leaves, thin very flexible stems, long internodes and strong lateral branching under strong light.",
+    "failedChecks": [],
+    "failClosed": true
+  }
 }

@@ -29,9 +29,9 @@
   "expectedInboxFilename": "nepal-jam.jpg",
   "expectedPrimaryPath": "strains/nepal-jam/images/generated/primary.webp",
   "generatedAt": null,
-  "approvalStatus": "pending",
+  "approvalStatus": "rejected",
   "approvedAt": null,
-  "approvalType": "human-visual-review",
+  "approvalType": "ai-visual-qa",
   "approvedManifestRevision": null,
   "approvedAttempt": null,
   "approvedSourceSha256": null,
@@ -48,6 +48,96 @@
       "at": "2026-08-21T21:52:28Z",
       "productionPhase": "IMAGE_PENDING",
       "note": "Created by PRODUCTION START V1. Candidate output is review-only and cannot publish."
+    },
+    {
+      "severity": "WARNING",
+      "code": "AI_VISUAL_QA_FAILED",
+      "at": "2026-08-21T21:54:30Z",
+      "qaEngine": "local-clip-semantic-v1",
+      "qaModel": "openai/clip-vit-base-patch32",
+      "reason": "AI_VISUAL_QA_FAIL"
     }
-  ]
+  ],
+  "aiVisualQa": {
+    "strainId": "nepal-jam",
+    "status": "FAIL",
+    "engine": "local-clip-semantic-v1",
+    "model": "openai/clip-vit-base-patch32",
+    "reason": "AI_VISUAL_QA_FAIL",
+    "checks": [
+      {
+        "id": "image_decode",
+        "pass": true,
+        "width": 1024,
+        "height": 1536,
+        "variance": 963.762,
+        "meanLuma": 78.813
+      },
+      {
+        "id": "cannabis_natural",
+        "pass": true,
+        "positive": 0.33205,
+        "negative": 0.25258,
+        "margin": 0.07947,
+        "requiredMargin": 0.004
+      },
+      {
+        "id": "plant_structure",
+        "pass": true,
+        "positive": 0.27146,
+        "negative": 0.24124,
+        "margin": 0.03022,
+        "requiredMargin": 0.002
+      },
+      {
+        "id": "general_botanical_plausibility",
+        "pass": true,
+        "positive": 0.29692,
+        "negative": 0.23241,
+        "margin": 0.0645,
+        "requiredMargin": 0.001
+      },
+      {
+        "id": "no_fruit_or_berries",
+        "pass": true,
+        "positive": 0.31614,
+        "negative": 0.24206,
+        "margin": 0.07408,
+        "requiredMargin": 0.002
+      },
+      {
+        "id": "no_unwanted_objects",
+        "pass": true,
+        "positive": 0.29893,
+        "negative": 0.25862,
+        "margin": 0.04031,
+        "requiredMargin": 0.002
+      },
+      {
+        "id": "primary_visual_usable",
+        "pass": true,
+        "positive": 0.30678,
+        "negative": 0.1768,
+        "margin": 0.12998,
+        "requiredMargin": 0.001
+      },
+      {
+        "id": "evidence_alignment",
+        "pass": false,
+        "mode": "REQUIRED",
+        "evidenceScore": 0.26649,
+        "genericScore": 0.32732,
+        "margin": -0.06082,
+        "requiredEvidenceScore": 0.15,
+        "requiredMargin": -0.015,
+        "evidenceText": "Small-medium plant with columnar growth; official description emphasizes compact Nepalese behavior retained through breeding."
+      }
+    ],
+    "evidenceAlignmentMode": "REQUIRED",
+    "evidenceText": "Small-medium plant with columnar growth; official description emphasizes compact Nepalese behavior retained through breeding.",
+    "failedChecks": [
+      "evidence_alignment"
+    ],
+    "failClosed": true
+  }
 }

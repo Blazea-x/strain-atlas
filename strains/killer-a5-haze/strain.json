@@ -105,7 +105,17 @@
       "terpeneNote": "ACE Seeds公式の品種別情報では、beta-myrceneが非常に多く、alpha-pineneが中程度、limoneneとbeta-pineneがそれに続くとされます。さらにbeta-caryophyllene、guaiol、trans-nerolidolなど複数のセスキテルペンも列挙されています。"
     }
   },
-  "visuals": [],
+  "visuals": [
+    {
+      "role": "primary",
+      "src": "strains/killer-a5-haze/images/generated/primary.webp",
+      "alt": "Killer A5 Hazeの枝分かれしたサティバ優勢構造と中程度の節間、成熟した花房を公式形態情報に基づいて表現するAI生成参考ビジュアル",
+      "rights": "AI-generated project asset for Cannabis Strain Wisdom. No third-party image is copied; the prompt is constrained to cultivar-specific morphology supported by the cited official ACE Seeds source.",
+      "scope": "cultivar",
+      "aiGenerated": true,
+      "sourceType": "aiGenerated"
+    }
+  ],
   "checkedAt": "2026-08-22",
   "updatedAt": "2026-08-22"
 }

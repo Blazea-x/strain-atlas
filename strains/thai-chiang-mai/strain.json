@@ -105,7 +105,17 @@
       "terpeneNote": "公式テルペン欄ではbeta-myrceneとterpinoleneがそれぞれおよそ3分の1を占め、残りをbeta-pinene、trans-ocimene、alpha-pinene、limoneneが分ける構成とされています。セスキテルペンとしてbeta-caryophylleneが挙げられています。"
     }
   },
-  "visuals": [],
+  "visuals": [
+    {
+      "role": "primary",
+      "src": "strains/thai-chiang-mai/images/generated/primary.webp",
+      "alt": "Thai Chiang Maiの背が高く細身の熱帯サティバ構造、細い葉、長い節間と強い側枝を公式情報に基づいて表現するAI生成参考ビジュアル",
+      "rights": "AI-generated project asset for Cannabis Strain Wisdom. No third-party image is copied; the prompt is constrained to cultivar-specific morphology supported by the cited official ACE Seeds source.",
+      "scope": "cultivar",
+      "aiGenerated": true,
+      "sourceType": "aiGenerated"
+    }
+  ],
   "checkedAt": "2026-08-22",
   "updatedAt": "2026-08-22"
 }

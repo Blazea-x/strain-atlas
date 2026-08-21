@@ -414,19 +414,23 @@
     },
     {
       "strainId": "c5-haze-x-kali-china",
-      "state": "pending",
+      "state": "published",
       "origin": "content-production",
       "introducedByRun": "content-production-start-32530466871",
-      "publishedAt": null,
-      "bootstrapMasterSha": null
+      "publishedAt": "2026-08-21T21:54:30Z",
+      "bootstrapMasterSha": null,
+      "unpublishedAt": null,
+      "unpublicationReason": null
     },
     {
       "strainId": "killer-a5-haze",
-      "state": "pending",
+      "state": "published",
       "origin": "content-production",
       "introducedByRun": "content-production-start-32530466871",
-      "publishedAt": null,
-      "bootstrapMasterSha": null
+      "publishedAt": "2026-08-21T21:54:30Z",
+      "bootstrapMasterSha": null,
+      "unpublishedAt": null,
+      "unpublicationReason": null
     },
     {
       "strainId": "nepal-jam",
@@ -434,23 +438,29 @@
       "origin": "content-production",
       "introducedByRun": "content-production-start-32530466871",
       "publishedAt": null,
-      "bootstrapMasterSha": null
+      "bootstrapMasterSha": null,
+      "unpublishedAt": null,
+      "unpublicationReason": "AI_VISUAL_QA_FAIL"
     },
     {
       "strainId": "thai-chiang-mai",
-      "state": "pending",
+      "state": "published",
       "origin": "content-production",
       "introducedByRun": "content-production-start-32530466871",
-      "publishedAt": null,
-      "bootstrapMasterSha": null
+      "publishedAt": "2026-08-21T21:54:30Z",
+      "bootstrapMasterSha": null,
+      "unpublishedAt": null,
+      "unpublicationReason": null
     },
     {
       "strainId": "violeta",
-      "state": "pending",
+      "state": "published",
       "origin": "content-production",
       "introducedByRun": "content-production-start-32530466871",
-      "publishedAt": null,
-      "bootstrapMasterSha": null
+      "publishedAt": "2026-08-21T21:54:30Z",
+      "bootstrapMasterSha": null,
+      "unpublishedAt": null,
+      "unpublicationReason": null
     }
   ]
 }

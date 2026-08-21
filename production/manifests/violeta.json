@@ -29,18 +29,18 @@
   "expectedInboxFilename": "violeta.jpg",
   "expectedPrimaryPath": "strains/violeta/images/generated/primary.webp",
   "generatedAt": null,
-  "approvalStatus": "pending",
-  "approvedAt": null,
-  "approvalType": "human-visual-review",
-  "approvedManifestRevision": null,
-  "approvedAttempt": null,
-  "approvedSourceSha256": null,
-  "imageInboxCommit": null,
-  "imageProcessingCommit": null,
-  "processedPrimaryBlobSha": null,
-  "processedPrimarySha256": null,
-  "width": null,
-  "height": null,
+  "approvalStatus": "auto-approved",
+  "approvedAt": "2026-08-21T21:54:30Z",
+  "approvalType": "ai-visual-qa",
+  "approvedManifestRevision": 1,
+  "approvedAttempt": 1,
+  "approvedSourceSha256": "65e83ec5c92fefb350499878e5115337fbe5d38c3f4263df19e5b9755f34bedf",
+  "imageInboxCommit": "not-applicable:production-auto-publish-v1-direct",
+  "imageProcessingCommit": "79abb4d91e0a38da20e210b019c8e170464d71f0",
+  "processedPrimaryBlobSha": "b02c915e9bcceed3373f83e1e04f88d3d54b9142",
+  "processedPrimarySha256": "d3c3db963b48d73a71510ba38209dc5ae21d51aac7e0538cb2da2a7ecfed5d65",
+  "width": 1024,
+  "height": 1536,
   "audit": [
     {
       "severity": "INFO",
@@ -48,6 +48,106 @@
       "at": "2026-08-21T21:52:28Z",
       "productionPhase": "IMAGE_PENDING",
       "note": "Created by PRODUCTION START V1. Candidate output is review-only and cannot publish."
+    },
+    {
+      "severity": "INFO",
+      "code": "AI_VISUAL_QA_PASS_AUTO_APPROVAL",
+      "at": "2026-08-21T21:54:30Z",
+      "approvalType": "ai-visual-qa",
+      "qaEngine": "local-clip-semantic-v1",
+      "qaModel": "openai/clip-vit-base-patch32",
+      "candidateSha256": "65e83ec5c92fefb350499878e5115337fbe5d38c3f4263df19e5b9755f34bedf"
+    },
+    {
+      "severity": "INFO",
+      "code": "PRIMARY_PROCESSED_INTERNAL",
+      "at": "2026-08-21T21:54:30Z",
+      "processingRoute": "production-auto-publish-v1-direct",
+      "processedPrimarySha256": "d3c3db963b48d73a71510ba38209dc5ae21d51aac7e0538cb2da2a7ecfed5d65",
+      "width": 1024,
+      "height": 1536
     }
-  ]
+  ],
+  "processingRoute": "production-auto-publish-v1-direct",
+  "processingSourceArtifact": "production-review-32530466871",
+  "aiVisualQa": {
+    "strainId": "violeta",
+    "status": "PASS",
+    "engine": "local-clip-semantic-v1",
+    "model": "openai/clip-vit-base-patch32",
+    "reason": null,
+    "checks": [
+      {
+        "id": "image_decode",
+        "pass": true,
+        "width": 1024,
+        "height": 1536,
+        "variance": 5094.54,
+        "meanLuma": 136.316
+      },
+      {
+        "id": "cannabis_natural",
+        "pass": true,
+        "positive": 0.31144,
+        "negative": 0.24031,
+        "margin": 0.07113,
+        "requiredMargin": 0.004
+      },
+      {
+        "id": "plant_structure",
+        "pass": true,
+        "positive": 0.2569,
+        "negative": 0.24014,
+        "margin": 0.01676,
+        "requiredMargin": 0.002
+      },
+      {
+        "id": "general_botanical_plausibility",
+        "pass": true,
+        "positive": 0.28058,
+        "negative": 0.23989,
+        "margin": 0.04069,
+        "requiredMargin": 0.001
+      },
+      {
+        "id": "no_fruit_or_berries",
+        "pass": true,
+        "positive": 0.29346,
+        "negative": 0.22547,
+        "margin": 0.06799,
+        "requiredMargin": 0.002
+      },
+      {
+        "id": "no_unwanted_objects",
+        "pass": true,
+        "positive": 0.28341,
+        "negative": 0.23257,
+        "margin": 0.05085,
+        "requiredMargin": 0.002
+      },
+      {
+        "id": "primary_visual_usable",
+        "pass": true,
+        "positive": 0.28339,
+        "negative": 0.19124,
+        "margin": 0.09215,
+        "requiredMargin": 0.001
+      },
+      {
+        "id": "evidence_alignment",
+        "pass": true,
+        "mode": "REQUIRED",
+        "evidenceScore": 0.30219,
+        "genericScore": 0.29005,
+        "margin": 0.01214,
+        "requiredEvidenceScore": 0.15,
+        "requiredMargin": -0.015,
+        "evidenceText": "Strong, robust and compact plant with good branching; the cultivar is described as maturing with intense purple and reddish colors."
+      }
+    ],
+    "evidenceAlignmentMode": "REQUIRED",
+    "evidenceText": "Strong, robust and compact plant with good branching; the cultivar is described as maturing with intense purple and reddish colors.",
+    "failedChecks": [],
+    "failClosed": true
+  }
 }

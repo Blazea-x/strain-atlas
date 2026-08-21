@@ -29,18 +29,18 @@
   "expectedInboxFilename": "c5-haze-x-kali-china.jpg",
   "expectedPrimaryPath": "strains/c5-haze-x-kali-china/images/generated/primary.webp",
   "generatedAt": null,
-  "approvalStatus": "pending",
-  "approvedAt": null,
-  "approvalType": "human-visual-review",
-  "approvedManifestRevision": null,
-  "approvedAttempt": null,
-  "approvedSourceSha256": null,
-  "imageInboxCommit": null,
-  "imageProcessingCommit": null,
-  "processedPrimaryBlobSha": null,
-  "processedPrimarySha256": null,
-  "width": null,
-  "height": null,
+  "approvalStatus": "auto-approved",
+  "approvedAt": "2026-08-21T21:54:30Z",
+  "approvalType": "ai-visual-qa",
+  "approvedManifestRevision": 1,
+  "approvedAttempt": 1,
+  "approvedSourceSha256": "a0100951f57e1185266e9d00c8966948d24b22844e82ec808348c2dfc254efbf",
+  "imageInboxCommit": "not-applicable:production-auto-publish-v1-direct",
+  "imageProcessingCommit": "79abb4d91e0a38da20e210b019c8e170464d71f0",
+  "processedPrimaryBlobSha": "f15ac70213b03b80c0b293c21e474af83a7631b2",
+  "processedPrimarySha256": "d67c1bd6b2557015166deb27badc1eda045dcfdc82bb5c253f8c75bc39131676",
+  "width": 1024,
+  "height": 1536,
   "audit": [
     {
       "severity": "INFO",
@@ -48,6 +48,106 @@
       "at": "2026-08-21T21:52:28Z",
       "productionPhase": "IMAGE_PENDING",
       "note": "Created by PRODUCTION START V1. Candidate output is review-only and cannot publish."
+    },
+    {
+      "severity": "INFO",
+      "code": "AI_VISUAL_QA_PASS_AUTO_APPROVAL",
+      "at": "2026-08-21T21:54:30Z",
+      "approvalType": "ai-visual-qa",
+      "qaEngine": "local-clip-semantic-v1",
+      "qaModel": "openai/clip-vit-base-patch32",
+      "candidateSha256": "a0100951f57e1185266e9d00c8966948d24b22844e82ec808348c2dfc254efbf"
+    },
+    {
+      "severity": "INFO",
+      "code": "PRIMARY_PROCESSED_INTERNAL",
+      "at": "2026-08-21T21:54:30Z",
+      "processingRoute": "production-auto-publish-v1-direct",
+      "processedPrimarySha256": "d67c1bd6b2557015166deb27badc1eda045dcfdc82bb5c253f8c75bc39131676",
+      "width": 1024,
+      "height": 1536
     }
-  ]
+  ],
+  "processingRoute": "production-auto-publish-v1-direct",
+  "processingSourceArtifact": "production-review-32530466871",
+  "aiVisualQa": {
+    "strainId": "c5-haze-x-kali-china",
+    "status": "PASS",
+    "engine": "local-clip-semantic-v1",
+    "model": "openai/clip-vit-base-patch32",
+    "reason": null,
+    "checks": [
+      {
+        "id": "image_decode",
+        "pass": true,
+        "width": 1024,
+        "height": 1536,
+        "variance": 3361.955,
+        "meanLuma": 110.114
+      },
+      {
+        "id": "cannabis_natural",
+        "pass": true,
+        "positive": 0.31574,
+        "negative": 0.24115,
+        "margin": 0.07459,
+        "requiredMargin": 0.004
+      },
+      {
+        "id": "plant_structure",
+        "pass": true,
+        "positive": 0.26297,
+        "negative": 0.23761,
+        "margin": 0.02536,
+        "requiredMargin": 0.002
+      },
+      {
+        "id": "general_botanical_plausibility",
+        "pass": true,
+        "positive": 0.28706,
+        "negative": 0.23301,
+        "margin": 0.05405,
+        "requiredMargin": 0.001
+      },
+      {
+        "id": "no_fruit_or_berries",
+        "pass": true,
+        "positive": 0.30166,
+        "negative": 0.22542,
+        "margin": 0.07624,
+        "requiredMargin": 0.002
+      },
+      {
+        "id": "no_unwanted_objects",
+        "pass": true,
+        "positive": 0.28938,
+        "negative": 0.23543,
+        "margin": 0.05395,
+        "requiredMargin": 0.002
+      },
+      {
+        "id": "primary_visual_usable",
+        "pass": true,
+        "positive": 0.29269,
+        "negative": 0.17327,
+        "margin": 0.11941,
+        "requiredMargin": 0.001
+      },
+      {
+        "id": "evidence_alignment",
+        "pass": true,
+        "mode": "REQUIRED",
+        "evidenceScore": 0.33336,
+        "genericScore": 0.29704,
+        "margin": 0.03632,
+        "requiredEvidenceScore": 0.15,
+        "requiredMargin": -0.015,
+        "evidenceText": "Chunky sativa-dominant hybrid with excellent branching; late flowering forms long heavy colas with a high flower-to-leaf ratio, small foxtails, and some individuals can show purple hues inherited from Kali China."
+      }
+    ],
+    "evidenceAlignmentMode": "REQUIRED",
+    "evidenceText": "Chunky sativa-dominant hybrid with excellent branching; late flowering forms long heavy colas with a high flower-to-leaf ratio, small foxtails, and some individuals can show purple hues inherited from Kali China.",
+    "failedChecks": [],
+    "failClosed": true
+  }
 }

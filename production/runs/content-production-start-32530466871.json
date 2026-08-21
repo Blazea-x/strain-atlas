@@ -4,17 +4,17 @@
   "runId": "content-production-start-32530466871",
   "mode": "new-publication",
   "publicationPolicy": "cultivar",
-  "status": "ACTIVE",
+  "status": "SUCCESS",
   "startedAt": "2026-08-21T21:52:28Z",
-  "updatedAt": "2026-08-21T21:52:28Z",
-  "finishedAt": null,
+  "updatedAt": "2026-08-21T21:54:30Z",
+  "finishedAt": "2026-08-21T21:54:30Z",
   "cancelledAt": null,
   "baseSha": "bad09e7a9e3cea549c9833d36bc7c086649b1996",
-  "currentBaseSha": "bad09e7a9e3cea549c9833d36bc7c086649b1996",
+  "currentBaseSha": "79abb4d91e0a38da20e210b019c8e170464d71f0",
   "attempt": 1,
   "previousAttempts": [],
   "mainHeadAtStart": "0b56d48da6abd040191cfd54b680da47fd06130a",
-  "mainHeadAtEnd": null,
+  "mainHeadAtEnd": "0b56d48da6abd040191cfd54b680da47fd06130a",
   "publishedIdsAtStart": [
     "acapulco-gold",
     "ak-47",
@@ -65,7 +65,6 @@
   "expectedPublicationDelta": [
     "c5-haze-x-kali-china",
     "killer-a5-haze",
-    "nepal-jam",
     "thai-chiang-mai",
     "violeta"
   ],
@@ -76,13 +75,23 @@
       "sourceStockBlobSha": "c3452e8fc452c385bd7dbe49fc6e2feb42723131",
       "productionStrainPath": "strains/c5-haze-x-kali-china/strain.json",
       "publicationEntryId": "c5-haze-x-kali-china",
-      "productionPhase": "IMAGE_PENDING",
-      "previousStablePhase": "IMAGE_PENDING",
+      "productionPhase": "PUBLISHED",
+      "previousStablePhase": "PUBLISHED",
       "manifestId": "content-production-start-32530466871-c5-haze-x-kali-china-image",
       "manifestRevision": 1,
       "promotedAt": "2026-08-21T21:52:28Z",
       "promotionCommit": null,
-      "approval": null,
+      "approval": {
+        "status": "auto-approved",
+        "approvalType": "ai-visual-qa",
+        "approvedAt": "2026-08-21T21:54:30Z",
+        "candidateSha256": "a0100951f57e1185266e9d00c8966948d24b22844e82ec808348c2dfc254efbf",
+        "aiVisualQa": {
+          "status": "PASS",
+          "engine": "local-clip-semantic-v1",
+          "model": "openai/clip-vit-base-patch32"
+        }
+      },
       "commits": {
         "dataCommit": null,
         "imageInboxCommit": null,
@@ -105,6 +114,27 @@
           "fromPhase": "DATA_READY",
           "toPhase": "IMAGE_PENDING",
           "at": "2026-08-21T21:52:28Z"
+        },
+        {
+          "severity": "INFO",
+          "code": "PHASE_TRANSITION",
+          "fromPhase": "IMAGE_PENDING",
+          "toPhase": "IMAGE_READY",
+          "at": "2026-08-21T21:54:30Z"
+        },
+        {
+          "severity": "INFO",
+          "code": "PHASE_TRANSITION",
+          "fromPhase": "IMAGE_READY",
+          "toPhase": "VISUAL_LINKED",
+          "at": "2026-08-21T21:54:30Z"
+        },
+        {
+          "severity": "INFO",
+          "code": "PHASE_TRANSITION",
+          "fromPhase": "VISUAL_LINKED",
+          "toPhase": "PUBLISHED",
+          "at": "2026-08-21T21:54:30Z"
         }
       ]
     },
@@ -114,13 +144,23 @@
       "sourceStockBlobSha": "21ccf9616897561238c03c500e0f61f74cfa7bf1",
       "productionStrainPath": "strains/killer-a5-haze/strain.json",
       "publicationEntryId": "killer-a5-haze",
-      "productionPhase": "IMAGE_PENDING",
-      "previousStablePhase": "IMAGE_PENDING",
+      "productionPhase": "PUBLISHED",
+      "previousStablePhase": "PUBLISHED",
       "manifestId": "content-production-start-32530466871-killer-a5-haze-image",
       "manifestRevision": 1,
       "promotedAt": "2026-08-21T21:52:28Z",
       "promotionCommit": null,
-      "approval": null,
+      "approval": {
+        "status": "auto-approved",
+        "approvalType": "ai-visual-qa",
+        "approvedAt": "2026-08-21T21:54:30Z",
+        "candidateSha256": "7ecaf9d621b7fb5eaacf6509ed8cfac2f4133ef12a85cbb5f0d85c91619372db",
+        "aiVisualQa": {
+          "status": "PASS",
+          "engine": "local-clip-semantic-v1",
+          "model": "openai/clip-vit-base-patch32"
+        }
+      },
       "commits": {
         "dataCommit": null,
         "imageInboxCommit": null,
@@ -143,6 +183,27 @@
           "fromPhase": "DATA_READY",
           "toPhase": "IMAGE_PENDING",
           "at": "2026-08-21T21:52:28Z"
+        },
+        {
+          "severity": "INFO",
+          "code": "PHASE_TRANSITION",
+          "fromPhase": "IMAGE_PENDING",
+          "toPhase": "IMAGE_READY",
+          "at": "2026-08-21T21:54:30Z"
+        },
+        {
+          "severity": "INFO",
+          "code": "PHASE_TRANSITION",
+          "fromPhase": "IMAGE_READY",
+          "toPhase": "VISUAL_LINKED",
+          "at": "2026-08-21T21:54:30Z"
+        },
+        {
+          "severity": "INFO",
+          "code": "PHASE_TRANSITION",
+          "fromPhase": "VISUAL_LINKED",
+          "toPhase": "PUBLISHED",
+          "at": "2026-08-21T21:54:30Z"
         }
       ]
     },
@@ -152,7 +213,7 @@
       "sourceStockBlobSha": "37b3baed34eae974b42d6dbc8579dc5c8c433931",
       "productionStrainPath": "strains/nepal-jam/strain.json",
       "publicationEntryId": "nepal-jam",
-      "productionPhase": "IMAGE_PENDING",
+      "productionPhase": "NEEDS_REVIEW",
       "previousStablePhase": "IMAGE_PENDING",
       "manifestId": "content-production-start-32530466871-nepal-jam-image",
       "manifestRevision": 1,
@@ -181,6 +242,19 @@
           "fromPhase": "DATA_READY",
           "toPhase": "IMAGE_PENDING",
           "at": "2026-08-21T21:52:28Z"
+        },
+        {
+          "severity": "INFO",
+          "code": "PHASE_TRANSITION",
+          "fromPhase": "IMAGE_PENDING",
+          "toPhase": "NEEDS_REVIEW",
+          "at": "2026-08-21T21:54:30Z"
+        },
+        {
+          "severity": "WARNING",
+          "code": "AI_VISUAL_QA_FAILED",
+          "at": "2026-08-21T21:54:30Z",
+          "reason": "AI_VISUAL_QA_FAIL"
         }
       ]
     },
@@ -190,13 +264,23 @@
       "sourceStockBlobSha": "c9917142255ad163e8890de70f11cde34e8aa107",
       "productionStrainPath": "strains/thai-chiang-mai/strain.json",
       "publicationEntryId": "thai-chiang-mai",
-      "productionPhase": "IMAGE_PENDING",
-      "previousStablePhase": "IMAGE_PENDING",
+      "productionPhase": "PUBLISHED",
+      "previousStablePhase": "PUBLISHED",
       "manifestId": "content-production-start-32530466871-thai-chiang-mai-image",
       "manifestRevision": 1,
       "promotedAt": "2026-08-21T21:52:28Z",
       "promotionCommit": null,
-      "approval": null,
+      "approval": {
+        "status": "auto-approved",
+        "approvalType": "ai-visual-qa",
+        "approvedAt": "2026-08-21T21:54:30Z",
+        "candidateSha256": "ba2b8fce3c1b94eecc5ba675ae0dd29ad159a7f118d2536224144d1bfcd571fd",
+        "aiVisualQa": {
+          "status": "PASS",
+          "engine": "local-clip-semantic-v1",
+          "model": "openai/clip-vit-base-patch32"
+        }
+      },
       "commits": {
         "dataCommit": null,
         "imageInboxCommit": null,
@@ -219,6 +303,27 @@
           "fromPhase": "DATA_READY",
           "toPhase": "IMAGE_PENDING",
           "at": "2026-08-21T21:52:28Z"
+        },
+        {
+          "severity": "INFO",
+          "code": "PHASE_TRANSITION",
+          "fromPhase": "IMAGE_PENDING",
+          "toPhase": "IMAGE_READY",
+          "at": "2026-08-21T21:54:30Z"
+        },
+        {
+          "severity": "INFO",
+          "code": "PHASE_TRANSITION",
+          "fromPhase": "IMAGE_READY",
+          "toPhase": "VISUAL_LINKED",
+          "at": "2026-08-21T21:54:30Z"
+        },
+        {
+          "severity": "INFO",
+          "code": "PHASE_TRANSITION",
+          "fromPhase": "VISUAL_LINKED",
+          "toPhase": "PUBLISHED",
+          "at": "2026-08-21T21:54:30Z"
         }
       ]
     },
@@ -228,13 +333,23 @@
       "sourceStockBlobSha": "ed46743a5ced2fd07ef5c6cba1c291f3e4462c1e",
       "productionStrainPath": "strains/violeta/strain.json",
       "publicationEntryId": "violeta",
-      "productionPhase": "IMAGE_PENDING",
-      "previousStablePhase": "IMAGE_PENDING",
+      "productionPhase": "PUBLISHED",
+      "previousStablePhase": "PUBLISHED",
       "manifestId": "content-production-start-32530466871-violeta-image",
       "manifestRevision": 1,
       "promotedAt": "2026-08-21T21:52:28Z",
       "promotionCommit": null,
-      "approval": null,
+      "approval": {
+        "status": "auto-approved",
+        "approvalType": "ai-visual-qa",
+        "approvedAt": "2026-08-21T21:54:30Z",
+        "candidateSha256": "65e83ec5c92fefb350499878e5115337fbe5d38c3f4263df19e5b9755f34bedf",
+        "aiVisualQa": {
+          "status": "PASS",
+          "engine": "local-clip-semantic-v1",
+          "model": "openai/clip-vit-base-patch32"
+        }
+      },
       "commits": {
         "dataCommit": null,
         "imageInboxCommit": null,
@@ -257,6 +372,27 @@
           "fromPhase": "DATA_READY",
           "toPhase": "IMAGE_PENDING",
           "at": "2026-08-21T21:52:28Z"
+        },
+        {
+          "severity": "INFO",
+          "code": "PHASE_TRANSITION",
+          "fromPhase": "IMAGE_PENDING",
+          "toPhase": "IMAGE_READY",
+          "at": "2026-08-21T21:54:30Z"
+        },
+        {
+          "severity": "INFO",
+          "code": "PHASE_TRANSITION",
+          "fromPhase": "IMAGE_READY",
+          "toPhase": "VISUAL_LINKED",
+          "at": "2026-08-21T21:54:30Z"
+        },
+        {
+          "severity": "INFO",
+          "code": "PHASE_TRANSITION",
+          "fromPhase": "VISUAL_LINKED",
+          "toPhase": "PUBLISHED",
+          "at": "2026-08-21T21:54:30Z"
         }
       ]
     }
@@ -264,7 +400,75 @@
   "pagesDeploymentRunId": null,
   "pagesDeploymentUrl": null,
   "displayVerifiedAt": null,
-  "publicationSetAtEnd": null,
+  "publicationSetAtEnd": [
+    "acapulco-gold",
+    "ak-47",
+    "bangi-haze",
+    "bubba-kush-s1",
+    "bubble-gum",
+    "bubblegum-s1",
+    "c5-haze-x-kali-china",
+    "california-octane",
+    "cataract-kush",
+    "chemdog-d-s1",
+    "cherry-pie-s1",
+    "chocolope-256",
+    "dr-grinspoon",
+    "durban-poison",
+    "durban-poison-s1",
+    "f1-durb-s1",
+    "frisian-duck",
+    "golden-tiger",
+    "gorilla-glue-4-s1",
+    "jack-herer",
+    "jager-s1",
+    "kali-mist",
+    "killer-a5-haze",
+    "laughing-buddha",
+    "malawi",
+    "mazar",
+    "og-kush",
+    "panama",
+    "shaman",
+    "shiva-skunk",
+    "strawberry-banana-s1",
+    "super-lemon-haze",
+    "t-1000-s1",
+    "thai-chiang-mai",
+    "the-og-18",
+    "trainwreck-s1",
+    "triangle-kush-s1",
+    "violeta",
+    "warlock",
+    "wedding-cake",
+    "wedding-cake-s1",
+    "zamaldelica"
+  ],
   "recovery": null,
-  "auditSummary": null
+  "auditSummary": {
+    "mode": "auto",
+    "autoPublishedWithImage": [
+      "c5-haze-x-kali-china",
+      "killer-a5-haze",
+      "thai-chiang-mai",
+      "violeta"
+    ],
+    "dataFirstRetainedUnpublished": [
+      "nepal-jam"
+    ],
+    "backlogRetained": [
+      {
+        "strainId": "nepal-jam",
+        "reason": "AI_VISUAL_QA_FAIL",
+        "productionPhase": "NEEDS_REVIEW",
+        "publicationState": "pending",
+        "manifestRevision": 1,
+        "attempt": 1
+      }
+    ],
+    "failedTargets": [],
+    "aiVisualQaApprovalType": "ai-visual-qa",
+    "finalValidationRequired": true,
+    "imageGatedPublicVisibility": true
+  }
 }

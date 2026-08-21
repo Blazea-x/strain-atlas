@@ -344,6 +344,75 @@ window.STRAINS=[
     "reviews": []
   },
   {
+    "id": "c5-haze-x-kali-china",
+    "name": "C5 Haze x Kali China",
+    "jp": "",
+    "type": {
+      "key": "sativa-dominant-hybrid",
+      "label": "サティバ優勢"
+    },
+    "aliases": [],
+    "identity": {
+      "scope": "cultivar",
+      "note": "品種一般の情報。特定ロット・製品・フェノタイプを示すものではありません。"
+    },
+    "lineage": {
+      "display": "C5 Haze F1 (Northern Lights #5 × Haze C) × Kali China elite 4th generation",
+      "parents": [
+        "C5 Haze F1",
+        "Kali China elite 4th generation"
+      ],
+      "note": "ACE Seeds identifies the cross as late-1980s C5 Haze F1 (Northern Lights #5 x Haze C) crossed with Kali China elite 4th generation."
+    },
+    "aromas": [
+      "spicy",
+      "lime",
+      "lemon",
+      "grapefruit",
+      "creamy",
+      "incense",
+      "tropical fruit",
+      "hashish",
+      "candy",
+      "melon",
+      "floral",
+      "musky"
+    ],
+    "breeder": {
+      "name": "ACE Seeds",
+      "era": ""
+    },
+    "terpenes": [
+      "beta-myrcene",
+      "alpha-pinene",
+      "beta-pinene",
+      "limonene",
+      "beta-caryophyllene"
+    ],
+    "originHistory": "",
+    "history": "ACE Seeds describes the C5 Haze clone as created in the Netherlands in the late 1980s by Neville Schoenmakers, later preserved by Yo Sammy and shared with ACE Seeds; C5 Haze x Kali China is described as ACE Seeds' first offered hybrid using this clone.",
+    "confidence": {
+      "display": "LINEAGE A / AROMA A / TERPENE B / HISTORY B",
+      "note": "正本データの項目別confidenceを表示"
+    },
+    "visuals": [
+      {
+        "role": "primary",
+        "src": "strains/c5-haze-x-kali-china/images/generated/primary.webp",
+        "alt": "C5 Haze x Kali Chinaの力強い分枝サティバ優勢構造と長い花房、公式に記載された範囲のフォックステール傾向を表現するAI生成参考ビジュアル",
+        "rights": "AI-generated project asset for Cannabis Strain Wisdom. No third-party image is copied; the prompt is constrained to cultivar-specific morphology supported by the cited official ACE Seeds source.",
+        "scope": "cultivar",
+        "aiGenerated": true,
+        "sourceType": "aiGenerated",
+        "label": "VISUAL REFERENCE"
+      }
+    ],
+    "sourceIds": [
+      "ace-seeds-c5-haze-x-kali-china"
+    ],
+    "reviews": []
+  },
+  {
     "id": "california-octane",
     "name": "California Octane",
     "jp": "",
@@ -1140,6 +1209,78 @@ window.STRAINS=[
     "reviews": []
   },
   {
+    "id": "killer-a5-haze",
+    "name": "Killer A5 Haze",
+    "jp": "",
+    "type": {
+      "key": "sativa-dominant-hybrid",
+      "label": "サティバ優勢"
+    },
+    "aliases": [],
+    "identity": {
+      "scope": "cultivar",
+      "note": "品種一般の情報。特定ロット・製品・フェノタイプを示すものではありません。"
+    },
+    "lineage": {
+      "display": "A5 Haze by Neville (Northern Lights #5/Haze A) × Malawi Killer",
+      "parents": [
+        "A5 Haze by Neville",
+        "Malawi Killer"
+      ],
+      "note": "ACE Seeds explicitly identifies Killer A5 Haze as A5 Haze by Neville (Northern Lights #5/Haze A) crossed with Malawi Killer."
+    },
+    "aromas": [
+      "dark incense",
+      "meaty/liver",
+      "organic/rotten",
+      "decomposing flower petals",
+      "resin",
+      "cured wood"
+    ],
+    "breeder": {
+      "name": "ACE Seeds",
+      "era": ""
+    },
+    "terpenes": [
+      "beta-myrcene",
+      "alpha-pinene",
+      "limonene",
+      "beta-pinene",
+      "ocimene",
+      "cis-beta-farnesene",
+      "beta-caryophyllene",
+      "trans-phytol",
+      "alpha-bisabolol",
+      "guaiol",
+      "trans-nerolidol",
+      "beta-farnesene",
+      "alpha-farnesene"
+    ],
+    "originHistory": "",
+    "history": "ACE Seeds states that its 2019 collaboration with Yo Sammy produced its first fruits including Killer A5 Haze (A5 Haze x Malawi).",
+    "confidence": {
+      "display": "LINEAGE A / AROMA A / TERPENE B / HISTORY B",
+      "note": "正本データの項目別confidenceを表示"
+    },
+    "visuals": [
+      {
+        "role": "primary",
+        "src": "strains/killer-a5-haze/images/generated/primary.webp",
+        "alt": "Killer A5 Hazeの枝分かれしたサティバ優勢構造と中程度の節間、成熟した花房を公式形態情報に基づいて表現するAI生成参考ビジュアル",
+        "rights": "AI-generated project asset for Cannabis Strain Wisdom. No third-party image is copied; the prompt is constrained to cultivar-specific morphology supported by the cited official ACE Seeds source.",
+        "scope": "cultivar",
+        "aiGenerated": true,
+        "sourceType": "aiGenerated",
+        "label": "VISUAL REFERENCE"
+      }
+    ],
+    "sourceIds": [
+      "ace-seeds-killer-a5-haze",
+      "ace-seeds-about"
+    ],
+    "reviews": []
+  },
+  {
     "id": "laughing-buddha",
     "name": "Laughing Buddha",
     "jp": "",
@@ -1743,6 +1884,73 @@ window.STRAINS=[
     "reviews": []
   },
   {
+    "id": "thai-chiang-mai",
+    "name": "Thai Chiang Mai",
+    "jp": "",
+    "type": {
+      "key": "sativa",
+      "label": "サティバ"
+    },
+    "aliases": [],
+    "identity": {
+      "scope": "cultivar",
+      "note": "品種一般の情報。特定ロット・製品・フェノタイプを示すものではありません。"
+    },
+    "lineage": {
+      "display": "Pure Chiang Mai Thai sativa, P3-P5 preservation line",
+      "parents": [],
+      "note": "ACE Seeds identifies the line as a pure sativa from Chiang Mai, maintained between the 3rd and 5th generation in its preservation work."
+    },
+    "aromas": [
+      "fresh",
+      "lemon-lime",
+      "wood",
+      "spices",
+      "sweet",
+      "creamy",
+      "perfumed",
+      "floral",
+      "musky",
+      "strawberry"
+    ],
+    "breeder": {
+      "name": "ACE Seeds",
+      "era": ""
+    },
+    "terpenes": [
+      "beta-myrcene",
+      "terpinolene",
+      "beta-pinene",
+      "trans-ocimene",
+      "alpha-pinene",
+      "limonene",
+      "beta-caryophyllene"
+    ],
+    "originHistory": "Chiang Mai province in northwestern Thailand.",
+    "history": "ACE Seeds states that it unveiled this old pure Thai from Chiang Mai in 2022.",
+    "confidence": {
+      "display": "LINEAGE A / AROMA A / TERPENE B / ORIGIN A / HISTORY B",
+      "note": "正本データの項目別confidenceを表示"
+    },
+    "visuals": [
+      {
+        "role": "primary",
+        "src": "strains/thai-chiang-mai/images/generated/primary.webp",
+        "alt": "Thai Chiang Maiの背が高く細身の熱帯サティバ構造、細い葉、長い節間と強い側枝を公式情報に基づいて表現するAI生成参考ビジュアル",
+        "rights": "AI-generated project asset for Cannabis Strain Wisdom. No third-party image is copied; the prompt is constrained to cultivar-specific morphology supported by the cited official ACE Seeds source.",
+        "scope": "cultivar",
+        "aiGenerated": true,
+        "sourceType": "aiGenerated",
+        "label": "VISUAL REFERENCE"
+      }
+    ],
+    "sourceIds": [
+      "ace-seeds-thai-chiang-mai",
+      "ace-seeds-about"
+    ],
+    "reviews": []
+  },
+  {
     "id": "the-og-18",
     "name": "The OG #18",
     "jp": "",
@@ -1900,6 +2108,71 @@ window.STRAINS=[
     ],
     "sourceIds": [
       "humboldt-csi-triangle-kush-s1"
+    ],
+    "reviews": []
+  },
+  {
+    "id": "violeta",
+    "name": "Violeta",
+    "jp": "",
+    "type": {
+      "key": "indica-dominant-hybrid",
+      "label": "インディカ優勢"
+    },
+    "aliases": [],
+    "identity": {
+      "scope": "cultivar",
+      "note": "品種一般の情報。特定ロット・製品・フェノタイプを示すものではありません。"
+    },
+    "lineage": {
+      "display": "Purple Malawi × Purple Pakistan Chitral Kush",
+      "parents": [
+        "Purple Malawi",
+        "Purple Pakistan Chitral Kush"
+      ],
+      "note": "ACE Seeds describes Violeta as an F1 hybrid from Purple Malawi crossed with Purple Pakistan Chitral Kush."
+    },
+    "aromas": [
+      "balsamic",
+      "forest fruits"
+    ],
+    "breeder": {
+      "name": "ACE Seeds",
+      "era": ""
+    },
+    "terpenes": [
+      "terpinolene",
+      "alpha-pinene",
+      "limonene",
+      "beta-pinene",
+      "trans-ocimene",
+      "linalool",
+      "beta-myrcene",
+      "beta-caryophyllene",
+      "guaiol",
+      "alpha-humulene"
+    ],
+    "originHistory": "",
+    "history": "ACE Seeds states that Violeta was released in 2014.",
+    "confidence": {
+      "display": "LINEAGE A / AROMA A / TERPENE B / HISTORY B",
+      "note": "正本データの項目別confidenceを表示"
+    },
+    "visuals": [
+      {
+        "role": "primary",
+        "src": "strains/violeta/images/generated/primary.webp",
+        "alt": "Violetaの頑健でコンパクトな分枝構造と、公式に記載された紫から赤系の成熟色を自然な範囲で表現するAI生成参考ビジュアル",
+        "rights": "AI-generated project asset for Cannabis Strain Wisdom. No third-party image is copied; the prompt is constrained to cultivar-specific morphology supported by the cited official ACE Seeds source.",
+        "scope": "cultivar",
+        "aiGenerated": true,
+        "sourceType": "aiGenerated",
+        "label": "VISUAL REFERENCE"
+      }
+    ],
+    "sourceIds": [
+      "ace-seeds-violeta",
+      "ace-seeds-about"
     ],
     "reviews": []
   },

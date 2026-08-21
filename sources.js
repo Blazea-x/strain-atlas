@@ -39,6 +39,23 @@ window.SOURCES={
       "visualMorphology"
     ]
   },
+  "ace-seeds-c5-haze-x-kali-china": {
+    "name": "ACE Seeds — C5 Haze x Kali China Feminized",
+    "url": "https://www.aceseeds.org/en/seeds/c5-haze-x-kali-china-feminized-seeds/",
+    "type": "primary",
+    "typeLabel": "一次情報",
+    "checked": "2026-08-22",
+    "supports": [
+      "lineage",
+      "breeder",
+      "classification",
+      "breeding",
+      "aromas",
+      "terpenes",
+      "visualMorphology",
+      "history"
+    ]
+  },
   "ace-seeds-golden-tiger": {
     "name": "ACE Seeds — Golden Tiger",
     "url": "https://www.aceseeds.org/en/seeds/golden-tiger-regular-seeds/",
@@ -53,6 +70,22 @@ window.SOURCES={
       "aromas",
       "origin",
       "history",
+      "visualMorphology"
+    ]
+  },
+  "ace-seeds-killer-a5-haze": {
+    "name": "ACE Seeds — Killer A5 Haze Regular",
+    "url": "https://www.aceseeds.org/en/seeds/killer-a5-haze-regular-seeds/",
+    "type": "primary",
+    "typeLabel": "一次情報",
+    "checked": "2026-08-22",
+    "supports": [
+      "lineage",
+      "breeder",
+      "classification",
+      "breeding",
+      "aromas",
+      "terpenes",
       "visualMorphology"
     ]
   },
@@ -85,6 +118,39 @@ window.SOURCES={
       "aromas",
       "terpenes",
       "origin"
+    ]
+  },
+  "ace-seeds-thai-chiang-mai": {
+    "name": "ACE Seeds — Thai Regular",
+    "url": "https://www.aceseeds.org/en/seeds/thai-regular-seeds/",
+    "type": "primary",
+    "typeLabel": "一次情報",
+    "checked": "2026-08-22",
+    "supports": [
+      "lineage",
+      "breeder",
+      "classification",
+      "breeding",
+      "aromas",
+      "terpenes",
+      "visualMorphology",
+      "origin"
+    ]
+  },
+  "ace-seeds-violeta": {
+    "name": "ACE Seeds — Violeta Regular",
+    "url": "https://www.aceseeds.org/en/seeds/violeta-regular-seeds/",
+    "type": "primary",
+    "typeLabel": "一次情報",
+    "checked": "2026-08-22",
+    "supports": [
+      "lineage",
+      "breeder",
+      "classification",
+      "breeding",
+      "aromas",
+      "terpenes",
+      "visualMorphology"
     ]
   },
   "ace-seeds-zamaldelica": {

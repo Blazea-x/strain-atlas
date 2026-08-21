@@ -29,18 +29,18 @@
   "expectedInboxFilename": "killer-a5-haze.jpg",
   "expectedPrimaryPath": "strains/killer-a5-haze/images/generated/primary.webp",
   "generatedAt": null,
-  "approvalStatus": "pending",
-  "approvedAt": null,
-  "approvalType": "human-visual-review",
-  "approvedManifestRevision": null,
-  "approvedAttempt": null,
-  "approvedSourceSha256": null,
-  "imageInboxCommit": null,
-  "imageProcessingCommit": null,
-  "processedPrimaryBlobSha": null,
-  "processedPrimarySha256": null,
-  "width": null,
-  "height": null,
+  "approvalStatus": "auto-approved",
+  "approvedAt": "2026-08-21T21:54:30Z",
+  "approvalType": "ai-visual-qa",
+  "approvedManifestRevision": 1,
+  "approvedAttempt": 1,
+  "approvedSourceSha256": "7ecaf9d621b7fb5eaacf6509ed8cfac2f4133ef12a85cbb5f0d85c91619372db",
+  "imageInboxCommit": "not-applicable:production-auto-publish-v1-direct",
+  "imageProcessingCommit": "79abb4d91e0a38da20e210b019c8e170464d71f0",
+  "processedPrimaryBlobSha": "64451090bf3d69557345e56d2c85460f4a27d4de",
+  "processedPrimarySha256": "8d782b60f74e48da980625eab825ad82bff6b941b5d28fa252b77011682d4161",
+  "width": 1024,
+  "height": 1536,
   "audit": [
     {
       "severity": "INFO",
@@ -48,6 +48,106 @@
       "at": "2026-08-21T21:52:28Z",
       "productionPhase": "IMAGE_PENDING",
       "note": "Created by PRODUCTION START V1. Candidate output is review-only and cannot publish."
+    },
+    {
+      "severity": "INFO",
+      "code": "AI_VISUAL_QA_PASS_AUTO_APPROVAL",
+      "at": "2026-08-21T21:54:30Z",
+      "approvalType": "ai-visual-qa",
+      "qaEngine": "local-clip-semantic-v1",
+      "qaModel": "openai/clip-vit-base-patch32",
+      "candidateSha256": "7ecaf9d621b7fb5eaacf6509ed8cfac2f4133ef12a85cbb5f0d85c91619372db"
+    },
+    {
+      "severity": "INFO",
+      "code": "PRIMARY_PROCESSED_INTERNAL",
+      "at": "2026-08-21T21:54:30Z",
+      "processingRoute": "production-auto-publish-v1-direct",
+      "processedPrimarySha256": "8d782b60f74e48da980625eab825ad82bff6b941b5d28fa252b77011682d4161",
+      "width": 1024,
+      "height": 1536
     }
-  ]
+  ],
+  "processingRoute": "production-auto-publish-v1-direct",
+  "processingSourceArtifact": "production-review-32530466871",
+  "aiVisualQa": {
+    "strainId": "killer-a5-haze",
+    "status": "PASS",
+    "engine": "local-clip-semantic-v1",
+    "model": "openai/clip-vit-base-patch32",
+    "reason": null,
+    "checks": [
+      {
+        "id": "image_decode",
+        "pass": true,
+        "width": 1024,
+        "height": 1536,
+        "variance": 4074.119,
+        "meanLuma": 151.62
+      },
+      {
+        "id": "cannabis_natural",
+        "pass": true,
+        "positive": 0.32124,
+        "negative": 0.25103,
+        "margin": 0.07021,
+        "requiredMargin": 0.004
+      },
+      {
+        "id": "plant_structure",
+        "pass": true,
+        "positive": 0.26946,
+        "negative": 0.23839,
+        "margin": 0.03107,
+        "requiredMargin": 0.002
+      },
+      {
+        "id": "general_botanical_plausibility",
+        "pass": true,
+        "positive": 0.29043,
+        "negative": 0.23189,
+        "margin": 0.05853,
+        "requiredMargin": 0.001
+      },
+      {
+        "id": "no_fruit_or_berries",
+        "pass": true,
+        "positive": 0.31242,
+        "negative": 0.2195,
+        "margin": 0.09292,
+        "requiredMargin": 0.002
+      },
+      {
+        "id": "no_unwanted_objects",
+        "pass": true,
+        "positive": 0.30164,
+        "negative": 0.2523,
+        "margin": 0.04934,
+        "requiredMargin": 0.002
+      },
+      {
+        "id": "primary_visual_usable",
+        "pass": true,
+        "positive": 0.30697,
+        "negative": 0.17795,
+        "margin": 0.12901,
+        "requiredMargin": 0.001
+      },
+      {
+        "id": "evidence_alignment",
+        "pass": true,
+        "mode": "REQUIRED",
+        "evidenceScore": 0.3317,
+        "genericScore": 0.32232,
+        "margin": 0.00938,
+        "requiredEvidenceScore": 0.15,
+        "requiredMargin": -0.015,
+        "evidenceText": "Branched sativa structure with medium internode distance, contained manageable size; phenotype descriptions include large colas, strong flower-to-leaf ratio and resinous expressions."
+      }
+    ],
+    "evidenceAlignmentMode": "REQUIRED",
+    "evidenceText": "Branched sativa structure with medium internode distance, contained manageable size; phenotype descriptions include large colas, strong flower-to-leaf ratio and resinous expressions.",
+    "failedChecks": [],
+    "failClosed": true
+  }
 }
