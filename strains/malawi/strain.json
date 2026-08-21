@@ -100,7 +100,9 @@
   "publicContent": {
     "ja": {
       "origin": "ACE Seeds公式では、起源を中央アフリカのMalawiとしています。",
-      "lineageNote": "ACE SeedsではOld Malawi Killer × 3rd generation Malawisとされ、Malawi由来のP4ランドレースとして説明されています。P4表記はここでは系譜情報として扱い、育種世代の固定値にはしていません。"
+      "lineageNote": "ACE SeedsではOld Malawi Killer × 3rd generation Malawisとされ、Malawi由来のP4ランドレースとして説明されています。P4表記はここでは系譜情報として扱い、育種世代の固定値にはしていません。",
+      "aromaNote": "ACE Seeds公式では、オイル、ウッド、レモンに加え、表現型によってスイート・キャロットや熟したマンダリンの香りが記載されています。",
+      "terpeneNote": "ACE Seeds公式では、β-Myrcene、Limonene、β-Pinene、β-Caryophyllene、α-Humulene、α-Bisabololがテルペンとして挙げられています。"
     }
   },
   "visuals": [
