@@ -1,0 +1,95 @@
+name: Apply private-core public cutover candidate
+
+on:
+  push:
+    branches:
+      - candidate/private-core-public-artifacts-v1
+    paths:
+      - ".github/workflows/apply-private-core-public-cutover-candidate.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  apply-and-validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: candidate/private-core-public-artifacts-v1
+          fetch-depth: 0
+
+      - name: Redirect active public renderers to public-main artifacts
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          from pathlib import Path
+          changes = {
+            'preview/app.js': [
+              ('const DATA_URL = "https://raw.githubusercontent.com/cannabis-strain-wisdom/strain-atlas/master-migration/runtime/catalog.json";', 'const DATA_URL = "runtime/catalog.json";'),
+              ('const ASSET_BASE = "https://raw.githubusercontent.com/cannabis-strain-wisdom/strain-atlas/master-migration/";', 'const ASSET_BASE = "";'),
+            ],
+            'preview/detail-gallery.js': [
+              ('const DATA_URL = "https://raw.githubusercontent.com/cannabis-strain-wisdom/strain-atlas/master-migration/runtime/catalog.json";', 'const DATA_URL = "runtime/catalog.json";'),
+              ('const ASSET_BASE = "https://raw.githubusercontent.com/cannabis-strain-wisdom/strain-atlas/master-migration/";', 'const ASSET_BASE = "";'),
+            ],
+            'preview/detail-public-v1.js': [
+              ('const DATA_URL = "https://raw.githubusercontent.com/cannabis-strain-wisdom/strain-atlas/master-migration/runtime/catalog.json";', 'const DATA_URL = "runtime/catalog.json";'),
+              ('const ASSET_BASE = "https://raw.githubusercontent.com/cannabis-strain-wisdom/strain-atlas/master-migration/";', 'const ASSET_BASE = "";'),
+            ],
+            'preview/home-hero-v1.js': [
+              ('const ASSET_BASE = "https://raw.githubusercontent.com/cannabis-strain-wisdom/strain-atlas/master-migration/";', 'const ASSET_BASE = "";'),
+            ],
+            'preview/home-ux-v2.js': [
+              ('const PUBLICATION_URL = "https://raw.githubusercontent.com/cannabis-strain-wisdom/strain-atlas/master-migration/production/publication.json";', 'const PUBLICATION_URL = "production/publication.json";'),
+            ],
+          }
+          for filename, replacements in changes.items():
+            p = Path(filename)
+            text = p.read_text()
+            for old, new in replacements:
+              count = text.count(old)
+              if count != 1:
+                raise SystemExit(f'{filename}: expected exactly one occurrence, got {count}: {old}')
+              text = text.replace(old, new)
+            p.write_text(text)
+          PY
+
+      - name: Validate candidate syntax and public artifact closure
+        shell: bash
+        run: |
+          set -euo pipefail
+          for f in preview/app.js preview/detail-gallery.js preview/detail-public-v1.js preview/home-hero-v1.js preview/home-ux-v2.js; do
+            node --check "$f"
+          done
+          node <<'NODE'
+          const fs=require('fs');
+          const path=require('path');
+          const c=JSON.parse(fs.readFileSync('runtime/catalog.json','utf8'));
+          if(c?.counts?.cultivars !== 42) throw new Error(`unexpected cultivar count ${c?.counts?.cultivars}`);
+          for(const s of c.cultivars||[]){
+            for(const v of s.visuals||[]){
+              if(!v.src) continue;
+              if(!/^assets\/cultivars\/[a-z0-9-]+\/[a-z0-9._-]+\.(?:svg|webp|png|jpe?g)$/.test(v.src)) throw new Error(`non-public visual src: ${s.id}: ${v.src}`);
+              if(!fs.existsSync(path.join(process.cwd(),v.src))) throw new Error(`missing public visual: ${s.id}: ${v.src}`);
+            }
+          }
+          const p=JSON.parse(fs.readFileSync('production/publication.json','utf8'));
+          if(!Array.isArray(p.entries)) throw new Error('publication entries missing');
+          NODE
+          ! grep -n 'raw.githubusercontent.com/cannabis-strain-wisdom/strain-atlas/master-migration' \
+            preview/app.js preview/detail-gallery.js preview/detail-public-v1.js preview/home-hero-v1.js preview/home-ux-v2.js
+          git diff --check
+
+      - name: Commit candidate renderer cutover
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "strain-atlas-public-cutover"
+          git config user.email "actions@users.noreply.github.com"
+          git add preview/app.js preview/detail-gallery.js preview/detail-public-v1.js preview/home-hero-v1.js preview/home-ux-v2.js
+          test -n "$(git diff --cached --name-only)"
+          test "$(git diff --cached --name-only | wc -l | tr -d ' ')" = "5"
+          git commit -m "Read public runtime and assets from main"
+          git push origin HEAD:candidate/private-core-public-artifacts-v1
