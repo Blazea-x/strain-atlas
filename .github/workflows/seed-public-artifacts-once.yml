@@ -29,38 +29,51 @@ jobs:
             /tmp/production
           echo "SOURCE_MASTER_SHA=$(git -C /tmp/production rev-parse HEAD)" >> "$GITHUB_ENV"
 
-      - name: Copy public runtime, publication state, and referenced primary images only
+      - name: Build public-only runtime and asset projection
         shell: bash
         run: |
           set -euo pipefail
-          mkdir -p runtime production
-          cp /tmp/production/runtime/catalog.json runtime/catalog.json
+          mkdir -p runtime production assets/cultivars
           cp /tmp/production/production/publication.json production/publication.json
           node <<'NODE'
           const fs = require('fs');
           const path = require('path');
-          const catalog = JSON.parse(fs.readFileSync('/tmp/production/runtime/catalog.json','utf8'));
-          const refs = new Set();
+          const sourceRoot = '/tmp/production';
+          const catalog = JSON.parse(fs.readFileSync(path.join(sourceRoot,'runtime/catalog.json'),'utf8'));
+          const allowedGenerated = /^strains\/[a-z0-9-]+\/images\/generated\/[a-z0-9._-]+\.(?:webp|png|jpe?g|svg)$/;
+          const allowedLegacy = /^images\/strains\/[a-z0-9._-]+\.(?:svg|webp|png|jpe?g)$/;
+          let copied = 0;
           for (const cultivar of catalog.cultivars || []) {
+            const id = String(cultivar.id || '');
+            if (!/^[a-z0-9-]+$/.test(id)) throw new Error(`Unexpected cultivar id: ${id}`);
             for (const visual of cultivar.visuals || []) {
-              if (visual && visual.role === 'primary' && typeof visual.src === 'string' && visual.src) refs.add(visual.src);
+              if (!visual || typeof visual.src !== 'string' || !visual.src) continue;
+              const rel = visual.src;
+              const normalized = path.posix.normalize(rel);
+              if (normalized !== rel || rel.includes('..') || !(allowedGenerated.test(rel) || allowedLegacy.test(rel))) {
+                throw new Error(`Unexpected public visual path: ${rel}`);
+              }
+              const src = path.join(sourceRoot, rel);
+              if (!fs.existsSync(src)) throw new Error(`Referenced image missing: ${rel}`);
+              const filename = path.posix.basename(rel);
+              const publicRel = `assets/cultivars/${id}/${filename}`;
+              const dst = path.join(process.cwd(), publicRel);
+              fs.mkdirSync(path.dirname(dst), {recursive:true});
+              fs.copyFileSync(src, dst);
+              visual.src = publicRel;
+              copied += 1;
             }
           }
-          const generatedWebp = /^strains\/[a-z0-9-]+\/images\/generated\/[a-z0-9._-]+\.webp$/;
-          const legacyPublicImage = /^images\/strains\/[a-z0-9._-]+\.(?:svg|webp|png|jpe?g)$/;
-          for (const rel of refs) {
-            const normalized = path.posix.normalize(rel);
-            if (normalized !== rel || rel.includes('..') || !(generatedWebp.test(rel) || legacyPublicImage.test(rel))) {
-              throw new Error(`Unexpected public visual path: ${rel}`);
-            }
-            const src = path.join('/tmp/production', rel);
-            if (!fs.existsSync(src)) throw new Error(`Referenced image missing: ${rel}`);
-            const dst = path.join(process.cwd(), rel);
-            fs.mkdirSync(path.dirname(dst), {recursive:true});
-            fs.copyFileSync(src, dst);
-          }
-          console.log(`Copied ${refs.size} referenced primary images`);
+          fs.writeFileSync('runtime/catalog.json', JSON.stringify(catalog,null,2)+'\n');
+          console.log(`Projected ${copied} visual references into public assets`);
           NODE
+
+      - name: Validate public projection
+        shell: bash
+        run: |
+          set -euo pipefail
+          node -e "const c=require('./runtime/catalog.json'); if(!Array.isArray(c.cultivars)||!c.cultivars.length) process.exit(1); for(const s of c.cultivars) for(const v of (s.visuals||[])) if(v.src && !v.src.startsWith('assets/cultivars/')) throw new Error(v.src)"
+          node -e "const p=require('./production/publication.json'); if(!Array.isArray(p.entries)) process.exit(1)"
 
       - name: Commit public artifacts
         shell: bash
@@ -68,7 +81,7 @@ jobs:
           set -euo pipefail
           git config user.name "strain-atlas-publication-seed"
           git config user.email "actions@users.noreply.github.com"
-          git add runtime/catalog.json production/publication.json strains/ images/strains/
+          git add runtime/catalog.json production/publication.json assets/cultivars/
           if git diff --cached --quiet; then
             echo "Public artifacts already seeded"
             exit 0
