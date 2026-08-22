@@ -1,0 +1,466 @@
+{
+  "schemaVersion": 1,
+  "registryVersion": 1,
+  "entries": [
+    {
+      "strainId": "bubble-gum",
+      "state": "published",
+      "origin": "grandfathered",
+      "introducedByRun": null,
+      "publishedAt": null,
+      "bootstrapMasterSha": "fbc420036d70831e0d20f9bf08c400322bd93019"
+    },
+    {
+      "strainId": "california-octane",
+      "state": "published",
+      "origin": "grandfathered",
+      "introducedByRun": null,
+      "publishedAt": null,
+      "bootstrapMasterSha": "fbc420036d70831e0d20f9bf08c400322bd93019"
+    },
+    {
+      "strainId": "cataract-kush",
+      "state": "published",
+      "origin": "grandfathered",
+      "introducedByRun": null,
+      "publishedAt": null,
+      "bootstrapMasterSha": "fbc420036d70831e0d20f9bf08c400322bd93019"
+    },
+    {
+      "strainId": "chocolope-256",
+      "state": "published",
+      "origin": "grandfathered",
+      "introducedByRun": null,
+      "publishedAt": null,
+      "bootstrapMasterSha": "fbc420036d70831e0d20f9bf08c400322bd93019"
+    },
+    {
+      "strainId": "dr-grinspoon",
+      "state": "published",
+      "origin": "grandfathered",
+      "introducedByRun": null,
+      "publishedAt": null,
+      "bootstrapMasterSha": "fbc420036d70831e0d20f9bf08c400322bd93019"
+    },
+    {
+      "strainId": "frisian-duck",
+      "state": "published",
+      "origin": "grandfathered",
+      "introducedByRun": null,
+      "publishedAt": null,
+      "bootstrapMasterSha": "fbc420036d70831e0d20f9bf08c400322bd93019"
+    },
+    {
+      "strainId": "malawi",
+      "state": "published",
+      "origin": "grandfathered",
+      "introducedByRun": null,
+      "publishedAt": null,
+      "bootstrapMasterSha": "fbc420036d70831e0d20f9bf08c400322bd93019"
+    },
+    {
+      "strainId": "og-kush",
+      "state": "published",
+      "origin": "grandfathered",
+      "introducedByRun": null,
+      "publishedAt": null,
+      "bootstrapMasterSha": "fbc420036d70831e0d20f9bf08c400322bd93019"
+    },
+    {
+      "strainId": "panama",
+      "state": "published",
+      "origin": "grandfathered",
+      "introducedByRun": null,
+      "publishedAt": null,
+      "bootstrapMasterSha": "fbc420036d70831e0d20f9bf08c400322bd93019"
+    },
+    {
+      "strainId": "shaman",
+      "state": "published",
+      "origin": "grandfathered",
+      "introducedByRun": null,
+      "publishedAt": null,
+      "bootstrapMasterSha": "fbc420036d70831e0d20f9bf08c400322bd93019"
+    },
+    {
+      "strainId": "strawberry-banana-s1",
+      "state": "published",
+      "origin": "grandfathered",
+      "introducedByRun": null,
+      "publishedAt": null,
+      "bootstrapMasterSha": "fbc420036d70831e0d20f9bf08c400322bd93019"
+    },
+    {
+      "strainId": "super-lemon-haze",
+      "state": "published",
+      "origin": "grandfathered",
+      "introducedByRun": null,
+      "publishedAt": null,
+      "bootstrapMasterSha": "fbc420036d70831e0d20f9bf08c400322bd93019"
+    },
+    {
+      "strainId": "the-og-18",
+      "state": "published",
+      "origin": "grandfathered",
+      "introducedByRun": null,
+      "publishedAt": null,
+      "bootstrapMasterSha": "fbc420036d70831e0d20f9bf08c400322bd93019"
+    },
+    {
+      "strainId": "wedding-cake",
+      "state": "published",
+      "origin": "grandfathered",
+      "introducedByRun": null,
+      "publishedAt": null,
+      "bootstrapMasterSha": "fbc420036d70831e0d20f9bf08c400322bd93019"
+    },
+    {
+      "strainId": "wedding-cake-s1",
+      "state": "published",
+      "origin": "grandfathered",
+      "introducedByRun": null,
+      "publishedAt": null,
+      "bootstrapMasterSha": "fbc420036d70831e0d20f9bf08c400322bd93019"
+    },
+    {
+      "strainId": "zamaldelica",
+      "state": "published",
+      "origin": "grandfathered",
+      "introducedByRun": null,
+      "publishedAt": null,
+      "bootstrapMasterSha": "fbc420036d70831e0d20f9bf08c400322bd93019"
+    },
+    {
+      "strainId": "durban-poison",
+      "state": "published",
+      "origin": "content-production",
+      "introducedByRun": "content-production-20260818T060700Z-01",
+      "publishedAt": "2026-08-19T00:55:11Z",
+      "bootstrapMasterSha": null
+    },
+    {
+      "strainId": "kali-mist",
+      "state": "published",
+      "origin": "content-production",
+      "introducedByRun": "content-production-20260818T060700Z-01",
+      "publishedAt": "2026-08-19T00:55:11Z",
+      "bootstrapMasterSha": null
+    },
+    {
+      "strainId": "warlock",
+      "state": "published",
+      "origin": "content-production",
+      "introducedByRun": "content-production-20260818T060700Z-01",
+      "publishedAt": "2026-08-19T00:55:11Z",
+      "bootstrapMasterSha": null
+    },
+    {
+      "strainId": "bangi-haze",
+      "state": "published",
+      "origin": "content-production",
+      "introducedByRun": "content-production-start-32223471114",
+      "publishedAt": "2026-08-19T07:01:10Z",
+      "bootstrapMasterSha": null
+    },
+    {
+      "strainId": "bubba-kush-s1",
+      "state": "published",
+      "origin": "content-production",
+      "introducedByRun": "content-production-start-32231155417",
+      "publishedAt": "2026-08-19T09:30:35Z",
+      "bootstrapMasterSha": null,
+      "unpublishedAt": null,
+      "unpublicationReason": null
+    },
+    {
+      "strainId": "california-orange-s1",
+      "state": "pending",
+      "origin": "content-production",
+      "introducedByRun": "content-production-start-32231155417",
+      "publishedAt": "2026-08-19T08:11:03Z",
+      "bootstrapMasterSha": null,
+      "unpublishedAt": "2026-08-19T08:24:00Z",
+      "unpublicationReason": "AI_VISUAL_QA_FAIL"
+    },
+    {
+      "strainId": "chemdog-91-s1",
+      "state": "pending",
+      "origin": "content-production",
+      "introducedByRun": "content-production-start-32231155417",
+      "publishedAt": "2026-08-19T08:11:03Z",
+      "bootstrapMasterSha": null,
+      "unpublishedAt": "2026-08-19T08:24:00Z",
+      "unpublicationReason": "AI_VISUAL_QA_FAIL"
+    },
+    {
+      "strainId": "gorilla-glue-4-s1",
+      "state": "published",
+      "origin": "content-production",
+      "introducedByRun": "content-production-start-32231155417",
+      "publishedAt": "2026-08-19T09:30:35Z",
+      "bootstrapMasterSha": null,
+      "unpublishedAt": null,
+      "unpublicationReason": null
+    },
+    {
+      "strainId": "jager-s1",
+      "state": "published",
+      "origin": "content-production",
+      "introducedByRun": "content-production-start-32231155417",
+      "publishedAt": "2026-08-19T09:30:35Z",
+      "bootstrapMasterSha": null,
+      "unpublishedAt": null,
+      "unpublicationReason": null
+    },
+    {
+      "strainId": "apple-fritter-s1",
+      "state": "pending",
+      "origin": "content-production",
+      "introducedByRun": "content-production-start-32240921338",
+      "publishedAt": null,
+      "bootstrapMasterSha": null,
+      "unpublishedAt": null,
+      "unpublicationReason": "AI_VISUAL_QA_FAIL"
+    },
+    {
+      "strainId": "chemdog-1-s1",
+      "state": "pending",
+      "origin": "content-production",
+      "introducedByRun": "content-production-start-32240921338",
+      "publishedAt": null,
+      "bootstrapMasterSha": null,
+      "unpublishedAt": null,
+      "unpublicationReason": "AI_VISUAL_QA_FAIL"
+    },
+    {
+      "strainId": "chemdog-4-s1",
+      "state": "pending",
+      "origin": "content-production",
+      "introducedByRun": "content-production-start-32240921338",
+      "publishedAt": null,
+      "bootstrapMasterSha": null,
+      "unpublishedAt": null,
+      "unpublicationReason": "AI_VISUAL_QA_FAIL"
+    },
+    {
+      "strainId": "granddaddy-purple-s1",
+      "state": "pending",
+      "origin": "content-production",
+      "introducedByRun": "content-production-start-32240921338",
+      "publishedAt": null,
+      "bootstrapMasterSha": null,
+      "unpublishedAt": null,
+      "unpublicationReason": "AI_VISUAL_QA_FAIL"
+    },
+    {
+      "strainId": "hp13-s1",
+      "state": "pending",
+      "origin": "content-production",
+      "introducedByRun": "content-production-start-32240921338",
+      "publishedAt": null,
+      "bootstrapMasterSha": null,
+      "unpublishedAt": null,
+      "unpublicationReason": "AI_VISUAL_QA_FAIL"
+    },
+    {
+      "strainId": "laughing-buddha",
+      "state": "published",
+      "origin": "content-production",
+      "introducedByRun": "content-production-start-32245177161",
+      "publishedAt": "2026-08-19T10:59:32Z",
+      "bootstrapMasterSha": null,
+      "unpublishedAt": null,
+      "unpublicationReason": null
+    },
+    {
+      "strainId": "shiva-skunk",
+      "state": "published",
+      "origin": "content-production",
+      "introducedByRun": "content-production-start-32245177161",
+      "publishedAt": "2026-08-19T10:59:32Z",
+      "bootstrapMasterSha": null,
+      "unpublishedAt": null,
+      "unpublicationReason": null
+    },
+    {
+      "strainId": "t-1000-s1",
+      "state": "published",
+      "origin": "content-production",
+      "introducedByRun": "content-production-start-32245177161",
+      "publishedAt": "2026-08-19T10:59:32Z",
+      "bootstrapMasterSha": null,
+      "unpublishedAt": null,
+      "unpublicationReason": null
+    },
+    {
+      "strainId": "trainwreck-s1",
+      "state": "published",
+      "origin": "content-production",
+      "introducedByRun": "content-production-start-32245177161",
+      "publishedAt": "2026-08-19T10:59:32Z",
+      "bootstrapMasterSha": null,
+      "unpublishedAt": null,
+      "unpublicationReason": null
+    },
+    {
+      "strainId": "triangle-kush-s1",
+      "state": "published",
+      "origin": "content-production",
+      "introducedByRun": "content-production-start-32245177161",
+      "publishedAt": "2026-08-19T10:59:32Z",
+      "bootstrapMasterSha": null,
+      "unpublishedAt": null,
+      "unpublicationReason": null
+    },
+    {
+      "strainId": "bubblegum-s1",
+      "state": "published",
+      "origin": "content-production",
+      "introducedByRun": "content-production-start-32253204982",
+      "publishedAt": "2026-08-19T12:35:32Z",
+      "bootstrapMasterSha": null,
+      "unpublishedAt": null,
+      "unpublicationReason": null
+    },
+    {
+      "strainId": "chemdog-d-s1",
+      "state": "published",
+      "origin": "content-production",
+      "introducedByRun": "content-production-start-32253204982",
+      "publishedAt": "2026-08-19T12:35:32Z",
+      "bootstrapMasterSha": null,
+      "unpublishedAt": null,
+      "unpublicationReason": null
+    },
+    {
+      "strainId": "cherry-pie-s1",
+      "state": "published",
+      "origin": "content-production",
+      "introducedByRun": "content-production-start-32253204982",
+      "publishedAt": "2026-08-19T12:35:32Z",
+      "bootstrapMasterSha": null,
+      "unpublishedAt": null,
+      "unpublicationReason": null
+    },
+    {
+      "strainId": "durban-poison-s1",
+      "state": "published",
+      "origin": "content-production",
+      "introducedByRun": "content-production-start-32253204982",
+      "publishedAt": "2026-08-19T12:35:32Z",
+      "bootstrapMasterSha": null,
+      "unpublishedAt": null,
+      "unpublicationReason": null
+    },
+    {
+      "strainId": "f1-durb-s1",
+      "state": "published",
+      "origin": "content-production",
+      "introducedByRun": "content-production-start-32253204982",
+      "publishedAt": "2026-08-19T12:35:32Z",
+      "bootstrapMasterSha": null,
+      "unpublishedAt": null,
+      "unpublicationReason": null
+    },
+    {
+      "strainId": "acapulco-gold",
+      "state": "published",
+      "origin": "content-production",
+      "introducedByRun": "content-production-start-32255989337",
+      "publishedAt": "2026-08-19T13:06:47Z",
+      "bootstrapMasterSha": null,
+      "unpublishedAt": null,
+      "unpublicationReason": null
+    },
+    {
+      "strainId": "ak-47",
+      "state": "published",
+      "origin": "content-production",
+      "introducedByRun": "content-production-start-32255989337",
+      "publishedAt": "2026-08-19T13:06:47Z",
+      "bootstrapMasterSha": null,
+      "unpublishedAt": null,
+      "unpublicationReason": null
+    },
+    {
+      "strainId": "golden-tiger",
+      "state": "published",
+      "origin": "content-production",
+      "introducedByRun": "content-production-start-32255989337",
+      "publishedAt": "2026-08-19T13:06:47Z",
+      "bootstrapMasterSha": null,
+      "unpublishedAt": null,
+      "unpublicationReason": null
+    },
+    {
+      "strainId": "jack-herer",
+      "state": "published",
+      "origin": "content-production",
+      "introducedByRun": "content-production-start-32255989337",
+      "publishedAt": "2026-08-19T13:06:47Z",
+      "bootstrapMasterSha": null,
+      "unpublishedAt": null,
+      "unpublicationReason": null
+    },
+    {
+      "strainId": "mazar",
+      "state": "published",
+      "origin": "content-production",
+      "introducedByRun": "content-production-start-32255989337",
+      "publishedAt": "2026-08-19T13:06:47Z",
+      "bootstrapMasterSha": null,
+      "unpublishedAt": null,
+      "unpublicationReason": null
+    },
+    {
+      "strainId": "c5-haze-x-kali-china",
+      "state": "published",
+      "origin": "content-production",
+      "introducedByRun": "content-production-start-32530466871",
+      "publishedAt": "2026-08-21T21:54:30Z",
+      "bootstrapMasterSha": null,
+      "unpublishedAt": null,
+      "unpublicationReason": null
+    },
+    {
+      "strainId": "killer-a5-haze",
+      "state": "published",
+      "origin": "content-production",
+      "introducedByRun": "content-production-start-32530466871",
+      "publishedAt": "2026-08-21T21:54:30Z",
+      "bootstrapMasterSha": null,
+      "unpublishedAt": null,
+      "unpublicationReason": null
+    },
+    {
+      "strainId": "nepal-jam",
+      "state": "pending",
+      "origin": "content-production",
+      "introducedByRun": "content-production-start-32530466871",
+      "publishedAt": null,
+      "bootstrapMasterSha": null,
+      "unpublishedAt": null,
+      "unpublicationReason": "AI_VISUAL_QA_FAIL"
+    },
+    {
+      "strainId": "thai-chiang-mai",
+      "state": "published",
+      "origin": "content-production",
+      "introducedByRun": "content-production-start-32530466871",
+      "publishedAt": "2026-08-21T21:54:30Z",
+      "bootstrapMasterSha": null,
+      "unpublishedAt": null,
+      "unpublicationReason": null
+    },
+    {
+      "strainId": "violeta",
+      "state": "published",
+      "origin": "content-production",
+      "introducedByRun": "content-production-start-32530466871",
+      "publishedAt": "2026-08-21T21:54:30Z",
+      "bootstrapMasterSha": null,
+      "unpublishedAt": null,
+      "unpublicationReason": null
+    }
+  ]
+}
