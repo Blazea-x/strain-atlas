@@ -1,7 +1,7 @@
 (() => {
   "use strict";
 
-  const ASSET_BASE = "https://raw.githubusercontent.com/cannabis-strain-wisdom/strain-atlas/master-migration/";
+  const ASSET_BASE = "";
   const HERO = Object.freeze({
     name: "Bubble Gum",
     src: "strains/bubble-gum/images/generated/primary-v2.webp",
