@@ -158,11 +158,13 @@
   let catalogPromise;
   const getCatalog = () => {
     if (!catalogPromise) {
-      catalogPromise = fetch(`${DATA_URL}?detail=${Date.now()}`, { cache: "no-store" })
-        .then(response => {
-          if (!response.ok) throw new Error(`runtime catalog HTTP ${response.status}`);
-          return response.json();
-        })
+      const sharedPromise = window.__CSWRuntimeCatalogPromise;
+      catalogPromise = (sharedPromise
+        ? Promise.resolve(sharedPromise)
+        : fetch(`${DATA_URL}?detail=${Date.now()}`, { cache: "no-store" }).then(response => {
+            if (!response.ok) throw new Error(`runtime catalog HTTP ${response.status}`);
+            return response.json();
+          }))
         .then(catalog => {
           auditMappings(catalog);
           return catalog;
@@ -500,6 +502,20 @@
     if (!expected) return !sub;
     return Boolean(sub) && normalizeIdentityValue(sub.textContent) === normalizeIdentityValue(expected);
   }
+
+  window.__CSWRenderPublicDetail = async cultivarInput => {
+    try {
+      const catalog = await getCatalog();
+      const cultivarId = typeof cultivarInput === "string" ? cultivarInput : cultivarInput?.id;
+      const cultivar = catalog?.cultivars?.find(item => item.id === cultivarId);
+      if (!catalog || !cultivar) return false;
+      renderPublicDetail(catalog, cultivar);
+      return publicDetailIsCanonical(cultivar);
+    } catch (error) {
+      console.warn("detail public renderer failed", error);
+      return false;
+    }
+  };
 
   let scheduled = false;
   async function enhanceDetail() {
