@@ -1,7 +1,7 @@
 (() => {
   "use strict";
 
-  const DATA_URL = "https://raw.githubusercontent.com/Blazea-x/strain-atlas/master-migration/runtime/catalog.json";
+  const DATA_URL = "https://raw.githubusercontent.com/cannabis-strain-wisdom/strain-atlas/master-migration/runtime/catalog.json";
   const runtimeCatalogPromise = window.__CSWRuntimeCatalogPromise || (
     window.__CSWRuntimeCatalogPromise = Promise.resolve().then(async () => {
       const response = await fetch(`${DATA_URL}?t=${Date.now()}`, { cache: "no-store" });
@@ -11,7 +11,7 @@
       return parsedCatalog;
     })
   );
-  const ASSET_BASE = "https://raw.githubusercontent.com/Blazea-x/strain-atlas/master-migration/";
+  const ASSET_BASE = "https://raw.githubusercontent.com/cannabis-strain-wisdom/strain-atlas/master-migration/";
   const typeLabels = {
     "sativa": "SATIVA",
     "indica": "INDICA",

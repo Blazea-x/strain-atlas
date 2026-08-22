@@ -26,7 +26,7 @@ jobs:
     permissions:
       contents: write
       actions: read
-    uses: Blazea-x/strain-atlas/.github/workflows/production-start-v1.yml@master-migration
+    uses: cannabis-strain-wisdom/strain-atlas/.github/workflows/production-start-v1.yml@master-migration
     with:
       batch_size: ${{ inputs.batch_size }}
       generate_images: ${{ inputs.generate_images }}

@@ -18,7 +18,7 @@ jobs:
     name: Launch master-migration PRODUCTION IMAGE REJECT V1
     permissions:
       contents: write
-    uses: Blazea-x/strain-atlas/.github/workflows/production-image-reject-v1.yml@master-migration
+    uses: cannabis-strain-wisdom/strain-atlas/.github/workflows/production-image-reject-v1.yml@master-migration
     with:
       strain_id: ${{ inputs.strain_id }}
       expected_primary_sha256: ${{ inputs.expected_primary_sha256 }}
