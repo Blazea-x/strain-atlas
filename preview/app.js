@@ -589,18 +589,28 @@
     `;
   }
 
-  function openDetail(id, updateHistory = true) {
+  async function openDetail(id, updateHistory = true) {
     const cultivar = catalog?.cultivars?.find(item => item.id === id);
     if (!cultivar) return false;
     if (!dialog.open) savedScrollY = window.scrollY;
-    renderDetail(cultivar);
-    if (!dialog.open) dialog.showModal();
     if (updateHistory) {
       const url = new URL(location.href);
       url.searchParams.set("strain", id);
       const state = { ...(history.state || {}), strain: id, [detailHistoryMarker]: true };
       history.pushState(state, "", url);
     }
+
+    let publicRendered = false;
+    const publicRenderer = window.__CSWRenderPublicDetail;
+    if (typeof publicRenderer === "function") {
+      try {
+        publicRendered = await publicRenderer(cultivar) === true;
+      } catch (error) {
+        console.warn("public detail render failed; using legacy fallback", error);
+      }
+    }
+    if (!publicRendered) renderDetail(cultivar);
+    if (!dialog.open) dialog.showModal();
     return true;
   }
 
@@ -721,12 +731,12 @@
     showHomePanel("cultivars", false);
   });
 
-  window.addEventListener("popstate", () => {
+  window.addEventListener("popstate", async () => {
     if (!catalog) return;
     applyUrlState({ canonicalize: true });
     updateResults({ writeHistory: false });
     const id = new URL(location.href).searchParams.get("strain");
-    if (id && openDetail(id, false)) return;
+    if (id && await openDetail(id, false)) return;
     if (dialog.open) closeDetail(false);
   });
 
@@ -746,7 +756,7 @@
       updateResults({ writeHistory: false });
 
       const initialId = new URL(location.href).searchParams.get("strain");
-      if (initialId) openDetail(initialId, false);
+      if (initialId) await openDetail(initialId, false);
     } catch (error) {
       console.error(error);
       dataState.textContent = "DATA ERROR";
