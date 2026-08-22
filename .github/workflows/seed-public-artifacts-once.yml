@@ -47,7 +47,8 @@ jobs:
             }
           }
           for (const rel of refs) {
-            if (!/^strains\/[a-z0-9-]+\/images\/generated\/primary\.webp$/.test(rel)) {
+            const normalized = path.posix.normalize(rel);
+            if (normalized !== rel || rel.includes('..') || !/^strains\/[a-z0-9-]+\/images\/generated\/[a-z0-9._-]+\.webp$/.test(rel)) {
               throw new Error(`Unexpected public visual path: ${rel}`);
             }
             const src = path.join('/tmp/production', rel);
