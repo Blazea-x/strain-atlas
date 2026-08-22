@@ -46,9 +46,11 @@ jobs:
               if (visual && visual.role === 'primary' && typeof visual.src === 'string' && visual.src) refs.add(visual.src);
             }
           }
+          const generatedWebp = /^strains\/[a-z0-9-]+\/images\/generated\/[a-z0-9._-]+\.webp$/;
+          const legacyPublicImage = /^images\/strains\/[a-z0-9._-]+\.(?:svg|webp|png|jpe?g)$/;
           for (const rel of refs) {
             const normalized = path.posix.normalize(rel);
-            if (normalized !== rel || rel.includes('..') || !/^strains\/[a-z0-9-]+\/images\/generated\/[a-z0-9._-]+\.webp$/.test(rel)) {
+            if (normalized !== rel || rel.includes('..') || !(generatedWebp.test(rel) || legacyPublicImage.test(rel))) {
               throw new Error(`Unexpected public visual path: ${rel}`);
             }
             const src = path.join('/tmp/production', rel);
@@ -66,7 +68,7 @@ jobs:
           set -euo pipefail
           git config user.name "strain-atlas-publication-seed"
           git config user.email "actions@users.noreply.github.com"
-          git add runtime/catalog.json production/publication.json strains/
+          git add runtime/catalog.json production/publication.json strains/ images/strains/
           if git diff --cached --quiet; then
             echo "Public artifacts already seeded"
             exit 0
