@@ -1,0 +1,74 @@
+name: Seed public artifacts once
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - ".github/workflows/seed-public-artifacts-once.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  seed:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout public main
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Fetch current production publication
+        shell: bash
+        run: |
+          set -euo pipefail
+          git clone --depth 1 --branch master-migration \
+            https://github.com/cannabis-strain-wisdom/strain-atlas.git \
+            /tmp/production
+          echo "SOURCE_MASTER_SHA=$(git -C /tmp/production rev-parse HEAD)" >> "$GITHUB_ENV"
+
+      - name: Copy public runtime, publication state, and referenced primary images only
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p runtime production
+          cp /tmp/production/runtime/catalog.json runtime/catalog.json
+          cp /tmp/production/production/publication.json production/publication.json
+          node <<'NODE'
+          const fs = require('fs');
+          const path = require('path');
+          const catalog = JSON.parse(fs.readFileSync('/tmp/production/runtime/catalog.json','utf8'));
+          const refs = new Set();
+          for (const cultivar of catalog.cultivars || []) {
+            for (const visual of cultivar.visuals || []) {
+              if (visual && visual.role === 'primary' && typeof visual.src === 'string' && visual.src) refs.add(visual.src);
+            }
+          }
+          for (const rel of refs) {
+            if (!/^strains\/[a-z0-9-]+\/images\/generated\/primary\.webp$/.test(rel)) {
+              throw new Error(`Unexpected public visual path: ${rel}`);
+            }
+            const src = path.join('/tmp/production', rel);
+            if (!fs.existsSync(src)) throw new Error(`Referenced image missing: ${rel}`);
+            const dst = path.join(process.cwd(), rel);
+            fs.mkdirSync(path.dirname(dst), {recursive:true});
+            fs.copyFileSync(src, dst);
+          }
+          console.log(`Copied ${refs.size} referenced primary images`);
+          NODE
+
+      - name: Commit public artifacts
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "strain-atlas-publication-seed"
+          git config user.email "actions@users.noreply.github.com"
+          git add runtime/catalog.json production/publication.json strains/
+          if git diff --cached --quiet; then
+            echo "Public artifacts already seeded"
+            exit 0
+          fi
+          git commit -m "Seed public publication artifacts from ${SOURCE_MASTER_SHA}"
+          git push origin HEAD:main
