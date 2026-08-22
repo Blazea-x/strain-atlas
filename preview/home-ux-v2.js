@@ -1,7 +1,7 @@
 (() => {
   "use strict";
 
-  const PUBLICATION_URL = "https://raw.githubusercontent.com/Blazea-x/strain-atlas/master-migration/production/publication.json";
+  const PUBLICATION_URL = "https://raw.githubusercontent.com/cannabis-strain-wisdom/strain-atlas/master-migration/production/publication.json";
   const latestGrid = document.getElementById("latest-grid");
   const latestState = document.getElementById("latest-state");
   const latestCount = document.getElementById("latest-count");
